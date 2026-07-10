@@ -1,0 +1,37 @@
+[
+  {
+    "titulo": "Jornada de sensibilización sobre inclusión educativa",
+    "descripcion": "Actividad orientada a fortalecer el respeto por la diversidad y promover prácticas de inclusión en la comunidad educativa.",
+    "imagen": "imagenes/noticias/noticia-1.svg",
+    "enlace": "https://gabriel-lsp.github.io/noti-inclusivos/",
+    "categoria": "Noticia destacada"
+  },
+  {
+    "titulo": "Capacitación docente en adaptaciones curriculares",
+    "descripcion": "Espacio formativo dirigido a docentes y equipos de apoyo para reforzar estrategias pedagógicas accesibles.",
+    "imagen": "imagenes/noticias/noticia-2.svg",
+    "enlace": "https://gabriel-lsp.github.io/capacitaciones-crebe-ucayali/",
+    "categoria": "Capacitación"
+  },
+  {
+    "titulo": "Recursos accesibles disponibles en el ecosistema EVA",
+    "descripcion": "Difusión de materiales educativos accesibles, apoyos visuales y herramientas para la atención a la diversidad.",
+    "imagen": "imagenes/noticias/noticia-3.svg",
+    "enlace": "https://gabriel-lsp.github.io/materiales-educativos-accesibles/",
+    "categoria": "Recurso destacado"
+  },
+  {
+    "titulo": "Acompañamiento a instituciones educativas de la región",
+    "descripcion": "Acciones de orientación y soporte técnico vinculadas al fortalecimiento de prácticas inclusivas en instituciones educativas.",
+    "imagen": "imagenes/noticias/noticia-4.svg",
+    "enlace": "https://gabriel-lsp.github.io/accesos-complementarios/paginas/lineas-de-accion.html",
+    "categoria": "Acompañamiento"
+  },
+  {
+    "titulo": "Estudiantes de educación superior participan en acciones formativas",
+    "descripcion": "Participación de estudiantes en jornadas de sensibilización y procesos de formación vinculados a inclusión y accesibilidad.",
+    "imagen": "imagenes/noticias/noticia-5.svg",
+    "enlace": "https://gabriel-lsp.github.io/noti-inclusivos/",
+    "categoria": "Participación"
+  }
+]

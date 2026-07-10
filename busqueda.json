@@ -1,0 +1,162 @@
+[
+  {
+    "titulo": "Capacitaciones CREBE",
+    "modulo": "CAP",
+    "tipo": "Módulo",
+    "descripcion": "Capacitaciones, talleres, materiales formativos y recursos de acompañamiento pedagógico.",
+    "url": "https://gabriel-lsp.github.io/capacitaciones-crebe-ucayali/",
+    "etiquetas": "capacitacion capacitaciones talleres sesiones docentes familias formacion cronograma materiales constancias evidencias"
+  },
+  {
+    "titulo": "Banco Digital Accesible",
+    "modulo": "BDA",
+    "tipo": "Módulo",
+    "descripcion": "Banco de recursos digitales accesibles, Lengua de Señas Peruana, Braille y apoyos de comunicación.",
+    "url": "https://gabriel-lsp.github.io/banco-digital-accesible/",
+    "etiquetas": "banco digital accesible lsp lengua de señas peruana braille recursos visuales comunicacion accesible categorias"
+  },
+  {
+    "titulo": "Materiales Educativos Accesibles",
+    "modulo": "MEA",
+    "tipo": "Módulo",
+    "descripcion": "Materiales adaptados, pictogramas, rutinas visuales, fichas y recursos descargables.",
+    "url": "https://gabriel-lsp.github.io/materiales-educativos-accesibles/",
+    "etiquetas": "materiales educativos accesibles rutinas visuales pictogramas apoyos fichas generador braille silabas lectura facil alto contraste guias docentes familias plantillas"
+  },
+  {
+    "titulo": "Juegos Interactivos Accesibles",
+    "modulo": "JIA",
+    "tipo": "Módulo",
+    "descripcion": "Juegos digitales para atención, memoria, asociación, comprensión, participación y aprendizaje.",
+    "url": "https://gabriel-lsp.github.io/juegos-interactivos-accesibles/",
+    "etiquetas": "juegos interactivos accesibles adivina seña braille memoria visual pareja secuencia actividades ludicas niveles instrucciones"
+  },
+  {
+    "titulo": "Noti Inclusivos",
+    "modulo": "NI",
+    "tipo": "Módulo",
+    "descripcion": "Noticias, comunicados, orientaciones y novedades sobre inclusión educativa y atención a la diversidad.",
+    "url": "https://gabriel-lsp.github.io/noti-inclusivos/",
+    "etiquetas": "noticias inclusivas comunicados normativa discapacidad educacion inclusiva minedu cenarebe fuentes oficiales actualidad"
+  },
+  {
+    "titulo": "Repositorio Accesible",
+    "modulo": "RA",
+    "tipo": "Módulo",
+    "descripcion": "Recursos accesibles, materiales adaptados, textos en braille, orientaciones y apoyos complementarios.",
+    "url": "https://gabriel-lsp.github.io/repositorio-accesible/",
+    "etiquetas": "repositorio recursos accesibles guias apoyo materiales descargables equipos tecnologicos perkins producciones"
+  },
+  {
+    "titulo": "Firma tu visita",
+    "modulo": "AC",
+    "tipo": "Acceso complementario",
+    "descripcion": "Registro de participación para visitantes, docentes, familias y comunidad educativa.",
+    "url": "https://gabriel-lsp.github.io/accesos-complementarios/firma-tu-visita/",
+    "etiquetas": "firma visita registrar participacion visitantes docentes familias comunidad"
+  },
+  {
+    "titulo": "Líneas de acción",
+    "modulo": "AC",
+    "tipo": "Subpágina",
+    "descripcion": "Marco de acción del CREBE para información, capacitación, sensibilización y producción de materiales.",
+    "url": "https://gabriel-lsp.github.io/accesos-complementarios/paginas/lineas-de-accion.html",
+    "etiquetas": "lineas accion informacion investigacion capacitacion sensibilizacion produccion adaptacion"
+  },
+  {
+    "titulo": "Calendario",
+    "modulo": "AC",
+    "tipo": "Recurso",
+    "descripcion": "Organización de actividades, fechas institucionales y acciones programadas durante el año.",
+    "url": "https://gabriel-lsp.github.io/accesos-complementarios/recursos/calendario.html",
+    "etiquetas": "calendario fechas actividades programacion cronograma"
+  },
+  {
+    "titulo": "Galería",
+    "modulo": "AC",
+    "tipo": "Recurso",
+    "descripcion": "Fotografías y evidencias visuales de actividades desarrolladas por el CREBE Ucayali.",
+    "url": "https://gabriel-lsp.github.io/accesos-complementarios/recursos/galeria.html",
+    "etiquetas": "galeria fotos fotografias evidencias actividades imagenes"
+  },
+  {
+    "titulo": "Nosotros",
+    "modulo": "AC",
+    "tipo": "Subpágina",
+    "descripcion": "Información general del CREBE Ucayali y del sentido institucional del ecosistema.",
+    "url": "https://gabriel-lsp.github.io/accesos-complementarios/paginas/nosotros.html",
+    "etiquetas": "nosotros crebe identidad institucional presentacion"
+  },
+  {
+    "titulo": "Qué hacemos",
+    "modulo": "AC",
+    "tipo": "Subpágina",
+    "descripcion": "Acciones de apoyo, orientación y fortalecimiento de la inclusión educativa.",
+    "url": "https://gabriel-lsp.github.io/accesos-complementarios/paginas/que-hacemos.html",
+    "etiquetas": "que hacemos acciones apoyo orientacion inclusion educativa"
+  },
+  {
+    "titulo": "Directorio institucional",
+    "modulo": "AC",
+    "tipo": "Directorio",
+    "descripcion": "Entidades, servicios y contactos de interés vinculados a educación, inclusión y discapacidad.",
+    "url": "https://gabriel-lsp.github.io/accesos-complementarios/directorios/directorio-institucional.html",
+    "etiquetas": "directorio instituciones servicios contactos educacion discapacidad inclusion"
+  },
+  {
+    "titulo": "Directorio ciudadano",
+    "modulo": "AC",
+    "tipo": "Directorio",
+    "descripcion": "Entidades y servicios de interés para la comunidad educativa.",
+    "url": "https://gabriel-lsp.github.io/accesos-complementarios/directorios/directorio-ciudadano.html",
+    "etiquetas": "entidades servicios ciudadanos comunidad apoyo"
+  },
+  {
+    "titulo": "Contacto",
+    "modulo": "AC",
+    "tipo": "Subpágina",
+    "descripcion": "Canales de comunicación institucional, horario y enlaces de contacto del CREBE Ucayali.",
+    "url": "https://gabriel-lsp.github.io/accesos-complementarios/paginas/contacto.html",
+    "etiquetas": "contacto correo horario facebook tiktok comunicacion institucional"
+  },
+  {
+    "titulo": "Lengua de Señas Peruana",
+    "modulo": "BDA",
+    "tipo": "Recurso del módulo",
+    "descripcion": "Consulta de recursos vinculados a Lengua de Señas Peruana dentro del Banco Digital Accesible.",
+    "url": "https://gabriel-lsp.github.io/banco-digital-accesible/",
+    "etiquetas": "lsp lengua señas peruana seña comunicacion accesible banco visual"
+  },
+  {
+    "titulo": "Sistema Braille",
+    "modulo": "BDA",
+    "tipo": "Recurso del módulo",
+    "descripcion": "Consulta de recursos vinculados al Sistema Braille dentro del Banco Digital Accesible.",
+    "url": "https://gabriel-lsp.github.io/banco-digital-accesible/",
+    "etiquetas": "braille sistema braille letras numeros signos accesibilidad visual"
+  },
+  {
+    "titulo": "Rutinas visuales",
+    "modulo": "MEA",
+    "tipo": "Recurso del módulo",
+    "descripcion": "Materiales y apoyos visuales para organizar secuencias de actividades.",
+    "url": "https://gabriel-lsp.github.io/materiales-educativos-accesibles/",
+    "etiquetas": "rutinas visuales secuencias pictogramas anticipacion actividades"
+  },
+  {
+    "titulo": "Pictogramas y apoyos visuales",
+    "modulo": "MEA",
+    "tipo": "Recurso del módulo",
+    "descripcion": "Apoyos visuales y pictogramas para comunicación, comprensión y accesibilidad cognitiva.",
+    "url": "https://gabriel-lsp.github.io/materiales-educativos-accesibles/",
+    "etiquetas": "pictogramas apoyos visuales arasaac comunicacion accesibilidad cognitiva"
+  },
+  {
+    "titulo": "Adivina la seña",
+    "modulo": "JIA",
+    "tipo": "Juego del módulo",
+    "descripcion": "Juego interactivo para reconocer señas y asociarlas con palabras.",
+    "url": "https://gabriel-lsp.github.io/juegos-interactivos-accesibles/",
+    "etiquetas": "adivina seña juego lengua señas niveles reconocimiento"
+  }
+]
