@@ -7,19 +7,19 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/paginas/nosotros.html</loc>
+    <loc>https://crebeucayali.github.io/accesos-complementarios/institucional/nosotros.html</loc>
     <lastmod>2026-07-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/paginas/que-hacemos.html</loc>
+    <loc>https://crebeucayali.github.io/accesos-complementarios/institucional/que-hacemos.html</loc>
     <lastmod>2026-07-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/paginas/contacto.html</loc>
+    <loc>https://crebeucayali.github.io/accesos-complementarios/institucional/contacto.html</loc>
     <lastmod>2026-07-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -43,43 +43,43 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/paginas/lineas-de-accion.html</loc>
+    <loc>https://crebeucayali.github.io/accesos-complementarios/institucional/lineas-de-accion.html</loc>
     <lastmod>2026-07-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/paginas/calendario.html</loc>
+    <loc>https://crebeucayali.github.io/accesos-complementarios/participacion/calendario.html</loc>
     <lastmod>2026-07-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/paginas/galeria.html</loc>
+    <loc>https://crebeucayali.github.io/accesos-complementarios/participacion/galeria.html</loc>
     <lastmod>2026-07-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/paginas/mapa-web.html</loc>
+    <loc>https://crebeucayali.github.io/accesos-complementarios/orientacion/mapa-web.html</loc>
     <lastmod>2026-07-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/paginas/guia-de-uso.html</loc>
+    <loc>https://crebeucayali.github.io/accesos-complementarios/orientacion/guia-de-uso.html</loc>
     <lastmod>2026-07-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/paginas/aviso-legal.html</loc>
+    <loc>https://crebeucayali.github.io/accesos-complementarios/legal/aviso-legal.html</loc>
     <lastmod>2026-07-10</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/paginas/politica-privacidad.html</loc>
+    <loc>https://crebeucayali.github.io/accesos-complementarios/legal/politica-privacidad.html</loc>
     <lastmod>2026-07-10</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
