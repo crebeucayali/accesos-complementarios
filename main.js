@@ -507,7 +507,7 @@ document.addEventListener("DOMContentLoaded", () => {
         titulo: "Acompañamiento a instituciones educativas de la región",
         descripcion: "Acciones de orientación y soporte técnico vinculadas al fortalecimiento de prácticas inclusivas en instituciones educativas.",
         imagen: "imagenes/noticias/noticia-4.svg",
-        enlace: "https://crebeucayali.github.io/accesos-complementarios/paginas/lineas-de-accion.html"
+        enlace: "https://crebeucayali.github.io/accesos-complementarios/institucional/lineas-de-accion.html"
       },
       {
         titulo: "Estudiantes de educación superior participan en acciones formativas",
