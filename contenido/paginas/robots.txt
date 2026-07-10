@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://gabriel-lsp.github.io/accesos-complementarios/sitemap.xml
