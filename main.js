@@ -486,10 +486,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const prefiereReducirMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const noticiasBase = [
       {
-        titulo: "Jornada de sensibilización sobre inclusión educativa",
-        descripcion: "Actividad orientada a fortalecer el respeto por la diversidad y promover prácticas de inclusión en la comunidad educativa.",
-        imagen: "imagenes/noticias/noticia-1.svg",
-        enlace: "https://crebeucayali.github.io/noti-inclusivos/"
+        titulo: "Síndrome de Down, ciencia y bioética",
+        descripcion: "Notiinclusivas CREBE presenta una reflexión sobre un avance genético relacionado con el cromosoma 21 y los desafíos bioéticos vinculados con la dignidad, la diversidad y la inclusión.",
+        imagen: "https://crebeucayali.github.io/noti-inclusivos/imagenes/noticias/sindrome-down-ciencia-bioetica.jpeg"
       },
       {
         titulo: "CREBE desarrolla el Ciclo de Capacitación Virtual 2026",
@@ -520,13 +519,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const normalizarNoticias = (datos) => {
       if (!Array.isArray(datos)) return [];
       return datos
-        .filter((item) => item && item.titulo && item.descripcion && item.enlace)
+        .filter((item) => item && item.titulo && item.descripcion)
         .slice(0, 5)
         .map((item, indice) => ({
           titulo: String(item.titulo).trim(),
           descripcion: String(item.descripcion).trim(),
           imagen: String(item.imagen || noticiasBase[indice]?.imagen || noticiasBase[0].imagen).trim(),
-          enlace: String(item.enlace).trim(),
+          enlace: String(item.enlace || "").trim(),
           categoria: String(item.categoria || "Noticia destacada").trim()
         }));
     };
@@ -584,14 +583,17 @@ document.addEventListener("DOMContentLoaded", () => {
       const descripcion = document.createElement("p");
       descripcion.textContent = noticia.descripcion;
 
-      const enlace = document.createElement("a");
-      enlace.className = "noticia-enlace";
-      enlace.href = noticia.enlace;
-      enlace.target = "_blank";
-      enlace.rel = "noopener noreferrer";
-      enlace.textContent = "Ampliar noticia →";
+      contenido.append(categoria, titulo, descripcion);
 
-      contenido.append(categoria, titulo, descripcion, enlace);
+      if (noticia.enlace) {
+        const enlace = document.createElement("a");
+        enlace.className = "noticia-enlace";
+        enlace.href = noticia.enlace;
+        enlace.target = "_blank";
+        enlace.rel = "noopener noreferrer";
+        enlace.textContent = "Ampliar noticia →";
+        contenido.appendChild(enlace);
+      }
       articulo.append(figura, contenido);
       return articulo;
     };
