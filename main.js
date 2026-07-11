@@ -492,9 +492,9 @@ document.addEventListener("DOMContentLoaded", () => {
         enlace: "https://crebeucayali.github.io/noti-inclusivos/"
       },
       {
-        titulo: "Capacitación docente en adaptaciones curriculares",
-        descripcion: "Espacio formativo dirigido a docentes y equipos de apoyo para reforzar estrategias pedagógicas accesibles.",
-        imagen: "imagenes/noticias/noticia-2.svg",
+        titulo: "CREBE desarrolla el Ciclo de Capacitación Virtual 2026",
+        descripcion: "El ciclo comenzó el 12 de junio con la jornada “Adaptaciones curriculares pedagógicas en atención a la diversidad”, organizada por el CREBE “Señor de los Milagros” - Ucayali mediante Google Meet.",
+        imagen: "https://crebeucayali.github.io/capacitaciones/imagenes/capacitacion-01/flyer.jpg",
         enlace: "https://crebeucayali.github.io/capacitaciones/"
       },
       {
