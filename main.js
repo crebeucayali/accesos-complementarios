@@ -488,7 +488,8 @@ document.addEventListener("DOMContentLoaded", () => {
       {
         titulo: "Síndrome de Down, ciencia y bioética",
         descripcion: "Notiinclusivas CREBE presenta una reflexión sobre un avance genético relacionado con el cromosoma 21 y los desafíos bioéticos vinculados con la dignidad, la diversidad y la inclusión.",
-        imagen: "https://crebeucayali.github.io/noti-inclusivos/assets/img/sindrome-down-ciencia-bioetica.jpeg"
+        imagen: "https://crebeucayali.github.io/noti-inclusivos/assets/img/sindrome-down-ciencia-bioetica.jpeg",
+        enlace: "https://crebeucayali.github.io/lectura-inclusiva/articulos/sindrome-down-y-bioetica/"
       },
       {
         titulo: "CREBE desarrolla el Ciclo de Capacitación Virtual 2026",
