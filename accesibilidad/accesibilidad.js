@@ -1,3 +1,27 @@
+/* Google Analytics para las páginas raíz de los repositorios de EVA. */
+(function(){
+  const ID_MEDICION = 'G-MX25TYBSQP';
+  const rutasRaiz = new Set([
+    '/capacitaciones/',
+    '/materiales-educativos-accesibles/',
+    '/noti-inclusivos/',
+    '/repositorio-accesible/',
+    '/lectura-inclusiva/',
+    '/accesos-complementarios/'
+  ]);
+  const rutaActual = window.location.pathname.replace(/index\.html$/, '');
+  if(!rutasRaiz.has(rutaActual)) return;
+  if(document.querySelector(`script[src*="googletagmanager.com/gtag/js?id=${ID_MEDICION}"]`)) return;
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
+  const etiqueta = document.createElement('script');
+  etiqueta.async = true;
+  etiqueta.src = `https://www.googletagmanager.com/gtag/js?id=${ID_MEDICION}`;
+  document.head.appendChild(etiqueta);
+  window.gtag('js', new Date());
+  window.gtag('config', ID_MEDICION);
+})();
+
 /* Herramienta común de accesibilidad para EVA / Accesos Complementarios.
    Insertar en cualquier página junto al CSS común. */
 
