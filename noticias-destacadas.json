@@ -21,11 +21,11 @@
     "categoria": "Capacitación"
   },
   {
-    "titulo": "Recursos accesibles disponibles en el ecosistema EVA",
-    "descripcion": "Difusión de materiales educativos accesibles, apoyos visuales y herramientas para la atención a la diversidad.",
-    "imagen": "imagenes/noticias/noticia-3.svg",
-    "enlace": "https://crebeucayali.github.io/materiales-educativos-accesibles/",
-    "categoria": "Recurso destacado"
+    "titulo": "CREBE investiga la transición a la vida adulta",
+    "descripcion": "El CREBE desarrolla una investigación para comprender las experiencias, expectativas, barreras y apoyos que identifican las familias y los docentes ante el egreso de estudiantes de Educación Básica Especial.",
+    "imagen": "https://crebeucayali.github.io/lectura-inclusiva/articulos/transicion-vida-adulta/transicion-vida-adulta.svg",
+    "enlace": "https://crebeucayali.github.io/lectura-inclusiva/articulos/transicion-vida-adulta/",
+    "categoria": "Investigación en curso"
   },
   {
     "titulo": "Acompañamiento a instituciones educativas de la región",
@@ -33,12 +33,5 @@
     "imagen": "imagenes/noticias/noticia-4.svg",
     "enlace": "https://crebeucayali.github.io/accesos-complementarios/institucional/lineas-de-accion.html",
     "categoria": "Acompañamiento"
-  },
-  {
-    "titulo": "Estudiantes de educación superior participan en acciones formativas",
-    "descripcion": "Participación de estudiantes en jornadas de sensibilización y procesos de formación vinculados a inclusión y accesibilidad.",
-    "imagen": "imagenes/noticias/noticia-5.svg",
-    "enlace": "https://crebeucayali.github.io/noti-inclusivos/",
-    "categoria": "Participación"
   }
 ]
