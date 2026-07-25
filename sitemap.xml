@@ -1,87 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/</loc>
-    <lastmod>2026-07-10</lastmod>
+    <loc>https://crebe-ucayali.github.io/accesos-complementarios/</loc>
+    <lastmod>2026-07-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/institucional/nosotros.html</loc>
-    <lastmod>2026-07-10</lastmod>
+    <loc>https://crebe-ucayali.github.io/accesos-complementarios/paginas/nosotros.html</loc>
+    <lastmod>2026-07-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/institucional/que-hacemos.html</loc>
-    <lastmod>2026-07-10</lastmod>
+    <loc>https://crebe-ucayali.github.io/accesos-complementarios/paginas/que-hacemos.html</loc>
+    <lastmod>2026-07-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/institucional/contacto.html</loc>
-    <lastmod>2026-07-10</lastmod>
+    <loc>https://crebe-ucayali.github.io/accesos-complementarios/paginas/contacto.html</loc>
+    <lastmod>2026-07-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/institucional/lineas-de-accion.html</loc>
-    <lastmod>2026-07-10</lastmod>
+    <loc>https://crebe-ucayali.github.io/accesos-complementarios/firma-tu-visita/</loc>
+    <lastmod>2026-07-09</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/participacion/calendario.html</loc>
-    <lastmod>2026-07-10</lastmod>
+    <loc>https://crebe-ucayali.github.io/accesos-complementarios/directorios/directorio-institucional.html</loc>
+    <lastmod>2026-07-09</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/participacion/galeria.html</loc>
-    <lastmod>2026-07-10</lastmod>
+    <loc>https://crebe-ucayali.github.io/accesos-complementarios/directorios/directorio-ciudadano.html</loc>
+    <lastmod>2026-07-09</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/orientacion/guia-de-uso.html</loc>
-    <lastmod>2026-07-10</lastmod>
+    <loc>https://crebe-ucayali.github.io/accesos-complementarios/paginas/lineas-de-accion.html</loc>
+    <lastmod>2026-07-09</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/orientacion/mapa-web.html</loc>
-    <lastmod>2026-07-10</lastmod>
+    <loc>https://crebe-ucayali.github.io/accesos-complementarios/mapa-web.html</loc>
+    <lastmod>2026-07-09</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/legal/aviso-legal.html</loc>
-    <lastmod>2026-07-10</lastmod>
+    <loc>https://crebe-ucayali.github.io/accesos-complementarios/recursos/galeria.html</loc>
+    <lastmod>2026-07-09</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/legal/politica-privacidad.html</loc>
-    <lastmod>2026-07-10</lastmod>
+    <loc>https://crebe-ucayali.github.io/accesos-complementarios/recursos/calendario.html</loc>
+    <lastmod>2026-07-09</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/directorios/directorio-ciudadano.html</loc>
-    <lastmod>2026-07-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://crebe-ucayali.github.io/accesos-complementarios/paginas/aviso-legal.html</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/directorios/directorio-institucional.html</loc>
-    <lastmod>2026-07-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://crebeucayali.github.io/accesos-complementarios/firma-tu-visita/</loc>
-    <lastmod>2026-07-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://crebe-ucayali.github.io/accesos-complementarios/paginas/politica-privacidad.html</loc>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
   </url>
 </urlset>

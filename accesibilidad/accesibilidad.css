@@ -1,37 +1,288 @@
-/* Herramienta común de accesibilidad para EVA / Accesos Complementarios.
-   Este archivo puede enlazarse desde cualquier repo del ecosistema. */
+/* Herramienta común de accesibilidad para EVA. */
 
-:root{--eva-accesibilidad-fondo:#07324a;--eva-accesibilidad-texto:#ffffff;--eva-accesibilidad-borde:rgba(255,255,255,.35);--eva-accesibilidad-activo:#0f766e;}
-.eva-accesibilidad-panel{position:fixed;right:18px;bottom:18px;z-index:9999;font-family:Arial,Helvetica,sans-serif;}
-.eva-accesibilidad-boton{display:inline-flex;align-items:center;justify-content:center;min-width:56px;min-height:56px;padding:12px 16px;border:2px solid var(--eva-accesibilidad-borde);border-radius:999px;color:var(--eva-accesibilidad-texto);background:var(--eva-accesibilidad-fondo);box-shadow:0 12px 28px rgba(0,0,0,.22);font-size:1rem;font-weight:900;cursor:pointer;}
-.eva-accesibilidad-boton:focus,.eva-accesibilidad-opcion:focus{outline:3px solid #facc15;outline-offset:3px;}
-.eva-accesibilidad-menu{position:absolute;right:0;bottom:68px;width:min(290px,calc(100vw - 36px));padding:16px;border:1px solid #d9e2ec;border-radius:20px;color:#102a43;background:#ffffff;box-shadow:0 18px 42px rgba(16,42,67,.22);}
-.eva-accesibilidad-menu[hidden]{display:none!important;}
-.eva-accesibilidad-titulo{margin:0 0 10px;color:#07324a;font-size:1rem;font-weight:900;}
-.eva-accesibilidad-descripcion{margin:0 0 14px;color:#486581;font-size:.92rem;line-height:1.45;}
-.eva-accesibilidad-opciones{display:grid;gap:10px;}
-.eva-accesibilidad-opcion{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px;padding:9px 12px;border:1px solid #d9e2ec;border-radius:14px;color:#07324a;background:#f8fafc;font:inherit;font-weight:800;cursor:pointer;}
+:root{
+  --eva-accesibilidad-fondo:#07324a;
+  --eva-accesibilidad-texto:#ffffff;
+  --eva-accesibilidad-borde:rgba(255,255,255,.35);
+  --eva-accesibilidad-activo:#0f766e;
+}
+
+/* Identidad visual común para las cabeceras de Accesos Complementarios. */
+.cabecera{
+  position:relative !important;
+  overflow:hidden !important;
+}
+
+.cabecera::before{
+  content:"" !important;
+  position:absolute !important;
+  inset:0 !important;
+  z-index:0 !important;
+  pointer-events:none !important;
+  background-image:url("../patron-shipibo.webp?v=5") !important;
+  background-repeat:repeat !important;
+  background-size:320px auto !important;
+  background-position:top left !important;
+  opacity:.30 !important;
+  filter:saturate(1.15) contrast(1.08) !important;
+}
+
+.patron-portada{display:none !important;}
+
+.cabecera .navegacion,
+.cabecera .portada,
+.cabecera .presentacion{
+  position:relative !important;
+  z-index:1 !important;
+}
+
+.eva-solo-lectores{
+  position:absolute !important;
+  width:1px !important;
+  height:1px !important;
+  padding:0 !important;
+  margin:-1px !important;
+  overflow:hidden !important;
+  clip:rect(0,0,0,0) !important;
+  white-space:nowrap !important;
+  border:0 !important;
+}
+
+.eva-salto-contenido{
+  position:fixed;
+  top:10px;
+  left:10px;
+  z-index:10001;
+  padding:12px 16px;
+  border:3px solid #0f766e;
+  border-radius:10px;
+  color:#082f49;
+  background:#ffffff;
+  font-family:Arial,Helvetica,sans-serif;
+  font-weight:900;
+  text-decoration:none;
+  box-shadow:0 8px 24px rgba(0,0,0,.22);
+  transform:translateY(-170%);
+  transition:transform .18s ease;
+}
+
+.eva-salto-contenido:focus{transform:translateY(0);}
+
+.eva-accesibilidad-panel{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:9999;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+.eva-accesibilidad-boton{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:56px;
+  min-height:56px;
+  padding:12px 16px;
+  border:2px solid var(--eva-accesibilidad-borde);
+  border-radius:999px;
+  color:var(--eva-accesibilidad-texto);
+  background:var(--eva-accesibilidad-fondo);
+  box-shadow:0 12px 28px rgba(0,0,0,.22);
+  font:inherit;
+  font-size:1rem;
+  font-weight:900;
+  line-height:1.2;
+  cursor:pointer;
+}
+
+.eva-accesibilidad-menu{
+  position:absolute;
+  right:0;
+  bottom:68px;
+  width:min(330px,calc(100vw - 36px));
+  max-height:min(680px,calc(100vh - 110px));
+  overflow:auto;
+  padding:16px;
+  border:1px solid #d9e2ec;
+  border-radius:20px;
+  color:#102a43;
+  background:#ffffff;
+  box-shadow:0 18px 42px rgba(16,42,67,.22);
+}
+
+.eva-accesibilidad-menu[hidden]{display:none !important;}
+.eva-accesibilidad-titulo{margin:0 0 8px;color:#07324a;font-size:1.08rem;font-weight:900;line-height:1.3;}
+.eva-accesibilidad-descripcion{margin:0 0 14px;color:#486581;font-size:.92rem;line-height:1.5;}
+.eva-accesibilidad-opciones{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;}
+
+.eva-accesibilidad-opcion{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:46px;
+  padding:9px 10px;
+  border:2px solid #d9e2ec;
+  border-radius:12px;
+  color:#07324a;
+  background:#f8fafc;
+  font:inherit;
+  font-size:.85rem;
+  font-weight:850;
+  line-height:1.25;
+  text-align:center;
+  cursor:pointer;
+}
+
+.eva-accesibilidad-opcion:hover{border-color:#0f766e;background:#e6f4f1;}
 .eva-accesibilidad-opcion[aria-pressed="true"]{color:#ffffff;background:var(--eva-accesibilidad-activo);border-color:var(--eva-accesibilidad-activo);}
-.eva-accesibilidad-restablecer{margin-top:12px;width:100%;justify-content:center;}
-html.eva-alto-contraste,html.eva-alto-contraste body{color:#ffffff!important;background:#000000!important;}
-html.eva-alto-contraste a,html.eva-alto-contraste button{color:#ffff00!important;}
-html.eva-alto-contraste header,html.eva-alto-contraste main,html.eva-alto-contraste section,html.eva-alto-contraste article,html.eva-alto-contraste footer,html.eva-alto-contraste .panel,html.eva-alto-contraste .panel-busqueda,html.eva-alto-contraste .panel-contenido,html.eva-alto-contraste .panel-accesos,html.eva-alto-contraste .panel-recursos,html.eva-alto-contraste .panel-registro,html.eva-alto-contraste .panel-principal,html.eva-alto-contraste .panel-juego,html.eva-alto-contraste .panel-secundario,html.eva-alto-contraste .panel-presentacion,html.eva-alto-contraste .panel-respuestas,html.eva-alto-contraste .aviso-pedagogico,html.eva-alto-contraste .configuracion,html.eva-alto-contraste .campo,html.eva-alto-contraste .zona-juego,html.eva-alto-contraste .visor-sena,html.eva-alto-contraste .indicadores,html.eva-alto-contraste .indicador,html.eva-alto-contraste .juego-conteo,html.eva-alto-contraste .escenario,html.eva-alto-contraste .opciones,html.eva-alto-contraste .tablero,html.eva-alto-contraste .criterios,html.eva-alto-contraste .criterio,html.eva-alto-contraste .reconocimiento,html.eva-alto-contraste .constancia,html.eva-alto-contraste .nota,html.eva-alto-contraste .tarjeta-material,html.eva-alto-contraste .tarjeta-info,html.eva-alto-contraste .tarjeta-linea,html.eva-alto-contraste .tarjeta-personal,html.eva-alto-contraste .tarjeta-acceso,html.eva-alto-contraste .tarjeta-recurso,html.eva-alto-contraste .tarjeta-noti,html.eva-alto-contraste .bloque-info,html.eva-alto-contraste .bloque-accion,html.eva-alto-contraste .bloque-presentacion,html.eva-alto-contraste .bloque-lista-noti,html.eva-alto-contraste .campo-registro,html.eva-alto-contraste .opcion-modulo,html.eva-alto-contraste .bloque-informativo-registro,html.eva-alto-contraste .directorio-item,html.eva-alto-contraste .directorio-icono,html.eva-alto-contraste .directorio-boton,html.eva-alto-contraste .nota-inferior,html.eva-alto-contraste .estado,html.eva-alto-contraste .estado-vacio,html.eva-alto-contraste .contador,html.eva-alto-contraste .etiqueta-noti,html.eva-alto-contraste .estado-material,html.eva-alto-contraste .material-icono,html.eva-alto-contraste .item-recurso,html.eva-alto-contraste .numero-recurso,html.eva-alto-contraste .lista-ejemplos,html.eva-alto-contraste .mensaje,html.eva-alto-contraste .categoria,html.eva-alto-contraste .pista,html.eva-alto-contraste .barra-progreso{color:#ffffff!important;background:#000000!important;border-color:#ffffff!important;box-shadow:none!important;}
-html.eva-alto-contraste h1,html.eva-alto-contraste h2,html.eva-alto-contraste h3,html.eva-alto-contraste p,html.eva-alto-contraste li,html.eva-alto-contraste span,html.eva-alto-contraste label,html.eva-alto-contraste strong,html.eva-alto-contraste .descripcion,html.eva-alto-contraste .descripcion-panel,html.eva-alto-contraste .texto-panel,html.eva-alto-contraste .texto-bloque-noti,html.eva-alto-contraste .sobretitulo,html.eva-alto-contraste .opcion-modulo span,html.eva-alto-contraste .titulo-campo,html.eva-alto-contraste .ayuda-campo,html.eva-alto-contraste .texto-opcional,html.eva-alto-contraste .directorio-texto,html.eva-alto-contraste .directorio-texto h3,html.eva-alto-contraste .directorio-texto p,html.eva-alto-contraste .directorio-icono,html.eva-alto-contraste .tarjeta-noti h3,html.eva-alto-contraste .tarjeta-noti p,html.eva-alto-contraste .tarjeta-recurso h3,html.eva-alto-contraste .tarjeta-recurso p,html.eva-alto-contraste .tarjeta-material h3,html.eva-alto-contraste .tarjeta-material p,html.eva-alto-contraste .criterio h3,html.eva-alto-contraste .criterio p,html.eva-alto-contraste .panel-presentacion h2,html.eva-alto-contraste .panel-presentacion p,html.eva-alto-contraste .aviso-pedagogico h2,html.eva-alto-contraste .aviso-pedagogico p,html.eva-alto-contraste .indicador strong,html.eva-alto-contraste .indicador span,html.eva-alto-contraste .mensaje,html.eva-alto-contraste .categoria,html.eva-alto-contraste .pista,html.eva-alto-contraste .item-recurso,html.eva-alto-contraste .estado,html.eva-alto-contraste .contador{color:#ffffff!important;text-shadow:none!important;opacity:1!important;}
-html.eva-alto-contraste input,html.eva-alto-contraste select,html.eva-alto-contraste textarea{color:#ffffff!important;background:#000000!important;border-color:#ffffff!important;}
-html.eva-alto-contraste input::placeholder,html.eva-alto-contraste textarea::placeholder{color:#d1d5db!important;}
-html.eva-alto-contraste .opcion-modulo:has(input:checked),html.eva-alto-contraste .opcion-modulo:focus-within{background:#07324a!important;border-color:#ffff00!important;}
-html.eva-alto-contraste .opcion-modulo:has(input:checked) span,html.eva-alto-contraste .opcion-modulo:focus-within span{color:#ffff00!important;}
-html.eva-alto-contraste .directorio-boton,html.eva-alto-contraste .directorio-boton.neutro,html.eva-alto-contraste .enlace-noti,html.eva-alto-contraste .enlace-material,html.eva-alto-contraste .boton,html.eva-alto-contraste .numero-recurso,html.eva-alto-contraste .material-icono{color:#ffff00!important;background:#07324a!important;border:1px solid #ffff00!important;}
-html.eva-alto-contraste .etiqueta-noti,html.eva-alto-contraste .estado,html.eva-alto-contraste .estado-material{color:#ffff00!important;background:#07324a!important;border-color:#ffff00!important;}
-html.eva-alto-contraste .directorio-item:hover,html.eva-alto-contraste a.directorio-item:focus,html.eva-alto-contraste .item-recurso:focus,html.eva-alto-contraste .item-recurso:hover,html.eva-alto-contraste .tarjeta-material:focus-within,html.eva-alto-contraste .criterio:focus-within{background:#07324a!important;border-color:#ffff00!important;}
-html.eva-alto-contraste .eva-accesibilidad-panel,html.eva-alto-contraste .eva-accesibilidad-menu,html.eva-alto-contraste .eva-accesibilidad-menu *,html.eva-alto-contraste .eva-accesibilidad-opcion{color:#07324a!important;background:#ffffff!important;}
-html.eva-alto-contraste .eva-accesibilidad-boton,html.eva-alto-contraste .eva-accesibilidad-opcion[aria-pressed="true"]{color:#ffff00!important;background:#07324a!important;border-color:#ffff00!important;}
+.eva-accesibilidad-opcion:disabled{opacity:.55;cursor:not-allowed;}
+.eva-accesibilidad-restablecer{grid-column:1/-1;margin-top:4px;}
+
+:where(a,button,input,select,textarea,[tabindex]):focus-visible{
+  outline:4px solid #f59e0b !important;
+  outline-offset:3px !important;
+}
+
 html.eva-texto-grande{font-size:112.5%;}
 html.eva-texto-muy-grande{font-size:125%;}
 
-/* Refuerzo puntual para subpáginas MEA */
-html.eva-alto-contraste .panel-braille,html.eva-alto-contraste .bloque-generador,html.eva-alto-contraste .vista-previa,html.eva-alto-contraste .resultado,html.eva-alto-contraste .panel-descarga,html.eva-alto-contraste .bloque-uso,html.eva-alto-contraste .campo-picto,html.eva-alto-contraste .licencia-visible,html.eva-alto-contraste .tarjeta-picto,html.eva-alto-contraste .marco-picto,html.eva-alto-contraste .panel-rutinas,html.eva-alto-contraste .configuracion-rutina,html.eva-alto-contraste .campo-configuracion,html.eva-alto-contraste .zona-construccion,html.eva-alto-contraste .bloque-editor,html.eva-alto-contraste .bloque-buscador,html.eva-alto-contraste .licencia-rutina,html.eva-alto-contraste .rutina-preview,html.eva-alto-contraste .rutina-lienzo,html.eva-alto-contraste .panel-generador,html.eva-alto-contraste .configuracion-silabas,html.eva-alto-contraste .vista-silabas,html.eva-alto-contraste .vista-cabecera,html.eva-alto-contraste .hoja-ficha,html.eva-alto-contraste .cabecera-ficha,html.eva-alto-contraste .bloque-ficha,html.eva-alto-contraste .imagen-ficha,html.eva-alto-contraste .miniatura-imagen,html.eva-alto-contraste .mensaje-arasaac,html.eva-alto-contraste .tabla-actividad,html.eva-alto-contraste .tabla-actividad th,html.eva-alto-contraste .tabla-actividad td{color:#ffffff!important;background:#000000!important;border-color:#ffffff!important;box-shadow:none!important;opacity:1!important;}
-html.eva-alto-contraste .texto-panel-materiales,html.eva-alto-contraste .texto-panel-braille,html.eva-alto-contraste .etiqueta-campo,html.eva-alto-contraste .mensaje-inicial,html.eva-alto-contraste .sugerencia,html.eva-alto-contraste .ayuda,html.eva-alto-contraste .licencia-visible,html.eva-alto-contraste .licencia-visible strong,html.eva-alto-contraste .tarjeta-picto h3,html.eva-alto-contraste .tarjeta-picto p,html.eva-alto-contraste .texto-panel-rutinas,html.eva-alto-contraste .campo-configuracion label,html.eva-alto-contraste .ayuda-editor,html.eva-alto-contraste .estado-busqueda,html.eva-alto-contraste .rutina-titulo,html.eva-alto-contraste .rutina-atribucion,html.eva-alto-contraste .texto-panel-silabas,html.eva-alto-contraste .grupo-formulario label,html.eva-alto-contraste .grupo-opciones p,html.eva-alto-contraste .nota-campo,html.eva-alto-contraste .opcion-ficha,html.eva-alto-contraste .vista-cabecera p,html.eva-alto-contraste .cabecera-ficha h2,html.eva-alto-contraste .cabecera-ficha p,html.eva-alto-contraste .bloque-ficha h3,html.eva-alto-contraste .bloque-ficha p,html.eva-alto-contraste .palabra-principal,html.eva-alto-contraste .actividad-linea,html.eva-alto-contraste .pie-ficha{color:#ffffff!important;background:transparent!important;text-shadow:none!important;opacity:1!important;}
-html.eva-alto-contraste .boton-secundario,html.eva-alto-contraste .boton-primario,html.eva-alto-contraste .boton-descarga,html.eva-alto-contraste .boton-picto,html.eva-alto-contraste .boton-rutina,html.eva-alto-contraste .descargar-png,html.eva-alto-contraste .abrir-original,html.eva-alto-contraste .aviso-icono,html.eva-alto-contraste .etiqueta-ficha,html.eva-alto-contraste .chip-silaba,html.eva-alto-contraste .casilla-silaba,html.eva-alto-contraste .caja-recorte{color:#ffff00!important;background:#07324a!important;border:1px solid #ffff00!important;}
+html.eva-fuente-legible,
+html.eva-fuente-legible body,
+html.eva-fuente-legible body *:not(code):not(pre):not(kbd):not(samp):not(.signo-braille):not(.braille-char):not(.braille-cell){
+  font-family:Verdana,Tahoma,Arial,sans-serif !important;
+}
 
-@media(max-width:700px){.eva-accesibilidad-panel{right:12px;bottom:12px;}.eva-accesibilidad-boton{min-width:52px;min-height:52px;padding:10px 14px;}}
+html.eva-fuente-legible body{letter-spacing:.012em;word-spacing:.025em;}
+html.eva-fuente-legible p,
+html.eva-fuente-legible li,
+html.eva-fuente-legible label,
+html.eva-fuente-legible input,
+html.eva-fuente-legible textarea,
+html.eva-fuente-legible select{line-height:1.7;}
+html.eva-fuente-legible h1,
+html.eva-fuente-legible h2,
+html.eva-fuente-legible h3,
+html.eva-fuente-legible h4{letter-spacing:0 !important;line-height:1.22;}
+
+html.eva-espaciado-amplio body{letter-spacing:.035em;word-spacing:.11em;line-height:1.82;}
+html.eva-espaciado-amplio p,
+html.eva-espaciado-amplio li,
+html.eva-espaciado-amplio span,
+html.eva-espaciado-amplio a,
+html.eva-espaciado-amplio button,
+html.eva-espaciado-amplio label{line-height:1.75;}
+
+html.eva-enlaces-resaltados a:not(.marca):not(.tarjeta):not(.tarjeta-acceso){
+  text-decoration:underline !important;
+  text-decoration-thickness:2px !important;
+  text-underline-offset:3px !important;
+}
+
+html.eva-enlaces-resaltados .tarjeta,
+html.eva-enlaces-resaltados .tarjeta-acceso{
+  outline:2px solid currentColor;
+  outline-offset:2px;
+}
+
+html.eva-escala-grises{filter:grayscale(1);}
+
+html.eva-reducir-movimiento *,
+html.eva-reducir-movimiento *::before,
+html.eva-reducir-movimiento *::after{
+  animation-duration:.01ms !important;
+  animation-iteration-count:1 !important;
+  transition-duration:.01ms !important;
+  scroll-behavior:auto !important;
+}
+
+html.eva-alto-contraste,
+html.eva-alto-contraste body{
+  color:#ffffff !important;
+  background:#000000 !important;
+}
+
+html.eva-alto-contraste body *{
+  text-shadow:none !important;
+  box-shadow:none !important;
+}
+
+html.eva-alto-contraste header,
+html.eva-alto-contraste main,
+html.eva-alto-contraste section,
+html.eva-alto-contraste article,
+html.eva-alto-contraste aside,
+html.eva-alto-contraste footer,
+html.eva-alto-contraste nav,
+html.eva-alto-contraste .panel,
+html.eva-alto-contraste .panel-accesos,
+html.eva-alto-contraste .tarjeta,
+html.eva-alto-contraste .tarjeta-acceso,
+html.eva-alto-contraste .nota-inferior,
+html.eva-alto-contraste .card,
+html.eva-alto-contraste .modal-content{
+  color:#ffffff !important;
+  background:#000000 !important;
+  border-color:#ffffff !important;
+}
+
+html.eva-alto-contraste h1,
+html.eva-alto-contraste h2,
+html.eva-alto-contraste h3,
+html.eva-alto-contraste h4,
+html.eva-alto-contraste p,
+html.eva-alto-contraste li,
+html.eva-alto-contraste span,
+html.eva-alto-contraste label,
+html.eva-alto-contraste strong,
+html.eva-alto-contraste small{color:#ffffff !important;opacity:1 !important;}
+
+html.eva-alto-contraste a,
+html.eva-alto-contraste button{color:#ffff00 !important;border-color:#ffffff !important;}
+
+html.eva-alto-contraste input,
+html.eva-alto-contraste select,
+html.eva-alto-contraste textarea{
+  color:#ffffff !important;
+  background:#000000 !important;
+  border-color:#ffffff !important;
+}
+
+html.eva-alto-contraste img,
+html.eva-alto-contraste video{outline:2px solid #ffffff;}
+
+html.eva-alto-contraste .eva-accesibilidad-menu,
+html.eva-alto-contraste .eva-accesibilidad-menu *{
+  color:#07324a !important;
+  background:#ffffff !important;
+  box-shadow:none !important;
+}
+
+html.eva-alto-contraste .eva-accesibilidad-boton,
+html.eva-alto-contraste .eva-accesibilidad-opcion[aria-pressed="true"]{
+  color:#ffff00 !important;
+  background:#07324a !important;
+  border-color:#ffff00 !important;
+}
+
+html.eva-alto-contraste .eva-accesibilidad-opcion:not([aria-pressed="true"]){border-color:#07324a !important;}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+    scroll-behavior:auto !important;
+  }
+}
+
+@media(max-width:700px){
+  .cabecera::before{background-size:260px auto !important;}
+  .eva-accesibilidad-panel{right:12px;bottom:12px;}
+  .eva-accesibilidad-boton{min-width:52px;min-height:52px;padding:10px 14px;font-size:.9rem;}
+  .eva-accesibilidad-menu{bottom:62px;}
+}
+
+@media(max-width:430px){
+  .eva-accesibilidad-opciones{grid-template-columns:1fr;}
+  .eva-accesibilidad-restablecer{grid-column:auto;}
+}

@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Directorio ciudadano de servicios públicos, entidades educativas, discapacidad, salud, trámites y orientación rápida para CREBE Ucayali.">
-  <title>Directorio ciudadano | CREBE Ucayali</title>
-  <link rel="stylesheet" href="directorio-ciudadano.css?v=5">
-  <link rel="stylesheet" href="https://crebe-ucayali.github.io/accesos-complementarios/accesibilidad/accesibilidad.css?v=5">
+  <meta name="description" content="Sección Nosotros de Accesos Complementarios: presentación del CREBE Señor de los Milagros - Ucayali y del sentido general de la página dentro de CREBE Ucayali.">
+  <title>Nosotros | Accesos Complementarios</title>
+  <link rel="stylesheet" href="nosotros.css?v=2">
+  <link rel="stylesheet" href="https://crebe-ucayali.github.io/accesos-complementarios/accesibilidad/accesibilidad.css?v=2">
   <style>
     body .cabecera{position:relative!important;overflow:hidden!important;padding:30px 18px 145px!important;color:#ffffff!important;background:radial-gradient(circle at 84% 70%,rgba(255,255,255,.11) 0 22%,transparent 23%),radial-gradient(circle at 86% 74%,rgba(255,255,255,.08) 0 36%,transparent 37%),linear-gradient(135deg,#0b3550 0%,#0f4f57 48%,#0f766e 100%)!important;}
     body .cabecera::after{display:none!important;content:none!important;}
@@ -19,25 +19,18 @@
     body .marca-modulo{display:block!important;margin:0 0 3px!important;color:#c9f7ee!important;font-size:.76rem!important;font-weight:900!important;line-height:1.15!important;letter-spacing:.16em!important;text-transform:uppercase!important;}
     body .marca-nombre-institucional{display:block!important;color:#ffffff!important;font-size:1.02rem!important;font-weight:900!important;line-height:1.2!important;}
     body .marca-detalle-institucional{display:block!important;margin-top:4px!important;color:rgba(255,255,255,.94)!important;font-size:.88rem!important;font-weight:750!important;line-height:1.25!important;}
-    body .enlaces-superiores{display:flex!important;align-items:center!important;justify-content:flex-end!important;flex-wrap:wrap!important;gap:12px!important;}
+    body .enlaces-cabecera{display:flex!important;align-items:center!important;justify-content:flex-end!important;flex-wrap:wrap!important;gap:12px!important;}
     body .enlace-cabecera{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:46px!important;padding:10px 22px!important;border:1px solid rgba(255,255,255,.45)!important;border-radius:999px!important;color:#ffffff!important;text-decoration:none!important;font-size:1rem!important;font-weight:800!important;background:rgba(255,255,255,.08)!important;text-shadow:0 2px 4px rgba(0,0,0,.24)!important;}
     body .enlace-cabecera:hover{color:#ffffff!important;background:rgba(255,255,255,.16)!important;}
     body .portada{position:relative!important;z-index:1!important;max-width:1120px!important;margin:70px auto 0!important;}
     body .etiqueta-superior{margin:0 0 14px!important;color:#c9f7ee!important;font-size:.86rem!important;font-weight:900!important;letter-spacing:.18em!important;text-transform:uppercase!important;text-shadow:0 2px 4px rgba(0,0,0,.28)!important;}
     body .portada h1{max-width:900px!important;margin:0 0 22px!important;color:#ffffff!important;font-family:Georgia,"Times New Roman",serif!important;font-size:clamp(2.5rem,5.8vw,4.15rem)!important;line-height:1.04!important;letter-spacing:-.04em!important;text-shadow:0 3px 5px rgba(0,0,0,.22)!important;}
     body .subtitulo{max-width:880px!important;margin:0!important;color:rgba(255,255,255,.96)!important;font-size:1.22rem!important;line-height:1.65!important;text-shadow:0 2px 4px rgba(0,0,0,.28)!important;}
-    html.eva-alto-contraste body .chip,html.eva-alto-contraste body .tarjeta-entidad,html.eva-alto-contraste body .etiqueta,html.eva-alto-contraste body .observacion,html.eva-alto-contraste body .redes-sociales,html.eva-alto-contraste body .nota-inferior,html.eva-alto-contraste body .bloque-sugerencias,html.eva-alto-contraste body .controles{color:#ffffff!important;background:#000000!important;border-color:#ffffff!important;}
-    html.eva-alto-contraste body .chip,html.eva-alto-contraste body .chip *,html.eva-alto-contraste body .tarjeta-entidad h3,html.eva-alto-contraste body .tarjeta-entidad p,html.eva-alto-contraste body .tarjeta-entidad span,html.eva-alto-contraste body .descripcion,html.eva-alto-contraste body .datos strong,html.eva-alto-contraste body .datos span,html.eva-alto-contraste body .datos a,html.eva-alto-contraste body .redes-sociales strong,html.eva-alto-contraste body .redes-sociales span,html.eva-alto-contraste body .observacion,html.eva-alto-contraste body .nota-inferior,html.eva-alto-contraste body .bloque-sugerencias p,html.eva-alto-contraste body .lista-sugerencias,html.eva-alto-contraste body .control-campo label,html.eva-alto-contraste body .resumen-resultados{color:#ffffff!important;text-shadow:none!important;opacity:1!important;}
-    html.eva-alto-contraste body .chip span,html.eva-alto-contraste body .sigla,html.eva-alto-contraste body .boton-enlace{color:#ffff00!important;background:#07324a!important;border-color:#ffff00!important;}
-    html.eva-alto-contraste body .boton-secundario{color:#ffff00!important;background:#000000!important;border-color:#ffff00!important;}
-    html.eva-alto-contraste body .control-campo input,html.eva-alto-contraste body .control-campo select{color:#ffffff!important;background:#000000!important;border-color:#ffffff!important;}
-    html.eva-alto-contraste body .control-campo input::placeholder{color:#d1d5db!important;}
-    @media(max-width:700px){body .cabecera{padding:26px 18px 116px!important;}body .navegacion{align-items:flex-start!important;flex-direction:column!important;}body .portada{margin-top:54px!important;}body .marca-institucional{align-items:flex-start!important;}body .marca-logo-superior{width:52px!important;height:52px!important;border-radius:16px!important;}body .marca-texto-superior{padding-left:12px!important;}body .marca-nombre-institucional{font-size:.94rem!important;}body .marca-detalle-institucional{font-size:.82rem!important;}body .enlaces-superiores{justify-content:flex-start!important;}}
+    @media(max-width:700px){body .cabecera{padding:26px 18px 116px!important;}body .navegacion{align-items:flex-start!important;flex-direction:column!important;}body .portada{margin-top:54px!important;}body .marca-institucional{align-items:flex-start!important;}body .marca-logo-superior{width:52px!important;height:52px!important;border-radius:16px!important;}body .marca-texto-superior{padding-left:12px!important;}body .marca-nombre-institucional{font-size:.94rem!important;}body .marca-detalle-institucional{font-size:.82rem!important;}body .enlaces-cabecera{justify-content:flex-start!important;}}
   </style>
 </head>
 <body>
   <a class="salto-contenido" href="#contenido-principal">Ir al contenido</a>
-
   <header class="cabecera" id="inicio">
     <div class="patron-portada" aria-hidden="true"></div>
     <nav class="navegacion" aria-label="Navegación principal">
@@ -49,13 +42,12 @@
           <span class="marca-detalle-institucional">Centro de Recursos de Educación Básica Especial</span>
         </span>
       </a>
-      <div class="enlaces-superiores">
+      <div class="enlaces-cabecera">
         <a class="enlace-cabecera" href="../index.html">Volver a AC</a>
         <a class="enlace-cabecera" href="https://crebe-ucayali.github.io/">Inicio principal</a>
-        <a class="enlace-cabecera" href="../paginas/contacto.html">Contacto</a>
+        <a class="enlace-cabecera" href="contacto.html">Contacto</a>
       </div>
     </nav>
-
     <div class="portada">
       <p class="etiqueta-superior">ECOSISTEMA VIRTUAL ACCESIBLE</p>
       <h1>Accesos Complementarios</h1>
@@ -64,38 +56,21 @@
   </header>
 
   <main id="contenido-principal">
-    <section class="panel-directorio" aria-labelledby="titulo-directorio">
-      <div class="panel-encabezado">
-        <p class="seccion-etiqueta">Directorio ciudadano</p>
-        <h2 id="titulo-directorio">Entidades y servicios de orientación ciudadana</h2>
-        <p class="descripcion-panel">Usa el buscador para encontrar instituciones por nombre, servicio, teléfono, correo, dirección o tema.</p>
+    <section class="panel-contenido" aria-labelledby="titulo-nosotros">
+      <div class="encabezado-seccion">
+        <p class="seccion-etiqueta">Presentación</p>
+        <h2 id="titulo-nosotros">Nosotros</h2>
+        <p class="texto-principal">El CREBE "Señor de los Milagros" - Ucayali es un servicio de apoyo de la Educación Básica Especial orientado a fortalecer la inclusión educativa en la región. Su labor se vincula con el acompañamiento a docentes, familias, instituciones educativas y comunidad en general, promoviendo una atención más accesible, pertinente y respetuosa de la diversidad.</p>
       </div>
 
-      <div class="controles" aria-label="Herramientas de búsqueda del directorio">
-        <div class="control-campo">
-          <label for="buscador">Buscar entidad, servicio o dato</label>
-          <input id="buscador" type="search" placeholder="Ejemplo: CONADIS, salud, UGEL, DNI, bomberos">
-        </div>
-        <div class="control-campo">
-          <label for="categoria">Filtrar por categoría</label>
-          <select id="categoria">
-            <option value="todas">Todas las categorías</option>
-            <option value="Educación">Educación</option>
-            <option value="Discapacidad e inclusión">Discapacidad e inclusión</option>
-            <option value="Salud">Salud</option>
-            <option value="Gobierno y trámites">Gobierno y trámites</option>
-            <option value="Números de orientación rápida">Números de orientación rápida</option>
-          </select>
-        </div>
-        <button id="limpiar" class="boton-limpiar" type="button">Limpiar</button>
+      <div class="grid-informacion">
+        <article class="bloque-info"><h3>Quiénes somos</h3><p>Somos un equipo comprometido con la promoción de prácticas educativas inclusivas. Desde el CREBE se brinda orientación, soporte y articulación para contribuir a que las instituciones educativas cuenten con mejores condiciones de atención a estudiantes con discapacidad, talento o superdotación.</p></article>
+        <article class="bloque-info"><h3>Nuestro propósito</h3><p>Buscamos fortalecer la inclusión educativa mediante acciones de información, sensibilización, capacitación y difusión de recursos. Este propósito se sostiene en el trabajo coordinado con la comunidad educativa y en el uso de herramientas accesibles que faciliten la participación y el aprendizaje.</p></article>
+        <article class="bloque-info"><h3>Función de esta página</h3><p>Esta sección forma parte de CREBE Ucayali y reúne accesos complementarios que no pertenecen a un módulo específico, pero que ayudan a comprender y utilizar mejor la plataforma. Aquí se organiza información general, orientación de uso, contacto, novedades, líneas de acción y espacios de participación.</p></article>
+        <article class="bloque-info"><h3>A quién está dirigido</h3><p>El espacio está dirigido a docentes, directivos, familias, profesionales de apoyo, estudiantes en formación y comunidad interesada en la educación inclusiva. Su finalidad es facilitar el acceso a información clara y a recursos organizados para el acompañamiento educativo.</p></article>
       </div>
 
-      <p id="resumen-resultados" class="resumen-resultados">Cargando entidades...</p>
-      <div id="chips-categorias" class="chips-categorias"></div>
-      <div id="directorio"></div>
-      <div id="sin-resultados" class="sin-resultados">No se encontraron entidades con los criterios seleccionados.</div>
-
-      <div class="nota-inferior"><strong>Nota:</strong> los datos del directorio deben revisarse y actualizarse de forma periódica desde las fuentes oficiales.</div>
+      <div class="franja-destacada"><strong>Sentido del repositorio:</strong> Accesos Complementarios funciona como una entrada organizada a las páginas generales de la plataforma. No reemplaza a los módulos principales; los acompaña y permite ubicar con mayor facilidad información institucional, repositorios, novedades, contacto, guía de uso y otros espacios generales.</div>
     </section>
   </main>
 
@@ -103,16 +78,13 @@
     <div class="footer-contenido">
       <div class="footer-bloque footer-identidad">
         <img class="logo-footer" src="https://crebe-ucayali.github.io/banco-digital-accesible/logo-crebe.png" alt="Logo del CREBE Señor de los Milagros - Ucayali">
-        <div><h2>Directorio ciudadano</h2><p>Entidades públicas y servicios de orientación ciudadana.</p></div>
+        <div><h2>Accesos Complementarios</h2><p>Espacio de entrada a las páginas generales de CREBE Ucayali.</p></div>
       </div>
-      <div class="footer-bloque"><h2>Enlaces</h2><p><a href="../index.html">Accesos Complementarios</a><br><a href="directorio-institucional.html">Directorio institucional</a><br><a href="../paginas/nosotros.html">Nosotros</a><br><a href="../paginas/que-hacemos.html">Qué hacemos</a><br><a href="../paginas/contacto.html">Contacto</a></p></div>
-      <div class="footer-bloque"><h2>Contacto CREBE</h2><p>CREBE "Señor de los Milagros" - Ucayali<br>Correo: senordelosmilagroscrebe@gmail.com<br>Horario: lunes a viernes, 8:00 a.m. - 12:00 p.m.</p></div>
+      <div class="footer-bloque"><h2>Enlaces</h2><p><a href="../index.html">Accesos</a><br><a href="nosotros.html">Nosotros</a><br><a href="contacto.html">Contacto</a><br><a href="../firma-tu-visita/">Firma tu visita</a></p></div>
+      <div class="footer-bloque"><h2>Contacto CREBE</h2><p>CREBE "Señor de los Milagros" - Ucayali<br>Correo: senordelosmilagroscrebe@gmail.com<br>Horario: lunes a viernes, 8:00 a.m. - 12:00 p.m.<br><a href="https://www.facebook.com/CREBESM" target="_blank" rel="noopener noreferrer">Facebook</a></p></div>
     </div>
     <div class="footer-final"><p>© 2026 Gabriel Berrospi. Desarrollo original. Uso institucional autorizado al CREBE "Señor de los Milagros" - Ucayali.</p></div>
   </footer>
-
-  <script src="directorio-ciudadano.js?v=2" defer></script>
-  <script src="directorio-ciudadano-navegacion.js?v=3" defer></script>
-  <script src="https://crebe-ucayali.github.io/accesos-complementarios/accesibilidad/accesibilidad.js?v=5" defer></script>
+  <script src="https://crebe-ucayali.github.io/accesos-complementarios/accesibilidad/accesibilidad.js?v=2" defer></script>
 </body>
 </html>

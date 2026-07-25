@@ -1,0 +1,90 @@
+[
+  {
+    "id": "ac-firma",
+    "titulo": "Firma tu visita",
+    "modulo": "AC",
+    "categoria": "Participación",
+    "tipo": "Servicio complementario",
+    "descripcion": "Registro de participación de visitantes, docentes, familias y comunidad educativa.",
+    "etiquetas": ["firma", "visita", "registro", "participacion"],
+    "url": "https://crebe-ucayali.github.io/accesos-complementarios/firma-tu-visita/",
+    "fechaActualizacion": "2026-07-23"
+  },
+  {
+    "id": "ac-calendario",
+    "titulo": "Calendario institucional",
+    "modulo": "AC",
+    "categoria": "Actividades",
+    "tipo": "Calendario",
+    "descripcion": "Consulta de fechas institucionales, capacitaciones y actividades programadas.",
+    "etiquetas": ["calendario", "cronograma", "fechas", "actividades"],
+    "url": "https://crebe-ucayali.github.io/accesos-complementarios/recursos/calendario.html",
+    "fechaActualizacion": "2026-07-23"
+  },
+  {
+    "id": "ac-galeria",
+    "titulo": "Galería institucional",
+    "modulo": "AC",
+    "categoria": "Evidencias",
+    "tipo": "Galería",
+    "descripcion": "Fotografías y evidencias visuales de actividades desarrolladas por el CREBE Ucayali.",
+    "etiquetas": ["galeria", "fotos", "evidencias", "actividades"],
+    "url": "https://crebe-ucayali.github.io/accesos-complementarios/recursos/galeria.html",
+    "fechaActualizacion": "2026-07-23"
+  },
+  {
+    "id": "ac-nosotros",
+    "titulo": "Nosotros",
+    "modulo": "AC",
+    "categoria": "Información institucional",
+    "tipo": "Subpágina",
+    "descripcion": "Información general e identidad institucional del CREBE Ucayali.",
+    "etiquetas": ["nosotros", "identidad", "crebe"],
+    "url": "https://crebe-ucayali.github.io/accesos-complementarios/paginas/nosotros.html",
+    "fechaActualizacion": "2026-07-23"
+  },
+  {
+    "id": "ac-que-hacemos",
+    "titulo": "Qué hacemos",
+    "modulo": "AC",
+    "categoria": "Información institucional",
+    "tipo": "Subpágina",
+    "descripcion": "Acciones de apoyo, orientación y fortalecimiento de la inclusión educativa.",
+    "etiquetas": ["acciones", "apoyo", "orientacion", "inclusion"],
+    "url": "https://crebe-ucayali.github.io/accesos-complementarios/paginas/que-hacemos.html",
+    "fechaActualizacion": "2026-07-23"
+  },
+  {
+    "id": "ac-lineas",
+    "titulo": "Líneas de acción del CREBE",
+    "modulo": "AC",
+    "categoria": "Información institucional",
+    "tipo": "Subpágina",
+    "descripcion": "Información, capacitación, sensibilización y producción de materiales accesibles.",
+    "etiquetas": ["lineas de accion", "capacitacion", "sensibilizacion", "produccion"],
+    "url": "https://crebe-ucayali.github.io/accesos-complementarios/paginas/lineas-de-accion.html",
+    "fechaActualizacion": "2026-07-23"
+  },
+  {
+    "id": "ac-directorio",
+    "titulo": "Directorio institucional",
+    "modulo": "AC",
+    "categoria": "Directorio",
+    "tipo": "Directorio",
+    "descripcion": "Instituciones, servicios y contactos vinculados a educación, inclusión y discapacidad.",
+    "etiquetas": ["directorio", "instituciones", "servicios", "contactos"],
+    "url": "https://crebe-ucayali.github.io/accesos-complementarios/directorios/directorio-institucional.html",
+    "fechaActualizacion": "2026-07-23"
+  },
+  {
+    "id": "ac-contacto",
+    "titulo": "Contacto institucional",
+    "modulo": "AC",
+    "categoria": "Contacto",
+    "tipo": "Subpágina",
+    "descripcion": "Canales de comunicación, horario, ubicación y redes sociales del CREBE Ucayali.",
+    "etiquetas": ["contacto", "correo", "horario", "ubicacion"],
+    "url": "https://crebe-ucayali.github.io/accesos-complementarios/paginas/contacto.html",
+    "fechaActualizacion": "2026-07-23"
+  }
+]

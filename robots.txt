@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://crebeucayali.github.io/accesos-complementarios/sitemap.xml
+Sitemap: https://crebe-ucayali.github.io/accesos-complementarios/sitemap.xml

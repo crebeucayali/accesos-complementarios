@@ -1,0 +1,4 @@
+/* Correcciones de recursos compartidos tras el cambio de usuario. */
+.patron-portada{
+  background-image:url("https://crebe-ucayali.github.io/banco-digital-accesible/patron-shipibo.webp?v=2") !important;
+}

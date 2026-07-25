@@ -5,13 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Formulario de registro de visitas y observaciones para la Plataforma Educativa Digital CREBE Ucayali.">
   <title>Firma tu visita | Accesos Complementarios</title>
-<link rel="icon" type="image/png" href="https://crebeucayali.github.io/banco-digital-accesible/logo-crebe.png">
-  <link rel="stylesheet" href="estilos.css?v=20260627-02">
-  <link rel="stylesheet" href="https://crebeucayali.github.io/accesos-complementarios/accesibilidad/accesibilidad.css?v=5">
+  <link rel="stylesheet" href="estilos.css?v=20260715-01">
+  <link rel="stylesheet" href="https://crebe-ucayali.github.io/accesos-complementarios/accesibilidad/accesibilidad.css?v=5">
   <style>
     body .cabecera{position:relative!important;overflow:hidden!important;padding:30px 18px 145px!important;color:#ffffff!important;background:radial-gradient(circle at 84% 70%,rgba(255,255,255,.11) 0 22%,transparent 23%),radial-gradient(circle at 86% 74%,rgba(255,255,255,.08) 0 36%,transparent 37%),linear-gradient(135deg,#0b3550 0%,#0f4f57 48%,#0f766e 100%)!important;}
     body .cabecera::after{display:none!important;content:none!important;}
-    body .patron-portada{position:absolute!important;inset:0!important;z-index:0!important;overflow:hidden!important;pointer-events:none!important;background-image:url("https://crebeucayali.github.io/banco-digital-accesible/patron-shipibo.webp?v=2")!important;background-repeat:repeat!important;background-size:cover!important;background-position:center!important;opacity:.30!important;filter:saturate(1.15) contrast(1.08)!important;}
+    body .patron-portada{position:absolute!important;inset:0!important;z-index:0!important;overflow:hidden!important;pointer-events:none!important;background-image:url("https://crebe-ucayali.github.io/banco-digital-accesible/patron-shipibo.webp?v=2")!important;background-repeat:repeat!important;background-size:cover!important;background-position:center!important;opacity:.30!important;filter:saturate(1.15) contrast(1.08)!important;}
     body .cabecera .navegacion,body .cabecera .presentacion{position:relative!important;z-index:1!important;}
     body .navegacion{max-width:1120px!important;margin:0 auto!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:20px!important;flex-wrap:wrap!important;}
     body .marca-institucional{display:inline-flex!important;align-items:center!important;gap:14px!important;max-width:min(560px,100%)!important;color:#ffffff!important;text-decoration:none!important;font-weight:900!important;font-size:1.05rem!important;}
@@ -41,101 +40,30 @@
     <div class="patron-portada" aria-hidden="true"></div>
     <nav class="navegacion" aria-label="Navegación principal">
       <a class="marca marca-institucional" href="../index.html" aria-label="Volver a Accesos Complementarios">
-        <img class="marca-logo-superior" src="https://crebeucayali.github.io/banco-digital-accesible/logo-crebe.png" alt="Logo del CREBE Señor de los Milagros - Ucayali">
-        <span class="marca-texto-superior">
-          <span class="marca-modulo">Accesos Complementarios</span>
-          <span class="marca-nombre-institucional">CREBE "Señor de los Milagros" - Ucayali</span>
-          <span class="marca-detalle-institucional">Centro de Recursos de Educación Básica Especial</span>
-        </span>
+        <img class="marca-logo-superior" src="https://crebe-ucayali.github.io/banco-digital-accesible/logo-crebe.png" alt="Logo del CREBE Señor de los Milagros - Ucayali">
+        <span class="marca-texto-superior"><span class="marca-modulo">Accesos Complementarios</span><span class="marca-nombre-institucional">CREBE "Señor de los Milagros" - Ucayali</span><span class="marca-detalle-institucional">Centro de Recursos de Educación Básica Especial</span></span>
       </a>
-      <div class="enlaces-superiores">
-        <a class="enlace-inicio" href="../index.html">Volver a AC</a>
-        <a class="enlace-inicio" href="https://crebeucayali.github.io/">Inicio principal</a>
-        <a class="enlace-inicio" href="../institucional/contacto.html">Contacto</a>
-      </div>
+      <div class="enlaces-superiores"><a class="enlace-inicio" href="../index.html">Volver a AC</a><a class="enlace-inicio" href="https://crebe-ucayali.github.io/">Inicio principal</a><a class="enlace-inicio" href="../paginas/contacto.html">Contacto</a></div>
     </nav>
-
-    <div class="presentacion">
-      <p class="etiqueta-superior">ECOSISTEMA VIRTUAL ACCESIBLE</p>
-      <h1>Accesos Complementarios</h1>
-      <p class="subtitulo">Espacio de entrada a páginas generales de orientación, contacto, directorio, registro de visita y recursos de apoyo que complementan los módulos principales del CREBE Ucayali.</p>
-    </div>
+    <div class="presentacion"><p class="etiqueta-superior">ECOSISTEMA VIRTUAL ACCESIBLE</p><h1>Accesos Complementarios</h1><p class="subtitulo">Espacio de entrada a páginas generales de orientación, contacto, directorio, registro de visita y recursos de apoyo que complementan los módulos principales del CREBE Ucayali.</p></div>
   </header>
-
   <main id="contenido">
     <section class="panel-busqueda panel-registro" aria-labelledby="titulo-registro">
-      <div class="panel-encabezado">
-        <div>
-          <p class="seccion-etiqueta">Formulario breve</p>
-          <h2 id="titulo-registro">Firma tu visita</h2>
-        </div>
-        <p class="tiempo-registro">Toma menos de un minuto</p>
-      </div>
+      <div class="panel-encabezado"><div><p class="seccion-etiqueta">Formulario breve</p><h2 id="titulo-registro">Firma tu visita</h2></div><p class="tiempo-registro">Toma menos de un minuto</p></div>
       <form id="formulario-registro" class="formulario-registro">
-        <div class="campo-registro campo-completo">
-          <label for="nombres">Nombres y apellidos</label>
-          <input id="nombres" name="nombres" type="text" placeholder="Escribe tus nombres y apellidos" required>
-        </div>
-        <div class="campo-registro">
-          <label for="institucion">Institución o entidad <span class="texto-opcional">(opcional)</span></label>
-          <input id="institucion" name="institucion" type="text" placeholder="Ejemplo: IE, CEBE, CREBE u otra entidad">
-        </div>
-        <div class="campo-registro">
-          <label for="rol">Cargo o rol</label>
-          <select id="rol" name="rol" required>
-            <option value="">Seleccionar</option>
-            <option>Docente</option>
-            <option>Familia</option>
-            <option>Directivo</option>
-            <option>Estudiante</option>
-            <option>Especialista</option>
-            <option>Personal CREBE</option>
-            <option>Otro</option>
-          </select>
-        </div>
-        <div class="campo-registro campo-completo modulo-visitado">
-          <span class="titulo-campo">Módulo(s) o recurso(s) visitado(s)</span>
-          <p class="ayuda-campo">Seleccione hasta 3 opciones.</p>
-          <div class="opciones-modulo" role="group" aria-label="Módulos o recursos visitados">
-            <label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Plataforma general"><span>Plataforma general</span></label>
-            <label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Capacitaciones CREBE"><span>Capacitaciones CREBE</span></label>
-            <label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Banco Digital Accesible"><span>Banco Digital Accesible</span></label>
-            <label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Materiales Educativos Accesibles"><span>Materiales Educativos Accesibles</span></label>
-            <label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Juegos Interactivos Accesibles"><span>Juegos Interactivos Accesibles</span></label>
-            <label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Noti Inclusivos"><span>Noti Inclusivos</span></label>
-            <label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Otro recurso o acceso de AC"><span>Otro recurso o acceso de AC</span></label>
-          </div>
-          <input type="hidden" id="modulosSeleccionados" name="modulo">
-          <p id="mensajeModulo" class="mensaje-error" aria-live="polite"></p>
-        </div>
-        <div class="campo-registro campo-completo">
-          <label for="correo">Correo electrónico <span class="texto-opcional">(opcional)</span></label>
-          <input id="correo" name="correo" type="email" placeholder="correo@ejemplo.com">
-        </div>
-        <div class="campo-registro campo-completo">
-          <label for="comentario">Comentario u observación <span class="texto-opcional">(opcional)</span></label>
-          <textarea id="comentario" name="comentario" rows="4" placeholder="Escribe una sugerencia, necesidad, observación o recurso que te gustaría encontrar."></textarea>
-        </div>
-        <div class="acciones-registro campo-completo">
-          <button class="boton-principal" type="submit">Enviar registro</button>
-          <p id="mensaje-registro" class="mensaje-registro" aria-live="polite"></p>
-        </div>
+        <div class="campo-registro campo-completo"><label for="nombres">Nombres y apellidos</label><input id="nombres" name="nombres" type="text" placeholder="Escribe tus nombres y apellidos" required></div>
+        <div class="campo-registro"><label for="institucion">Institución o entidad <span class="texto-opcional">(opcional)</span></label><input id="institucion" name="institucion" type="text" placeholder="Ejemplo: IE, CEBE, CREBE u otra entidad"></div>
+        <div class="campo-registro"><label for="rol">Cargo o rol</label><select id="rol" name="rol" required><option value="">Seleccionar</option><option>Docente</option><option>Familia</option><option>Directivo</option><option>Estudiante</option><option>Especialista</option><option>Personal CREBE</option><option>Otro</option></select></div>
+        <div class="campo-registro campo-completo modulo-visitado"><span class="titulo-campo">Módulo(s) o recurso(s) visitado(s)</span><p class="ayuda-campo">Seleccione hasta 3 opciones.</p><div class="opciones-modulo" role="group" aria-label="Módulos o recursos visitados"><label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Plataforma general"><span>Plataforma general</span></label><label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Capacitaciones CREBE"><span>Capacitaciones CREBE</span></label><label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Banco Digital Accesible"><span>Banco Digital Accesible</span></label><label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Materiales Educativos Accesibles"><span>Materiales Educativos Accesibles</span></label><label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Juegos Interactivos Accesibles"><span>Juegos Interactivos Accesibles</span></label><label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Noti Inclusivos"><span>Noti Inclusivos</span></label><label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Otro recurso o acceso de AC"><span>Otro recurso o acceso de AC</span></label></div><input type="hidden" id="modulosSeleccionados" name="modulo"><p id="mensajeModulo" class="mensaje-error" aria-live="polite"></p></div>
+        <div class="campo-registro campo-completo"><label for="correo">Correo electrónico <span class="texto-opcional">(opcional)</span></label><input id="correo" name="correo" type="email" placeholder="correo@ejemplo.com"></div>
+        <div class="campo-registro campo-completo"><label for="comentario">Comentario u observación <span class="texto-opcional">(opcional)</span></label><textarea id="comentario" name="comentario" rows="4" placeholder="Escribe una sugerencia, necesidad, observación o recurso que te gustaría encontrar."></textarea></div>
+        <div class="acciones-registro campo-completo"><button class="boton-principal" type="submit">Enviar registro</button><p id="mensaje-registro" class="mensaje-registro" aria-live="polite"></p></div>
       </form>
     </section>
-
-    <section class="bloque-informativo-registro" aria-labelledby="titulo-uso">
-      <p class="seccion-etiqueta">Finalidad</p>
-      <h2 id="titulo-uso">¿Para qué sirve este registro?</h2>
-      <p>Este espacio permite conocer qué módulo de la plataforma se está consultando y recoger sugerencias para mejorar los recursos digitales. La información puede utilizarse como evidencia institucional de uso, mejora continua y atención a necesidades de la comunidad educativa.</p>
-    </section>
+    <section class="bloque-informativo-registro" aria-labelledby="titulo-uso"><p class="seccion-etiqueta">Finalidad</p><h2 id="titulo-uso">¿Para qué sirve este registro?</h2><p>Este espacio permite conocer qué módulo de la plataforma se está consultando y recoger sugerencias para mejorar los recursos digitales. La información puede utilizarse como evidencia institucional de uso, mejora continua y atención a necesidades de la comunidad educativa.</p></section>
   </main>
-
-  <footer>
-    <div class="footer-final">
-      <p>© 2026 Gabriel Berrospi. Desarrollo original. Uso institucional autorizado al CREBE "Señor de los Milagros" - Ucayali.</p>
-    </div>
-  </footer>
-  <script src="app.js?v=20260627-02"></script>
-  <script src="https://crebeucayali.github.io/accesos-complementarios/accesibilidad/accesibilidad.js?v=5" defer></script>
+  <footer><div class="footer-final"><p>© 2026 Gabriel Berrospi. Desarrollo original. Uso institucional autorizado al CREBE "Señor de los Milagros" - Ucayali.</p></div></footer>
+  <script src="app.js?v=20260715-01"></script>
+  <script src="https://crebe-ucayali.github.io/accesos-complementarios/accesibilidad/accesibilidad.js?v=5" defer></script>
 </body>
 </html>
