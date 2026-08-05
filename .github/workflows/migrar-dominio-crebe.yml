@@ -1,0 +1,61 @@
+name: Migrar dominio CREBE
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/migrar-dominio-crebe.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  migrar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obtener repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Reemplazar dominio anterior
+        shell: python
+        run: |
+          from pathlib import Path
+
+          raiz = Path('.')
+          anterior = 'crebe-ucayali'
+          nuevo = 'crebeucayali'
+          workflow = Path('.github/workflows/migrar-dominio-crebe.yml')
+          modificados = []
+
+          for archivo in raiz.rglob('*'):
+              if not archivo.is_file() or '.git' in archivo.parts or archivo == workflow:
+                  continue
+              try:
+                  contenido = archivo.read_text(encoding='utf-8')
+              except (UnicodeDecodeError, OSError):
+                  continue
+              if anterior in contenido:
+                  archivo.write_text(contenido.replace(anterior, nuevo), encoding='utf-8')
+                  modificados.append(str(archivo))
+
+          if workflow.exists():
+              workflow.unlink()
+              modificados.append(str(workflow))
+
+          print('Archivos modificados:')
+          for ruta in modificados:
+              print(ruta)
+
+      - name: Confirmar y publicar cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No se encontraron referencias pendientes."
+          else
+            git commit -m "Corregir dominio de GitHub Pages"
+            git push
+          fi
