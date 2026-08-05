@@ -3,7 +3,7 @@
   'use strict';
 
   const VERSION='10';
-  const BASE='https://crebe-ucayali.github.io/accesos-complementarios/accesibilidad/';
+  const BASE='https://crebeucayali.github.io/accesos-complementarios/accesibilidad/';
 
   function corregirTabulacionesNoInteractivas(){
     document.querySelectorAll('.item-recurso[tabindex="0"]').forEach(elemento=>{

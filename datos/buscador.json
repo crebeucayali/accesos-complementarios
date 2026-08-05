@@ -7,7 +7,7 @@
     "tipo": "Servicio complementario",
     "descripcion": "Registro de participación de visitantes, docentes, familias y comunidad educativa.",
     "etiquetas": ["firma", "visita", "registro", "participacion"],
-    "url": "https://crebe-ucayali.github.io/accesos-complementarios/firma-tu-visita/",
+    "url": "https://crebeucayali.github.io/accesos-complementarios/firma-tu-visita/",
     "fechaActualizacion": "2026-07-23"
   },
   {
@@ -18,7 +18,7 @@
     "tipo": "Calendario",
     "descripcion": "Consulta de fechas institucionales, capacitaciones y actividades programadas.",
     "etiquetas": ["calendario", "cronograma", "fechas", "actividades"],
-    "url": "https://crebe-ucayali.github.io/accesos-complementarios/recursos/calendario.html",
+    "url": "https://crebeucayali.github.io/accesos-complementarios/recursos/calendario.html",
     "fechaActualizacion": "2026-07-23"
   },
   {
@@ -29,7 +29,7 @@
     "tipo": "Galería",
     "descripcion": "Fotografías y evidencias visuales de actividades desarrolladas por el CREBE Ucayali.",
     "etiquetas": ["galeria", "fotos", "evidencias", "actividades"],
-    "url": "https://crebe-ucayali.github.io/accesos-complementarios/recursos/galeria.html",
+    "url": "https://crebeucayali.github.io/accesos-complementarios/recursos/galeria.html",
     "fechaActualizacion": "2026-07-23"
   },
   {
@@ -40,7 +40,7 @@
     "tipo": "Subpágina",
     "descripcion": "Información general e identidad institucional del CREBE Ucayali.",
     "etiquetas": ["nosotros", "identidad", "crebe"],
-    "url": "https://crebe-ucayali.github.io/accesos-complementarios/paginas/nosotros.html",
+    "url": "https://crebeucayali.github.io/accesos-complementarios/paginas/nosotros.html",
     "fechaActualizacion": "2026-07-23"
   },
   {
@@ -51,7 +51,7 @@
     "tipo": "Subpágina",
     "descripcion": "Acciones de apoyo, orientación y fortalecimiento de la inclusión educativa.",
     "etiquetas": ["acciones", "apoyo", "orientacion", "inclusion"],
-    "url": "https://crebe-ucayali.github.io/accesos-complementarios/paginas/que-hacemos.html",
+    "url": "https://crebeucayali.github.io/accesos-complementarios/paginas/que-hacemos.html",
     "fechaActualizacion": "2026-07-23"
   },
   {
@@ -62,7 +62,7 @@
     "tipo": "Subpágina",
     "descripcion": "Información, capacitación, sensibilización y producción de materiales accesibles.",
     "etiquetas": ["lineas de accion", "capacitacion", "sensibilizacion", "produccion"],
-    "url": "https://crebe-ucayali.github.io/accesos-complementarios/paginas/lineas-de-accion.html",
+    "url": "https://crebeucayali.github.io/accesos-complementarios/paginas/lineas-de-accion.html",
     "fechaActualizacion": "2026-07-23"
   },
   {
@@ -73,7 +73,7 @@
     "tipo": "Directorio",
     "descripcion": "Instituciones, servicios y contactos vinculados a educación, inclusión y discapacidad.",
     "etiquetas": ["directorio", "instituciones", "servicios", "contactos"],
-    "url": "https://crebe-ucayali.github.io/accesos-complementarios/directorios/directorio-institucional.html",
+    "url": "https://crebeucayali.github.io/accesos-complementarios/directorios/directorio-institucional.html",
     "fechaActualizacion": "2026-07-23"
   },
   {
@@ -84,7 +84,7 @@
     "tipo": "Subpágina",
     "descripcion": "Canales de comunicación, horario, ubicación y redes sociales del CREBE Ucayali.",
     "etiquetas": ["contacto", "correo", "horario", "ubicacion"],
-    "url": "https://crebe-ucayali.github.io/accesos-complementarios/paginas/contacto.html",
+    "url": "https://crebeucayali.github.io/accesos-complementarios/paginas/contacto.html",
     "fechaActualizacion": "2026-07-23"
   }
 ]

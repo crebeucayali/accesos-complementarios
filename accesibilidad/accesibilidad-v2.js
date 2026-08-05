@@ -3,7 +3,7 @@
   'use strict';
 
   const STORAGE_KEY='eva_accesibilidad_preferencias';
-  const FAVICON_BASE='https://crebe-ucayali.github.io/accesos-complementarios/assets/favicon/';
+  const FAVICON_BASE='https://crebeucayali.github.io/accesos-complementarios/assets/favicon/';
   const clases=['eva-alto-contraste','eva-texto-grande','eva-texto-muy-grande','eva-fuente-legible','eva-espaciado-amplio','eva-enlaces-resaltados','eva-escala-grises','eva-reducir-movimiento'];
   const opciones=[
     {texto:'Alto contraste',clase:'eva-alto-contraste'},
@@ -62,13 +62,13 @@
   }
 
   function corregirRutas(){
-    const inicio='https://crebe-ucayali.github.io/';
-    const contacto='https://crebe-ucayali.github.io/accesos-complementarios/paginas/contacto.html';
-    const inicioAC='https://crebe-ucayali.github.io/accesos-complementarios/';
+    const inicio='https://crebeucayali.github.io/';
+    const contacto='https://crebeucayali.github.io/accesos-complementarios/paginas/contacto.html';
+    const inicioAC='https://crebeucayali.github.io/accesos-complementarios/';
     document.querySelectorAll('a[href]').forEach(enlace=>{
       const href=(enlace.getAttribute('href')||'').trim();
       if(!href) return;
-      if(href.includes('crebe-ucayali.netlify.app')) enlace.href=inicio;
+      if(href.includes('crebeucayali.netlify.app')) enlace.href=inicio;
       else if(href==='contacto.html'||href.endsWith('/recursos/contacto.html')||href.endsWith('/directorios/contacto.html')||href.endsWith('/firma-tu-visita/contacto.html')) enlace.href=contacto;
       else if(href==='index.html'&&/\/(recursos|directorios|firma-tu-visita)\//.test(location.pathname)) enlace.href=inicioAC;
     });
