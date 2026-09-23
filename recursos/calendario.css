@@ -241,3 +241,38 @@
 .grid-meses>.mes:nth-child(2) tbody tr:nth-child(3) td:nth-child(5):active::after,
 .grid-meses>.mes:nth-child(2) tbody tr:nth-child(5) td:nth-child(4):hover::after,
 .grid-meses>.mes:nth-child(2) tbody tr:nth-child(5) td:nth-child(4):active::after{opacity:1;transform:scale(1)}
+
+/* Fotografías incorporadas: abril 1, 23, 28; mayo 12, 27; julio 21. */
+.grid-meses>.mes:nth-child(1) tbody tr:nth-child(1) td:nth-child(3),
+.grid-meses>.mes:nth-child(1) tbody tr:nth-child(4) td:nth-child(4),
+.grid-meses>.mes:nth-child(1) tbody tr:nth-child(5) td:nth-child(2),
+.grid-meses>.mes:nth-child(2) tbody tr:nth-child(3) td:nth-child(2),
+.grid-meses>.mes:nth-child(2) tbody tr:nth-child(5) td:nth-child(3),
+.grid-meses>.mes:nth-child(4) tbody tr:nth-child(4) td:nth-child(2){cursor:zoom-in}
+
+.grid-meses>.mes:nth-child(1) tbody tr:nth-child(1) td:nth-child(3)::after,
+.grid-meses>.mes:nth-child(1) tbody tr:nth-child(4) td:nth-child(4)::after,
+.grid-meses>.mes:nth-child(1) tbody tr:nth-child(5) td:nth-child(2)::after,
+.grid-meses>.mes:nth-child(2) tbody tr:nth-child(3) td:nth-child(2)::after,
+.grid-meses>.mes:nth-child(2) tbody tr:nth-child(5) td:nth-child(3)::after,
+.grid-meses>.mes:nth-child(4) tbody tr:nth-child(4) td:nth-child(2)::after{position:absolute;inset:4px;z-index:5;border-radius:12px;background-position:center;background-repeat:no-repeat;background-size:cover;box-shadow:0 10px 24px rgba(16,42,67,.24);content:"";opacity:0;pointer-events:none;transform:scale(.96);transition:opacity .18s ease,transform .18s ease}
+
+.grid-meses>.mes:nth-child(1) tbody tr:nth-child(1) td:nth-child(3)::after{background-image:url("imagenes-calendario/1-04.webp")}
+.grid-meses>.mes:nth-child(1) tbody tr:nth-child(4) td:nth-child(4)::after{background-image:url("imagenes-calendario/23-04.webp")}
+.grid-meses>.mes:nth-child(1) tbody tr:nth-child(5) td:nth-child(2)::after{background-image:url("imagenes-calendario/28-04.webp")}
+.grid-meses>.mes:nth-child(2) tbody tr:nth-child(3) td:nth-child(2)::after{background-image:url("imagenes-calendario/12-05.webp")}
+.grid-meses>.mes:nth-child(2) tbody tr:nth-child(5) td:nth-child(3)::after{background-image:url("imagenes-calendario/27-05.webp")}
+.grid-meses>.mes:nth-child(4) tbody tr:nth-child(4) td:nth-child(2)::after{background-image:url("imagenes-calendario/21-07.webp")}
+
+.grid-meses>.mes:nth-child(1) tbody tr:nth-child(1) td:nth-child(3):hover::after,
+.grid-meses>.mes:nth-child(1) tbody tr:nth-child(1) td:nth-child(3):active::after,
+.grid-meses>.mes:nth-child(1) tbody tr:nth-child(4) td:nth-child(4):hover::after,
+.grid-meses>.mes:nth-child(1) tbody tr:nth-child(4) td:nth-child(4):active::after,
+.grid-meses>.mes:nth-child(1) tbody tr:nth-child(5) td:nth-child(2):hover::after,
+.grid-meses>.mes:nth-child(1) tbody tr:nth-child(5) td:nth-child(2):active::after,
+.grid-meses>.mes:nth-child(2) tbody tr:nth-child(3) td:nth-child(2):hover::after,
+.grid-meses>.mes:nth-child(2) tbody tr:nth-child(3) td:nth-child(2):active::after,
+.grid-meses>.mes:nth-child(2) tbody tr:nth-child(5) td:nth-child(3):hover::after,
+.grid-meses>.mes:nth-child(2) tbody tr:nth-child(5) td:nth-child(3):active::after,
+.grid-meses>.mes:nth-child(4) tbody tr:nth-child(4) td:nth-child(2):hover::after,
+.grid-meses>.mes:nth-child(4) tbody tr:nth-child(4) td:nth-child(2):active::after{opacity:1;transform:scale(1)}
