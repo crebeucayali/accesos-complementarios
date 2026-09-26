@@ -7,3 +7,39 @@ main{width:min(960px,calc(100% - 40px));margin:0 auto}.panel-busqueda,.bloque-in
 .modulo-visitado{padding:16px;background:#fff;border:1px solid var(--borde);border-radius:16px}.titulo-campo{display:block;margin-bottom:4px;color:var(--azul-900);font-size:.94rem;font-weight:850}.ayuda-campo{margin:0 0 12px;color:var(--texto-suave);font-size:.9rem}.opciones-modulo{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.opcion-modulo{display:flex!important;align-items:center;gap:10px;margin:0!important;padding:10px 12px;color:var(--tinta)!important;background:var(--arena-50);border:1px solid var(--borde);border-radius:12px;cursor:pointer;transition:border-color .2s ease,background-color .2s ease,box-shadow .2s ease}.opcion-modulo:hover{background:#f1f8f6;border-color:var(--verde-600);box-shadow:0 6px 16px rgba(23,50,77,.08)}.opcion-modulo input[type="checkbox"]{width:17px;height:17px;accent-color:var(--verde-700);flex:0 0 auto}.opcion-modulo span{color:var(--tinta);font-size:.94rem;font-weight:700;line-height:1.3}.mensaje-error{min-height:20px;margin:8px 0 0;color:#b00020;font-size:.9rem;font-weight:800}
 .bloque-informativo-registro{margin-top:34px;padding:clamp(24px,5vw,42px)}.bloque-informativo-registro h2{margin:0 0 14px;font-size:clamp(1.6rem,3vw,2.2rem)}.bloque-informativo-registro p:last-child{margin-bottom:0;color:var(--texto-suave)}footer{margin-top:56px;padding:44px clamp(20px,5vw,72px) 28px;color:#dbe9ee;background:var(--azul-900)}.footer-final{max-width:1120px;margin:0 auto;padding-top:18px;border-top:1px solid rgba(255,255,255,.18)}.footer-final p{margin:0;color:#dbe9ee;font-size:.92rem}
 @media(max-width:720px){.cabecera{padding:26px 18px 116px}.navegacion{align-items:flex-start;flex-direction:column}.enlaces-superiores{justify-content:flex-start}.presentacion{margin-top:54px}main{width:min(100% - 28px,960px)}.panel-encabezado,.acciones-registro{align-items:stretch;flex-direction:column}.formulario-registro{grid-template-columns:1fr}.boton-principal{width:100%}.modulo-visitado{padding:14px}.opciones-modulo{grid-template-columns:1fr}}
+
+/* Estilos institucionales migrados desde HTML para CSP. */
+body .cabecera{position:relative!important;overflow:hidden!important;padding:30px 18px 145px!important;color:#ffffff!important;background:radial-gradient(circle at 84% 70%,rgba(255,255,255,.11) 0 22%,transparent 23%),radial-gradient(circle at 86% 74%,rgba(255,255,255,.08) 0 36%,transparent 37%),linear-gradient(135deg,#0b3550 0%,#0f4f57 48%,#0f766e 100%)!important;}
+body .cabecera::after{display:none!important;content:none!important;}
+body .patron-portada{position:absolute!important;inset:0!important;z-index:0!important;overflow:hidden!important;pointer-events:none!important;background-image:url("https://crebeucayali.github.io/banco-digital-accesible/patron-shipibo.webp?v=2")!important;background-repeat:repeat!important;background-size:cover!important;background-position:center!important;opacity:.30!important;filter:saturate(1.15) contrast(1.08)!important;}
+body .cabecera .navegacion,body .cabecera .presentacion{position:relative!important;z-index:1!important;}
+body .navegacion{max-width:1120px!important;margin:0 auto!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:20px!important;flex-wrap:wrap!important;}
+body .marca-institucional{display:inline-flex!important;align-items:center!important;gap:14px!important;max-width:min(560px,100%)!important;color:#ffffff!important;text-decoration:none!important;font-weight:900!important;font-size:1.05rem!important;}
+body .marca-logo-superior{display:block!important;width:58px!important;height:58px!important;object-fit:contain!important;flex-shrink:0!important;padding:4px!important;background:rgba(255,255,255,.96)!important;border-radius:18px!important;box-shadow:0 10px 24px rgba(0,0,0,.14)!important;}
+body .marca-texto-superior{display:block!important;padding-left:14px!important;border-left:2px solid rgba(255,255,255,.35)!important;text-shadow:0 2px 4px rgba(0,0,0,.28)!important;}
+body .marca-modulo{display:block!important;margin:0 0 3px!important;color:#c9f7ee!important;font-size:.76rem!important;font-weight:900!important;line-height:1.15!important;letter-spacing:.16em!important;text-transform:uppercase!important;}
+body .marca-nombre-institucional{display:block!important;color:#ffffff!important;font-size:1.02rem!important;font-weight:900!important;line-height:1.2!important;}
+body .marca-detalle-institucional{display:block!important;margin-top:4px!important;color:rgba(255,255,255,.94)!important;font-size:.88rem!important;font-weight:750!important;line-height:1.25!important;}
+body .enlaces-superiores{display:flex!important;align-items:center!important;justify-content:flex-end!important;flex-wrap:wrap!important;gap:12px!important;}
+body .enlace-inicio{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:46px!important;padding:10px 22px!important;border:1px solid rgba(255,255,255,.45)!important;border-radius:999px!important;color:#ffffff!important;text-decoration:none!important;font-size:1rem!important;font-weight:800!important;background:rgba(255,255,255,.08)!important;text-shadow:0 2px 4px rgba(0,0,0,.24)!important;}
+body .enlace-inicio:hover{color:#ffffff!important;background:rgba(255,255,255,.16)!important;}
+body .presentacion{position:relative!important;z-index:1!important;max-width:1120px!important;margin:70px auto 0!important;}
+body .etiqueta-superior{margin:0 0 14px!important;color:#c9f7ee!important;font-size:.86rem!important;font-weight:900!important;letter-spacing:.18em!important;text-transform:uppercase!important;text-shadow:0 2px 4px rgba(0,0,0,.28)!important;}
+body .presentacion h1{max-width:900px!important;margin:0 0 22px!important;color:#ffffff!important;font-family:Georgia,"Times New Roman",serif!important;font-size:clamp(2.5rem,5.8vw,4.15rem)!important;line-height:1.04!important;letter-spacing:-.04em!important;text-shadow:0 3px 5px rgba(0,0,0,.22)!important;}
+body .subtitulo{max-width:880px!important;margin:0!important;color:rgba(255,255,255,.96)!important;font-size:1.22rem!important;line-height:1.65!important;text-shadow:0 2px 4px rgba(0,0,0,.28)!important;}
+html.eva-alto-contraste body.pagina-registro .opcion-modulo{background:#000000!important;border:1px solid #ffffff!important;color:#ffffff!important;box-shadow:none!important;}
+html.eva-alto-contraste body.pagina-registro .opcion-modulo span{color:#ffffff!important;text-shadow:none!important;opacity:1!important;}
+html.eva-alto-contraste body.pagina-registro .opcion-modulo:has(input:checked),html.eva-alto-contraste body.pagina-registro .opcion-modulo:focus-within{background:#07324a!important;border-color:#ffff00!important;}
+html.eva-alto-contraste body.pagina-registro .opcion-modulo:has(input:checked) span,html.eva-alto-contraste body.pagina-registro .opcion-modulo:focus-within span{color:#ffff00!important;}
+html.eva-alto-contraste body.pagina-registro .opciones-modulo{background:#000000!important;}
+@media(max-width:700px){body .cabecera{padding:26px 18px 116px!important;}body .navegacion{align-items:flex-start!important;flex-direction:column!important;}body .presentacion{margin-top:54px!important;}body .marca-institucional{align-items:flex-start!important;}body .marca-logo-superior{width:52px!important;height:52px!important;border-radius:16px!important;}body .marca-texto-superior{padding-left:12px!important;}body .marca-nombre-institucional{font-size:.94rem!important;}body .marca-detalle-institucional{font-size:.82rem!important;}body .enlaces-superiores{justify-content:flex-start!important;}}
+
+
+/* Campo trampa antispam: permanece fuera de la vista sin usar estilos inline. */
+.campo-antibot{
+  position:absolute;
+  left:-10000px;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+}
