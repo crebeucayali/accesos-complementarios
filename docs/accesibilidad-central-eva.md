@@ -306,3 +306,30 @@ Acciones realizadas:
 - se mantiene como arquitectura vigente el núcleo central de AC más `accesibilidad-bda.js` y `accesibilidad-bda.css` para el recorrido guiado.
 
 Resultado: BDA ya no conserva una implementación general paralela de accesibilidad.
+
+
+### Etapa 6 — completada en EVA principal
+
+Se ejecutó la depuración controlada de los componentes locales heredados de accesibilidad en la página principal EVA.
+
+Acciones realizadas:
+
+- `index.html` pasó a consumir directamente `accesibilidad.css?v=10` y `accesibilidad.js?v=10` desde AC;
+- se creó `migracion-accesibilidad.js` como archivo temporal y específico para convertir preferencias antiguas a `eva_accesibilidad_preferencias`;
+- se retiró el `@import` de la antigua hoja local de accesibilidad;
+- se eliminaron de `estilos-original.css` las reglas correspondientes a los controles rápidos ya retirados;
+- se actualizaron las versiones de caché de `estilos.css` y `estilos-original.css`;
+- se verificó que `buscar/index.html` y `pruebas/tarjetas-educativas/index.html` ya consumían directamente el sistema central;
+- se eliminaron definitivamente los antiguos `accesibilidad.js` y `accesibilidad.css` de la raíz de EVA principal.
+
+Estado resultante:
+
+```text
+EVA principal
+├── migracion-accesibilidad.js   ← temporal, solo migración de preferencias antiguas
+└── consume AC v10               ← sistema general vigente
+```
+
+`migracion-accesibilidad.js` no constituye un sistema paralelo. Su única responsabilidad es migrar preferencias históricas. Su retirada podrá evaluarse en una etapa posterior cuando se considere cumplido el periodo de compatibilidad.
+
+Resultado: EVA principal ya no mantiene una implementación local general de accesibilidad.
