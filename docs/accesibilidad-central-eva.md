@@ -215,8 +215,26 @@ Ante cualquier duda sobre dónde implementar una mejora transversal de accesibil
 
 Solo se desarrollará una solución local cuando exista una necesidad específica que no deba afectar al resto del ecosistema.
 
-## Estado
+## Estado de la transición
 
-**Etapa 1: arquitectura central documentada.**
+### Etapa 1 — completada
+
+**Arquitectura central documentada.**
 
 AC queda establecido como núcleo canónico de accesibilidad transversal para EVA.
+
+### Etapa 2 — completada en EVA principal
+
+La página principal de EVA fue adaptada para utilizar una sola entrada visible de accesibilidad.
+
+Cambios realizados:
+
+- se retiraron los controles rápidos locales de Texto grande, Alto contraste y Restablecer;
+- se conserva el panel central de accesibilidad administrado desde AC;
+- `crebeucayali.github.io/accesibilidad.js` queda temporalmente como puente de compatibilidad;
+- el puente conserva la migración de preferencias antiguas hacia `eva_accesibilidad_preferencias`;
+- se retiró de `main.js` la lógica antigua que administraba texto grande y contraste;
+- la guía y el texto introductorio dejaron de referirse a los controles retirados;
+- no se eliminaron todavía los archivos locales de compatibilidad ni sus estilos heredados, porque su depuración definitiva corresponde a una etapa posterior.
+
+Resultado esperado: EVA Inicio presenta un único acceso general de **Accesibilidad**, proporcionado por el núcleo central de AC.
