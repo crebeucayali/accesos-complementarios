@@ -364,3 +364,65 @@ Regla de mantenimiento:
 Los repositorios consumidores deben seguir llamando únicamente a `accesibilidad.js?v=10` y `accesibilidad.css?v=10`. El archivo `accesibilidad-core.js` es interno y no debe enlazarse directamente desde otros repositorios.
 
 Resultado: AC queda consolidado como una única fuente central de accesibilidad, con nomenclatura interna clara y versionado uniforme.
+
+
+### Etapa 8 — auditoría final transversal
+
+Se realizó una auditoría final transversal del sistema de accesibilidad en los repositorios principales del ecosistema CREBE:
+
+- EVA principal;
+- Capacitaciones CREBE;
+- Materiales Educativos Accesibles;
+- Noti Inclusivos;
+- Repositorio Accesible;
+- Banco Digital Accesible;
+- Accesos Complementarios.
+
+Criterios verificados:
+
+- uso del núcleo central de AC como fuente común;
+- ausencia de implementaciones generales paralelas;
+- ausencia de referencias directas al motor interno;
+- eliminación de versiones antiguas conocidas;
+- mantenimiento de una sola entrada general de accesibilidad por página;
+- conservación únicamente de extensiones específicas justificadas;
+- despliegue correcto de GitHub Pages.
+
+Resultado de los siete repositorios CREBE: **conforme**.
+
+Estado de despliegue verificado: los siete repositorios finalizaron correctamente su último flujo de GitHub Pages.
+
+#### DUA 3.0
+
+El repositorio `neuronova-apps/DUA-3.0` fue revisado como parte de la auditoría transversal.
+
+Se constató que:
+
+- no presenta un sistema general de accesibilidad duplicado;
+- dispone de apoyos propios básicos, como foco visible, salto al contenido y reducción de movimiento;
+- todavía no consume el núcleo central de accesibilidad de AC.
+
+Se intentó integrar AC `v=10` de forma mínima en `index.html`, `evolucion.html` y `recursos.html`, pero la conexión de GitHub disponible devolvió `403 Resource not accessible by integration` para ese repositorio. Por ello, DUA queda registrado como **integración pendiente por permisos de escritura**, no como fallo funcional.
+
+Hasta contar con acceso de escritura, no se modificará DUA desde esta transición.
+
+## Estado consolidado
+
+La arquitectura central de accesibilidad de los repositorios CREBE queda consolidada y desplegada correctamente.
+
+```text
+AC / accesibilidad/
+├── accesibilidad.js
+├── accesibilidad-core.js
+└── accesibilidad.css
+        ↓
+EVA principal
+CAP
+MEA
+NI
+RA
+BDA + extensión específica
+AC
+```
+
+DUA 3.0 queda pendiente de integración transversal por limitación de permisos del repositorio.
