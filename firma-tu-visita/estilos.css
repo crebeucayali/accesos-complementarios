@@ -43,3 +43,19 @@ html.eva-alto-contraste body.pagina-registro .opciones-modulo{background:#000000
   height:1px;
   overflow:hidden;
 }
+
+/* Jerarquía tipográfica Firma tu visita AC. */
+body .presentacion h1{
+  font-size:clamp(2rem,3.5vw,3rem)!important;
+  line-height:1.10!important;
+}
+.panel-encabezado h2,
+.bloque-informativo-registro h2{
+  font-size:clamp(1.5rem,2.3vw,1.875rem);
+  line-height:1.20;
+}
+@media(max-width:760px){
+  body .presentacion h1{font-size:clamp(2rem,9vw,2.25rem)!important;}
+  .panel-encabezado h2,
+  .bloque-informativo-registro h2{font-size:clamp(1.5rem,6vw,1.6875rem);}
+}
