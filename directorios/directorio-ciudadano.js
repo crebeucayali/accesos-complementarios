@@ -55,13 +55,227 @@ const entidades=[
 {nombre:"Migraciones",sigla:"MIG",categoria:"Gobierno y trámites",ambito:"Nacional",servicio:"Trámites migratorios, pasaporte y atención a personas extranjeras.",direccion:"Jefaturas zonales y agencias",telefono:"Canales oficiales",correo:"Canales oficiales",horario:"Verificar",web:"https://www.gob.pe/migraciones",observacion:"Trámites migratorios y documentos de viaje."},
 {nombre:"Ministerio de Cultura",sigla:"CUL",categoria:"Cultura e interculturalidad",ambito:"Nacional",servicio:"Cultura, patrimonio, pueblos indígenas y enfoque intercultural.",direccion:"Sede central y direcciones desconcentradas",telefono:"Canales oficiales",correo:"Canales oficiales",horario:"Verificar",web:"https://www.gob.pe/cultura",observacion:"Orientación sobre interculturalidad y derechos culturales."}
 ];
-const categorias=["Educación","Discapacidad e inclusión","Salud","Protección y familia","Gobierno y trámites","Justicia y trabajo","Emergencias","Ayuda social","Cultura e interculturalidad"];
-const buscador=document.getElementById("buscador"),categoria=document.getElementById("categoria"),directorio=document.getElementById("directorio"),resumen=document.getElementById("resumen-resultados"),sinResultados=document.getElementById("sin-resultados"),chips=document.getElementById("chips-categorias"),limpiar=document.getElementById("limpiar");
-function norm(texto){return String(texto||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");}
-function campo(label,valor,tipo){if(!valor)return"";if(tipo==="web")return `<li><strong>${label}</strong><span><a href="${valor}" target="_blank" rel="noopener noreferrer">Página oficial</a></span></li>`;return `<li><strong>${label}</strong><span>${valor}</span></li>`;}
-function tarjeta(entidad){return `<article class="tarjeta-entidad"><div class="tarjeta-superior"><span class="sigla">${entidad.sigla}</span><div><h3>${entidad.nombre}</h3><div class="meta"><span class="etiqueta">${entidad.categoria}</span><span class="etiqueta">${entidad.ambito}</span></div></div></div><p class="descripcion">${entidad.servicio}</p><ul class="datos">${campo("Dirección",entidad.direccion)}${campo("Teléfono",entidad.telefono)}${campo("Correo",entidad.correo)}${campo("Horario",entidad.horario)}${campo("Web",entidad.web,"web")}</ul><p class="observacion">${entidad.observacion}</p><div class="acciones"><a class="boton-enlace" href="${entidad.web}" target="_blank" rel="noopener noreferrer">Abrir fuente oficial</a><a class="boton-enlace boton-secundario" href="#inicio">Subir</a></div></article>`;}
-function textoEntidad(entidad){return norm(Object.values(entidad).join(" "));}
-function pintarChips(lista){chips.innerHTML="";categorias.forEach(cat=>{const total=lista.filter(entidad=>entidad.categoria===cat).length;if(total>0){const chip=document.createElement("span");chip.className="chip";chip.innerHTML=`${cat} <span>${total}</span>`;chips.appendChild(chip);}});}
-function cargarCategorias(){categoria.innerHTML='<option value="todas">Todas las categorías</option>';categorias.forEach(cat=>{const opcion=document.createElement("option");opcion.value=cat;opcion.textContent=cat;categoria.appendChild(opcion);});}
-function renderizar(){const consulta=norm(buscador.value),filtro=categoria.value;const lista=entidades.filter(entidad=>(filtro==="todas"||entidad.categoria===filtro)&&(!consulta||textoEntidad(entidad).includes(consulta)));directorio.innerHTML="";sinResultados.style.display=lista.length?"none":"block";resumen.textContent=lista.length===1?"Se encontró 1 entidad.":`Se encontraron ${lista.length} entidades.`;pintarChips(lista);categorias.forEach(cat=>{const items=lista.filter(entidad=>entidad.categoria===cat);if(!items.length)return;const sec=document.createElement("section");sec.className="seccion-grupo";sec.innerHTML=`<h2 class="titulo-grupo">${cat}</h2><div class="grid-entidades">${items.map(tarjeta).join("")}</div>`;directorio.appendChild(sec);});}
-cargarCategorias();buscador.addEventListener("input",renderizar);categoria.addEventListener("change",renderizar);limpiar.addEventListener("click",()=>{buscador.value="";categoria.value="todas";renderizar();buscador.focus();});renderizar();
+const categorias=[
+  "Educación",
+  "Discapacidad e inclusión",
+  "Salud",
+  "Protección y familia",
+  "Gobierno y trámites",
+  "Justicia y trabajo",
+  "Emergencias",
+  "Ayuda social",
+  "Cultura e interculturalidad"
+];
+
+const buscador=document.getElementById("buscador");
+const categoria=document.getElementById("categoria");
+const directorio=document.getElementById("directorio");
+const resumen=document.getElementById("resumen-resultados");
+const sinResultados=document.getElementById("sin-resultados");
+const chips=document.getElementById("chips-categorias");
+const limpiar=document.getElementById("limpiar");
+
+function norm(texto){
+  return String(texto||"")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"");
+}
+
+function urlHttpsSegura(valor){
+  try{
+    const url=new URL(String(valor||"").trim());
+    return url.protocol==="https:" ? url.href : null;
+  }catch(error){
+    return null;
+  }
+}
+
+function crearCampo(label,valor,tipo){
+  if(!valor) return null;
+
+  const item=document.createElement("li");
+  const etiqueta=document.createElement("strong");
+  const contenido=document.createElement("span");
+
+  etiqueta.textContent=label;
+
+  if(tipo==="web"){
+    const url=urlHttpsSegura(valor);
+    if(url){
+      const enlace=document.createElement("a");
+      enlace.href=url;
+      enlace.target="_blank";
+      enlace.rel="noopener noreferrer";
+      enlace.textContent="Página oficial";
+      contenido.appendChild(enlace);
+    }else{
+      contenido.textContent="Enlace no disponible";
+    }
+  }else{
+    contenido.textContent=valor;
+  }
+
+  item.append(etiqueta,contenido);
+  return item;
+}
+
+function crearEtiqueta(texto){
+  const etiqueta=document.createElement("span");
+  etiqueta.className="etiqueta";
+  etiqueta.textContent=texto;
+  return etiqueta;
+}
+
+function crearTarjeta(entidad){
+  const articulo=document.createElement("article");
+  articulo.className="tarjeta-entidad";
+
+  const superior=document.createElement("div");
+  superior.className="tarjeta-superior";
+
+  const sigla=document.createElement("span");
+  sigla.className="sigla";
+  sigla.textContent=entidad.sigla;
+
+  const encabezado=document.createElement("div");
+  const titulo=document.createElement("h3");
+  titulo.textContent=entidad.nombre;
+
+  const meta=document.createElement("div");
+  meta.className="meta";
+  meta.append(
+    crearEtiqueta(entidad.categoria),
+    crearEtiqueta(entidad.ambito)
+  );
+
+  encabezado.append(titulo,meta);
+  superior.append(sigla,encabezado);
+
+  const descripcion=document.createElement("p");
+  descripcion.className="descripcion";
+  descripcion.textContent=entidad.servicio;
+
+  const datos=document.createElement("ul");
+  datos.className="datos";
+  [
+    crearCampo("Dirección",entidad.direccion),
+    crearCampo("Teléfono",entidad.telefono),
+    crearCampo("Correo",entidad.correo),
+    crearCampo("Horario",entidad.horario),
+    crearCampo("Web",entidad.web,"web")
+  ].filter(Boolean).forEach((item)=>datos.appendChild(item));
+
+  const observacion=document.createElement("p");
+  observacion.className="observacion";
+  observacion.textContent=entidad.observacion;
+
+  const acciones=document.createElement("div");
+  acciones.className="acciones";
+
+  const webSegura=urlHttpsSegura(entidad.web);
+  if(webSegura){
+    const fuente=document.createElement("a");
+    fuente.className="boton-enlace";
+    fuente.href=webSegura;
+    fuente.target="_blank";
+    fuente.rel="noopener noreferrer";
+    fuente.textContent="Abrir fuente oficial";
+    acciones.appendChild(fuente);
+  }
+
+  const subir=document.createElement("a");
+  subir.className="boton-enlace boton-secundario";
+  subir.href="#inicio";
+  subir.textContent="Subir";
+  acciones.appendChild(subir);
+
+  articulo.append(superior,descripcion,datos,observacion,acciones);
+  return articulo;
+}
+
+function textoEntidad(entidad){
+  return norm(Object.values(entidad).join(" "));
+}
+
+function pintarChips(lista){
+  chips.replaceChildren();
+
+  categorias.forEach((cat)=>{
+    const total=lista.filter((entidad)=>entidad.categoria===cat).length;
+    if(total<=0) return;
+
+    const chip=document.createElement("span");
+    chip.className="chip";
+
+    const contador=document.createElement("span");
+    contador.textContent=String(total);
+
+    chip.append(document.createTextNode(`${cat} `),contador);
+    chips.appendChild(chip);
+  });
+}
+
+function cargarCategorias(){
+  categoria.replaceChildren();
+
+  const todas=document.createElement("option");
+  todas.value="todas";
+  todas.textContent="Todas las categorías";
+  categoria.appendChild(todas);
+
+  categorias.forEach((cat)=>{
+    const opcion=document.createElement("option");
+    opcion.value=cat;
+    opcion.textContent=cat;
+    categoria.appendChild(opcion);
+  });
+}
+
+function renderizar(){
+  const consulta=norm(buscador.value);
+  const filtro=categoria.value;
+
+  const lista=entidades.filter((entidad)=>
+    (filtro==="todas"||entidad.categoria===filtro) &&
+    (!consulta||textoEntidad(entidad).includes(consulta))
+  );
+
+  directorio.replaceChildren();
+  sinResultados.hidden=lista.length>0;
+  resumen.textContent=lista.length===1
+    ? "Se encontró 1 entidad."
+    : `Se encontraron ${lista.length} entidades.`;
+
+  pintarChips(lista);
+
+  categorias.forEach((cat)=>{
+    const items=lista.filter((entidad)=>entidad.categoria===cat);
+    if(!items.length) return;
+
+    const seccion=document.createElement("section");
+    seccion.className="seccion-grupo";
+
+    const titulo=document.createElement("h2");
+    titulo.className="titulo-grupo";
+    titulo.textContent=cat;
+
+    const grid=document.createElement("div");
+    grid.className="grid-entidades";
+    items.forEach((entidad)=>grid.appendChild(crearTarjeta(entidad)));
+
+    seccion.append(titulo,grid);
+    directorio.appendChild(seccion);
+  });
+}
+
+cargarCategorias();
+buscador.addEventListener("input",renderizar);
+categoria.addEventListener("change",renderizar);
+limpiar.addEventListener("click",()=>{
+  buscador.value="";
+  categoria.value="todas";
+  renderizar();
+  buscador.focus();
+});
+renderizar();
