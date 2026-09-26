@@ -178,7 +178,9 @@ formularioRegistro?.addEventListener("submit",async(evento)=>{
     modulo:protegerParaHoja(modulosTexto,240),
     motivo:"",
     correo:protegerParaHoja(formularioRegistro.correo.value,160),
-    comentario:protegerParaHoja(formularioRegistro.comentario.value,1000,true)
+    comentario:protegerParaHoja(formularioRegistro.comentario.value,1000,true),
+    website:limpiarTexto(formularioRegistro.website?.value||"",120),
+    formStartedAt:inicioFormulario
   };
 
   if(!datos.nombres){
