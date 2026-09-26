@@ -21,3 +21,32 @@ body .etiqueta-superior{margin:0 0 14px!important;color:#c9f7ee!important;font-s
 body .portada h1{max-width:900px!important;margin:0 0 22px!important;color:#ffffff!important;font-family:Georgia,"Times New Roman",serif!important;font-size:clamp(2.5rem,5.8vw,4.15rem)!important;line-height:1.04!important;letter-spacing:-.04em!important;text-shadow:0 3px 5px rgba(0,0,0,.22)!important;}
 body .subtitulo{max-width:880px!important;margin:0!important;color:rgba(255,255,255,.96)!important;font-size:1.22rem!important;line-height:1.65!important;text-shadow:0 2px 4px rgba(0,0,0,.28)!important;}
 @media(max-width:700px){body .cabecera{padding:26px 18px 116px!important;}body .navegacion{align-items:flex-start!important;flex-direction:column!important;}body .portada{margin-top:54px!important;}body .marca-institucional{align-items:flex-start!important;}body .marca-logo-superior{width:52px!important;height:52px!important;border-radius:16px!important;}body .marca-texto-superior{padding-left:12px!important;}body .marca-nombre-institucional{font-size:.94rem!important;}body .marca-detalle-institucional{font-size:.82rem!important;}body .enlaces-cabecera{justify-content:flex-start!important;}}
+
+/* Jerarquía tipográfica páginas compartidas AC. */
+.portada h1{
+  font-size:clamp(2rem,3.5vw,3rem)!important;
+  line-height:1.10!important;
+}
+.encabezado-seccion h2,
+.panel-encabezado h2{
+  font-size:clamp(1.5rem,2.3vw,1.875rem);
+  line-height:1.20;
+}
+.tarjeta-linea h3,
+.tarjeta h3,
+.mes h3,
+.item-directorio h3,
+.galeria-item h3{
+  font-size:clamp(1.1875rem,1.6vw,1.375rem);
+  line-height:1.30;
+}
+@media(max-width:760px){
+  .portada h1{font-size:clamp(2rem,9vw,2.25rem)!important;}
+  .encabezado-seccion h2,
+  .panel-encabezado h2{font-size:clamp(1.5rem,6vw,1.6875rem);}
+  .tarjeta-linea h3,
+  .tarjeta h3,
+  .mes h3,
+  .item-directorio h3,
+  .galeria-item h3{font-size:1.1875rem;}
+}
