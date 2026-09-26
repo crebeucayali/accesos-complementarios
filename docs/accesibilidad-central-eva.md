@@ -238,3 +238,23 @@ Cambios realizados:
 - no se eliminaron todavía los archivos locales de compatibilidad ni sus estilos heredados, porque su depuración definitiva corresponde a una etapa posterior.
 
 Resultado esperado: EVA Inicio presenta un único acceso general de **Accesibilidad**, proporcionado por el núcleo central de AC.
+
+
+### Etapa 3 — completada
+
+Se normalizaron los repositorios consumidores que ya dependen del núcleo central de accesibilidad de AC:
+
+- Capacitaciones CREBE;
+- Materiales Educativos Accesibles;
+- Noti Inclusivos;
+- Repositorio Accesible.
+
+Acciones realizadas:
+
+- todas las páginas detectadas de estos repositorios fueron alineadas con la versión canónica vigente `v=10`;
+- las referencias CSS y JS apuntan al sistema central alojado en `accesos-complementarios/accesibilidad/`;
+- se verificó que estos cuatro repositorios no mantienen una implementación local completa de accesibilidad;
+- no se introdujeron nuevas copias locales;
+- no se modificó BDA en esta etapa, porque conserva una excepción temporal documentada con funciones propias.
+
+Resultado esperado: CAP, MEA, NI y RA consumen una misma versión estable del sistema central de accesibilidad EVA.
