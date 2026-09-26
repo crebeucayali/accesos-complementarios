@@ -429,10 +429,10 @@
   transition:opacity .18s ease,transform .18s ease;
 }
 .grid-meses>.mes:nth-child(2) tbody tr:nth-child(5) td:nth-child(5)::after{
-  background-image:url("../29-05.webp")
+  background-image:url("29-05.webp?v=2")
 }
 .grid-meses>.mes:nth-child(3) tbody tr:nth-child(1) td:nth-child(3)::after{
-  background-image:url("../03-06.webp")
+  background-image:url("03-06.webp?v=2")
 }
 .grid-meses>.mes:nth-child(2) tbody tr:nth-child(5) td:nth-child(5):hover::after,
 .grid-meses>.mes:nth-child(2) tbody tr:nth-child(5) td:nth-child(5):active::after,
