@@ -35,7 +35,7 @@ La organización funcional del repositorio, su estructura y documentación forma
 
 ## Organización vigente
 
-Las carpetas funcionales principales constituyen la ubicación oficial de sus archivos. No deben mantenerse copias redundantes dentro de `contenido/`. La carpeta `contenido/` se encuentra en proceso de depuración y solo debe conservar temporalmente archivos que todavía requieran una migración o ajuste previo, como `contenido/paginas/mapa-web.html` mientras se completa su reorganización final.
+Las carpetas funcionales principales constituyen la ubicación oficial de sus archivos. No deben mantenerse copias redundantes dentro de `contenido/`. El Mapa web vigente se encuentra en `mapa-web.html`; `paginas/mapa-web.html` se conserva únicamente como redirección compatible hacia esa ruta principal.
 
 ## Accesibilidad transversal
 
