@@ -14,7 +14,7 @@ La página raíz `index.html` funciona como portada general de AC. Cada recurso 
 
 - `assets/`: recursos visuales generales, como logo, íconos o imágenes de apoyo.
 - `accesibilidad/`: núcleo canónico de accesibilidad transversal de EVA. Su arquitectura y reglas de integración se documentan en `docs/accesibilidad-central-eva.md`.
-- `datos/`: archivos de datos utilizados por componentes del sitio.
+- `datos/`: archivos de datos utilizados por componentes del sitio. Incluye `datos/noticias-destacadas.json` como ubicación canónica del conjunto de noticias destacadas de AC.
 - `paginas/`: páginas informativas generales de AC.
 - `directorios/`: páginas relacionadas con directorios y entidades.
 - `recursos/`: páginas de apoyo visual o informativo, como calendario y galería.
@@ -44,3 +44,14 @@ La carpeta `accesibilidad/` constituye la ubicación oficial del sistema común 
 Los módulos consumidores deben evitar duplicar el panel general o crear implementaciones paralelas de funciones ya disponibles en AC. Las necesidades particulares de un módulo deberán resolverse como extensiones específicas y documentadas.
 
 Documento operativo de referencia: [Sistema central de accesibilidad EVA](accesibilidad-central-eva.md).
+
+
+## Datos canónicos
+
+Para evitar copias paralelas, los conjuntos de datos reutilizables deben mantenerse dentro de `datos/` cuando corresponda.
+
+En particular:
+
+- `datos/noticias-destacadas.json` es la única copia canónica de las noticias destacadas de AC;
+- no debe recrearse una segunda copia de `noticias-destacadas.json` en la raíz;
+- si una página futura necesita este conjunto, debe enlazar explícitamente la ruta canónica dentro de `datos/`.
