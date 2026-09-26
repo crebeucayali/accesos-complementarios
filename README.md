@@ -52,6 +52,16 @@ La integración de nuevos recursos no debe realizarse de manera acumulativa sin 
 
 Cuando se incorporen recursos externos, deberá mantenerse la referencia correspondiente a la fuente original, respetando las condiciones de autoría, uso, difusión y reproducción. Cuando se trate de recursos propios, deberá conservarse el reconocimiento al Psicólogo Gabriel Berrospi como autor y desarrollador del proyecto.
 
+## Sistema central de accesibilidad EVA
+
+AC contiene el **núcleo canónico de accesibilidad transversal del Ecosistema Virtual Accesible (EVA)**. La implementación común se administra desde `accesibilidad/` y debe ser consumida por los demás módulos del ecosistema en lugar de mantener implementaciones generales paralelas.
+
+La arquitectura, reglas de integración, gestión de versiones, excepciones temporales y criterios de migración se documentan en:
+
+- [Sistema central de accesibilidad EVA](docs/accesibilidad-central-eva.md)
+
+Esta definición corresponde a la **Etapa 1 de centralización**. Durante esta etapa no se eliminan todavía archivos locales que tengan referencias activas; las migraciones se realizarán de forma progresiva y verificable.
+
 ## Funcionalidades principales
 
 El repositorio puede contemplar una página principal del módulo, páginas auxiliares organizadas en carpetas, directorios, sección de firma de visita, recursos complementarios, enlaces internos, botones de navegación, páginas informativas, registro de participación, acceso a galería, calendario y documentos internos que expliquen la finalidad, alcance, criterios de publicación y estructura del proyecto.
