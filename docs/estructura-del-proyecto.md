@@ -13,7 +13,7 @@ La página raíz `index.html` funciona como portada general de AC. Cada recurso 
 ## Carpetas principales
 
 - `assets/`: recursos visuales generales, como logo, íconos o imágenes de apoyo.
-- `accesibilidad/`: recursos globales de accesibilidad.
+- `accesibilidad/`: núcleo canónico de accesibilidad transversal de EVA. Su arquitectura y reglas de integración se documentan en `docs/accesibilidad-central-eva.md`.
 - `datos/`: archivos de datos utilizados por componentes del sitio.
 - `paginas/`: páginas informativas generales de AC.
 - `directorios/`: páginas relacionadas con directorios y entidades.
@@ -36,3 +36,11 @@ La organización funcional del repositorio, su estructura y documentación forma
 ## Organización vigente
 
 Las carpetas funcionales principales constituyen la ubicación oficial de sus archivos. No deben mantenerse copias redundantes dentro de `contenido/`. La carpeta `contenido/` se encuentra en proceso de depuración y solo debe conservar temporalmente archivos que todavía requieran una migración o ajuste previo, como `contenido/paginas/mapa-web.html` mientras se completa su reorganización final.
+
+## Accesibilidad transversal
+
+La carpeta `accesibilidad/` constituye la ubicación oficial del sistema común de accesibilidad para los módulos EVA. Las mejoras generales deben revisarse y mantenerse primero en esta carpeta.
+
+Los módulos consumidores deben evitar duplicar el panel general o crear implementaciones paralelas de funciones ya disponibles en AC. Las necesidades particulares de un módulo deberán resolverse como extensiones específicas y documentadas.
+
+Documento operativo de referencia: [Sistema central de accesibilidad EVA](accesibilidad-central-eva.md).
