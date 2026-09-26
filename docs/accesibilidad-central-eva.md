@@ -14,7 +14,7 @@ Esta definición corresponde a la **Etapa 1 de la transición hacia una arquitec
 accesos-complementarios/
 └── accesibilidad/
     ├── accesibilidad.js
-    ├── accesibilidad-v2.js
+    ├── accesibilidad-core.js
     └── accesibilidad.css
 ```
 
@@ -39,9 +39,9 @@ Responsabilidades:
 - evitar cargas repetidas de la misma versión;
 - servir como punto de entrada estable para los demás repositorios.
 
-Los demás repositorios deben llamar preferentemente a este archivo y no directamente a `accesibilidad-v2.js`.
+Los demás repositorios deben llamar preferentemente a este archivo y no directamente a `accesibilidad-core.js`.
 
-### `accesibilidad-v2.js`
+### `accesibilidad-core.js`
 
 Contiene la lógica funcional central. Actualmente administra, entre otras funciones:
 
@@ -83,7 +83,7 @@ La versión debe corresponder a la versión estable definida en AC.
 No deben añadirse simultáneamente:
 
 - otra implementación completa del mismo panel;
-- una carga directa adicional de `accesibilidad-v2.js`;
+- una carga directa adicional de `accesibilidad-core.js`;
 - un segundo botón general de accesibilidad;
 - controles que repliquen exactamente las mismas funciones sin una razón documentada;
 - copias locales del sistema central solo para modificar comportamiento general.
@@ -269,7 +269,7 @@ Arquitectura resultante:
 ```text
 AC / accesibilidad/
 ├── accesibilidad.js
-├── accesibilidad-v2.js
+├── accesibilidad-core.js
 └── accesibilidad.css
           ↓
 BDA
