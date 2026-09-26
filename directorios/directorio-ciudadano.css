@@ -363,3 +363,16 @@ html.eva-alto-contraste body .control-campo input::placeholder{color:#d1d5db!imp
 .chip[role="button"]{
   cursor:pointer;
 }
+
+/* Jerarquía tipográfica Directorio Ciudadano AC. */
+body .portada h1{
+  font-size:clamp(2rem,3.5vw,3rem)!important;
+  line-height:1.10!important;
+}
+.tarjeta-entidad h3{
+  font-size:1.125rem;
+  line-height:1.30;
+}
+@media(max-width:760px){
+  body .portada h1{font-size:clamp(2rem,9vw,2.25rem)!important;}
+}
