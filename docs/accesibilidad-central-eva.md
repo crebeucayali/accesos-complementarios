@@ -289,3 +289,20 @@ Acciones realizadas:
 - dichos archivos antiguos no se eliminan todavía: su retirada definitiva corresponde a una etapa posterior de depuración, después de observar la migración y verificar que no existan dependencias ocultas.
 
 Resultado esperado: BDA utiliza un solo panel general de accesibilidad, administrado desde AC, y mantiene el recorrido guiado como extensión específica.
+
+
+### Etapa 5 — completada en BDA
+
+Se ejecutó la depuración controlada de los archivos heredados de accesibilidad en Banco Digital Accesible.
+
+Acciones realizadas:
+
+- se retiró la importación de la antigua hoja global `accesibilidad.css` desde `estilos.css`;
+- se retiró la importación heredada desde `braille/cabecera-bda.css`;
+- se actualizaron las versiones de caché de las páginas afectadas;
+- se verificó que ninguna página activa de BDA cargara el antiguo `accesibilidad.js` de la raíz;
+- se verificó que las únicas referencias restantes con nombre `accesibilidad.css` correspondieran a las hojas locales de contenido de `lsp/accesibilidad.html` y `braille/accesibilidad.html`;
+- se eliminaron definitivamente los antiguos `accesibilidad.js` y `accesibilidad.css` de la raíz BDA;
+- se mantiene como arquitectura vigente el núcleo central de AC más `accesibilidad-bda.js` y `accesibilidad-bda.css` para el recorrido guiado.
+
+Resultado: BDA ya no conserva una implementación general paralela de accesibilidad.
