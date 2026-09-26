@@ -102,3 +102,34 @@ footer{margin-top:56px;padding:44px clamp(20px,5vw,72px) 28px;color:#dbe9ee;back
 .footer-final p{margin:0;color:#dbe9ee;font-size:.92rem}
 @media(max-width:980px){.grid-accesos,.grid-informacion,.grid-guia,.grid-mapa,.footer-contenido{grid-template-columns:1fr}.footer-identidad{align-items:center}.mapa-amplio{grid-column:auto}}
 @media(max-width:720px){.cabecera{padding:26px 18px 116px}.navegacion{align-items:flex-start;flex-direction:column}.enlaces-cabecera,.enlaces-superiores{justify-content:flex-start}.portada,.presentacion{margin-top:54px}.bloque-institucional{gap:16px;margin-bottom:28px}.logo-crebe{width:80px;max-width:80px;height:80px;max-height:80px}.texto-institucional{padding-left:16px}.nombre-institucional{font-size:1rem}.detalle-institucional{font-size:.9rem}main{width:min(100% - 28px,1120px)}.footer-identidad{flex-direction:column}.logo-footer{width:60px;max-width:60px}.marca-institucional{align-items:flex-start}.marca-logo-superior{width:52px;height:52px;border-radius:16px}.marca-texto-superior{padding-left:12px}.marca-nombre-institucional{font-size:.94rem}.marca-detalle-institucional{font-size:.82rem}.footer-secundario{flex-direction:column;gap:10px}.patron-portada{background-size:260px auto}}
+
+/* Jerarquía tipográfica Accesos Complementarios. */
+.portada h1,
+.presentacion h1{
+  font-size:clamp(2rem,3.5vw,3rem);
+  line-height:1.10;
+}
+.panel-encabezado h2,
+.encabezado-seccion h2{
+  font-size:clamp(1.5rem,2.3vw,1.875rem);
+  line-height:1.20;
+}
+.tarjeta-acceso h3,
+.bloque-info h3,
+.bloque-legal h3,
+.bloque-mapa h3,
+.tarjeta-guia h3{
+  font-size:clamp(1.1875rem,1.6vw,1.375rem);
+  line-height:1.30;
+}
+@media(max-width:760px){
+  .portada h1,
+  .presentacion h1{font-size:clamp(2rem,9vw,2.25rem);}
+  .panel-encabezado h2,
+  .encabezado-seccion h2{font-size:clamp(1.5rem,6vw,1.6875rem);}
+  .tarjeta-acceso h3,
+  .bloque-info h3,
+  .bloque-legal h3,
+  .bloque-mapa h3,
+  .tarjeta-guia h3{font-size:1.1875rem;}
+}
