@@ -392,19 +392,24 @@ Resultado de los siete repositorios CREBE: **conforme**.
 
 Estado de despliegue verificado: los siete repositorios finalizaron correctamente su último flujo de GitHub Pages.
 
-#### DUA 3.0
+#### DUA 3.0 institucional
 
-El repositorio `neuronova-apps/DUA-3.0` fue revisado como parte de la auditoría transversal.
+Se confirmó que existen dos repositorios diferenciados:
 
-Se constató que:
+- `neuronova-apps/DUA-3.0`: proyecto original de NeuroNova Apps;
+- `crebeucayali/DUA-3.0`: adaptación e implementación institucional para CREBE Ucayali.
 
-- no presenta un sistema general de accesibilidad duplicado;
-- dispone de apoyos propios básicos, como foco visible, salto al contenido y reducción de movimiento;
-- todavía no consume el núcleo central de accesibilidad de AC.
+La integración transversal corresponde al repositorio institucional `crebeucayali/DUA-3.0`.
 
-Se intentó integrar AC `v=10` de forma mínima en `index.html`, `evolucion.html` y `recursos.html`, pero la conexión de GitHub disponible devolvió `403 Resource not accessible by integration` para ese repositorio. Por ello, DUA queda registrado como **integración pendiente por permisos de escritura**, no como fallo funcional.
+Se integró el núcleo central de accesibilidad AC `v=10` en:
 
-Hasta contar con acceso de escritura, no se modificará DUA desde esta transición.
+- `index.html`;
+- `evolucion.html`;
+- `recursos.html`.
+
+La política CSP existente se mantuvo intacta. Las referencias a AC están permitidas por `'self'` al encontrarse bajo el mismo origen `https://crebeucayali.github.io`.
+
+DUA 3.0 institucional queda incorporado a la arquitectura transversal de accesibilidad EVA.
 
 ## Estado consolidado
 
@@ -425,4 +430,11 @@ BDA + extensión específica
 AC
 ```
 
-DUA 3.0 queda pendiente de integración transversal por limitación de permisos del repositorio.
+DUA 3.0 institucional queda integrado al núcleo transversal de accesibilidad AC. El repositorio original de NeuroNova Apps se mantiene como proyecto de origen independiente.
+
+
+### Corrección posterior de la auditoría — DUA 3.0
+
+Se aclaró la existencia de dos repositorios DUA 3.0. La adaptación institucional se encuentra en `crebeucayali/DUA-3.0`, mientras que `neuronova-apps/DUA-3.0` corresponde al proyecto original.
+
+Se integró la versión institucional al núcleo central AC `v=10` en sus tres páginas principales. Con esta corrección, DUA 3.0 deja de ser una excepción pendiente dentro de EVA.
