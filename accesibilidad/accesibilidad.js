@@ -35,10 +35,10 @@
 
   cargarCssCanonico();
 
-  if(document.querySelector(`script[data-eva-accesibilidad-v2="${VERSION}"]`)) return;
+  if(document.querySelector(`script[data-eva-accesibilidad-core="${VERSION}"]`)) return;
   const script=document.createElement('script');
-  script.src=BASE+'accesibilidad-v2.js?v='+VERSION;
+  script.src=BASE+'accesibilidad-core.js?v='+VERSION;
   script.async=false;
-  script.dataset.evaAccesibilidadV2=VERSION;
+  script.dataset.evaAccesibilidadCore=VERSION;
   document.head.appendChild(script);
 })();
