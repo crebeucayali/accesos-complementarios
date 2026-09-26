@@ -333,3 +333,34 @@ EVA principal
 `migracion-accesibilidad.js` no constituye un sistema paralelo. Su única responsabilidad es migrar preferencias históricas. Su retirada podrá evaluarse en una etapa posterior cuando se considere cumplido el periodo de compatibilidad.
 
 Resultado: EVA principal ya no mantiene una implementación local general de accesibilidad.
+
+
+### Etapa 7 — consolidación interna de AC completada
+
+Se consolidó internamente el núcleo central de accesibilidad dentro de Accesos Complementarios.
+
+Acciones realizadas:
+
+- todas las páginas HTML de AC fueron normalizadas para consumir `accesibilidad.css?v=10` y `accesibilidad.js?v=10`;
+- se unificaron las referencias antiguas `v=2`, `v=5`, `v=6`, `v=7` y `v=9`;
+- `mapa-web.html` pasó de rutas relativas a las rutas públicas canónicas del sistema central;
+- el archivo interno `accesibilidad-v2.js` fue renombrado funcionalmente como `accesibilidad-core.js`;
+- el cargador estable `accesibilidad.js` fue actualizado para cargar `accesibilidad-core.js?v=10`;
+- se verificó que los repositorios consumidores no dependan directamente del motor interno;
+- se retiró definitivamente `accesibilidad-v2.js`.
+
+Arquitectura central resultante:
+
+```text
+accesos-complementarios/
+└── accesibilidad/
+    ├── accesibilidad.js        ← punto de entrada público estable
+    ├── accesibilidad-core.js   ← motor funcional interno
+    └── accesibilidad.css       ← estilos centrales
+```
+
+Regla de mantenimiento:
+
+Los repositorios consumidores deben seguir llamando únicamente a `accesibilidad.js?v=10` y `accesibilidad.css?v=10`. El archivo `accesibilidad-core.js` es interno y no debe enlazarse directamente desde otros repositorios.
+
+Resultado: AC queda consolidado como una única fuente central de accesibilidad, con nomenclatura interna clara y versionado uniforme.
