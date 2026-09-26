@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+<title id="title">Trabajo colegiado y planificación</title>
+<desc id="desc">Ilustración vectorial de una agenda, reunión de equipo y lista de planificación del CREBE Ucayali.</desc>
+<defs><linearGradient id="f" x2="1" y2="1"><stop stop-color="#0b3550"/><stop offset="1" stop-color="#0f766e"/></linearGradient></defs>
+<rect width="800" height="600" rx="24" fill="#eaf7f3"/>
+<rect width="800" height="134" rx="24" fill="url(#f)"/><path d="M0 110h800v24H0z" fill="url(#f)"/>
+<text x="38" y="49" fill="white" font-family="Arial,sans-serif" font-size="22" font-weight="700">CREBE · UCAYALI</text>
+<text x="38" y="94" fill="white" font-family="Arial,sans-serif" font-size="37" font-weight="700">Trabajo colegiado</text>
+<rect x="45" y="165" width="710" height="375" rx="24" fill="#fff" stroke="#b6dbd0" stroke-width="3"/>
+<rect x="81" y="205" width="270" height="250" rx="16" fill="#f1f8f6" stroke="#a8cec3" stroke-width="3"/>
+<rect x="105" y="188" width="26" height="40" rx="9" fill="#0f766e"/><rect x="300" y="188" width="26" height="40" rx="9" fill="#0f766e"/>
+<text x="109" y="277" font-size="25" font-weight="700" fill="#0b3550" font-family="Arial,sans-serif">LUNES</text>
+<path d="M109 309h205M109 340h205M109 371h205M109 402h141" stroke="#9bbfb6" stroke-width="8" stroke-linecap="round"/>
+<path d="M113 308l9 9 16-19M113 339l9 9 16-19M113 370l9 9 16-19" fill="none" stroke="#0f766e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="440" cy="282" r="42" fill="#eebc99"/><path d="M400 266q10-54 78-22v22z" fill="#17324d"/>
+<circle cx="550" cy="273" r="42" fill="#dca47d"/><path d="M513 259q12-45 75-13v19h-75z" fill="#6a4737"/>
+<circle cx="660" cy="282" r="42" fill="#efc4a3"/><path d="M620 267q12-47 78-17v17z" fill="#334e68"/>
+<path d="M390 366q0-48 50-48t50 48v59H390z" fill="#0f766e"/>
+<path d="M500 356q0-48 50-48t50 48v69H500z" fill="#17668b"/>
+<path d="M610 366q0-48 50-48t50 48v59H610z" fill="#0b3550"/>
+<rect x="388" y="416" width="323" height="17" rx="8" fill="#af7e4a"/>
+<text x="400" y="485" fill="#0b3550" font-family="Arial,sans-serif" font-size="24" font-weight="700">Planificación semanal</text>
+<text x="400" y="511" fill="#375b68" font-family="Arial,sans-serif" font-size="17">Coordinación y acuerdos</text>
+<text x="42" y="575" fill="#0b3550" font-family="Arial,sans-serif" font-size="23" font-weight="700">Lunes laborables · Actividad institucional</text>
+</svg>
