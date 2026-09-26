@@ -472,3 +472,29 @@
   opacity:1;
   transform:scale(1);
 }
+
+/* Evidencia fotográfica de mayo: 5. */
+.grid-meses>.mes:nth-child(2) tbody tr:nth-child(2) td:nth-child(2){cursor:zoom-in}
+
+.grid-meses>.mes:nth-child(2) tbody tr:nth-child(2) td:nth-child(2)::after{
+  position:absolute;
+  inset:4px;
+  z-index:5;
+  border-radius:12px;
+  background-image:url("imagenes-calendario/5-05.webp");
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:cover;
+  box-shadow:0 10px 24px rgba(16,42,67,.24);
+  content:"";
+  opacity:0;
+  pointer-events:none;
+  transform:scale(.96);
+  transition:opacity .18s ease,transform .18s ease;
+}
+
+.grid-meses>.mes:nth-child(2) tbody tr:nth-child(2) td:nth-child(2):hover::after,
+.grid-meses>.mes:nth-child(2) tbody tr:nth-child(2) td:nth-child(2):active::after{
+  opacity:1;
+  transform:scale(1);
+}
