@@ -441,3 +441,34 @@
   opacity:1;
   transform:scale(1)
 }
+
+/* Nota de privacidad para actividades sin evidencia fotográfica pública. */
+.calendario-actividades td.sin-foto-consentimiento{cursor:help}
+.calendario-actividades td.sin-foto-consentimiento::after{
+  position:absolute;
+  inset:12px;
+  z-index:6;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:14px;
+  border:1px solid #bfd8d2;
+  border-radius:12px;
+  background:#eef8f5;
+  color:#17324d;
+  box-shadow:0 10px 24px rgba(16,42,67,.18);
+  content:"Sin imagen pública: se protege la privacidad de las personas participantes.";
+  font-size:.74rem;
+  font-weight:700;
+  line-height:1.35;
+  text-align:center;
+  opacity:0;
+  pointer-events:none;
+  transform:scale(.96);
+  transition:opacity .18s ease,transform .18s ease;
+}
+.calendario-actividades td.sin-foto-consentimiento:hover::after,
+.calendario-actividades td.sin-foto-consentimiento:active::after{
+  opacity:1;
+  transform:scale(1);
+}
