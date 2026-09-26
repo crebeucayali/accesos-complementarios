@@ -258,3 +258,34 @@ Acciones realizadas:
 - no se modificó BDA en esta etapa, porque conserva una excepción temporal documentada con funciones propias.
 
 Resultado esperado: CAP, MEA, NI y RA consumen una misma versión estable del sistema central de accesibilidad EVA.
+
+
+### Etapa 4 — completada en BDA
+
+Banco Digital Accesible fue migrado al núcleo central de accesibilidad de AC conservando únicamente una extensión específica para su recorrido guiado.
+
+Arquitectura resultante:
+
+```text
+AC / accesibilidad/
+├── accesibilidad.js
+├── accesibilidad-v2.js
+└── accesibilidad.css
+          ↓
+BDA
+├── accesibilidad-bda.js
+└── accesibilidad-bda.css
+```
+
+Acciones realizadas:
+
+- las páginas activas de BDA fueron cambiadas para consumir `accesibilidad.css?v=10` y `accesibilidad.js?v=10` desde AC;
+- se creó `accesibilidad-bda.js` con la lógica exclusiva del recorrido guiado;
+- se creó `accesibilidad-bda.css` con los estilos exclusivos del recorrido;
+- el botón “Iniciar recorrido” se integra dentro del panel central de accesibilidad, evitando un segundo panel general;
+- las funciones comunes de contraste, texto, fuente, espaciado, enlaces, grises, reducción de movimiento y lectura quedan a cargo de AC;
+- las hojas `lsp/accesibilidad.css` y `braille/accesibilidad.css` se conservaron porque corresponden al contenido visual de sus páginas informativas y no al panel global;
+- los antiguos `accesibilidad.js` y `accesibilidad.css` de la raíz BDA quedaron sin referencias activas como sistema global y fueron marcados como legado de transición;
+- dichos archivos antiguos no se eliminan todavía: su retirada definitiva corresponde a una etapa posterior de depuración, después de observar la migración y verificar que no existan dependencias ocultas.
+
+Resultado esperado: BDA utiliza un solo panel general de accesibilidad, administrado desde AC, y mantiene el recorrido guiado como extensión específica.
