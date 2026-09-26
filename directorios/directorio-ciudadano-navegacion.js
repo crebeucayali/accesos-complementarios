@@ -19,7 +19,6 @@ function prepararChipsComoAccesos() {
     chip.setAttribute("tabindex", "0");
     chip.setAttribute("title", `Ver entidades de ${categoria}`);
     chip.setAttribute("aria-label", `Ver entidades de ${categoria}`);
-    chip.style.cursor = "pointer";
   });
 }
 
