@@ -51,19 +51,23 @@
     <section class="panel-busqueda panel-registro" aria-labelledby="titulo-registro">
       <div class="panel-encabezado"><div><p class="seccion-etiqueta">Formulario breve</p><h2 id="titulo-registro">Firma tu visita</h2></div><p class="tiempo-registro">Toma menos de un minuto</p></div>
       <form id="formulario-registro" class="formulario-registro">
-        <div class="campo-registro campo-completo"><label for="nombres">Nombres y apellidos</label><input id="nombres" name="nombres" type="text" placeholder="Escribe tus nombres y apellidos" required></div>
-        <div class="campo-registro"><label for="institucion">Institución o entidad <span class="texto-opcional">(opcional)</span></label><input id="institucion" name="institucion" type="text" placeholder="Ejemplo: IE, CEBE, CREBE u otra entidad"></div>
+        <div aria-hidden="true" style="position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden;">
+          <label for="website">No completar este campo</label>
+          <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+        <div class="campo-registro campo-completo"><label for="nombres">Nombres y apellidos</label><input id="nombres" name="nombres" type="text" maxlength="100" placeholder="Escribe tus nombres y apellidos" required></div>
+        <div class="campo-registro"><label for="institucion">Institución o entidad <span class="texto-opcional">(opcional)</span></label><input id="institucion" name="institucion" type="text" maxlength="120" placeholder="Ejemplo: IE, CEBE, CREBE u otra entidad"></div>
         <div class="campo-registro"><label for="rol">Cargo o rol</label><select id="rol" name="rol" required><option value="">Seleccionar</option><option>Docente</option><option>Familia</option><option>Directivo</option><option>Estudiante</option><option>Especialista</option><option>Personal CREBE</option><option>Otro</option></select></div>
         <div class="campo-registro campo-completo modulo-visitado"><span class="titulo-campo">Módulo(s) o recurso(s) visitado(s)</span><p class="ayuda-campo">Seleccione hasta 3 opciones.</p><div class="opciones-modulo" role="group" aria-label="Módulos o recursos visitados"><label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Plataforma general"><span>Plataforma general</span></label><label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Capacitaciones CREBE"><span>Capacitaciones CREBE</span></label><label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Banco Digital Accesible"><span>Banco Digital Accesible</span></label><label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Materiales Educativos Accesibles"><span>Materiales Educativos Accesibles</span></label><label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Juegos Interactivos Accesibles"><span>Juegos Interactivos Accesibles</span></label><label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Noti Inclusivos"><span>Noti Inclusivos</span></label><label class="opcion-modulo"><input type="checkbox" name="modulo_visitado" value="Otro recurso o acceso de AC"><span>Otro recurso o acceso de AC</span></label></div><input type="hidden" id="modulosSeleccionados" name="modulo"><p id="mensajeModulo" class="mensaje-error" aria-live="polite"></p></div>
-        <div class="campo-registro campo-completo"><label for="correo">Correo electrónico <span class="texto-opcional">(opcional)</span></label><input id="correo" name="correo" type="email" placeholder="correo@ejemplo.com"></div>
-        <div class="campo-registro campo-completo"><label for="comentario">Comentario u observación <span class="texto-opcional">(opcional)</span></label><textarea id="comentario" name="comentario" rows="4" placeholder="Escribe una sugerencia, necesidad, observación o recurso que te gustaría encontrar."></textarea></div>
+        <div class="campo-registro campo-completo"><label for="correo">Correo electrónico <span class="texto-opcional">(opcional)</span></label><input id="correo" name="correo" type="email" maxlength="160" placeholder="correo@ejemplo.com"></div>
+        <div class="campo-registro campo-completo"><label for="comentario">Comentario u observación <span class="texto-opcional">(opcional)</span></label><textarea id="comentario" name="comentario" rows="4" maxlength="1000" placeholder="Escribe una sugerencia, necesidad, observación o recurso que te gustaría encontrar."></textarea></div>
         <div class="acciones-registro campo-completo"><button class="boton-principal" type="submit">Enviar registro</button><p id="mensaje-registro" class="mensaje-registro" aria-live="polite"></p></div>
       </form>
     </section>
     <section class="bloque-informativo-registro" aria-labelledby="titulo-uso"><p class="seccion-etiqueta">Finalidad</p><h2 id="titulo-uso">¿Para qué sirve este registro?</h2><p>Este espacio permite conocer qué módulo de la plataforma se está consultando y recoger sugerencias para mejorar los recursos digitales. La información puede utilizarse como evidencia institucional de uso, mejora continua y atención a necesidades de la comunidad educativa.</p></section>
   </main>
   <footer><div class="footer-final"><p>© 2026 Gabriel Berrospi. Desarrollo original. Uso institucional autorizado al CREBE "Señor de los Milagros" - Ucayali.</p></div></footer>
-  <script src="app.js?v=20260715-01"></script>
+  <script src="app.js?v=20260926-01"></script>
   <script src="https://crebeucayali.github.io/accesos-complementarios/accesibilidad/accesibilidad.js?v=5" defer></script>
 </body>
 </html>
