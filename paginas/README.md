@@ -15,7 +15,7 @@ Su finalidad es presentar información de orientación general y funcional que a
 - `aviso-legal.html`: información legal aplicable al sitio.
 - `politica-privacidad.html`: información sobre privacidad y tratamiento de datos.
 - `guia-de-uso.html`: orientaciones para el uso del sitio.
-- `mapa.css`: estilos utilizados por el Mapa web mientras su contenido funcional permanece temporalmente en `contenido/paginas/mapa-web.html`.
+- `mapa.css`: estilos utilizados por el Mapa web principal ubicado en `../mapa-web.html`.
 
 ## Propósito funcional
 
@@ -35,4 +35,4 @@ La organización, estructura y redacción funcional de esta carpeta forman parte
 
 ## Organización vigente
 
-La carpeta `paginas/` es la ubicación principal para las páginas generales del repositorio. No deben mantenerse copias redundantes dentro de `contenido/paginas/`. La única excepción temporal es `contenido/paginas/mapa-web.html`, que se conserva mientras se completa la reorganización final de la carpeta `contenido/`.
+La carpeta `paginas/` es la ubicación principal para las páginas generales del repositorio. No deben mantenerse copias redundantes dentro de `contenido/paginas/`. `paginas/mapa-web.html` se conserva únicamente como redirección de compatibilidad hacia `../mapa-web.html`.
