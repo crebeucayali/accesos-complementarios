@@ -54,6 +54,18 @@
       "consentimiento_global": false,
       "autenticacion": false,
       "datos_personales": false
+    },
+    {
+      "id": "supabase_panel_admin_auth",
+      "categoria": "autenticacion_administrativa_restringida",
+      "estado": "interfaz_habilitada_sin_cuentas_auth",
+      "almacenamiento": "sessionStorage_solo_al_iniciar_sesion",
+      "consentimiento_global": false,
+      "autenticacion": true,
+      "registro_publico_en_panel": false,
+      "mfa": "TOTP_AAL2_obligatorio_para_escritura",
+      "datos_personales_persistentes_actuales": false,
+      "requisito": "Crear la primera cuenta solo después de habilitar la restricción de creación y cerrar los controles preproducción aplicables."
     }
   ],
   "disparadores_de_revision": [
@@ -68,20 +80,10 @@
   ],
   "accion_si_se_activa_un_disparador": "Reauditar tecnologías, actualizar políticas y determinar antes de producción si corresponde un gestor o banner de consentimiento.",
   "supabase_preproduccion": {
-    "estado": "no_habilitado_para_datos_personales",
+    "estado": "panel_auth_interfaz_habilitada_sin_cuentas",
     "control": "private.supabase_preproduccion_gate",
     "archivo": "privacidad/supabase-preproduccion.json",
-    "regla": "No activar Supabase Auth ni almacenar datos personales mientras existan controles bloqueantes pendientes."
+    "regla": "No crear ni autorizar la primera cuenta administrativa hasta cerrar los controles bloqueantes y habilitar/verificar la restricción de creación de cuentas."
   },
-  "preparaciones_inactivas": [
-    {
-      "id": "supabase_panel_admin_auth",
-      "estado": "preparado_no_habilitado",
-      "autenticacion": "email_password_mas_TOTP_AAL2",
-      "almacenamiento_sesion": "sessionStorage_al_activar",
-      "registro_publico": false,
-      "datos_personales_activos": false,
-      "requisito": "Cerrar controles preproducción y vincular una cuenta administradora autorizada antes de activar."
-    }
-  ]
+  "preparaciones_inactivas": []
 }
