@@ -77,7 +77,7 @@ Documentación asociada:
 - [Calendario público con Supabase](docs/calendario-supabase.md)
 - [Panel administrativo con Supabase Auth](docs/panel-administrativo-auth.md)
 
-El uso activo de Supabase continúa limitado a consultas públicas de Capacitaciones y del Calendario. Existe un panel administrativo técnicamente preparado en `admin/`, pero permanece deshabilitado y sin cuentas Auth mientras existan controles preproducción bloqueantes. Su activación requiere una cuenta expresamente autorizada, MFA TOTP y la verificación previa de las condiciones documentadas.
+El uso público de Supabase continúa centrado en Capacitaciones y Calendario. La interfaz del panel administrativo en `admin/` ya tiene el inicio de sesión técnicamente habilitado, pero actualmente no existen usuarios Auth ni administradores autorizados. La primera cuenta solo debe crearse de forma deliberada después de habilitar la restricción de altas, completar los controles preproducción aplicables y mantener MFA TOTP/AAL2 como requisito de escritura.
 
 ## Funcionalidades principales
 
