@@ -71,7 +71,7 @@
 
   async function consultarGaleria() {
     const items = await consultarRest(
-      "galeria_items?select=id,orden,fecha,titulo,descripcion,imagen_url,imagen_alt,updated_at&visible=eq.true&publicacion_autorizada=eq.true&order=orden.desc,id.desc"
+      "galeria_items?select=id,orden,fecha,titulo,descripcion,imagen_url,imagen_alt,estado_publicacion,updated_at&visible=eq.true&publicacion_autorizada=eq.true&estado_publicacion=eq.publicado&order=orden.desc,id.desc"
     );
 
     const imagenes = await consultarRest(
