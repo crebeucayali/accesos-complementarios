@@ -1,0 +1,54 @@
+{
+  "version": "2026-09-26",
+  "alcance": "Ecosistema Virtual Accesible CREBE Ucayali",
+  "banner_global": {
+    "activo": false,
+    "estado": "no_requerido_segun_inventario_actual",
+    "motivo": "No se han identificado tecnologías propias de analítica, publicidad o seguimiento comercial que se activen automáticamente al ingresar al ecosistema."
+  },
+  "mecanismos_actuales": [
+    {
+      "id": "accesibilidad_localstorage",
+      "categoria": "funcional",
+      "almacenamiento": "localStorage",
+      "consentimiento_global": false
+    },
+    {
+      "id": "buscador_localstorage",
+      "categoria": "funcional",
+      "almacenamiento": "localStorage",
+      "consentimiento_global": false
+    },
+    {
+      "id": "firma_visita_antiduplicado",
+      "categoria": "tecnico",
+      "almacenamiento": "localStorage",
+      "consentimiento_global": false,
+      "consentimiento_formulario": true
+    },
+    {
+      "id": "braille_seguimiento_opcional",
+      "categoria": "estadistica_educativa_opcional",
+      "almacenamiento": "localStorage_y_envio_externo",
+      "consentimiento_global": false,
+      "consentimiento_especifico": true
+    },
+    {
+      "id": "google_drive_embeds",
+      "categoria": "contenido_externo_bajo_demanda",
+      "consentimiento_global": false,
+      "confirmacion_previa": true
+    }
+  ],
+  "disparadores_de_revision": [
+    "incorporacion_de_analitica_no_esencial",
+    "publicidad_o_marketing",
+    "pixeles_o_seguimiento_entre_sitios",
+    "nuevas_cookies_no_esenciales",
+    "autenticacion_o_sesiones_persistentes",
+    "nuevos_sdk_o_scripts_de_terceros",
+    "nuevas_funciones_de_supabase_en_cliente",
+    "cambios_en_finalidades_o_proveedores"
+  ],
+  "accion_si_se_activa_un_disparador": "Reauditar tecnologías, actualizar políticas y determinar antes de producción si corresponde un gestor o banner de consentimiento."
+}
