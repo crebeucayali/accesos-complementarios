@@ -120,3 +120,12 @@ Si la consulta remota falla, el usuario sigue viendo ese contenido. Esto permite
 El Calendario utiliza exclusivamente información pública de programación institucional. Esta migración no habilita Supabase Auth ni amplía el proyecto a datos personales.
 
 La puerta preproducción para Auth y datos personales continúa bloqueada hasta cerrar los controles institucionales, jurídicos y operativos pendientes.
+
+
+## Control operativo conjunto
+
+La actualización coordinada de Capacitaciones y Calendario se documenta en:
+
+[Procedimiento operativo conjunto de Capacitaciones y Calendario](procedimiento-operativo-capacitaciones-calendario.md)
+
+El control privado `private.calendario_control_operativo` permite detectar días con múltiples actividades y marcadores de planificación que deban revisarse.
