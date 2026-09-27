@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="admin.css?v=6">
+  <link rel="stylesheet" href="admin.css?v=7">
   <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
 <body class="theme-crebe wsite-theme-light panel-admin-page">
@@ -306,9 +306,19 @@
                 <textarea id="not-descripcion" rows="4" maxlength="350" required placeholder="Resumen corto y directo de la noticia."></textarea>
               </label>
 
-              <label>Imagen (opcional)
-                <input id="not-imagen" type="text" placeholder="imagenes/noticias/... o https://crebeucayali.github.io/...">
+              <label for="not-archivo">Imagen destacada (opcional)
+                <input id="not-archivo" type="file" accept="image/webp,image/jpeg,image/png">
+                <span class="ayuda-campo">WebP, JPG o PNG. Máximo 5 MB. La imagen se subirá a Supabase Storage al guardar.</span>
               </label>
+              <input id="not-imagen" type="hidden">
+
+              <div id="not-imagen-panel" class="imagen-admin-preview" hidden>
+                <img id="not-imagen-preview" alt="Vista previa de la imagen destacada de la noticia">
+                <div class="imagen-admin-preview-info">
+                  <p id="not-imagen-estado" class="nota"></p>
+                  <button id="boton-retirar-imagen-noticia" type="button" class="secundario">Retirar imagen</button>
+                </div>
+              </div>
 
               <label>Enlace para ampliar (opcional)
                 <input id="not-enlace" type="url" placeholder="https://crebeucayali.github.io/...">
@@ -319,7 +329,7 @@
                 <button id="boton-eliminar-noticia" type="button" class="peligro" hidden>Eliminar noticia</button>
               </div>
 
-              <p class="nota">Este formulario administra únicamente el carrusel <strong>Noticias destacadas</strong> de la plataforma principal. No modifica el módulo completo Noti Inclusivos.</p>
+              <p class="nota">Este formulario administra únicamente el carrusel <strong>Noticias destacadas</strong> de la plataforma principal. Las nuevas imágenes se guardan en Supabase Storage; las imágenes existentes alojadas en GitHub continúan siendo compatibles. No modifica el módulo completo Noti Inclusivos.</p>
             </form>
           </section>
 
@@ -483,7 +493,7 @@
     </div>
   </footer>
 
-  <script src="admin.js?v=12" defer></script>
+  <script src="admin.js?v=13" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>
 </html>
