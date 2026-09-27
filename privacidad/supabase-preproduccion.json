@@ -3,7 +3,7 @@
   "proyecto": "crebe Project",
   "project_ref": "dteimbhwtzghhsijeeld",
   "region": "us-east-1",
-  "uso_actual": "datos_publicos_capacitaciones_calendario_repositorio_mas_panel_admin_auth",
+  "uso_actual": "datos_publicos_capacitaciones_calendario_repositorio_noticias_mas_panel_admin_auth",
   "auth_activo_en_frontend": true,
   "edge_functions_activas": 0,
   "rls_tablas_publicas_actuales": true,
@@ -25,7 +25,8 @@
     "auth_sesiones",
     "rls_admin_mfa",
     "panel_admin_scaffold",
-    "repositorio_publico"
+    "repositorio_publico",
+    "noticias_destacadas_publicas"
   ],
   "controles_pendientes": [
     "auth_frontend",
@@ -53,14 +54,16 @@
     "permisos": {
       "capacitaciones": "SELECT publico; INSERT/UPDATE admin AAL2; sin DELETE",
       "calendario": "SELECT publico; INSERT/UPDATE admin AAL2; sin DELETE",
-      "repositorio": "SELECT publico visible; INSERT/UPDATE/DELETE admin AAL2"
+      "repositorio": "SELECT publico visible; INSERT/UPDATE/DELETE admin AAL2",
+      "noticias_destacadas": "SELECT publico visible; INSERT/UPDATE/DELETE admin AAL2"
     },
     "activacion_pendiente": [],
     "correo_autorizado_inicial": "senordelosmilagroscrebe@gmail.com",
     "alcance": [
       "capacitaciones",
       "calendario",
-      "repositorio_accesible"
+      "repositorio_accesible",
+      "noticias_destacadas"
     ]
   }
 }
