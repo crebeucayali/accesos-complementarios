@@ -310,34 +310,24 @@
   async function guardarActividad() {
     const titulo = $("cal-titulo").value.trim();
     const extras = $("cal-lineas").value.split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
-    const payload = {
-      fecha: $("cal-fecha").value,
-      titulo,
-      contenido_lineas: [titulo, ...extras],
-      estado: $("cal-estado").value,
-      clase_css: $("cal-clase").value,
-      visible: $("cal-visible").checked,
-      origen: "panel_admin"
-    };
-
     const id = $("cal-id").value;
-    if (id) {
-      await rest("calendario_actividades?id=eq." + encodeURIComponent(id), {
-        method: "PATCH",
-        headers: { Prefer: "return=representation" },
-        body: JSON.stringify(payload)
-      });
-      mostrarMensaje("Actividad actualizada correctamente.", "exito");
-    } else {
-      const mismaFecha = actividades.filter((fila) => fila.fecha === payload.fecha);
-      payload.orden = Math.max(0, ...mismaFecha.map((fila) => Number(fila.orden) || 0)) + 1;
-      await rest("calendario_actividades", {
-        method: "POST",
-        headers: { Prefer: "return=representation" },
-        body: JSON.stringify(payload)
-      });
-      mostrarMensaje("Actividad creada correctamente.", "exito");
-    }
+
+    await rest("rpc/admin_guardar_actividad_calendario", {
+      method: "POST",
+      body: JSON.stringify({
+        p_id: id ? Number(id) : null,
+        p_fecha: $("cal-fecha").value,
+        p_contenido_lineas: [titulo, ...extras],
+        p_estado: $("cal-estado").value,
+        p_clase_css: $("cal-clase").value,
+        p_visible: $("cal-visible").checked
+      })
+    });
+
+    mostrarMensaje(
+      id ? "Actividad actualizada correctamente." : "Actividad registrada correctamente.",
+      "exito"
+    );
     await cargarCalendario();
   }
 
