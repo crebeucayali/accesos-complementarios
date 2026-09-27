@@ -3,7 +3,7 @@
   "proyecto": "crebe Project",
   "project_ref": "dteimbhwtzghhsijeeld",
   "region": "us-east-1",
-  "uso_actual": "datos_publicos_contenidos_galeria_estadisticas_agregadas_mas_panel_admin_auth",
+  "uso_actual": "datos_publicos_contenidos_galeria_estadisticas_agregadas_storage_publico_noticias_mas_panel_admin_auth",
   "auth_activo_en_frontend": true,
   "edge_functions_activas": 0,
   "rls_tablas_publicas_actuales": true,
@@ -28,7 +28,8 @@
     "repositorio_publico",
     "noticias_destacadas_publicas",
     "galeria_publica",
-    "estadisticas_visitas_eva"
+    "estadisticas_visitas_eva",
+    "storage_imagenes_publicas"
   ],
   "controles_pendientes": [
     "auth_frontend",
@@ -57,7 +58,7 @@
       "capacitaciones": "SELECT publico; INSERT/UPDATE admin AAL2; sin DELETE",
       "calendario": "SELECT publico; INSERT/UPDATE admin AAL2; sin DELETE",
       "repositorio": "SELECT publico visible; INSERT/UPDATE/DELETE admin AAL2",
-      "noticias_destacadas": "SELECT publico visible; INSERT/UPDATE/DELETE admin AAL2",
+      "noticias_destacadas": "SELECT publico visible; INSERT/UPDATE/DELETE admin AAL2; imágenes públicas en eva-publico/noticias con escritura admin AAL2",
       "galeria": "SELECT publico visible+autorizada; INSERT/UPDATE/DELETE admin AAL2; sin Supabase Storage"
     },
     "activacion_pendiente": [],
@@ -85,5 +86,27 @@
     "endpoint_publico": "public.eva_visitas_eventos",
     "eventos_individuales_persistentes": false,
     "escritura_tabla_agregada_publica": false
+  },
+  "storage_publico": {
+    "estado": "piloto_operativo_en_noticias_destacadas",
+    "bucket": "eva-publico",
+    "lectura": "publica",
+    "escritura": "solo_admin_autorizado_mfa_aal2",
+    "limite_archivo_mb": 5,
+    "mime_permitidos": [
+      "image/webp",
+      "image/jpeg",
+      "image/png"
+    ],
+    "rutas_habilitadas": [
+      "noticias/",
+      "capacitaciones/",
+      "repositorio/",
+      "galeria/"
+    ],
+    "modulo_activo": [
+      "noticias_destacadas"
+    ],
+    "datos_personales": "no_incorporados_en_esta_etapa"
   }
 }
