@@ -120,6 +120,11 @@
       factorMfa = estadoMfa.factorId;
       $("mfa-enrolamiento").hidden = true;
     } else {
+      await rest("rpc/limpiar_mfa_no_verificado_admin", {
+        method: "POST",
+        body: "{}"
+      });
+
       const enrolado = await solicitar(SUPABASE_URL + "/auth/v1/factors", {
         method: "POST",
         headers: authHeaders(sesion.access_token),
