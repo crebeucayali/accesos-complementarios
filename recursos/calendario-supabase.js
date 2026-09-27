@@ -68,20 +68,11 @@
     return mapa;
   }
 
-  function crearBloqueActividad(registro, mostrarEtiquetaEstado = true) {
+  function crearBloqueActividad(registro) {
     const bloque = document.createElement("div");
     bloque.className = "datos-actividad";
     if (registro.fuente === "capacitaciones") {
       bloque.classList.add("actividad-capacitacion-supabase");
-    }
-
-    if (mostrarEtiquetaEstado && registro.fuente === "calendario") {
-      const etiqueta = document.createElement("span");
-      etiqueta.className =
-        "estado-actividad-calendario estado-actividad-" +
-        String(registro.estado || "confirmada").replace(/[^a-z0-9_-]/gi, "");
-      etiqueta.textContent = etiquetaEstado(registro.estado);
-      bloque.appendChild(etiqueta);
     }
 
     const lineas = Array.isArray(registro.contenido_lineas)
@@ -186,7 +177,7 @@
         fecha.textContent = `${dia}/${numeroMes}/${anio}`;
 
         const actividad = document.createElement("td");
-        actividad.appendChild(crearBloqueActividad(registro, false));
+        actividad.appendChild(crearBloqueActividad(registro));
 
         const estado = document.createElement("td");
         const marca = document.createElement("span");
