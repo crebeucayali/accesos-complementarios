@@ -1,220 +1,176 @@
 # Panel administrativo con Supabase Auth
 
-## Estado
+## Estado actual
 
-La interfaz del panel administrativo está **habilitada técnicamente** en:
+El panel administrativo EVA está operativo en:
 
 `/admin/`
 
-El formulario de acceso puede comunicarse con Supabase Auth, pero actualmente no existen usuarios Auth ni administradores autorizados. Por ello, el panel todavía no tiene una cuenta capaz de realizar operaciones administrativas.
+Cuenta administrativa autorizada:
 
-El frontend mantiene:
+`senordelosmilagroscrebe@gmail.com`
 
-`PANEL_HABILITADO = true`
+La cuenta utiliza:
 
-Esto habilita el flujo de autenticación, no la autorización de escritura.
+- Supabase Auth;
+- contraseña;
+- MFA TOTP;
+- sesión con nivel `aal2`;
+- autorización explícita en `admin_guard.admin_usuarios_autorizados`.
+
+El registro público de usuarios no está disponible desde el panel.
 
 ## Alcance
 
-El panel administra únicamente:
+El panel administra actualmente:
 
 - Capacitaciones;
-- Calendario.
+- Calendario;
+- Repositorio Accesible.
 
-No se incorporan otros módulos del EVA en esta etapa.
-
-## Modelo de acceso
-
-Para editar contenido deben cumplirse simultáneamente estas condiciones:
-
-1. existir una cuenta válida de Supabase Auth;
-2. estar vinculada como activa en `admin_guard.admin_usuarios_autorizados`;
-3. completar MFA TOTP;
-4. disponer de una sesión con `aal2`;
-5. superar las políticas RLS de la tabla correspondiente.
-
-Una contraseña válida por sí sola no concede permisos de edición.
-
-## Registro público
-
-El panel no contiene formulario de registro.
-
-También se prepararon:
-
-`admin_guard.admin_correos_autorizados`
-
-y:
-
-`private.auth_restringir_creacion_admin(event jsonb)`
-
-El hook rechaza la creación de cuentas cuyo correo no esté previamente autorizado. Su función ya existe en PostgreSQL, pero todavía debe seleccionarse y habilitarse en **Authentication > Hooks > Before User Created** antes de crear la primera cuenta administrativa.
-
-La disponibilidad del endpoint Auth de Supabase no equivale a autorización administrativa: una cuenta no incluida en la guardia no supera las políticas de escritura.
-
-## MFA
-
-La escritura exige `aal2`.
-
-Flujo previsto:
+## Flujo de acceso
 
 ```text
 correo + contraseña
         ↓
-sesión aal1
+sesión AAL1
         ↓
 TOTP
         ↓
-sesión aal2
+sesión AAL2
         ↓
 administrador autorizado
         ↓
 RLS
         ↓
-INSERT / UPDATE
+operaciones administrativas
 ```
 
-El panel permite enrolar un factor TOTP y resolver el desafío MFA. La comprobación de AAL2 se repite en la base de datos; no depende solo de la interfaz.
+El acceso compacto de la plataforma principal reutiliza la misma sesión almacenada temporalmente en `sessionStorage`.
 
 ## Guardia administrativa
 
-Las tablas de autorización se mantienen fuera del esquema público:
+Las tablas de autorización están fuera del esquema público:
 
-`admin_guard.admin_usuarios_autorizados`
+- `admin_guard.admin_usuarios_autorizados`
+- `admin_guard.admin_correos_autorizados`
 
-`admin_guard.admin_correos_autorizados`
+Las políticas RLS utilizan funciones privadas de autorización, entre ellas:
 
-Los usuarios autenticados no tienen acceso directo a esas tablas.
+- `private.es_admin_autorizado()`
+- `private.es_admin_mfa()`
 
-Las funciones:
+Los visitantes y usuarios autenticados ordinarios no tienen acceso directo a las tablas de guardia.
 
-`public.es_admin_autorizado()`
+## Capacitaciones
 
-`public.es_admin_mfa()`
+Público:
 
-son `SECURITY DEFINER` y permiten a las políticas consultar únicamente el resultado necesario para autorizar la operación.
-
-## Permisos
-
-### Capacitaciones
-
-`anon`:
 - SELECT.
 
-`authenticated`:
-- SELECT;
-- INSERT y UPDATE solamente cuando `public.es_admin_mfa()` devuelve verdadero;
+Administrador autorizado + AAL2:
+
+- INSERT;
+- UPDATE;
 - sin DELETE.
 
-### Calendario
+El panel permite editar fecha, estado, título, tema, flyer, infografía, PDF, video, diapositivas y materiales complementarios.
 
-`anon`:
+## Calendario
+
+Público:
+
 - SELECT de actividades visibles.
 
-`authenticated`:
-- SELECT público;
-- acceso administrativo a registros y escritura únicamente con administrador autorizado + AAL2;
+Administrador autorizado + AAL2:
+
+- INSERT;
+- UPDATE;
+- lectura de registros administrativos;
 - sin DELETE.
 
-El panel utiliza `public.admin_guardar_actividad_calendario(...)` para crear o editar actividades. La función vuelve a verificar administrador autorizado y AAL2 antes de modificar datos.
+Las actividades pueden retirarse de la vista pública con `visible = false`.
 
-## Protección contra eliminaciones accidentales
+## Repositorio Accesible
 
-El rol `authenticated` no recibe permiso `DELETE`.
+Público:
 
-En Calendario, una actividad puede retirarse de la vista pública mediante:
+- SELECT de recursos con `visible = true`.
 
-`visible = false`
+Administrador autorizado + AAL2:
 
-sin destruir el registro.
+- INSERT;
+- UPDATE;
+- DELETE;
+- lectura de recursos ocultos.
+
+El panel permite administrar tres categorías:
+
+- `materiales_disponibles`
+- `equipos_tecnologicos`
+- `materiales_elaborados`
+
+La eliminación es una excepción deliberada respecto de Capacitaciones y Calendario: en Repositorio Accesible se permite borrar una tarjeta/recurso porque el contenido es un catálogo incremental y el administrador puede retirar registros que ya no deban mantenerse.
 
 ## Auditoría
 
-Se mantiene:
+La tabla privada:
 
 `private.auditoria_administrativa`
 
-Los cambios administrativos registran trazabilidad de la operación, incluyendo el identificador del usuario autenticado y el nivel AAL cuando exista una sesión administrativa.
+registra operaciones administrativas de Capacitaciones, Calendario y Repositorio Accesible.
 
-La tabla de auditoría no es accesible para visitantes ni usuarios autenticados ordinarios.
+Para Repositorio se auditan:
+
+- INSERT;
+- UPDATE;
+- DELETE.
+
+La auditoría registra el identificador de usuario, AAL y los datos anteriores/nuevos según la operación.
 
 ## Sesión del navegador
 
-El panel utiliza `sessionStorage` para conservar temporalmente los tokens de la sesión administrativa.
+La sesión del panel se conserva temporalmente en:
 
-La copia local se elimina al cerrar sesión y está limitada al contexto de la pestaña/sesión del navegador. No se utiliza `localStorage` para la sesión administrativa.
+`sessionStorage`
 
-Las credenciales y tokens no deben copiarse a repositorios, documentos públicos ni registros de diagnóstico.
+La contraseña no se almacena en GitHub ni en Supabase como texto visible. Los tokens de sesión no deben copiarse a repositorios, documentos públicos ni registros de diagnóstico.
 
-## Funciones disponibles en el panel
+## Restricción de altas
 
-### Capacitaciones
+El hook:
 
-Permite editar:
+`private.auth_restringir_creacion_admin(event jsonb)`
 
-- fecha;
-- estado;
-- título;
-- tema;
-- flyer;
-- infografía;
-- PDF;
-- video y vista previa;
-- diapositivas y vista previa;
-- materiales complementarios.
+está configurado como **Before User Created**.
 
-Las restricciones de integridad creadas anteriormente en PostgreSQL siguen aplicándose.
+Solo los correos registrados en:
 
-### Calendario
+`admin_guard.admin_correos_autorizados`
 
-Permite:
-
-- crear una actividad;
-- editar una actividad existente;
-- sustituir un marcador `En planificación`;
-- cambiar estado y clase visual;
-- controlar la visibilidad.
-
-No permite eliminar registros desde la interfaz.
-
-## Primera cuenta administrativa
-
-Actualmente:
-
-- correo autorizado para la primera cuenta: **senordelosmilagroscrebe@gmail.com**;
-- usuarios en Supabase Auth: **0**;
-- administradores autorizados: **0**;
-- factores MFA: **0**.
-
-El correo institucional ya está registrado en `admin_guard.admin_correos_autorizados`.
-
-Para poner el panel en uso administrativo real todavía se debe:
-
-1. habilitar y verificar el hook `Before User Created`;
-2. crear o invitar la cuenta `senordelosmilagroscrebe@gmail.com` mediante Supabase Auth;
-3. vincular su `user_id` a `admin_guard.admin_usuarios_autorizados`;
-4. iniciar sesión desde `/admin/`;
-5. enrolar TOTP;
-6. verificar que la sesión alcanza `aal2`;
-7. ejecutar una prueba controlada de edición.
-
-La custodia de esta cuenta institucional debe mantenerse restringida a las personas expresamente responsables de la administración del EVA.
+pueden utilizarse para crear cuentas autorizadas dentro de este esquema de administración.
 
 ## Gate de privacidad
 
-El panel técnico no modifica automáticamente:
+La operación del panel para gestionar contenido público no cambia el estado general de:
 
-`private.supabase_preproduccion_gate.habilitado_para_datos_personales`
+`private.supabase_preproduccion_gate`
 
-El gate continúa en `false` mientras sigan pendientes controles institucionales o jurídicos.
+El gate puede continuar en `false` mientras existan controles institucionales o jurídicos pendientes para otros tratamientos de datos personales.
 
-Por tanto, el panel está preparado para la activación de una cuenta, pero esa activación debe hacerse de forma deliberada y documentada.
+La regla es:
+
+- el panel puede gestionar contenido público con la cuenta autorizada y MFA;
+- no se debe ampliar a nuevos formularios personales, Storage personal u otros tratamientos de datos personales sin cerrar previamente los controles aplicables.
 
 ## Verificación técnica
 
-Después de cada modificación de permisos, funciones o políticas RLS deben ejecutarse los asesores de seguridad y rendimiento de Supabase y comprobarse nuevamente que:
+Después de modificar permisos o políticas se debe comprobar:
 
-- no exista escritura para `anon`;
-- ninguna cuenta no autorizada pueda escribir;
-- una cuenta autorizada con `aal1` no pueda escribir;
-- una cuenta autorizada con `aal2` sí pueda realizar las operaciones previstas;
-- `DELETE` continúe bloqueado para `authenticated`.
+- `anon` no escribe;
+- un usuario no autorizado no escribe;
+- una cuenta autorizada con AAL1 no escribe;
+- una cuenta autorizada con AAL2 realiza únicamente las operaciones previstas;
+- DELETE sigue bloqueado en Capacitaciones y Calendario;
+- DELETE está permitido únicamente en Repositorio Accesible para el administrador AAL2;
+- los asesores de seguridad y rendimiento no presentan advertencias.
