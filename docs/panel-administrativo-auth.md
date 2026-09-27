@@ -27,7 +27,8 @@ El panel administra actualmente:
 - Capacitaciones;
 - Calendario;
 - Repositorio Accesible;
-- Noticias destacadas de la portada principal.
+- Noticias destacadas de la portada principal;
+- Galería de actividades.
 
 ## Flujo de acceso
 
@@ -130,13 +131,32 @@ El panel permite crear noticias breves con categoría, título, síntesis, image
 
 La eliminación retira la tarjeta de la portada y queda registrada en auditoría.
 
+## Galería
+
+Público:
+
+- SELECT de fotografías con `visible = true` y `publicacion_autorizada = true`.
+
+Administrador autorizado + AAL2:
+
+- INSERT;
+- UPDATE;
+- DELETE;
+- lectura de tarjetas ocultas.
+
+La Galería administra únicamente tarjetas fotográficas dentro de `recursos/galeria.html`. No crea nuevos subaccesos.
+
+El panel exige título, imagen y texto alternativo. Para publicar una tarjeta también debe confirmarse explícitamente que la fotografía está autorizada para publicación institucional.
+
+Los archivos de imagen permanecen alojados en EVA/GitHub; Supabase almacena solo metadatos y referencias.
+
 ## Auditoría
 
 La tabla privada:
 
 `private.auditoria_administrativa`
 
-registra operaciones administrativas de Capacitaciones, Calendario y Repositorio Accesible.
+registra operaciones administrativas de Capacitaciones, Calendario, Repositorio Accesible, Noticias destacadas y Galería.
 
 Para Repositorio se auditan:
 
@@ -190,5 +210,6 @@ Después de modificar permisos o políticas se debe comprobar:
 - una cuenta autorizada con AAL1 no escribe;
 - una cuenta autorizada con AAL2 realiza únicamente las operaciones previstas;
 - DELETE sigue bloqueado en Capacitaciones y Calendario;
-- DELETE está permitido únicamente en Repositorio Accesible para el administrador AAL2;
+- DELETE está permitido en Repositorio Accesible, Noticias destacadas y Galería únicamente para el administrador AAL2;
+- una fotografía visible en Galería requiere confirmación de autorización de publicación;
 - los asesores de seguridad y rendimiento no presentan advertencias.
