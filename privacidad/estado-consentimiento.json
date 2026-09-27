@@ -58,5 +58,11 @@
     "ampliacion_de_supabase_a_auth_sesiones_o_datos_personales",
     "cambios_en_finalidades_o_proveedores"
   ],
-  "accion_si_se_activa_un_disparador": "Reauditar tecnologías, actualizar políticas y determinar antes de producción si corresponde un gestor o banner de consentimiento."
+  "accion_si_se_activa_un_disparador": "Reauditar tecnologías, actualizar políticas y determinar antes de producción si corresponde un gestor o banner de consentimiento.",
+  "supabase_preproduccion": {
+    "estado": "no_habilitado_para_datos_personales",
+    "control": "private.supabase_preproduccion_gate",
+    "archivo": "privacidad/supabase-preproduccion.json",
+    "regla": "No activar Supabase Auth ni almacenar datos personales mientras existan controles bloqueantes pendientes."
+  }
 }
