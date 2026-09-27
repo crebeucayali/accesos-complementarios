@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="admin.css?v=2">
+  <link rel="stylesheet" href="admin.css?v=3">
   <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
 <body class="theme-crebe wsite-theme-light panel-admin-page">
@@ -117,6 +117,7 @@
           <nav class="tabs" aria-label="Secciones administrativas">
             <button type="button" class="tab activo" data-panel="capacitaciones">Capacitaciones</button>
             <button type="button" class="tab" data-panel="calendario">Calendario</button>
+            <button type="button" class="tab" data-panel="repositorio">Repositorio</button>
           </nav>
 
           <section class="tarjeta panel-seccion" id="panel-capacitaciones">
@@ -205,6 +206,65 @@
             </form>
           </section>
 
+
+          <section class="tarjeta panel-seccion" id="panel-repositorio" hidden>
+            <div class="titulo-tarjeta">
+              <span class="identificador-admin" aria-hidden="true">RA</span>
+              <div>
+                <p class="micro-etiqueta">Gestión de recursos</p>
+                <h2>Repositorio Accesible</h2>
+              </div>
+            </div>
+
+            <div class="grid">
+              <label for="repositorio-selector">Recurso existente
+                <select id="repositorio-selector"></select>
+              </label>
+              <button id="boton-nuevo-recurso" type="button" class="secundario">Nuevo recurso</button>
+            </div>
+
+            <form id="form-repositorio">
+              <input id="rep-id" type="hidden">
+
+              <div class="grid">
+                <label>Categoría
+                  <select id="rep-categoria" required>
+                    <option value="materiales_disponibles">Materiales disponibles</option>
+                    <option value="equipos_tecnologicos">Equipos tecnológicos</option>
+                    <option value="materiales_elaborados">Materiales elaborados</option>
+                  </select>
+                </label>
+                <label class="check check-repositorio">
+                  <input id="rep-visible" type="checkbox" checked>
+                  Visible públicamente
+                </label>
+              </div>
+
+              <label>Título
+                <input id="rep-titulo" type="text" required>
+              </label>
+
+              <label>Descripción
+                <textarea id="rep-descripcion" rows="4" placeholder="Descripción breve del recurso, equipo o material."></textarea>
+              </label>
+
+              <label>Imagen (opcional)
+                <input id="rep-imagen" type="text" placeholder="assets/imagenes/... o https://crebeucayali.github.io/...">
+              </label>
+
+              <label>Texto alternativo de la imagen
+                <input id="rep-alt" type="text" placeholder="Descripción accesible de la imagen">
+              </label>
+
+              <div class="acciones-repositorio">
+                <button type="submit">Guardar recurso</button>
+                <button id="boton-eliminar-recurso" type="button" class="peligro" hidden>Eliminar recurso</button>
+              </div>
+
+              <p class="nota">Al crear un recurso se añadirá automáticamente al final de la categoría seleccionada. La eliminación retira la tarjeta de Supabase y queda registrada en la auditoría administrativa.</p>
+            </form>
+          </section>
+
           <p id="mensaje-admin" class="mensaje" aria-live="polite"></p>
         </section>
       </div>
@@ -255,7 +315,7 @@
     </div>
   </footer>
 
-  <script src="admin.js?v=7" defer></script>
+  <script src="admin.js?v=8" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>
 </html>
