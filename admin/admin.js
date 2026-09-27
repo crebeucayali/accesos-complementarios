@@ -757,6 +757,22 @@
     return (ordenes.length ? Math.max(...ordenes) : 0) + 1;
   }
 
+  function normalizarTituloNoticia(valor) {
+    return String(valor || "").trim().toLocaleLowerCase("es");
+  }
+
+  function validarTituloNoticiaUnico(titulo, idActual = "") {
+    const normalizado = normalizarTituloNoticia(titulo);
+    const repetida = noticiasDestacadas.find((fila) =>
+      String(fila.id) !== String(idActual || "") &&
+      normalizarTituloNoticia(fila.titulo) === normalizado
+    );
+
+    if (repetida) {
+      throw new Error('Ya existe una noticia con el título "' + repetida.titulo + '". Cambia el título o edita la noticia existente.');
+    }
+  }
+
   async function guardarNoticiaDestacada() {
     const id = $("not-id").value.trim();
     const categoria = $("not-categoria").value.trim();
@@ -766,6 +782,8 @@
     if (!categoria) throw new Error("La categoría es obligatoria.");
     if (!titulo) throw new Error("El título es obligatorio.");
     if (!descripcion) throw new Error("La síntesis breve es obligatoria.");
+
+    validarTituloNoticiaUnico(titulo, id);
 
     const existente = id
       ? noticiasDestacadas.find((fila) => String(fila.id) === id)
