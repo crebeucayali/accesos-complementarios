@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="admin.css?v=9">
+  <link rel="stylesheet" href="admin.css?v=10">
   <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
 <body class="theme-crebe wsite-theme-light panel-admin-page">
@@ -499,12 +499,30 @@
             <div class="estadisticas-bloque">
               <div class="estadisticas-encabezado">
                 <div>
-                  <p class="micro-etiqueta">Distribución acumulada</p>
+                  <p class="micro-etiqueta">Consulta por periodo</p>
                   <h3>Visitas por acceso</h3>
                 </div>
                 <button id="boton-actualizar-estadisticas" type="button" class="secundario">Actualizar</button>
               </div>
-              <p class="nota">La participación corresponde al peso de cada módulo dentro del total de accesos a módulos registrados; no representa porcentaje de personas.</p>
+
+              <div class="estadisticas-consulta">
+                <label for="est-periodo">Periodo de análisis
+                  <select id="est-periodo">
+                    <option value="7d">Últimos 7 días</option>
+                    <option value="30d" selected>Últimos 30 días</option>
+                    <option value="90d">Últimos 90 días</option>
+                    <option value="historico">Todo el historial</option>
+                  </select>
+                </label>
+
+                <article class="estadistica-periodo-card" aria-live="polite">
+                  <span>Sesiones EVA en el periodo</span>
+                  <strong id="est-periodo-sesiones">0</strong>
+                  <small id="est-periodo-rango"></small>
+                </article>
+              </div>
+
+              <p class="nota">La tabla y la participación se recalculan según el periodo elegido. La participación representa el peso de cada módulo dentro de los accesos a módulos del periodo; no equivale a porcentaje de personas.</p>
               <div class="tabla-estadisticas-wrap">
                 <table class="tabla-estadisticas">
                   <thead>
@@ -570,7 +588,7 @@
     </div>
   </footer>
 
-  <script src="admin.js?v=26" defer></script>
+  <script src="admin.js?v=27" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>
 </html>
