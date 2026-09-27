@@ -10,6 +10,7 @@
   const estadoTitulo = $("estado-panel-titulo");
   const estadoMensaje = $("estado-panel-mensaje");
   const formLogin = $("form-login");
+  const tarjetaLogin = formLogin?.closest(".tarjeta");
   const seccionMfa = $("seccion-mfa");
   const seccionAdmin = $("seccion-admin");
   const mensajeAdmin = $("mensaje-admin");
@@ -156,14 +157,22 @@
     if (!estado.autorizado) {
       throw new Error("La cuenta está autenticada, pero no está autorizada como administradora.");
     }
+
+    if (tarjetaLogin) tarjetaLogin.hidden = true;
+
     if (estado.aal !== "aal2") {
+      seccionAdmin.hidden = true;
+      seccionMfa.hidden = false;
+      estadoTitulo.textContent = "Verificación en dos pasos";
+      estadoMensaje.textContent = "La contraseña ya fue validada. Completa únicamente el código de tu autenticador.";
       await prepararMfa();
       return;
     }
 
     seccionMfa.hidden = true;
-    formLogin.closest(".tarjeta").hidden = true;
     seccionAdmin.hidden = false;
+    estadoTitulo.textContent = "Acceso administrativo activo";
+    estadoMensaje.textContent = "";
     $("usuario-actual").textContent = sesion?.user?.email || "Administrador";
     await Promise.all([cargarCapacitaciones(), cargarCalendario()]);
   }
