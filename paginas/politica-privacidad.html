@@ -60,6 +60,7 @@
           <li>En "Firma tu visita": nombres y apellidos, institución o entidad, cargo o rol, módulos visitados, correo electrónico opcional y comentario u observación opcional. La opción "Estudiante" está orientada principalmente a estudiantes de educación superior y el formulario está dirigido a personas adultas.</li>
           <li>En el seguimiento opcional de Práctica Braille: identificador aleatorio o seudónimo del navegador, modalidad, nivel, resultados de uso, generación de constancia, tipo general de dispositivo y, únicamente cuando la persona lo elige, su nombre.</li>
           <li>En herramientas que funcionan solo en el navegador: preferencias de accesibilidad, historial y favoritos del buscador, tarjetas educativas creadas localmente y otros datos de configuración que no se transmiten necesariamente al CREBE.</li>
+          <li>En el contador de visitas EVA: el navegador conserva temporalmente el momento de actividad y los accesos ya contabilizados para aplicar una sesión de 30 minutos. Supabase recibe únicamente instrucciones para incrementar conteos agregados por fecha y módulo; la tabla estadística del EVA no almacena nombre, correo, ubicación ni un identificador persistente del visitante.</li>
           <li>En formularios o recursos educativos locales: datos introducidos para generar una constancia, ficha o material que pueden permanecer únicamente en el navegador cuando el recurso así lo indica.</li>
         </ul>
         <p>Los formularios actuales no solicitan contraseñas, información financiera ni documentos de identidad como requisito general del ecosistema.</p>
@@ -88,7 +89,7 @@
 
       <article class="bloque-legal">
         <h3>5. Almacenamiento local y tecnologías similares</h3>
-        <p>Algunas funciones utilizan almacenamiento local del navegador, principalmente <code>localStorage</code>, para recordar preferencias o evitar registros duplicados. Entre los usos actuales se encuentran las opciones de accesibilidad, historial y favoritos del buscador, tarjetas educativas locales, controles antiabuso y el identificador seudónimo de determinados seguimientos autorizados.</p>
+        <p>Algunas funciones utilizan almacenamiento local del navegador, principalmente <code>localStorage</code>, para recordar preferencias o evitar registros duplicados. Entre los usos actuales se encuentran las opciones de accesibilidad, historial y favoritos del buscador, tarjetas educativas locales, controles antiabuso, el identificador seudónimo de determinados seguimientos autorizados y el control local de la sesión estadística EVA para evitar contabilizar repetidamente una misma visita dentro de un intervalo de 30 minutos.</p>
         <p>Estos mecanismos no deben utilizarse para fines publicitarios ni de seguimiento comercial. El usuario puede eliminarlos mediante las opciones de privacidad o almacenamiento de su navegador, aunque al hacerlo se perderán las preferencias guardadas.</p>
         <p>El ecosistema no incorpora actualmente, de manera deliberada, cookies propias de analítica o publicidad. Si en el futuro se incorporan tecnologías no esenciales que requieran consentimiento, se implementará el mecanismo de información y elección correspondiente antes de su activación.</p>
       </article>
@@ -101,7 +102,7 @@
           <li>Google Apps Script, Google Sheets y Google Drive, para determinados registros autorizados, almacenamiento institucional y visualización de materiales.</li>
           <li>ARASAAC, para consultas de pictogramas y apoyos visuales.</li>
           <li>Gutendex, para búsquedas de libros y recursos bibliográficos abiertos.</li>
-          <li>Supabase, utilizado en Capacitaciones, Calendario, Repositorio Accesible, Noticias destacadas y los metadatos de la Galería como base de datos y API para información pública. El panel administrativo utiliza Supabase Auth, una cuenta administrativa autorizada y MFA para gestionar estos contenidos. Las sesiones administrativas se limitan al personal autorizado y las operaciones de escritura están protegidas por RLS.</li>
+          <li>Supabase, utilizado en Capacitaciones, Calendario, Repositorio Accesible, Noticias destacadas, los metadatos de la Galería y los conteos agregados de visitas EVA como base de datos y API para información pública y operativa. El panel administrativo utiliza Supabase Auth, una cuenta administrativa autorizada y MFA para gestionar estos contenidos. Las sesiones administrativas se limitan al personal autorizado y las operaciones de escritura están protegidas por RLS.</li>
           <li>Otros sitios externos enlazados, como fuentes institucionales, redes sociales o plataformas de contenido, que se abren fuera del ecosistema y se rigen por sus propias políticas.</li>
         </ul>
         <p>En la Galería, Supabase almacena metadatos y la referencia a imágenes ya publicadas en el EVA/GitHub; en esta etapa no se utiliza Supabase Storage para almacenar fotografías. El panel exige una confirmación administrativa de autorización antes de permitir que una tarjeta fotográfica quede visible.</p>
