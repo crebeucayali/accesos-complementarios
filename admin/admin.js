@@ -26,6 +26,7 @@
   let archivoNoticiaSeleccionado = null;
   let archivoCapFlyerSeleccionado = null;
   let archivoCapInfografiaSeleccionado = null;
+  let archivoRepositorioSeleccionado = null;
 
   function mostrarMensaje(texto, tipo = "") {
     mensajeAdmin.textContent = texto || "";
@@ -592,6 +593,124 @@
     materiales_elaborados: "Materiales elaborados"
   };
 
+  function resolverVistaPreviaRepositorio(valor) {
+    const texto = String(valor || "").trim();
+    if (!texto) return "";
+    if (/^assets\/[a-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(texto)) {
+      return "https://crebeucayali.github.io/repositorio-accesible/" + texto;
+    }
+    return texto;
+  }
+
+  function mostrarVistaPreviaRepositorio(origen, mensaje) {
+    const panel = $("rep-imagen-panel");
+    const imagen = $("rep-imagen-preview");
+    const estado = $("rep-imagen-estado");
+    const url = String(origen || "").trim();
+
+    if (!url) {
+      panel.hidden = true;
+      imagen.removeAttribute("src");
+      estado.textContent = "";
+      return;
+    }
+
+    imagen.src = resolverVistaPreviaRepositorio(url);
+    estado.textContent = mensaje || "Imagen actualmente asociada al recurso.";
+    panel.hidden = false;
+  }
+
+  function esImagenStorageRepositorio(valor) {
+    try {
+      const url = new URL(String(valor || "").trim());
+      return (
+        url.protocol === "https:" &&
+        url.hostname.toLowerCase() === "dteimbhwtzghhsijeeld.supabase.co" &&
+        /^\/storage\/v1\/object\/public\/eva-publico\/repositorio\/[a-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(url.pathname)
+      );
+    } catch {
+      return false;
+    }
+  }
+
+  function rutaStorageRepositorio(archivo, categoria) {
+    const carpeta = String(categoria || "materiales_disponibles").toLowerCase();
+    return (
+      "repositorio/" + carpeta + "/" +
+      Date.now() + "-" + identificadorArchivoNoticia() +
+      "." + extensionImagenNoticia(archivo)
+    );
+  }
+
+  async function subirImagenRepositorio(archivo, categoria) {
+    validarArchivoImagenNoticia(archivo);
+    await refrescarSesionSiHaceFalta();
+
+    const estado = await comprobarAutorizacion();
+    if (!estado.autorizado || estado.aal !== "aal2") {
+      throw new Error("La carga de imágenes requiere una sesión administrativa con MFA AAL2.");
+    }
+
+    const ruta = rutaStorageRepositorio(archivo, categoria);
+    const rutaCodificada = ruta.split("/").map(encodeURIComponent).join("/");
+
+    await solicitar(
+      SUPABASE_URL + "/storage/v1/object/" + encodeURIComponent(STORAGE_BUCKET_EVA) + "/" + rutaCodificada,
+      {
+        method: "POST",
+        headers: {
+          apikey: SUPABASE_PUBLISHABLE_KEY,
+          Authorization: "Bearer " + sesion.access_token,
+          "Content-Type": archivo.type,
+          Accept: "application/json",
+          "Cache-Control": "3600",
+          "x-upsert": "false"
+        },
+        body: archivo
+      }
+    );
+
+    return {
+      ruta,
+      url: STORAGE_NOTICIAS_BASE + ruta
+    };
+  }
+
+  function gestionarArchivoRepositorio(evento) {
+    try {
+      const archivo = validarArchivoImagenNoticia(evento.target.files?.[0] || null);
+      archivoRepositorioSeleccionado = archivo;
+
+      if (!archivo) {
+        const valorActual = $("rep-imagen").value;
+        mostrarVistaPreviaRepositorio(
+          valorActual,
+          valorActual ? "Imagen actualmente asociada al recurso." : ""
+        );
+        return;
+      }
+
+      const lector = new FileReader();
+      lector.addEventListener("load", () => {
+        mostrarVistaPreviaRepositorio(
+          lector.result,
+          archivo.name + " · " + Math.max(1, Math.round(archivo.size / 1024)) + " KB · preparada para subir"
+        );
+      });
+      lector.readAsDataURL(archivo);
+      mostrarMensaje("");
+    } catch (error) {
+      archivoRepositorioSeleccionado = null;
+      evento.target.value = "";
+      const valorActual = $("rep-imagen").value;
+      mostrarVistaPreviaRepositorio(
+        valorActual,
+        valorActual ? "Imagen actualmente asociada al recurso." : ""
+      );
+      mostrarMensaje(error.message, "error");
+    }
+  }
+
   function llenarRecursoRepositorio(fila) {
     $("rep-id").value = fila?.id || "";
     $("rep-categoria").value = fila?.categoria || "materiales_disponibles";
@@ -601,6 +720,13 @@
     $("rep-alt").value = fila?.imagen_alt || "";
     $("rep-visible").checked = fila?.visible !== false;
     $("boton-eliminar-recurso").hidden = !fila?.id;
+
+    archivoRepositorioSeleccionado = null;
+    $("rep-imagen-archivo").value = "";
+    mostrarVistaPreviaRepositorio(
+      fila?.imagen_url || "",
+      fila?.imagen_url ? "Imagen actualmente asociada al recurso." : ""
+    );
   }
 
   async function cargarRepositorio() {
@@ -640,16 +766,20 @@
   function validarImagenRepositorio(valor) {
     const texto = String(valor || "").trim();
     if (!texto) return "";
-    if (/^assets\/[a-z0-9._/-]+$/i.test(texto)) return texto;
+    if (/^assets\/[a-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(texto)) return texto;
+    if (esImagenStorageRepositorio(texto)) return new URL(texto).href;
 
     try {
       const url = new URL(texto);
-      if (url.protocol !== "https:" || url.hostname.toLowerCase() !== "crebeucayali.github.io") {
-        throw new Error();
-      }
+      const rutaGitHubValida =
+        url.protocol === "https:" &&
+        url.hostname.toLowerCase() === "crebeucayali.github.io" &&
+        /^\/repositorio-accesible\/assets\/[a-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(url.pathname);
+
+      if (!rutaGitHubValida) throw new Error();
       return url.href;
     } catch {
-      throw new Error("La imagen debe usar una ruta local assets/... o una URL HTTPS de crebeucayali.github.io.");
+      throw new Error("La imagen debe pertenecer al Repositorio Accesible o al Storage institucional autorizado.");
     }
   }
 
@@ -664,9 +794,14 @@
     const id = $("rep-id").value.trim();
     const categoria = $("rep-categoria").value;
     const titulo = $("rep-titulo").value.trim();
-    const imagen = validarImagenRepositorio($("rep-imagen").value);
+    const alt = $("rep-alt").value.trim();
 
     if (!titulo) throw new Error("El título del recurso es obligatorio.");
+
+    let imagen = validarImagenRepositorio($("rep-imagen").value);
+    if ((imagen || archivoRepositorioSeleccionado) && !alt) {
+      throw new Error("El texto alternativo es obligatorio cuando el recurso tiene una imagen.");
+    }
 
     const existente = id
       ? recursosRepositorio.find((fila) => String(fila.id) === id)
@@ -676,13 +811,23 @@
       ? Number(existente.orden || 1)
       : siguienteOrdenRepositorio(categoria);
 
+    if (archivoRepositorioSeleccionado) {
+      mostrarMensaje("Subiendo imagen del recurso a Supabase Storage…");
+      const subida = await subirImagenRepositorio(archivoRepositorioSeleccionado, categoria);
+      imagen = subida.url;
+      $("rep-imagen").value = imagen;
+      archivoRepositorioSeleccionado = null;
+      $("rep-imagen-archivo").value = "";
+      mostrarVistaPreviaRepositorio(imagen, "Imagen subida a Storage. Pendiente de guardar el recurso.");
+    }
+
     const payload = {
       categoria,
       orden,
       titulo,
       descripcion: $("rep-descripcion").value.trim(),
       imagen_url: imagen,
-      imagen_alt: $("rep-alt").value.trim(),
+      imagen_alt: alt,
       visible: $("rep-visible").checked,
       origen: existente?.origen || "panel_admin"
     };
@@ -1325,6 +1470,17 @@
   });
 
   $("boton-nuevo-recurso").addEventListener("click", nuevoRecursoRepositorio);
+
+  $("rep-imagen-archivo").addEventListener("change", gestionarArchivoRepositorio);
+
+  $("rep-imagen-retirar").addEventListener("click", () => {
+    archivoRepositorioSeleccionado = null;
+    $("rep-imagen-archivo").value = "";
+    $("rep-imagen").value = "";
+    $("rep-alt").value = "";
+    mostrarVistaPreviaRepositorio("", "");
+    mostrarMensaje("La imagen se retirará al guardar el recurso.");
+  });
 
   $("boton-eliminar-recurso").addEventListener("click", async () => {
     try {
