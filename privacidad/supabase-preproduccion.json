@@ -3,7 +3,7 @@
   "proyecto": "crebe Project",
   "project_ref": "dteimbhwtzghhsijeeld",
   "region": "us-east-1",
-  "uso_actual": "datos_publicos_capacitaciones_calendario_repositorio_noticias_galeria_mas_panel_admin_auth",
+  "uso_actual": "datos_publicos_contenidos_galeria_estadisticas_agregadas_mas_panel_admin_auth",
   "auth_activo_en_frontend": true,
   "edge_functions_activas": 0,
   "rls_tablas_publicas_actuales": true,
@@ -27,7 +27,8 @@
     "panel_admin_scaffold",
     "repositorio_publico",
     "noticias_destacadas_publicas",
-    "galeria_publica"
+    "galeria_publica",
+    "estadisticas_visitas_eva"
   ],
   "controles_pendientes": [
     "auth_frontend",
@@ -68,5 +69,18 @@
       "noticias_destacadas",
       "galeria"
     ]
+  },
+  "estadisticas_visitas": {
+    "estado": "operativo",
+    "tabla": "private.eva_visitas_diarias",
+    "intervalo_inactividad_minutos": 30,
+    "accesos": 8,
+    "datos_persistentes": [
+      "fecha",
+      "modulo",
+      "conteo_agregado"
+    ],
+    "identificador_visitante_persistente": false,
+    "ip_en_tabla_aplicacion": false
   }
 }
