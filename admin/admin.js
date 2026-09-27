@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const PANEL_HABILITADO = false;
+  const PANEL_HABILITADO = true;
   const SUPABASE_URL = "https://dteimbhwtzghhsijeeld.supabase.co";
   const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_tHbo1jTeW_dC90hdA5DvyQ_a6LrfKpq";
   const SESSION_KEY = "eva_admin_supabase_session_v1";
