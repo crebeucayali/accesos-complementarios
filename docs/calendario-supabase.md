@@ -131,22 +131,18 @@ La actualización coordinada de Capacitaciones y Calendario se documenta en:
 El control privado `private.calendario_control_operativo` permite detectar días con múltiples actividades y marcadores de planificación que deban revisarse.
 
 
-## Etapa 2D — estados de publicación
+## Modelo operativo del Calendario
 
-El Calendario diferencia ahora dos conceptos:
+El Calendario no utiliza los estados editoriales `borrador / publicado / archivado`. Su modelo mantiene exclusivamente el estado propio de la actividad:
 
-- **Estado de la actividad**: `confirmada`, `planificacion`, `interna`, `feriado` o `cancelada`.
-- **Estado de publicación**: `borrador`, `publicado` o `archivado`.
+- `confirmada`;
+- `planificacion`;
+- `interna`;
+- `feriado`;
+- `cancelada`.
 
-El estado de publicación no sustituye ni modifica la naturaleza de la actividad. Por ejemplo, una actividad puede permanecer como `confirmada` mientras pasa de `borrador` a `publicado`.
+La visibilidad pública continúa controlándose de forma independiente mediante `visible`.
 
-Para compatibilidad con la implementación anterior, `visible` continúa existiendo y queda sincronizado desde la función administrativa: solo `publicado` mantiene `visible = true`.
+En la cuadrícula pública, el estado de cada actividad se presenta como una etiqueta visible antes del título. El título y las líneas adicionales se muestran después de esa etiqueta, por lo que agregar contenido descriptivo no sustituye ni oculta el estado seleccionado.
 
-La lectura pública de `public.calendario_actividades` exige simultáneamente:
-
-- `estado_publicacion = 'publicado'`;
-- `visible = true`.
-
-La vista `public.calendario_publico` conserva `security_invoker = true` y aplica además el filtro explícito de publicación a las actividades del Calendario. Las sesiones procedentes de `public.capacitaciones_sesiones` continúan integrándose sin cambios en esta etapa.
-
-Los administradores autorizados con MFA AAL2 pueden consultar y gestionar los tres estados editoriales.
+La vista `public.calendario_publico` conserva `security_invoker = true` y publica las actividades propias del Calendario únicamente cuando `visible = true`. Las sesiones procedentes de Capacitaciones continúan integrándose sin cambios.
