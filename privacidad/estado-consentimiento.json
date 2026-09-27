@@ -4,7 +4,7 @@
   "banner_global": {
     "activo": false,
     "estado": "no_requerido_segun_inventario_actual",
-    "motivo": "No se han identificado tecnologías propias de analítica, publicidad o seguimiento comercial que se activen automáticamente al ingresar al ecosistema."
+    "motivo": "No se utilizan tecnologías de publicidad ni seguimiento entre sitios. El contador EVA usa localStorage de primera parte para una sesión de 30 minutos y Supabase conserva solo conteos agregados por fecha y módulo."
   },
   "mecanismos_actuales": [
     {
@@ -106,6 +106,20 @@
       "escritura_admin": "cuenta_autorizada_mfa_aal2",
       "eliminacion_admin": true,
       "publicacion_visible_requiere_confirmacion_autorizacion": true
+    },
+    {
+      "id": "eva_visitas_agregadas",
+      "categoria": "estadistica_agregada_primera_parte",
+      "almacenamiento": "localStorage_sesion_30_minutos_mas_conteo_agregado_supabase",
+      "consentimiento_global": false,
+      "identificador_personal_en_bd": false,
+      "seguimiento_entre_sitios": false,
+      "intervalo_inactividad_minutos": 30,
+      "datos_servidor": [
+        "fecha",
+        "modulo",
+        "conteo_agregado"
+      ]
     }
   ],
   "disparadores_de_revision": [
