@@ -146,3 +146,17 @@ La auditoría integral del sistema de estadísticas realizada el 27 de septiembr
 El informe técnico completo se encuentra en:
 
 [Auditoría de estadísticas EVA — Etapa 4A](auditoria-estadisticas-eva-etapa-4a.md)
+
+
+## Etapa 4B — mejora de métricas
+
+La Etapa 4B amplió la lectura administrativa sin recopilar datos adicionales. El panel incorpora:
+
+- evolución mensual de los últimos 6 meses;
+- actividad diaria de los últimos 30 días, incluyendo días con cero sesiones;
+- fecha de inicio de la medición;
+- participación de cada módulo dentro del total acumulado de accesos a módulos.
+
+La documentación completa se encuentra en:
+
+[Etapa 4B — Mejora de métricas EVA](mejora-estadisticas-eva-etapa-4b.md)
