@@ -55,14 +55,13 @@
       "delete_authenticated": false
     },
     "activacion_pendiente": [
-      "definir_correo_administrativo_personal",
-      "agregar_correo_a_admin_guard.admin_correos_autorizados",
       "habilitar_hook_before_user_created",
       "crear_o_invitar_cuenta_autorizada",
       "vincular_user_id",
       "enrolar_TOTP",
       "cerrar_controles_bloqueantes_del_gate",
       "probar_UPDATE_controlado"
-    ]
+    ],
+    "correo_autorizado_inicial": "senordelosmilagroscrebe@gmail.com"
   }
 }
