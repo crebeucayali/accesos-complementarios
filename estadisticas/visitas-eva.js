@@ -83,11 +83,29 @@
 
     registroEnCurso = true;
     try {
-      await rpc("registrar_visita_eva", {
-        p_modulo: modulo,
-        p_nueva_sesion: Boolean(nuevaSesion),
-        p_nuevo_modulo: Boolean(nuevoModulo)
+      const respuesta = await fetch(SUPABASE_URL + "/rest/v1/eva_visitas_eventos", {
+        method: "POST",
+        headers: {
+          apikey: SUPABASE_PUBLISHABLE_KEY,
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Prefer: "return=minimal"
+        },
+        body: JSON.stringify({
+          modulo,
+          nueva_sesion: Boolean(nuevaSesion),
+          nuevo_modulo: Boolean(nuevoModulo)
+        }),
+        credentials: "omit",
+        cache: "no-store",
+        referrerPolicy: "strict-origin-when-cross-origin",
+        keepalive: true
       });
+
+      if (!respuesta.ok) {
+        throw new Error("Supabase respondió con estado " + respuesta.status + ".");
+      }
+
       document.documentElement.dataset.evaVisitas = "registrada";
     } catch (error) {
       document.documentElement.dataset.evaVisitas = "error";
