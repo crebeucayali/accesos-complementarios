@@ -1008,7 +1008,7 @@
     $("not-descripcion").value = fila?.descripcion || "";
     $("not-imagen").value = fila?.imagen_url || "";
     $("not-enlace").value = fila?.enlace_url || "";
-    $("not-visible").checked = fila?.visible !== false;
+    $("not-estado-publicacion").value = fila?.estado_publicacion || (fila?.visible === false ? "borrador" : "publicado");
     $("boton-eliminar-noticia").hidden = !fila?.id;
     archivoNoticiaSeleccionado = null;
     $("not-archivo").value = "";
@@ -1037,7 +1037,11 @@
       opcion.value = String(indice);
       opcion.textContent =
         fila.categoria + " · " + fila.titulo +
-        (fila.visible === false ? " · Oculta" : "");
+        " · " + ({
+          borrador: "Borrador",
+          publicado: "Publicado",
+          archivado: "Archivado"
+        }[fila.estado_publicacion] || (fila.visible === false ? "Borrador" : "Publicado"));
       selector.appendChild(opcion);
     });
 
@@ -1139,7 +1143,8 @@
       descripcion,
       imagen_url: imagenUrl,
       enlace_url: validarEnlaceNoticia($("not-enlace").value),
-      visible: $("not-visible").checked,
+      estado_publicacion: $("not-estado-publicacion").value,
+      visible: $("not-estado-publicacion").value === "publicado",
       origen: existente?.origen || "panel_admin"
     };
 
