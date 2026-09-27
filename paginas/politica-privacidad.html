@@ -101,9 +101,10 @@
           <li>Google Apps Script, Google Sheets y Google Drive, para determinados registros autorizados, almacenamiento institucional y visualización de materiales.</li>
           <li>ARASAAC, para consultas de pictogramas y apoyos visuales.</li>
           <li>Gutendex, para búsquedas de libros y recursos bibliográficos abiertos.</li>
-          <li>Supabase, utilizado en Capacitaciones, Calendario, Repositorio Accesible y Noticias destacadas de la portada como base de datos y API para información pública. El panel administrativo utiliza Supabase Auth, una cuenta administrativa autorizada y MFA para gestionar estos contenidos. Las sesiones administrativas se limitan al personal autorizado y las operaciones de escritura están protegidas por RLS.</li>
+          <li>Supabase, utilizado en Capacitaciones, Calendario, Repositorio Accesible, Noticias destacadas y los metadatos de la Galería como base de datos y API para información pública. El panel administrativo utiliza Supabase Auth, una cuenta administrativa autorizada y MFA para gestionar estos contenidos. Las sesiones administrativas se limitan al personal autorizado y las operaciones de escritura están protegidas por RLS.</li>
           <li>Otros sitios externos enlazados, como fuentes institucionales, redes sociales o plataformas de contenido, que se abren fuera del ecosistema y se rigen por sus propias políticas.</li>
         </ul>
+        <p>En la Galería, Supabase almacena metadatos y la referencia a imágenes ya publicadas en el EVA/GitHub; en esta etapa no se utiliza Supabase Storage para almacenar fotografías. El panel exige una confirmación administrativa de autorización antes de permitir que una tarjeta fotográfica quede visible.</p>
         <p>La información solo debe compartirse con terceros cuando sea necesaria para la finalidad informada, exista habilitación legal o consentimiento cuando corresponda, y se apliquen las medidas exigibles de protección de datos.</p>
       </article>
 
@@ -146,8 +147,8 @@
 
       <article class="bloque-legal">
         <h3>13. Incorporación de nuevos servicios</h3>
-        <p>Las integraciones públicas de Supabase abarcan Capacitaciones, Calendario, Repositorio Accesible y Noticias destacadas de la portada. El panel administrativo ya utiliza autenticación y MFA para una cuenta autorizada, con permisos de escritura controlados mediante RLS. Antes de ampliar Supabase u otras plataformas hacia nuevos formularios, almacenamiento de archivos personales u otros tratamientos de datos personales, deberá evaluarse qué información tratarán, qué proveedores intervendrán, si existirán transferencias o flujos transfronterizos, qué medidas de seguridad serán necesarias y si corresponde obtener consentimiento adicional.</p>
-        <p>Para Supabase se mantiene una revisión preproducción específica. Los contenidos públicos de Capacitaciones, Calendario, Repositorio Accesible y Noticias destacadas pueden continuar operando; cualquier ampliación hacia nuevos tratamientos de datos personales sigue condicionada al cierre de los controles institucionales, jurídicos y operativos pendientes.</p>
+        <p>Las integraciones públicas de Supabase abarcan Capacitaciones, Calendario, Repositorio Accesible, Noticias destacadas y los metadatos de la Galería. El panel administrativo ya utiliza autenticación y MFA para una cuenta autorizada, con permisos de escritura controlados mediante RLS. Antes de ampliar Supabase u otras plataformas hacia nuevos formularios, almacenamiento de archivos personales u otros tratamientos de datos personales, deberá evaluarse qué información tratarán, qué proveedores intervendrán, si existirán transferencias o flujos transfronterizos, qué medidas de seguridad serán necesarias y si corresponde obtener consentimiento adicional.</p>
+        <p>Para Supabase se mantiene una revisión preproducción específica. Los contenidos públicos de Capacitaciones, Calendario, Repositorio Accesible, Noticias destacadas y Galería pueden continuar operando; cualquier ampliación hacia nuevos tratamientos de datos personales sigue condicionada al cierre de los controles institucionales, jurídicos y operativos pendientes.</p>
         <p>Si una nueva funcionalidad modifica de manera sustancial el tratamiento de datos, esta política deberá actualizarse antes de su puesta en producción.</p>
       </article>
 
