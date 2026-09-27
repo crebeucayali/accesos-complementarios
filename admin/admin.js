@@ -100,26 +100,24 @@
     };
   }
 
-  async function listarFactores() {
-    await refrescarSesionSiHaceFalta();
-    const datos = await solicitar(SUPABASE_URL + "/auth/v1/factors", {
-      method: "GET",
-      headers: authHeaders(sesion.access_token)
+  async function obtenerEstadoMfa() {
+    const datos = await rest("rpc/estado_mfa_admin", {
+      method: "POST",
+      body: "{}"
     });
-    if (Array.isArray(datos)) return datos;
-    if (Array.isArray(datos?.all)) return datos.all;
-    return [
-      ...(Array.isArray(datos?.totp) ? datos.totp : []),
-      ...(Array.isArray(datos?.phone) ? datos.phone : [])
-    ];
+    const fila = Array.isArray(datos) ? datos[0] : datos;
+    return {
+      aal: String(fila?.aal || ""),
+      factorId: fila?.factor_id || null,
+      tieneFactorVerificado: Boolean(fila?.tiene_factor_verificado)
+    };
   }
 
   async function prepararMfa() {
-    const factores = await listarFactores();
-    const verificado = factores.find((factor) => factor.status === "verified" && factor.factor_type === "totp");
+    const estadoMfa = await obtenerEstadoMfa();
 
-    if (verificado) {
-      factorMfa = verificado.id;
+    if (estadoMfa.tieneFactorVerificado && estadoMfa.factorId) {
+      factorMfa = estadoMfa.factorId;
       $("mfa-enrolamiento").hidden = true;
     } else {
       const enrolado = await solicitar(SUPABASE_URL + "/auth/v1/factors", {
