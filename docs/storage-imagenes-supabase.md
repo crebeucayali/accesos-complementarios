@@ -59,8 +59,27 @@ La portada solo admite como imagen externa de Storage la ruta pública específi
 
 Los enlaces para ampliar noticias conservan su restricción al dominio del EVA.
 
-### Estado de validación
+### Estado de validación de 1B
 
-La infraestructura, RLS, restricciones de archivo, código del panel, CSP y resolución pública de imágenes quedaron implementados y verificados en código.
+Noticias destacadas fue validado con carga real desde el Panel Administrativo: la imagen se subió correctamente a Storage y se mostró desde la portada. También se incorporó validación previa de títulos duplicados para evitar subir archivos antes de detectar ese conflicto.
 
-La prueba funcional con una carga real debe realizarse desde una sesión administrativa AAL2 en el navegador antes de extender Storage a Capacitaciones, Repositorio Accesible o Galería.
+## Etapa 1C — Capacitaciones
+
+Capacitaciones incorpora Storage únicamente para los recursos visuales que realmente lo necesitan:
+
+- infografías de ambas jornadas;
+- flyer solo en el espacio donde la plantilla pública ya lo contempla: primera jornada, sesión 1.
+
+No se reintroducen flyers en la segunda jornada.
+
+El Panel Administrativo permite seleccionar WebP, JPG/JPEG o PNG de hasta 5 MB, previsualizar la imagen y subirla a rutas organizadas como:
+
+`eva-publico/capacitaciones/jornada-02/sesion-04/infografia-...`
+
+Las URLs resultantes se guardan en los campos existentes `flyer_url` e `infografia_url`. Las rutas históricas `imagenes/...` continúan siendo compatibles y no se migran automáticamente.
+
+PDF, videos, diapositivas y materiales complementarios conservan su integración actual con Google Drive/Docs; no se trasladan a Storage en esta etapa.
+
+Las páginas de primera y segunda jornada solo aceptan como imágenes externas las rutas públicas específicas de `eva-publico/capacitaciones/`.
+
+La Etapa 1C queda implementada técnicamente y pendiente de una prueba funcional real desde una sesión administrativa AAL2 antes de extender Storage al Repositorio Accesible.
