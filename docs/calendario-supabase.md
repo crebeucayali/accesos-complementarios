@@ -129,3 +129,24 @@ La actualización coordinada de Capacitaciones y Calendario se documenta en:
 [Procedimiento operativo conjunto de Capacitaciones y Calendario](procedimiento-operativo-capacitaciones-calendario.md)
 
 El control privado `private.calendario_control_operativo` permite detectar días con múltiples actividades y marcadores de planificación que deban revisarse.
+
+
+## Etapa 2D — estados de publicación
+
+El Calendario diferencia ahora dos conceptos:
+
+- **Estado de la actividad**: `confirmada`, `planificacion`, `interna`, `feriado` o `cancelada`.
+- **Estado de publicación**: `borrador`, `publicado` o `archivado`.
+
+El estado de publicación no sustituye ni modifica la naturaleza de la actividad. Por ejemplo, una actividad puede permanecer como `confirmada` mientras pasa de `borrador` a `publicado`.
+
+Para compatibilidad con la implementación anterior, `visible` continúa existiendo y queda sincronizado desde la función administrativa: solo `publicado` mantiene `visible = true`.
+
+La lectura pública de `public.calendario_actividades` exige simultáneamente:
+
+- `estado_publicacion = 'publicado'`;
+- `visible = true`.
+
+La vista `public.calendario_publico` conserva `security_invoker = true` y aplica además el filtro explícito de publicación a las actividades del Calendario. Las sesiones procedentes de `public.capacitaciones_sesiones` continúan integrándose sin cambios en esta etapa.
+
+Los administradores autorizados con MFA AAL2 pueden consultar y gestionar los tres estados editoriales.
