@@ -61,7 +61,7 @@ Campos administrativos:
 - fecha;
 - título;
 - descripción;
-- ruta o URL de imagen;
+- imagen seleccionada desde el equipo;
 - texto alternativo;
 - confirmación de autorización de publicación;
 - visibilidad.
@@ -78,18 +78,25 @@ Esta medida no reemplaza la evaluación institucional de los permisos, consentim
 
 ## Fotografías
 
-En esta etapa Supabase no almacena los archivos fotográficos.
+Las nuevas fotografías pueden cargarse directamente desde el Panel Administrativo en WebP, JPG/JPEG o PNG, con un máximo de 5 MB.
 
-`galeria_items.imagen_url` referencia imágenes previamente publicadas en el EVA/GitHub, por ejemplo:
+El flujo es:
 
-```text
-imagenes-galeria/actividad-01.webp
-imagenes-calendario/25-09.webp
-```
+1. seleccionar la imagen;
+2. mostrar una vista previa local;
+3. exigir texto alternativo;
+4. comprobar sesión administrativa autorizada con MFA AAL2;
+5. subir el archivo a `eva-publico/galeria/`;
+6. guardar la URL pública en `galeria_items.imagen_url`;
+7. mostrarla en la Galería pública.
 
-También se admiten URL HTTPS del dominio `crebeucayali.github.io`.
+Las imágenes históricas previamente alojadas en EVA/GitHub continúan siendo compatibles y no se migran ni eliminan automáticamente.
 
-No se habilita Supabase Storage para fotografías en esta fase.
+La página pública solo admite como imágenes externas de Storage las rutas bajo:
+
+`https://dteimbhwtzghhsijeeld.supabase.co/storage/v1/object/public/eva-publico/galeria/...`
+
+La carga crea un objeto nuevo y no sobrescribe automáticamente fotografías anteriores.
 
 ## Seguridad
 
@@ -132,3 +139,8 @@ Valores:
 
 - `supabase`
 - `error`
+
+
+## Estado de validación de Storage
+
+La integración técnica de Storage para Galería está implementada. Queda pendiente una prueba funcional real desde una sesión administrativa AAL2 antes de considerar cerrada esta etapa.
