@@ -74,7 +74,13 @@
   </url>
   <url>
     <loc>https://crebeucayali.github.io/accesos-complementarios/paginas/politica-privacidad.html</loc>
-    <lastmod>2026-07-09</lastmod>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://crebeucayali.github.io/accesos-complementarios/paginas/politica-cookies.html</loc>
+    <lastmod>2026-09-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
