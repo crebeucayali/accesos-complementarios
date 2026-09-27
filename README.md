@@ -76,8 +76,9 @@ Documentación asociada:
 - [Estado preproducción de Supabase](privacidad/supabase-preproduccion.json)
 - [Calendario público con Supabase](docs/calendario-supabase.md)
 - [Panel administrativo con Supabase Auth](docs/panel-administrativo-auth.md)
+- [Repositorio Accesible con Supabase](docs/repositorio-supabase.md)
 
-El uso público de Supabase continúa centrado en Capacitaciones y Calendario. La interfaz del panel administrativo en `admin/` ya tiene el inicio de sesión técnicamente habilitado, pero actualmente no existen usuarios Auth ni administradores autorizados. La primera cuenta solo debe crearse de forma deliberada después de habilitar la restricción de altas, completar los controles preproducción aplicables y mantener MFA TOTP/AAL2 como requisito de escritura.
+El uso público de Supabase comprende actualmente Capacitaciones, Calendario y Repositorio Accesible. El panel administrativo en `admin/` está operativo con una cuenta autorizada y MFA TOTP/AAL2. Capacitaciones y Calendario permiten gestión controlada sin eliminación directa; Repositorio Accesible permite crear, editar y eliminar recursos bajo RLS y auditoría.
 
 ## Funcionalidades principales
 
