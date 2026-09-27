@@ -49,17 +49,8 @@
     }).format(valor);
   }
 
-  async function consultarGaleria() {
-    const endpoint = new URL(SUPABASE_URL + "/rest/v1/galeria_items");
-    endpoint.searchParams.set(
-      "select",
-      "id,orden,fecha,titulo,descripcion,imagen_url,imagen_alt,updated_at"
-    );
-    endpoint.searchParams.set("visible", "eq.true");
-    endpoint.searchParams.set("publicacion_autorizada", "eq.true");
-    endpoint.searchParams.set("order", "orden.desc,id.desc");
-
-    const respuesta = await fetch(endpoint.href, {
+  async function consultarRest(ruta) {
+    const respuesta = await fetch(SUPABASE_URL + "/rest/v1/" + ruta, {
       method: "GET",
       headers: {
         apikey: SUPABASE_PUBLISHABLE_KEY,
@@ -78,12 +69,39 @@
     return Array.isArray(datos) ? datos : [];
   }
 
-  function abrirVisor(item, imagenUrl) {
+  async function consultarGaleria() {
+    const items = await consultarRest(
+      "galeria_items?select=id,orden,fecha,titulo,descripcion,imagen_url,imagen_alt,updated_at&visible=eq.true&publicacion_autorizada=eq.true&order=orden.desc,id.desc"
+    );
+
+    const imagenes = await consultarRest(
+      "galeria_item_imagenes?select=galeria_item_id,orden,imagen_url,imagen_alt&order=galeria_item_id.asc,orden.asc"
+    );
+
+    const porItem = new Map();
+    imagenes.forEach((imagen) => {
+      const clave = String(imagen.galeria_item_id);
+      if (!porItem.has(clave)) porItem.set(clave, []);
+      porItem.get(clave).push(imagen);
+    });
+
+    return items.map((item) => ({
+      ...item,
+      imagenes: (porItem.get(String(item.id)) || []).slice(0, 5)
+    }));
+  }
+
+  function abrirVisor(item, imagen, indice, total) {
     if (!modal || !modalImagen || !modalTitulo || !modalFecha || !modalDescripcion) return;
 
+    const imagenUrl = resolverImagen(imagen.imagen_url);
+    if (!imagenUrl) return;
+
     modalImagen.src = imagenUrl;
-    modalImagen.alt = String(item.imagen_alt || item.titulo || "Fotografía de actividad");
-    modalTitulo.textContent = String(item.titulo || "");
+    modalImagen.alt = String(imagen.imagen_alt || item.titulo || "Fotografía de actividad");
+    modalTitulo.textContent =
+      String(item.titulo || "") +
+      (total > 1 ? " · Foto " + (indice + 1) + " de " + total : "");
     modalFecha.textContent = formatearFecha(item.fecha);
     modalFecha.hidden = !modalFecha.textContent;
     modalDescripcion.textContent = String(item.descripcion || "");
@@ -103,33 +121,57 @@
   }
 
   function crearTarjeta(item) {
-    const imagenUrl = resolverImagen(item.imagen_url);
-    if (!imagenUrl) return null;
+    let imagenes = Array.isArray(item.imagenes) ? item.imagenes : [];
+    if (!imagenes.length && item.imagen_url) {
+      imagenes = [{
+        orden: 1,
+        imagen_url: item.imagen_url,
+        imagen_alt: item.imagen_alt || item.titulo
+      }];
+    }
+
+    imagenes = imagenes
+      .map((imagen) => ({ ...imagen, urlResuelta: resolverImagen(imagen.imagen_url) }))
+      .filter((imagen) => imagen.urlResuelta)
+      .slice(0, 5);
+
+    if (!imagenes.length) return null;
 
     const articulo = document.createElement("article");
     articulo.className = "galeria-item";
     articulo.dataset.galeriaId = String(item.id);
 
-    const botonImagen = document.createElement("button");
-    botonImagen.type = "button";
-    botonImagen.className = "galeria-imagen-boton";
-    botonImagen.setAttribute("aria-label", "Ampliar fotografía: " + item.titulo);
+    const mosaico = document.createElement("div");
+    mosaico.className = "galeria-imagenes";
+    mosaico.dataset.cantidad = String(imagenes.length);
 
-    const imagen = document.createElement("img");
-    imagen.className = "galeria-foto";
-    imagen.src = imagenUrl;
-    imagen.alt = String(item.imagen_alt || item.titulo);
-    imagen.loading = "lazy";
+    imagenes.forEach((imagenData, indice) => {
+      const botonImagen = document.createElement("button");
+      botonImagen.type = "button";
+      botonImagen.className = "galeria-imagen-boton";
+      botonImagen.setAttribute(
+        "aria-label",
+        "Ampliar fotografía " + (indice + 1) + " de " + imagenes.length + ": " + item.titulo
+      );
 
-    botonImagen.appendChild(imagen);
-    botonImagen.addEventListener("click", () => abrirVisor(item, imagenUrl));
+      const imagen = document.createElement("img");
+      imagen.className = "galeria-foto";
+      imagen.src = imagenData.urlResuelta;
+      imagen.alt = String(imagenData.imagen_alt || item.titulo);
+      imagen.loading = "lazy";
+
+      botonImagen.appendChild(imagen);
+      botonImagen.addEventListener("click", () =>
+        abrirVisor(item, imagenData, indice, imagenes.length)
+      );
+      mosaico.appendChild(botonImagen);
+    });
 
     const contenido = document.createElement("div");
     contenido.className = "contenido-categoria";
 
     const titulo = document.createElement("h3");
     titulo.textContent = String(item.titulo || "");
-
     contenido.appendChild(titulo);
 
     const fecha = formatearFecha(item.fecha);
@@ -140,6 +182,11 @@
       contenido.appendChild(fechaNodo);
     }
 
+    const contador = document.createElement("span");
+    contador.className = "galeria-contador";
+    contador.textContent = imagenes.length + (imagenes.length === 1 ? " fotografía" : " fotografías");
+    contenido.appendChild(contador);
+
     const descripcion = String(item.descripcion || "").trim();
     if (descripcion) {
       const parrafo = document.createElement("p");
@@ -147,7 +194,7 @@
       contenido.appendChild(parrafo);
     }
 
-    articulo.append(botonImagen, contenido);
+    articulo.append(mosaico, contenido);
     return articulo;
   }
 
