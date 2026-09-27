@@ -3,7 +3,7 @@
   "proyecto": "crebe Project",
   "project_ref": "dteimbhwtzghhsijeeld",
   "region": "us-east-1",
-  "uso_actual": "datos_publicos_capacitaciones_calendario_repositorio_noticias_mas_panel_admin_auth",
+  "uso_actual": "datos_publicos_capacitaciones_calendario_repositorio_noticias_galeria_mas_panel_admin_auth",
   "auth_activo_en_frontend": true,
   "edge_functions_activas": 0,
   "rls_tablas_publicas_actuales": true,
@@ -12,8 +12,8 @@
   "gate": {
     "objeto": "private.supabase_preproduccion_gate",
     "habilitado_para_datos_personales": false,
-    "motivo": "La interfaz Auth administrativa está habilitada, pero no existen usuarios ni administradores autorizados y permanecen controles bloqueantes pendientes.",
-    "estado": "no_habilitado_para_uso_productivo_de_cuentas_administrativas"
+    "motivo": "El panel administrativo está operativo con una cuenta autorizada y MFA, pero permanecen controles institucionales y jurídicos pendientes para ampliar el uso de Supabase a nuevos tratamientos de datos personales o Storage personal.",
+    "estado": "panel_operativo_para_contenido_publico_sin_ampliacion_a_storage_personal"
   },
   "controles_verificados": [
     "region_proyecto",
@@ -26,7 +26,8 @@
     "rls_admin_mfa",
     "panel_admin_scaffold",
     "repositorio_publico",
-    "noticias_destacadas_publicas"
+    "noticias_destacadas_publicas",
+    "galeria_publica"
   ],
   "controles_pendientes": [
     "auth_frontend",
@@ -55,7 +56,8 @@
       "capacitaciones": "SELECT publico; INSERT/UPDATE admin AAL2; sin DELETE",
       "calendario": "SELECT publico; INSERT/UPDATE admin AAL2; sin DELETE",
       "repositorio": "SELECT publico visible; INSERT/UPDATE/DELETE admin AAL2",
-      "noticias_destacadas": "SELECT publico visible; INSERT/UPDATE/DELETE admin AAL2"
+      "noticias_destacadas": "SELECT publico visible; INSERT/UPDATE/DELETE admin AAL2",
+      "galeria": "SELECT publico visible+autorizada; INSERT/UPDATE/DELETE admin AAL2; sin Supabase Storage"
     },
     "activacion_pendiente": [],
     "correo_autorizado_inicial": "senordelosmilagroscrebe@gmail.com",
@@ -63,7 +65,8 @@
       "capacitaciones",
       "calendario",
       "repositorio_accesible",
-      "noticias_destacadas"
+      "noticias_destacadas",
+      "galeria"
     ]
   }
 }
