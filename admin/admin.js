@@ -181,7 +181,7 @@
     estadoTitulo.textContent = "Acceso administrativo activo";
     estadoMensaje.textContent = "";
     $("usuario-actual").textContent = sesion?.user?.email || "Administrador";
-    await Promise.all([cargarCapacitaciones(), cargarCalendario(), cargarRepositorio(), cargarNoticiasDestacadas(), cargarGaleriaAdmin()]);
+    await Promise.all([cargarCapacitaciones(), cargarCalendario(), cargarRepositorio(), cargarNoticiasDestacadas(), cargarGaleriaAdmin(), cargarEstadisticasVisitas()]);
   }
 
   async function iniciarSesion(correo, clave) {
@@ -888,6 +888,52 @@
     mostrarMensaje("Fotografía eliminada correctamente.", "exito");
   }
 
+
+  const NOMBRES_MODULOS = {
+    principal: "Plataforma principal",
+    capacitaciones: "Capacitaciones",
+    bda: "Banco Digital Accesible",
+    mea: "Materiales Educativos Accesibles",
+    noti_inclusivos: "Noti Inclusivos",
+    repositorio_accesible: "Repositorio Accesible",
+    dua_3: "DUA 3.0",
+    accesos_complementarios: "Accesos Complementarios"
+  };
+
+  function numeroES(valor) {
+    return new Intl.NumberFormat("es-PE").format(Number(valor || 0));
+  }
+
+  async function cargarEstadisticasVisitas() {
+    const datos = await rest("rpc/estadisticas_visitas_eva", {
+      method: "POST",
+      body: "{}"
+    });
+
+    const resumen = Array.isArray(datos) ? datos[0] : datos;
+    $("est-total").textContent = numeroES(resumen?.total);
+    $("est-hoy").textContent = numeroES(resumen?.hoy);
+    $("est-7dias").textContent = numeroES(resumen?.ultimos_7_dias);
+    $("est-mes").textContent = numeroES(resumen?.mes_actual);
+
+    const cuerpo = $("estadisticas-modulos");
+    cuerpo.replaceChildren();
+
+    const filas = Array.isArray(resumen?.modulos) ? resumen.modulos : [];
+    const mapa = new Map(filas.map((fila) => [fila.modulo, Number(fila.visitas || 0)]));
+
+    Object.entries(NOMBRES_MODULOS).forEach(([id, nombre]) => {
+      const tr = document.createElement("tr");
+      const tdNombre = document.createElement("td");
+      const tdVisitas = document.createElement("td");
+      tdNombre.textContent = nombre;
+      tdVisitas.textContent = numeroES(mapa.get(id) || 0);
+      tdVisitas.className = "estadistica-numero";
+      tr.append(tdNombre, tdVisitas);
+      cuerpo.appendChild(tr);
+    });
+  }
+
   document.querySelectorAll(".tab").forEach((boton) => {
     boton.addEventListener("click", () => {
       document.querySelectorAll(".tab").forEach((x) => x.classList.toggle("activo", x === boton));
@@ -896,6 +942,10 @@
       $("panel-repositorio").hidden = boton.dataset.panel !== "repositorio";
       $("panel-noticias").hidden = boton.dataset.panel !== "noticias";
       $("panel-galeria").hidden = boton.dataset.panel !== "galeria";
+      $("panel-estadisticas").hidden = boton.dataset.panel !== "estadisticas";
+      if (boton.dataset.panel === "estadisticas") {
+        cargarEstadisticasVisitas().catch((error) => mostrarMensaje(error.message, "error"));
+      }
       mostrarMensaje("");
     });
   });
@@ -955,6 +1005,15 @@
   $("boton-eliminar-foto").addEventListener("click", async () => {
     try {
       await eliminarFotoGaleria();
+    } catch (error) {
+      mostrarMensaje(error.message, "error");
+    }
+  });
+
+  $("boton-actualizar-estadisticas").addEventListener("click", async () => {
+    try {
+      await cargarEstadisticasVisitas();
+      mostrarMensaje("Estadísticas actualizadas.", "exito");
     } catch (error) {
       mostrarMensaje(error.message, "error");
     }
