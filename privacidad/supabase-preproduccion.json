@@ -12,7 +12,8 @@
   "gate": {
     "objeto": "private.supabase_preproduccion_gate",
     "habilitado_para_datos_personales": false,
-    "motivo": "Existen controles institucionales, jurídicos y operativos pendientes."
+    "motivo": "La arquitectura Auth está preparada, pero continúan controles bloqueantes y no existe una cuenta administrativa autorizada.",
+    "estado": "no_habilitado_para_datos_personales"
   },
   "controles_verificados": [
     "region_proyecto",
@@ -34,5 +35,27 @@
     "storage_personal",
     "respaldo_recuperacion"
   ],
-  "regla": "No incorporar datos personales ni Supabase Auth hasta cerrar los controles bloqueantes y registrar la evidencia correspondiente."
+  "regla": "No incorporar datos personales ni Supabase Auth hasta cerrar los controles bloqueantes y registrar la evidencia correspondiente.",
+  "panel_administrativo": {
+    "estado": "preparado_no_habilitado",
+    "ruta": "admin/",
+    "auth_users_actuales": 0,
+    "administradores_autorizados_actuales": 0,
+    "registro_publico_en_panel": false,
+    "sesion_cliente": "sessionStorage_al_activar",
+    "mfa": "TOTP_AAL2_obligatorio_para_escritura",
+    "permisos": {
+      "lectura": "publica_segun_RLS",
+      "escritura": "solo_admin_autorizado_con_AAL2",
+      "delete_authenticated": false
+    },
+    "activacion_pendiente": [
+      "definir_correo_administrativo",
+      "habilitar_y_verificar_restriccion_de_creacion_de_cuentas",
+      "crear_o_invitar_cuenta_autorizada",
+      "vincular_user_id",
+      "enrolar_TOTP",
+      "cerrar_controles_bloqueantes_del_gate"
+    ]
+  }
 }
