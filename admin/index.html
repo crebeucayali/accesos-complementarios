@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://dteimbhwtzghhsijeeld.supabase.co; frame-src 'none'; form-action 'self'; upgrade-insecure-requests">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="description" content="Panel administrativo privado para Capacitaciones y Calendario del Ecosistema Virtual Accesible.">
+  <title>Panel administrativo | EVA</title>
+  <link rel="stylesheet" href="admin.css?v=1">
+</head>
+<body>
+  <main class="contenedor">
+    <header class="cabecera-panel">
+      <p class="eyebrow">ECOSISTEMA VIRTUAL ACCESIBLE</p>
+      <h1>Panel administrativo</h1>
+      <p>Gestión privada de Capacitaciones y Calendario.</p>
+    </header>
+
+    <section class="estado-panel" aria-live="polite">
+      <strong id="estado-panel-titulo">Preparación técnica completada</strong>
+      <p id="estado-panel-mensaje">El acceso permanece deshabilitado hasta completar los controles institucionales y registrar una cuenta administrativa autorizada.</p>
+    </section>
+
+    <section class="tarjeta" id="seccion-login" aria-labelledby="titulo-login">
+      <h2 id="titulo-login">Acceso administrativo</h2>
+      <form id="form-login" autocomplete="on">
+        <label for="correo">Correo electrónico</label>
+        <input id="correo" name="correo" type="email" autocomplete="username" required>
+
+        <label for="clave">Contraseña</label>
+        <input id="clave" name="clave" type="password" autocomplete="current-password" required>
+
+        <button type="submit" id="boton-login">Ingresar</button>
+      </form>
+      <p class="nota">No existe registro público de usuarios. El acceso requiere una cuenta autorizada y MFA.</p>
+    </section>
+
+    <section class="tarjeta" id="seccion-mfa" hidden aria-labelledby="titulo-mfa">
+      <h2 id="titulo-mfa">Verificación en dos pasos</h2>
+      <div id="mfa-enrolamiento" hidden>
+        <p>Escanea el código con una aplicación autenticadora y luego introduce el código de seis dígitos.</p>
+        <img id="mfa-qr" alt="Código QR para configurar autenticación en dos pasos">
+        <p id="mfa-secreto" class="secreto"></p>
+      </div>
+      <form id="form-mfa">
+        <label for="codigo-mfa">Código del autenticador</label>
+        <input id="codigo-mfa" name="codigo-mfa" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6,10}" required>
+        <button type="submit">Verificar</button>
+      </form>
+    </section>
+
+    <section id="seccion-admin" hidden>
+      <div class="barra-admin">
+        <div>
+          <strong>Sesión administrativa activa</strong>
+          <span id="usuario-actual"></span>
+        </div>
+        <button id="boton-salir" type="button" class="secundario">Cerrar sesión</button>
+      </div>
+
+      <nav class="tabs" aria-label="Secciones administrativas">
+        <button type="button" class="tab activo" data-panel="capacitaciones">Capacitaciones</button>
+        <button type="button" class="tab" data-panel="calendario">Calendario</button>
+      </nav>
+
+      <section class="tarjeta panel-seccion" id="panel-capacitaciones">
+        <h2>Capacitaciones</h2>
+        <label for="sesion-selector">Seleccionar sesión</label>
+        <select id="sesion-selector"></select>
+
+        <form id="form-capacitacion">
+          <div class="grid">
+            <label>Fecha<input id="cap-fecha" type="date" required></label>
+            <label>Estado
+              <select id="cap-estado">
+                <option value="pendiente">Pendiente</option>
+                <option value="disponible">Disponible</option>
+              </select>
+            </label>
+          </div>
+
+          <label>Título<input id="cap-titulo" type="text" required></label>
+          <label>Tema<textarea id="cap-tema" rows="3"></textarea></label>
+          <label>Infografía<input id="cap-infografia" type="text"></label>
+          <label>PDF<input id="cap-pdf" type="url"></label>
+          <label>Video<input id="cap-video" type="url"></label>
+          <label>Vista previa de video<input id="cap-video-preview" type="url"></label>
+          <label>Diapositivas<input id="cap-diapositivas" type="url"></label>
+          <label>Vista previa de diapositivas<input id="cap-diapositivas-preview" type="url"></label>
+
+          <button type="submit">Guardar cambios</button>
+        </form>
+      </section>
+
+      <section class="tarjeta panel-seccion" id="panel-calendario" hidden>
+        <h2>Calendario</h2>
+        <div class="grid">
+          <label for="actividad-selector">Actividad existente
+            <select id="actividad-selector"></select>
+          </label>
+          <button id="boton-nueva-actividad" type="button" class="secundario">Nueva actividad</button>
+        </div>
+
+        <form id="form-calendario">
+          <input id="cal-id" type="hidden">
+          <label>Fecha<input id="cal-fecha" type="date" required></label>
+          <label>Título<input id="cal-titulo" type="text" required></label>
+          <label>Líneas adicionales<textarea id="cal-lineas" rows="4" placeholder="Una línea por renglón"></textarea></label>
+          <div class="grid">
+            <label>Estado
+              <select id="cal-estado">
+                <option value="confirmada">Confirmada</option>
+                <option value="planificacion">En planificación</option>
+                <option value="interna">Actividad interna</option>
+                <option value="feriado">Feriado</option>
+                <option value="cancelada">Cancelada</option>
+              </select>
+            </label>
+            <label>Clase visual
+              <select id="cal-clase">
+                <option value="">Sin clase especial</option>
+                <option value="feriado">Feriado</option>
+                <option value="lunes-colegiado">Trabajo colegiado</option>
+                <option value="sin-foto-consentimiento">Sin foto por consentimiento</option>
+              </select>
+            </label>
+          </div>
+          <label class="check"><input id="cal-visible" type="checkbox" checked> Visible públicamente</label>
+          <button type="submit">Guardar actividad</button>
+        </form>
+      </section>
+
+      <p id="mensaje-admin" class="mensaje" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script src="admin.js?v=1" defer></script>
+</body>
+</html>
