@@ -22,6 +22,7 @@
   let actividades = [];
   let recursosRepositorio = [];
   let noticiasDestacadas = [];
+  let galeriaItems = [];
 
   function mostrarMensaje(texto, tipo = "") {
     mensajeAdmin.textContent = texto || "";
@@ -176,7 +177,7 @@
     estadoTitulo.textContent = "Acceso administrativo activo";
     estadoMensaje.textContent = "";
     $("usuario-actual").textContent = sesion?.user?.email || "Administrador";
-    await Promise.all([cargarCapacitaciones(), cargarCalendario(), cargarRepositorio(), cargarNoticiasDestacadas()]);
+    await Promise.all([cargarCapacitaciones(), cargarCalendario(), cargarRepositorio(), cargarNoticiasDestacadas(), cargarGaleriaAdmin()]);
   }
 
   async function iniciarSesion(correo, clave) {
@@ -719,6 +720,170 @@
     mostrarMensaje("Noticia eliminada correctamente.", "exito");
   }
 
+
+  function llenarGaleriaAdmin(fila) {
+    $("gal-id").value = fila?.id || "";
+    $("gal-fecha").value = fila?.fecha || "";
+    $("gal-titulo").value = fila?.titulo || "";
+    $("gal-descripcion").value = fila?.descripcion || "";
+    $("gal-imagen").value = fila?.imagen_url || "";
+    $("gal-alt").value = fila?.imagen_alt || "";
+    $("gal-visible").checked = fila?.visible === true;
+    $("gal-autorizada").checked = fila?.publicacion_autorizada === true;
+    $("boton-eliminar-foto").hidden = !fila?.id;
+  }
+
+  async function cargarGaleriaAdmin() {
+    galeriaItems = await rest(
+      "galeria_items?select=*&order=orden.desc,id.desc",
+      { method: "GET" }
+    );
+
+    const selector = $("galeria-selector");
+    selector.replaceChildren();
+
+    const vacio = document.createElement("option");
+    vacio.value = "";
+    vacio.textContent = "Seleccionar fotografía";
+    selector.appendChild(vacio);
+
+    galeriaItems.forEach((fila, indice) => {
+      const opcion = document.createElement("option");
+      opcion.value = String(indice);
+      const fecha = fila.fecha ? fila.fecha + " · " : "";
+      opcion.textContent =
+        fecha + fila.titulo +
+        (fila.visible === false ? " · Oculta" : "") +
+        (fila.publicacion_autorizada === false ? " · Sin autorización" : "");
+      selector.appendChild(opcion);
+    });
+
+    llenarGaleriaAdmin(null);
+  }
+
+  function nuevaFotoGaleria() {
+    $("galeria-selector").value = "";
+    llenarGaleriaAdmin(null);
+    $("gal-fecha").value = "";
+    $("gal-visible").checked = false;
+    $("gal-autorizada").checked = false;
+    $("gal-titulo").focus();
+    mostrarMensaje("");
+  }
+
+  function validarImagenGaleria(valor) {
+    const texto = String(valor || "").trim();
+    if (!texto) throw new Error("La imagen es obligatoria.");
+
+    if (/^imagenes-(galeria|calendario)\/[a-z0-9._/-]+$/i.test(texto)) {
+      return texto;
+    }
+
+    try {
+      const url = new URL(texto);
+      if (url.protocol !== "https:" || url.hostname.toLowerCase() !== "crebeucayali.github.io") {
+        throw new Error();
+      }
+      return url.href;
+    } catch {
+      throw new Error("La imagen debe usar imagenes-galeria/..., imagenes-calendario/... o una URL HTTPS de crebeucayali.github.io.");
+    }
+  }
+
+  function siguienteOrdenGaleria() {
+    const ordenes = galeriaItems.map((fila) => Number(fila.orden || 0));
+    return (ordenes.length ? Math.max(...ordenes) : 0) + 1;
+  }
+
+  async function guardarFotoGaleria() {
+    const id = $("gal-id").value.trim();
+    const titulo = $("gal-titulo").value.trim();
+    const descripcion = $("gal-descripcion").value.trim();
+    const alt = $("gal-alt").value.trim();
+    const visible = $("gal-visible").checked;
+    const autorizada = $("gal-autorizada").checked;
+
+    if (!titulo) throw new Error("El título de la fotografía es obligatorio.");
+    if (!alt) throw new Error("El texto alternativo de la fotografía es obligatorio.");
+    if (visible && !autorizada) {
+      throw new Error("Para publicar una fotografía debes confirmar primero que está autorizada para publicación institucional.");
+    }
+
+    const existente = id
+      ? galeriaItems.find((fila) => String(fila.id) === id)
+      : null;
+
+    const payload = {
+      orden: existente ? Number(existente.orden || 1) : siguienteOrdenGaleria(),
+      fecha: $("gal-fecha").value || null,
+      titulo,
+      descripcion,
+      imagen_url: validarImagenGaleria($("gal-imagen").value),
+      imagen_alt: alt,
+      publicacion_autorizada: autorizada,
+      visible,
+      origen: existente?.origen || "panel_admin"
+    };
+
+    let resultado;
+
+    if (id) {
+      resultado = await rest("galeria_items?id=eq." + encodeURIComponent(id), {
+        method: "PATCH",
+        headers: { Prefer: "return=representation" },
+        body: JSON.stringify(payload)
+      });
+    } else {
+      resultado = await rest("galeria_items", {
+        method: "POST",
+        headers: { Prefer: "return=representation" },
+        body: JSON.stringify(payload)
+      });
+    }
+
+    await cargarGaleriaAdmin();
+
+    const guardada = Array.isArray(resultado) ? resultado[0] : null;
+    if (guardada?.id) {
+      const indice = galeriaItems.findIndex((fila) => Number(fila.id) === Number(guardada.id));
+      if (indice >= 0) {
+        $("galeria-selector").value = String(indice);
+        llenarGaleriaAdmin(galeriaItems[indice]);
+      }
+    }
+
+    mostrarMensaje(id ? "Fotografía actualizada correctamente." : "Fotografía agregada correctamente.", "exito");
+  }
+
+  async function eliminarFotoGaleria() {
+    const id = $("gal-id").value.trim();
+    if (!id) return;
+
+    const fila = galeriaItems.find((item) => String(item.id) === id);
+    if (!fila) throw new Error("No se encontró la fotografía seleccionada.");
+
+    const aceptar = window.confirm(
+      '¿Eliminar "' + fila.titulo + '" de la Galería?\n\nLa tarjeta dejará de mostrarse y el registro se eliminará de Supabase.'
+    );
+    if (!aceptar) return;
+
+    const resultado = await rest(
+      "galeria_items?id=eq." + encodeURIComponent(id),
+      {
+        method: "DELETE",
+        headers: { Prefer: "return=representation" }
+      }
+    );
+
+    if (!Array.isArray(resultado) || !resultado.length) {
+      throw new Error("No se pudo eliminar la fotografía.");
+    }
+
+    await cargarGaleriaAdmin();
+    nuevaFotoGaleria();
+    mostrarMensaje("Fotografía eliminada correctamente.", "exito");
+  }
+
   document.querySelectorAll(".tab").forEach((boton) => {
     boton.addEventListener("click", () => {
       document.querySelectorAll(".tab").forEach((x) => x.classList.toggle("activo", x === boton));
@@ -726,6 +891,7 @@
       $("panel-calendario").hidden = boton.dataset.panel !== "calendario";
       $("panel-repositorio").hidden = boton.dataset.panel !== "repositorio";
       $("panel-noticias").hidden = boton.dataset.panel !== "noticias";
+      $("panel-galeria").hidden = boton.dataset.panel !== "galeria";
       mostrarMensaje("");
     });
   });
@@ -769,6 +935,22 @@
   $("boton-eliminar-noticia").addEventListener("click", async () => {
     try {
       await eliminarNoticiaDestacada();
+    } catch (error) {
+      mostrarMensaje(error.message, "error");
+    }
+  });
+
+  $("galeria-selector").addEventListener("change", (evento) => {
+    const valor = evento.target.value;
+    if (valor === "") return nuevaFotoGaleria();
+    llenarGaleriaAdmin(galeriaItems[Number(valor)]);
+  });
+
+  $("boton-nueva-foto").addEventListener("click", nuevaFotoGaleria);
+
+  $("boton-eliminar-foto").addEventListener("click", async () => {
+    try {
+      await eliminarFotoGaleria();
     } catch (error) {
       mostrarMensaje(error.message, "error");
     }
@@ -821,6 +1003,15 @@
     evento.preventDefault();
     try {
       await guardarNoticiaDestacada();
+    } catch (error) {
+      mostrarMensaje(error.message, "error");
+    }
+  });
+
+  $("form-galeria").addEventListener("submit", async (evento) => {
+    evento.preventDefault();
+    try {
+      await guardarFotoGaleria();
     } catch (error) {
       mostrarMensaje(error.message, "error");
     }
