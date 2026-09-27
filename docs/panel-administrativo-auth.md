@@ -26,7 +26,8 @@ El panel administra actualmente:
 
 - Capacitaciones;
 - Calendario;
-- Repositorio Accesible.
+- Repositorio Accesible;
+- Noticias destacadas de la portada principal.
 
 ## Flujo de acceso
 
@@ -111,6 +112,23 @@ El panel permite administrar tres categorías:
 - `materiales_elaborados`
 
 La eliminación es una excepción deliberada respecto de Capacitaciones y Calendario: en Repositorio Accesible se permite borrar una tarjeta/recurso porque el contenido es un catálogo incremental y el administrador puede retirar registros que ya no deban mantenerse.
+
+## Noticias destacadas
+
+Público:
+
+- SELECT de noticias con `visible = true`.
+
+Administrador autorizado + AAL2:
+
+- INSERT;
+- UPDATE;
+- DELETE;
+- lectura de noticias ocultas.
+
+El panel permite crear noticias breves con categoría, título, síntesis, imagen opcional, enlace opcional y visibilidad. Esta gestión afecta únicamente el carrusel **Noticias destacadas** de la portada principal; no modifica el módulo completo Noti Inclusivos.
+
+La eliminación retira la tarjeta de la portada y queda registrada en auditoría.
 
 ## Auditoría
 
