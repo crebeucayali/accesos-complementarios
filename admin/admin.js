@@ -23,6 +23,7 @@
   let recursosRepositorio = [];
   let noticiasDestacadas = [];
   let galeriaItems = [];
+  let archivoNoticiaSeleccionado = null;
 
   function mostrarMensaje(texto, tipo = "") {
     mensajeAdmin.textContent = texto || "";
@@ -560,6 +561,115 @@
   }
 
 
+  const STORAGE_BUCKET_EVA = "eva-publico";
+  const STORAGE_NOTICIAS_BASE = SUPABASE_URL + "/storage/v1/object/public/" + STORAGE_BUCKET_EVA + "/";
+
+  function resolverVistaPreviaNoticia(valor) {
+    const texto = String(valor || "").trim();
+    if (!texto) return "";
+    if (/^imagenes\/noticias\/[a-z0-9._/-]+$/i.test(texto)) {
+      return "https://crebeucayali.github.io/" + texto;
+    }
+    return texto;
+  }
+
+  function mostrarVistaPreviaNoticia(origen, mensaje) {
+    const panel = $("not-imagen-panel");
+    const imagen = $("not-imagen-preview");
+    const estado = $("not-imagen-estado");
+    const url = String(origen || "").trim();
+
+    if (!url) {
+      panel.hidden = true;
+      imagen.removeAttribute("src");
+      estado.textContent = "";
+      return;
+    }
+
+    imagen.src = resolverVistaPreviaNoticia(url);
+    estado.textContent = mensaje || "Imagen actual de la noticia.";
+    panel.hidden = false;
+  }
+
+  function validarArchivoImagenNoticia(archivo) {
+    if (!archivo) return null;
+    const permitidos = new Set(["image/webp", "image/jpeg", "image/png"]);
+    if (!permitidos.has(archivo.type)) {
+      throw new Error("La imagen debe estar en formato WebP, JPG/JPEG o PNG.");
+    }
+    if (!archivo.size) {
+      throw new Error("El archivo de imagen está vacío.");
+    }
+    if (archivo.size > 5 * 1024 * 1024) {
+      throw new Error("La imagen supera el máximo permitido de 5 MB.");
+    }
+    return archivo;
+  }
+
+  function extensionImagenNoticia(archivo) {
+    if (archivo.type === "image/webp") return "webp";
+    if (archivo.type === "image/png") return "png";
+    return "jpg";
+  }
+
+  function identificadorArchivoNoticia() {
+    if (globalThis.crypto?.randomUUID) {
+      return globalThis.crypto.randomUUID().toLowerCase();
+    }
+    return Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 12);
+  }
+
+  function rutaStorageNoticia(archivo) {
+    return "noticias/" + Date.now() + "-" + identificadorArchivoNoticia() + "." + extensionImagenNoticia(archivo);
+  }
+
+  function esImagenStorageNoticias(valor) {
+    try {
+      const url = new URL(String(valor || "").trim());
+      return (
+        url.protocol === "https:" &&
+        url.hostname.toLowerCase() === "dteimbhwtzghhsijeeld.supabase.co" &&
+        /^\/storage\/v1\/object\/public\/eva-publico\/noticias\/[a-z0-9._/-]+$/i.test(url.pathname)
+      );
+    } catch {
+      return false;
+    }
+  }
+
+  async function subirImagenNoticia(archivo) {
+    validarArchivoImagenNoticia(archivo);
+    await refrescarSesionSiHaceFalta();
+
+    const estado = await comprobarAutorizacion();
+    if (!estado.autorizado || estado.aal !== "aal2") {
+      throw new Error("La carga de imágenes requiere una sesión administrativa con MFA AAL2.");
+    }
+
+    const ruta = rutaStorageNoticia(archivo);
+    const rutaCodificada = ruta.split("/").map(encodeURIComponent).join("/");
+
+    await solicitar(
+      SUPABASE_URL + "/storage/v1/object/" + encodeURIComponent(STORAGE_BUCKET_EVA) + "/" + rutaCodificada,
+      {
+        method: "POST",
+        headers: {
+          apikey: SUPABASE_PUBLISHABLE_KEY,
+          Authorization: "Bearer " + sesion.access_token,
+          "Content-Type": archivo.type,
+          Accept: "application/json",
+          "Cache-Control": "3600",
+          "x-upsert": "false"
+        },
+        body: archivo
+      }
+    );
+
+    return {
+      ruta,
+      url: STORAGE_NOTICIAS_BASE + ruta
+    };
+  }
+
   function llenarNoticiaDestacada(fila) {
     $("not-id").value = fila?.id || "";
     $("not-categoria").value = fila?.categoria || "Noticia destacada";
@@ -569,6 +679,12 @@
     $("not-enlace").value = fila?.enlace_url || "";
     $("not-visible").checked = fila?.visible !== false;
     $("boton-eliminar-noticia").hidden = !fila?.id;
+    archivoNoticiaSeleccionado = null;
+    $("not-archivo").value = "";
+    mostrarVistaPreviaNoticia(
+      fila?.imagen_url || "",
+      fila?.imagen_url ? "Imagen actualmente asociada a la noticia." : ""
+    );
   }
 
   async function cargarNoticiasDestacadas() {
@@ -608,6 +724,7 @@
     const texto = String(valor || "").trim();
     if (!texto) return "";
     if (/^imagenes\/noticias\/[a-z0-9._/-]+$/i.test(texto)) return texto;
+    if (esImagenStorageNoticias(texto)) return new URL(texto).href;
 
     try {
       const url = new URL(texto);
@@ -616,7 +733,7 @@
       }
       return url.href;
     } catch {
-      throw new Error("La imagen debe usar una ruta imagenes/noticias/... o una URL HTTPS de crebeucayali.github.io.");
+      throw new Error("La imagen debe pertenecer a Noticias del EVA o al Storage institucional autorizado.");
     }
   }
 
@@ -654,12 +771,20 @@
       ? noticiasDestacadas.find((fila) => String(fila.id) === id)
       : null;
 
+    let imagenUrl = validarImagenNoticia($("not-imagen").value);
+
+    if (archivoNoticiaSeleccionado) {
+      mostrarMensaje("Subiendo imagen de la noticia a Supabase Storage…");
+      const subida = await subirImagenNoticia(archivoNoticiaSeleccionado);
+      imagenUrl = subida.url;
+    }
+
     const payload = {
       orden: existente ? Number(existente.orden || 1) : siguienteOrdenNoticia(),
       categoria,
       titulo,
       descripcion,
-      imagen_url: validarImagenNoticia($("not-imagen").value),
+      imagen_url: imagenUrl,
       enlace_url: validarEnlaceNoticia($("not-enlace").value),
       visible: $("not-visible").checked,
       origen: existente?.origen || "panel_admin"
@@ -985,6 +1110,40 @@
   });
 
   $("boton-nueva-noticia").addEventListener("click", nuevaNoticiaDestacada);
+
+  $("not-archivo").addEventListener("change", (evento) => {
+    try {
+      const archivo = validarArchivoImagenNoticia(evento.target.files?.[0] || null);
+      archivoNoticiaSeleccionado = archivo;
+      if (!archivo) {
+        mostrarVistaPreviaNoticia($("not-imagen").value, $("not-imagen").value ? "Imagen actualmente asociada a la noticia." : "");
+        return;
+      }
+
+      const lector = new FileReader();
+      lector.addEventListener("load", () => {
+        mostrarVistaPreviaNoticia(
+          lector.result,
+          archivo.name + " · " + Math.max(1, Math.round(archivo.size / 1024)) + " KB · preparada para subir"
+        );
+      });
+      lector.readAsDataURL(archivo);
+      mostrarMensaje("");
+    } catch (error) {
+      archivoNoticiaSeleccionado = null;
+      evento.target.value = "";
+      mostrarVistaPreviaNoticia($("not-imagen").value, $("not-imagen").value ? "Imagen actualmente asociada a la noticia." : "");
+      mostrarMensaje(error.message, "error");
+    }
+  });
+
+  $("boton-retirar-imagen-noticia").addEventListener("click", () => {
+    archivoNoticiaSeleccionado = null;
+    $("not-archivo").value = "";
+    $("not-imagen").value = "";
+    mostrarVistaPreviaNoticia("", "");
+    mostrarMensaje("La noticia se guardará sin una imagen propia y utilizará el respaldo visual del carrusel.");
+  });
 
   $("boton-eliminar-noticia").addEventListener("click", async () => {
     try {
