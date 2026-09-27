@@ -719,7 +719,7 @@
     $("rep-descripcion").value = fila?.descripcion || "";
     $("rep-imagen").value = fila?.imagen_url || "";
     $("rep-alt").value = fila?.imagen_alt || "";
-    $("rep-visible").checked = fila?.visible !== false;
+    $("rep-estado-publicacion").value = fila?.estado_publicacion || (fila?.visible === false ? "borrador" : "publicado");
     $("boton-eliminar-recurso").hidden = !fila?.id;
 
     archivoRepositorioSeleccionado = null;
@@ -750,7 +750,11 @@
       opcion.textContent =
         (ETIQUETAS_REPOSITORIO[fila.categoria] || fila.categoria) +
         " · " + fila.titulo +
-        (fila.visible === false ? " · Oculto" : "");
+        " · " + ({
+          borrador: "Borrador",
+          publicado: "Publicado",
+          archivado: "Archivado"
+        }[fila.estado_publicacion] || (fila.visible === false ? "Borrador" : "Publicado"));
       selector.appendChild(opcion);
     });
 
@@ -829,7 +833,8 @@
       descripcion: $("rep-descripcion").value.trim(),
       imagen_url: imagen,
       imagen_alt: alt,
-      visible: $("rep-visible").checked,
+      estado_publicacion: $("rep-estado-publicacion").value,
+      visible: $("rep-estado-publicacion").value === "publicado",
       origen: existente?.origen || "panel_admin"
     };
 
