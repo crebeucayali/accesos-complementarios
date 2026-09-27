@@ -133,3 +133,13 @@ footer{margin-top:56px;padding:44px clamp(20px,5vw,72px) 28px;color:#dbe9ee;back
   .bloque-mapa h3,
   .tarjeta-guia h3{font-size:1.1875rem;}
 }
+
+/* Ajuste compartido de altura de la franja superior EVA */
+@media (min-width:701px){
+  .cabecera > .navegacion,
+  .cabecera .navegacion{
+    min-height:74px;
+    padding-top:6px;
+    padding-bottom:6px;
+  }
+}
