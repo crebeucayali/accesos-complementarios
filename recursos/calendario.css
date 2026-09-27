@@ -524,3 +524,8 @@
   opacity:1;
   transform:scale(1);
 }
+
+
+/* Control operativo: días con dos o más actividades */
+.calendario-actividades td.celda-multiples-actividades{height:auto;min-height:150px}
+.calendario-actividades td.celda-multiples-actividades .datos-actividad + .datos-actividad{margin-top:8px;padding-top:8px;border-top:1px dashed currentColor}
