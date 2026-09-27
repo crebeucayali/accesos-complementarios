@@ -160,3 +160,14 @@ La Etapa 4B amplió la lectura administrativa sin recopilar datos adicionales. E
 La documentación completa se encuentra en:
 
 [Etapa 4B — Mejora de métricas EVA](mejora-estadisticas-eva-etapa-4b.md)
+
+
+## Etapa 4C — consulta por periodo
+
+El panel administrativo permite ahora consultar la distribución de accesos en cuatro periodos: 7 días, 30 días, 90 días y todo el historial.
+
+La consulta actualiza las sesiones EVA del intervalo, el rango de fechas, las visitas por módulo y su participación relativa.
+
+La documentación completa se encuentra en:
+
+[Etapa 4C — Consulta administrativa por periodo](consulta-estadisticas-eva-etapa-4c.md)
