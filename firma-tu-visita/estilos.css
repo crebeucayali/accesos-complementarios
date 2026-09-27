@@ -59,3 +59,78 @@ body .presentacion h1{
   .panel-encabezado h2,
   .bloque-informativo-registro h2{font-size:clamp(1.5rem,6vw,1.6875rem);}
 }
+
+
+/* Información de privacidad y consentimiento del formulario. */
+.aviso-privacidad-formulario{
+  margin:22px 0 0;
+  padding:16px 18px;
+  color:var(--tinta);
+  background:var(--azul-100);
+  border:1px solid var(--borde);
+  border-left:4px solid var(--azul-700);
+  border-radius:14px;
+}
+.aviso-privacidad-formulario h3{
+  margin:0 0 8px;
+  color:var(--azul-900);
+  font-size:1rem;
+}
+.aviso-privacidad-formulario p{
+  margin:7px 0 0;
+  color:var(--texto-suave);
+  font-size:.92rem;
+}
+.aviso-privacidad-formulario a,
+.ayuda-consentimiento a{
+  color:var(--azul-800);
+  font-weight:800;
+}
+.bloque-consentimiento{
+  padding:16px;
+  background:#f7fbfa;
+  border:1px solid var(--borde);
+  border-radius:14px;
+}
+.opcion-consentimiento{
+  display:flex;
+  align-items:flex-start;
+  gap:11px;
+  margin:0;
+  color:var(--tinta);
+  cursor:pointer;
+}
+.opcion-consentimiento input[type="checkbox"]{
+  width:18px;
+  height:18px;
+  margin-top:3px;
+  accent-color:var(--verde-700);
+  flex:0 0 auto;
+}
+.opcion-consentimiento span{
+  font-size:.94rem;
+  font-weight:700;
+  line-height:1.45;
+}
+.ayuda-consentimiento{
+  margin:10px 0 0;
+  color:var(--texto-suave);
+  font-size:.88rem;
+}
+html.eva-alto-contraste body.pagina-registro .aviso-privacidad-formulario,
+html.eva-alto-contraste body.pagina-registro .bloque-consentimiento{
+  background:#000000!important;
+  color:#ffffff!important;
+  border-color:#ffffff!important;
+}
+html.eva-alto-contraste body.pagina-registro .aviso-privacidad-formulario h3,
+html.eva-alto-contraste body.pagina-registro .aviso-privacidad-formulario p,
+html.eva-alto-contraste body.pagina-registro .opcion-consentimiento,
+html.eva-alto-contraste body.pagina-registro .opcion-consentimiento span,
+html.eva-alto-contraste body.pagina-registro .ayuda-consentimiento{
+  color:#ffffff!important;
+}
+html.eva-alto-contraste body.pagina-registro .aviso-privacidad-formulario a,
+html.eva-alto-contraste body.pagina-registro .ayuda-consentimiento a{
+  color:#ffff00!important;
+}
