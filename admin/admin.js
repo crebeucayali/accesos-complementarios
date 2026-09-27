@@ -24,6 +24,8 @@
   let noticiasDestacadas = [];
   let galeriaItems = [];
   let archivoNoticiaSeleccionado = null;
+  let archivoCapFlyerSeleccionado = null;
+  let archivoCapInfografiaSeleccionado = null;
 
   function mostrarMensaje(texto, tipo = "") {
     mensajeAdmin.textContent = texto || "";
@@ -270,6 +272,139 @@
     return texto.charAt(0).toUpperCase() + texto.slice(1);
   }
 
+  function resolverVistaPreviaCapacitacion(valor) {
+    const texto = String(valor || "").trim();
+    if (!texto) return "";
+    if (/^imagenes\/[a-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(texto)) {
+      return "https://crebeucayali.github.io/capacitaciones/" + texto;
+    }
+    return texto;
+  }
+
+  function mostrarVistaPreviaCapacitacion(tipo, origen, mensaje) {
+    const panel = $("cap-" + tipo + "-panel");
+    const imagen = $("cap-" + tipo + "-preview");
+    const estado = $("cap-" + tipo + "-estado");
+    const url = String(origen || "").trim();
+
+    if (!url) {
+      panel.hidden = true;
+      imagen.removeAttribute("src");
+      estado.textContent = "";
+      return;
+    }
+
+    imagen.src = resolverVistaPreviaCapacitacion(url);
+    estado.textContent = mensaje || "Imagen actualmente asociada a la sesión.";
+    panel.hidden = false;
+  }
+
+  function esImagenStorageCapacitacion(valor) {
+    try {
+      const url = new URL(String(valor || "").trim());
+      return (
+        url.protocol === "https:" &&
+        url.hostname.toLowerCase() === "dteimbhwtzghhsijeeld.supabase.co" &&
+        /^\/storage\/v1\/object\/public\/eva-publico\/capacitaciones\/[a-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(url.pathname)
+      );
+    } catch {
+      return false;
+    }
+  }
+
+  function validarImagenCapacitacion(valor) {
+    const texto = String(valor || "").trim();
+    if (!texto) return "";
+    if (/^imagenes\/[a-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(texto)) return texto;
+    if (esImagenStorageCapacitacion(texto)) return new URL(texto).href;
+    throw new Error("La imagen de capacitación debe pertenecer al repositorio actual o al Storage institucional de Capacitaciones.");
+  }
+
+  function rutaStorageCapacitacion(archivo, fila, tipo) {
+    const jornada = String(Number(fila.jornada || 0)).padStart(2, "0");
+    const sesion = String(Number(fila.numero_sesion || 0)).padStart(2, "0");
+    return (
+      "capacitaciones/jornada-" + jornada +
+      "/sesion-" + sesion +
+      "/" + tipo + "-" + Date.now() + "-" +
+      identificadorArchivoNoticia() + "." + extensionImagenNoticia(archivo)
+    );
+  }
+
+  async function subirImagenCapacitacion(archivo, fila, tipo) {
+    validarArchivoImagenNoticia(archivo);
+    await refrescarSesionSiHaceFalta();
+
+    const estado = await comprobarAutorizacion();
+    if (!estado.autorizado || estado.aal !== "aal2") {
+      throw new Error("La carga de imágenes requiere una sesión administrativa con MFA AAL2.");
+    }
+
+    const ruta = rutaStorageCapacitacion(archivo, fila, tipo);
+    const rutaCodificada = ruta.split("/").map(encodeURIComponent).join("/");
+
+    await solicitar(
+      SUPABASE_URL + "/storage/v1/object/" + encodeURIComponent(STORAGE_BUCKET_EVA) + "/" + rutaCodificada,
+      {
+        method: "POST",
+        headers: {
+          apikey: SUPABASE_PUBLISHABLE_KEY,
+          Authorization: "Bearer " + sesion.access_token,
+          "Content-Type": archivo.type,
+          Accept: "application/json",
+          "Cache-Control": "3600",
+          "x-upsert": "false"
+        },
+        body: archivo
+      }
+    );
+
+    return {
+      ruta,
+      url: STORAGE_NOTICIAS_BASE + ruta
+    };
+  }
+
+  function gestionarArchivoCapacitacion(tipo, evento) {
+    try {
+      const archivo = validarArchivoImagenNoticia(evento.target.files?.[0] || null);
+      if (tipo === "flyer") archivoCapFlyerSeleccionado = archivo;
+      if (tipo === "infografia") archivoCapInfografiaSeleccionado = archivo;
+
+      if (!archivo) {
+        const valorActual = $("cap-" + tipo).value;
+        mostrarVistaPreviaCapacitacion(
+          tipo,
+          valorActual,
+          valorActual ? "Imagen actualmente asociada a la sesión." : ""
+        );
+        return;
+      }
+
+      const lector = new FileReader();
+      lector.addEventListener("load", () => {
+        mostrarVistaPreviaCapacitacion(
+          tipo,
+          lector.result,
+          archivo.name + " · " + Math.max(1, Math.round(archivo.size / 1024)) + " KB · preparada para subir"
+        );
+      });
+      lector.readAsDataURL(archivo);
+      mostrarMensaje("");
+    } catch (error) {
+      if (tipo === "flyer") archivoCapFlyerSeleccionado = null;
+      if (tipo === "infografia") archivoCapInfografiaSeleccionado = null;
+      evento.target.value = "";
+      const valorActual = $("cap-" + tipo).value;
+      mostrarVistaPreviaCapacitacion(
+        tipo,
+        valorActual,
+        valorActual ? "Imagen actualmente asociada a la sesión." : ""
+      );
+      mostrarMensaje(error.message, "error");
+    }
+  }
+
   function llenarCapacitacion(fila) {
     $("cap-fecha").value = fila?.fecha || "";
     $("cap-estado").value = fila?.estado || "pendiente";
@@ -283,6 +418,25 @@
     $("cap-diapositivas").value = fila?.diapositivas_url || "";
     $("cap-diapositivas-preview").value = fila?.diapositivas_preview_url || "";
     $("cap-recursos").value = recursosATexto(fila?.recursos_adicionales);
+
+    archivoCapFlyerSeleccionado = null;
+    archivoCapInfografiaSeleccionado = null;
+    $("cap-flyer-archivo").value = "";
+    $("cap-infografia-archivo").value = "";
+
+    const flyerAplicable = Number(fila?.jornada) === 1 && Number(fila?.numero_sesion) === 1;
+    $("cap-flyer-bloque").hidden = !flyerAplicable;
+
+    mostrarVistaPreviaCapacitacion(
+      "flyer",
+      flyerAplicable ? (fila?.flyer_url || "") : "",
+      fila?.flyer_url ? "Flyer actualmente asociado a la sesión." : ""
+    );
+    mostrarVistaPreviaCapacitacion(
+      "infografia",
+      fila?.infografia_url || "",
+      fila?.infografia_url ? "Infografía actualmente asociada a la sesión." : ""
+    );
   }
 
   async function cargarCapacitaciones() {
@@ -304,14 +458,44 @@
     if (!fila) throw new Error("Selecciona una sesión válida.");
 
     const fecha = $("cap-fecha").value;
+    const titulo = $("cap-titulo").value.trim();
+    if (!fecha) throw new Error("La fecha es obligatoria.");
+    if (!titulo) throw new Error("El título es obligatorio.");
+
+    let flyerUrl = validarImagenCapacitacion($("cap-flyer").value);
+    let infografiaUrl = validarImagenCapacitacion($("cap-infografia").value);
+
+    if (archivoCapFlyerSeleccionado) {
+      if (!(Number(fila.jornada) === 1 && Number(fila.numero_sesion) === 1)) {
+        throw new Error("El flyer no está habilitado para esta sesión.");
+      }
+      mostrarMensaje("Subiendo flyer de la capacitación a Supabase Storage…");
+      const subidaFlyer = await subirImagenCapacitacion(archivoCapFlyerSeleccionado, fila, "flyer");
+      flyerUrl = subidaFlyer.url;
+      $("cap-flyer").value = flyerUrl;
+      archivoCapFlyerSeleccionado = null;
+      $("cap-flyer-archivo").value = "";
+      mostrarVistaPreviaCapacitacion("flyer", flyerUrl, "Flyer subido a Storage. Pendiente de guardar la sesión.");
+    }
+
+    if (archivoCapInfografiaSeleccionado) {
+      mostrarMensaje("Subiendo infografía de la capacitación a Supabase Storage…");
+      const subidaInfografia = await subirImagenCapacitacion(archivoCapInfografiaSeleccionado, fila, "infografia");
+      infografiaUrl = subidaInfografia.url;
+      $("cap-infografia").value = infografiaUrl;
+      archivoCapInfografiaSeleccionado = null;
+      $("cap-infografia-archivo").value = "";
+      mostrarVistaPreviaCapacitacion("infografia", infografiaUrl, "Infografía subida a Storage. Pendiente de guardar la sesión.");
+    }
+
     const cambios = {
       fecha,
       fecha_texto: fechaTextoES(fecha),
       estado: $("cap-estado").value,
-      titulo: $("cap-titulo").value.trim(),
+      titulo,
       tema: $("cap-tema").value.trim(),
-      flyer_url: $("cap-flyer").value.trim(),
-      infografia_url: $("cap-infografia").value.trim(),
+      flyer_url: flyerUrl,
+      infografia_url: infografiaUrl,
       pdf_url: $("cap-pdf").value.trim(),
       video_url: $("cap-video").value.trim(),
       video_preview_url: $("cap-video-preview").value.trim(),
@@ -329,6 +513,7 @@
       }
     );
     capacitaciones[indice] = Array.isArray(resultado) && resultado[0] ? resultado[0] : { ...fila, ...cambios };
+    llenarCapacitacion(capacitaciones[indice]);
     mostrarMensaje("Sesión actualizada correctamente.", "exito");
   }
 
@@ -1099,6 +1284,30 @@
 
   $("sesion-selector").addEventListener("change", (evento) => {
     llenarCapacitacion(capacitaciones[Number(evento.target.value)]);
+  });
+
+  $("cap-flyer-archivo").addEventListener("change", (evento) => {
+    gestionarArchivoCapacitacion("flyer", evento);
+  });
+
+  $("cap-infografia-archivo").addEventListener("change", (evento) => {
+    gestionarArchivoCapacitacion("infografia", evento);
+  });
+
+  $("cap-flyer-retirar").addEventListener("click", () => {
+    archivoCapFlyerSeleccionado = null;
+    $("cap-flyer-archivo").value = "";
+    $("cap-flyer").value = "";
+    mostrarVistaPreviaCapacitacion("flyer", "", "");
+    mostrarMensaje("El flyer se retirará al guardar los cambios de la sesión.");
+  });
+
+  $("cap-infografia-retirar").addEventListener("click", () => {
+    archivoCapInfografiaSeleccionado = null;
+    $("cap-infografia-archivo").value = "";
+    $("cap-infografia").value = "";
+    mostrarVistaPreviaCapacitacion("infografia", "", "");
+    mostrarMensaje("La infografía se retirará al guardar los cambios de la sesión.");
   });
 
   $("actividad-selector").addEventListener("change", (evento) => {
