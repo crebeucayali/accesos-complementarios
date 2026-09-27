@@ -137,3 +137,12 @@ En la plataforma principal, además de la portada, se contabilizan como `princip
 
 La tarjeta pública **Visitas al EVA** permanece únicamente en el footer de la plataforma principal. El resto de páginas registra la visita sin mostrar un contador individual.
 
+
+
+## Auditoría Etapa 4A
+
+La auditoría integral del sistema de estadísticas realizada el 27 de septiembre de 2026 confirmó la cobertura de las 60 páginas públicas previstas, los ocho identificadores de módulo y el funcionamiento del flujo agregado en Supabase.
+
+El informe técnico completo se encuentra en:
+
+[Auditoría de estadísticas EVA — Etapa 4A](auditoria-estadisticas-eva-etapa-4a.md)
