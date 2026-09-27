@@ -21,9 +21,16 @@
 
     try {
       const url = new URL(texto, window.location.href);
-      if (url.protocol !== "https:" && url.origin !== window.location.origin) return null;
-      if (url.hostname.toLowerCase() !== "crebeucayali.github.io") return null;
-      return url.href;
+      const githubValida =
+        url.protocol === "https:" &&
+        url.hostname.toLowerCase() === "crebeucayali.github.io";
+
+      const storageValida =
+        url.protocol === "https:" &&
+        url.hostname.toLowerCase() === "dteimbhwtzghhsijeeld.supabase.co" &&
+        /^\/storage\/v1\/object\/public\/eva-publico\/galeria\/[a-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(url.pathname);
+
+      return githubValida || storageValida ? url.href : null;
     } catch {
       return null;
     }
