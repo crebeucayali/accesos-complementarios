@@ -9,6 +9,8 @@ const grupoModulos=document.querySelector(".opciones-modulo");
 const tituloModulos=document.querySelector(".modulo-visitado .titulo-campo");
 const ayudaModulos=document.querySelector(".modulo-visitado .ayuda-campo");
 const botonEnviar=formularioRegistro?.querySelector('button[type="submit"]');
+const consentimientoDatos=document.querySelector("#consentimiento-datos");
+const mensajeConsentimiento=document.querySelector("#mensaje-consentimiento");
 const URL_APPS_SCRIPT="https://script.google.com/macros/s/AKfycbym3C4uxMNqm85n3d_9dvHfyh6xGtK-XLp6lY_a8VQhUhXyZV6BuSNtWrVEodXMNxfOfw/exec";
 const CLAVE_ULTIMO_ENVIO="eva_firma_visita_ultimo_envio_v1";
 const ESPERA_ENTRE_ENVIOS_MS=45000;
@@ -77,6 +79,8 @@ function prepararSemanticaFormulario(){
   }
 
   mensajeModulo?.setAttribute("role","alert");
+  mensajeConsentimiento?.setAttribute("role","alert");
+  consentimientoDatos?.setAttribute("aria-describedby","ayuda-consentimiento mensaje-consentimiento");
   mensajeRegistro?.setAttribute("role","status");
   mensajeRegistro?.setAttribute("aria-atomic","true");
 }
@@ -120,6 +124,11 @@ function validarControlAntiSpam(){
 
 prepararSemanticaFormulario();
 
+consentimientoDatos?.addEventListener("change",()=>{
+  if(mensajeConsentimiento) mensajeConsentimiento.textContent="";
+  consentimientoDatos.setCustomValidity("");
+});
+
 checkboxesModulo.forEach((checkbox)=>{
   checkbox.addEventListener("change",()=>{
     const seleccionados=document.querySelectorAll('input[name="modulo_visitado"]:checked');
@@ -139,6 +148,16 @@ formularioRegistro?.addEventListener("submit",async(evento)=>{
     formularioRegistro.reportValidity();
     return;
   }
+
+  if(!consentimientoDatos?.checked){
+    consentimientoDatos?.setCustomValidity("Debes autorizar el tratamiento de tus datos para enviar el registro.");
+    consentimientoDatos?.reportValidity();
+    if(mensajeConsentimiento) mensajeConsentimiento.textContent="Debes autorizar el tratamiento de tus datos antes de enviar el registro.";
+    consentimientoDatos?.focus();
+    return;
+  }
+  consentimientoDatos.setCustomValidity("");
+  if(mensajeConsentimiento) mensajeConsentimiento.textContent="";
 
   const antiSpam=validarControlAntiSpam();
   if(!antiSpam.ok){
@@ -180,7 +199,10 @@ formularioRegistro?.addEventListener("submit",async(evento)=>{
     correo:protegerParaHoja(formularioRegistro.correo.value,160),
     comentario:protegerParaHoja(formularioRegistro.comentario.value,1000,true),
     website:limpiarTexto(formularioRegistro.website?.value||"",120),
-    formStartedAt:inicioFormulario
+    formStartedAt:inicioFormulario,
+    consentimientoDatos:true,
+    consentimientoFecha:new Date().toISOString(),
+    consentimientoVersion:"privacidad-2026-09-27"
   };
 
   if(!datos.nombres){
@@ -209,6 +231,7 @@ formularioRegistro?.addEventListener("submit",async(evento)=>{
     formularioRegistro.reset();
     campoModulosSeleccionados.value="";
     establecerErrorModulos("");
+    if(mensajeConsentimiento) mensajeConsentimiento.textContent="";
   }catch(error){
     if(mensajeRegistro) mensajeRegistro.textContent="No se pudo enviar el registro. Inténtalo nuevamente.";
   }finally{
