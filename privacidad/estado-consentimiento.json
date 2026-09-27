@@ -70,7 +70,8 @@
         "capacitaciones",
         "calendario",
         "repositorio_accesible",
-        "noticias_destacadas"
+        "noticias_destacadas",
+        "galeria"
       ]
     },
     {
@@ -93,6 +94,18 @@
       "escritura_admin": "cuenta_autorizada_mfa_aal2",
       "eliminacion_admin": true,
       "alcance": "solo_bloque_noticias_destacadas_portada"
+    },
+    {
+      "id": "supabase_galeria_publica",
+      "categoria": "consulta_publica_y_gestion_admin",
+      "almacenamiento": "fotografias_en_eva_github_metadatos_en_supabase",
+      "consentimiento_global": false,
+      "autenticacion_publica": false,
+      "datos_personales_en_supabase": "solo_metadatos_publicos_y_referencias_de_imagen",
+      "supabase_storage": false,
+      "escritura_admin": "cuenta_autorizada_mfa_aal2",
+      "eliminacion_admin": true,
+      "publicacion_visible_requiere_confirmacion_autorizacion": true
     }
   ],
   "disparadores_de_revision": [
