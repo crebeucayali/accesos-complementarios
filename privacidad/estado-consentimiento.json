@@ -69,7 +69,8 @@
       "alcance": [
         "capacitaciones",
         "calendario",
-        "repositorio_accesible"
+        "repositorio_accesible",
+        "noticias_destacadas"
       ]
     },
     {
@@ -81,6 +82,17 @@
       "datos_personales_publicos": false,
       "escritura_admin": "cuenta_autorizada_mfa_aal2",
       "eliminacion_admin": true
+    },
+    {
+      "id": "supabase_noticias_destacadas",
+      "categoria": "consulta_publica_y_gestion_admin",
+      "almacenamiento": "sin_sesion_para_visitantes_publicos",
+      "consentimiento_global": false,
+      "autenticacion_publica": false,
+      "datos_personales_publicos": false,
+      "escritura_admin": "cuenta_autorizada_mfa_aal2",
+      "eliminacion_admin": true,
+      "alcance": "solo_bloque_noticias_destacadas_portada"
     }
   ],
   "disparadores_de_revision": [
