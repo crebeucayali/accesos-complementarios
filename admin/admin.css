@@ -947,3 +947,177 @@ body.alto-contraste .galeria-admin-foto{
   background:#000!important;
   border-color:#fff!important;
 }
+
+
+/* Etapa 4B · visualización mejorada de estadísticas EVA */
+.estadisticas-periodo{
+  margin-top:8px;
+  font-weight:800;
+}
+
+.estadisticas-graficos{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:16px;
+  margin:0 0 22px;
+}
+
+.estadisticas-graficos .estadisticas-bloque{
+  margin-top:0;
+  padding:18px;
+  border:1px solid var(--borde);
+  border-radius:18px;
+  background:#fbfdfd;
+}
+
+.estadisticas-barras-mensuales{
+  display:grid;
+  gap:11px;
+}
+
+.estadistica-mes-fila{
+  display:grid;
+  grid-template-columns:minmax(84px,110px) minmax(90px,1fr) 54px;
+  align-items:center;
+  gap:10px;
+}
+
+.estadistica-mes-etiqueta{
+  color:var(--texto-suave);
+  font-size:.82rem;
+  font-weight:800;
+  text-transform:capitalize;
+}
+
+.estadistica-barra-pista,
+.estadistica-participacion-pista{
+  display:block;
+  width:100%;
+  overflow:hidden;
+  border-radius:999px;
+  background:#e4ecef;
+}
+
+.estadistica-barra-pista{
+  height:12px;
+}
+
+.estadistica-barra-valor,
+.estadistica-participacion-valor{
+  display:block;
+  min-width:0;
+  height:100%;
+  border-radius:inherit;
+  background:var(--verde-700);
+}
+
+.estadistica-mes-valor{
+  color:var(--azul-900);
+  text-align:right;
+  font-size:.88rem;
+  font-variant-numeric:tabular-nums;
+}
+
+.estadisticas-barras-diarias{
+  height:210px;
+  display:grid;
+  grid-template-columns:repeat(30,minmax(5px,1fr));
+  gap:3px;
+  align-items:stretch;
+  padding:14px 8px 0;
+  border-left:1px solid var(--borde);
+  border-bottom:1px solid var(--borde);
+}
+
+.estadistica-dia-columna{
+  min-width:0;
+  height:100%;
+  display:grid;
+  grid-template-rows:minmax(0,1fr) 26px;
+  align-items:end;
+}
+
+.estadistica-dia-barra{
+  width:min(76%,14px);
+  justify-self:center;
+  align-self:end;
+  border-radius:5px 5px 0 0;
+  background:var(--verde-700);
+}
+
+.estadistica-dia-etiqueta{
+  align-self:start;
+  justify-self:center;
+  padding-top:5px;
+  color:var(--texto-suave);
+  font-size:.62rem;
+  line-height:1;
+  white-space:nowrap;
+  transform:rotate(-45deg);
+  transform-origin:center;
+}
+
+.estadistica-participacion{
+  min-width:190px;
+  display:grid;
+  grid-template-columns:minmax(90px,1fr) 56px;
+  align-items:center;
+  gap:10px;
+}
+
+.estadistica-participacion-pista{
+  height:10px;
+}
+
+.estadistica-participacion-texto{
+  text-align:right;
+  color:var(--texto-suave);
+  font-size:.82rem;
+  font-weight:800;
+  font-variant-numeric:tabular-nums;
+}
+
+body.alto-contraste .estadisticas-graficos .estadisticas-bloque,
+body.alto-contraste .estadistica-barra-pista,
+body.alto-contraste .estadistica-participacion-pista{
+  color:#fff!important;
+  background:#000!important;
+  border-color:#fff!important;
+}
+
+body.alto-contraste .estadistica-barra-valor,
+body.alto-contraste .estadistica-participacion-valor,
+body.alto-contraste .estadistica-dia-barra{
+  background:#fff!important;
+}
+
+body.alto-contraste .estadistica-mes-etiqueta,
+body.alto-contraste .estadistica-mes-valor,
+body.alto-contraste .estadistica-dia-etiqueta,
+body.alto-contraste .estadistica-participacion-texto{
+  color:#fff!important;
+}
+
+@media(max-width:820px){
+  .estadisticas-graficos{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:620px){
+  .estadistica-mes-fila{
+    grid-template-columns:76px minmax(70px,1fr) 44px;
+    gap:7px;
+  }
+
+  .estadisticas-barras-diarias{
+    overflow-x:auto;
+    grid-template-columns:repeat(30,12px);
+    justify-content:start;
+  }
+
+  .estadistica-participacion{
+    min-width:150px;
+    grid-template-columns:minmax(70px,1fr) 52px;
+  }
+}
