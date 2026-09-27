@@ -1667,6 +1667,104 @@
     return new Intl.NumberFormat("es-PE").format(Number(valor || 0));
   }
 
+  function porcentajeES(valor) {
+    return new Intl.NumberFormat("es-PE", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 1
+    }).format(Number(valor || 0)) + " %";
+  }
+
+  function fechaEstadistica(fecha, opciones) {
+    if (!fecha) return "";
+    const [anio, mes, dia] = String(fecha).slice(0, 10).split("-").map(Number);
+    if (!anio || !mes || !dia) return String(fecha);
+    return new Intl.DateTimeFormat("es-PE", {
+      timeZone: "UTC",
+      ...opciones
+    }).format(new Date(Date.UTC(anio, mes - 1, dia)));
+  }
+
+  function renderEstadisticasMensuales(filas) {
+    const contenedor = $("estadisticas-mensual");
+    contenedor.replaceChildren();
+
+    const datos = Array.isArray(filas) ? filas : [];
+    const maximo = Math.max(0, ...datos.map((fila) => Number(fila.visitas || 0)));
+
+    datos.forEach((fila) => {
+      const visitas = Number(fila.visitas || 0);
+      const porcentaje = maximo > 0 ? (visitas / maximo) * 100 : 0;
+
+      const item = document.createElement("div");
+      item.className = "estadistica-mes-fila";
+      item.setAttribute("role", "listitem");
+
+      const etiqueta = document.createElement("span");
+      etiqueta.className = "estadistica-mes-etiqueta";
+      etiqueta.textContent = fechaEstadistica(fila.mes, { month: "short", year: "numeric" });
+
+      const pista = document.createElement("span");
+      pista.className = "estadistica-barra-pista";
+
+      const barra = document.createElement("span");
+      barra.className = "estadistica-barra-valor";
+      barra.style.width = porcentaje + "%";
+      pista.appendChild(barra);
+
+      const valor = document.createElement("strong");
+      valor.className = "estadistica-mes-valor";
+      valor.textContent = numeroES(visitas);
+
+      item.setAttribute(
+        "aria-label",
+        etiqueta.textContent + ": " + numeroES(visitas) + (visitas === 1 ? " sesión EVA" : " sesiones EVA")
+      );
+      item.append(etiqueta, pista, valor);
+      contenedor.appendChild(item);
+    });
+  }
+
+  function renderEstadisticasDiarias(filas) {
+    const contenedor = $("estadisticas-diarias");
+    contenedor.replaceChildren();
+
+    const datos = Array.isArray(filas) ? filas : [];
+    const maximo = Math.max(0, ...datos.map((fila) => Number(fila.visitas || 0)));
+
+    datos.forEach((fila, indice) => {
+      const visitas = Number(fila.visitas || 0);
+      const altura = maximo > 0 ? Math.max(visitas > 0 ? 8 : 0, (visitas / maximo) * 100) : 0;
+
+      const columna = document.createElement("span");
+      columna.className = "estadistica-dia-columna";
+      columna.setAttribute("role", "listitem");
+      columna.setAttribute(
+        "aria-label",
+        fechaEstadistica(fila.fecha, { day: "numeric", month: "long", year: "numeric" }) +
+        ": " + numeroES(visitas) + (visitas === 1 ? " sesión EVA" : " sesiones EVA")
+      );
+      columna.title = columna.getAttribute("aria-label");
+
+      const barra = document.createElement("span");
+      barra.className = "estadistica-dia-barra";
+      barra.style.height = altura + "%";
+
+      const etiqueta = document.createElement("span");
+      etiqueta.className = "estadistica-dia-etiqueta";
+      const mostrarEtiqueta =
+        indice === 0 ||
+        indice === datos.length - 1 ||
+        (indice + 1) % 7 === 0;
+      etiqueta.textContent = mostrarEtiqueta
+        ? fechaEstadistica(fila.fecha, { day: "2-digit", month: "2-digit" })
+        : "";
+      etiqueta.setAttribute("aria-hidden", "true");
+
+      columna.append(barra, etiqueta);
+      contenedor.appendChild(columna);
+    });
+  }
+
   async function cargarEstadisticasVisitas() {
     const datos = await rest("rpc/estadisticas_visitas_eva", {
       method: "POST",
@@ -1679,20 +1777,60 @@
     $("est-7dias").textContent = numeroES(resumen?.ultimos_7_dias);
     $("est-mes").textContent = numeroES(resumen?.mes_actual);
 
+    $("est-desde").textContent = resumen?.inicio_medicion
+      ? "Datos disponibles desde " + fechaEstadistica(resumen.inicio_medicion, {
+          day: "numeric",
+          month: "long",
+          year: "numeric"
+        }) + "."
+      : "Aún no hay sesiones EVA registradas.";
+
+    renderEstadisticasMensuales(resumen?.mensual_6_meses);
+    renderEstadisticasDiarias(resumen?.diario_30_dias);
+
     const cuerpo = $("estadisticas-modulos");
     cuerpo.replaceChildren();
 
     const filas = Array.isArray(resumen?.modulos) ? resumen.modulos : [];
     const mapa = new Map(filas.map((fila) => [fila.modulo, Number(fila.visitas || 0)]));
+    const totalAccesosModulos = Object.keys(NOMBRES_MODULOS)
+      .reduce((total, id) => total + Number(mapa.get(id) || 0), 0);
 
     Object.entries(NOMBRES_MODULOS).forEach(([id, nombre]) => {
+      const visitas = Number(mapa.get(id) || 0);
+      const participacion = totalAccesosModulos > 0
+        ? (visitas / totalAccesosModulos) * 100
+        : 0;
+
       const tr = document.createElement("tr");
       const tdNombre = document.createElement("td");
       const tdVisitas = document.createElement("td");
+      const tdParticipacion = document.createElement("td");
+
       tdNombre.textContent = nombre;
-      tdVisitas.textContent = numeroES(mapa.get(id) || 0);
+      tdVisitas.textContent = numeroES(visitas);
       tdVisitas.className = "estadistica-numero";
-      tr.append(tdNombre, tdVisitas);
+
+      const grupo = document.createElement("div");
+      grupo.className = "estadistica-participacion";
+
+      const pista = document.createElement("span");
+      pista.className = "estadistica-participacion-pista";
+      pista.setAttribute("aria-hidden", "true");
+
+      const barra = document.createElement("span");
+      barra.className = "estadistica-participacion-valor";
+      barra.style.width = participacion + "%";
+      pista.appendChild(barra);
+
+      const texto = document.createElement("span");
+      texto.className = "estadistica-participacion-texto";
+      texto.textContent = porcentajeES(participacion);
+
+      grupo.append(pista, texto);
+      tdParticipacion.appendChild(grupo);
+
+      tr.append(tdNombre, tdVisitas, tdParticipacion);
       cuerpo.appendChild(tr);
     });
   }
