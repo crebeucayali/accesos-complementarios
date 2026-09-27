@@ -29,7 +29,8 @@
     "noticias_destacadas_publicas",
     "galeria_publica",
     "estadisticas_visitas_eva",
-    "storage_imagenes_publicas"
+    "storage_imagenes_publicas",
+    "capacitaciones_imagenes_publicas"
   ],
   "controles_pendientes": [
     "auth_frontend",
