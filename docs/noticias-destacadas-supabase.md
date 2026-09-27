@@ -101,3 +101,16 @@ Las operaciones administrativas se registran mediante `private.auditoria_adminis
 El carrusel de portada funciona como espacio de información rápida y síntesis institucional.
 
 Cuando una noticia necesite una ampliación, el campo `enlace_url` puede dirigir a una página interna del EVA, incluido Noti Inclusivos. El enlace es opcional.
+
+
+## Etapa 2A — estados de publicación
+
+Noticias destacadas incorpora tres estados editoriales:
+
+- `borrador`: el contenido permanece disponible para el administrador, pero no se muestra en la portada;
+- `publicado`: el contenido puede mostrarse públicamente;
+- `archivado`: el contenido se conserva en la base de datos y en el panel, pero queda retirado de la portada.
+
+El campo `estado_publicacion` es independiente del contenido de la noticia. Para compatibilidad con la implementación anterior, `visible` se mantiene sincronizado: solo el estado `publicado` guarda `visible = true`.
+
+Las políticas RLS públicas exigen simultáneamente `estado_publicacion = 'publicado'` y `visible = true`. Los administradores autorizados con MFA AAL2 pueden consultar los tres estados.
