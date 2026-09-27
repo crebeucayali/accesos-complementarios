@@ -115,6 +115,13 @@
 
         celda.querySelectorAll(".datos-actividad").forEach((elemento) => elemento.remove());
         CLASES_CONTROLADAS.forEach((clase) => celda.classList.remove(clase));
+        celda.classList.remove("celda-multiples-actividades");
+        delete celda.dataset.actividades;
+
+        if (registros.length > 1) {
+          celda.classList.add("celda-multiples-actividades");
+          celda.dataset.actividades = String(registros.length);
+        }
 
         const clase = registros.find((registro) => CLASES_CONTROLADAS.includes(registro.clase_css))?.clase_css;
         if (clase) celda.classList.add(clase);
