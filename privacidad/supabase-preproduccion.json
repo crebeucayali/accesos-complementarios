@@ -72,7 +72,7 @@
   },
   "estadisticas_visitas": {
     "estado": "operativo",
-    "tabla": "private.eva_visitas_diarias",
+    "tabla": "public.eva_visitas_diarias",
     "intervalo_inactividad_minutos": 30,
     "accesos": 8,
     "datos_persistentes": [
@@ -81,6 +81,9 @@
       "conteo_agregado"
     ],
     "identificador_visitante_persistente": false,
-    "ip_en_tabla_aplicacion": false
+    "ip_en_tabla_aplicacion": false,
+    "endpoint_publico": "public.eva_visitas_eventos",
+    "eventos_individuales_persistentes": false,
+    "escritura_tabla_agregada_publica": false
   }
 }
