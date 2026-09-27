@@ -75,8 +75,9 @@ Documentación asociada:
 - [Revisión de privacidad y seguridad previa a datos personales en Supabase](docs/supabase-privacidad-seguridad-preproduccion.md)
 - [Estado preproducción de Supabase](privacidad/supabase-preproduccion.json)
 - [Calendario público con Supabase](docs/calendario-supabase.md)
+- [Panel administrativo con Supabase Auth](docs/panel-administrativo-auth.md)
 
-El uso actual de Supabase se limita a consultas públicas de Capacitaciones y del Calendario. Cualquier ampliación hacia Supabase Auth, sesiones persistentes, formularios, Storage con información personal o tratamiento de datos personales debe pasar primero por la revisión preproducción documentada. Mientras existan controles bloqueantes pendientes, el proyecto se considera no habilitado para ese alcance.
+El uso activo de Supabase continúa limitado a consultas públicas de Capacitaciones y del Calendario. Existe un panel administrativo técnicamente preparado en `admin/`, pero permanece deshabilitado y sin cuentas Auth mientras existan controles preproducción bloqueantes. Su activación requiere una cuenta expresamente autorizada, MFA TOTP y la verificación previa de las condiciones documentadas.
 
 ## Funcionalidades principales
 
