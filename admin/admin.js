@@ -777,6 +777,10 @@
       mostrarMensaje("Subiendo imagen de la noticia a Supabase Storage…");
       const subida = await subirImagenNoticia(archivoNoticiaSeleccionado);
       imagenUrl = subida.url;
+      $("not-imagen").value = imagenUrl;
+      archivoNoticiaSeleccionado = null;
+      $("not-archivo").value = "";
+      mostrarVistaPreviaNoticia(imagenUrl, "Imagen subida a Storage. Pendiente de guardar la noticia.");
     }
 
     const payload = {
