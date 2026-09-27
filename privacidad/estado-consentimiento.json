@@ -38,6 +38,14 @@
       "categoria": "contenido_externo_bajo_demanda",
       "consentimiento_global": false,
       "confirmacion_previa": true
+    },
+    {
+      "id": "supabase_capacitaciones_publico",
+      "categoria": "consulta_publica_solo_lectura",
+      "almacenamiento": "sin_almacenamiento_de_sesion_en_cliente",
+      "consentimiento_global": false,
+      "autenticacion": false,
+      "datos_personales": false
     }
   ],
   "disparadores_de_revision": [
@@ -47,7 +55,7 @@
     "nuevas_cookies_no_esenciales",
     "autenticacion_o_sesiones_persistentes",
     "nuevos_sdk_o_scripts_de_terceros",
-    "nuevas_funciones_de_supabase_en_cliente",
+    "ampliacion_de_supabase_a_auth_sesiones_o_datos_personales",
     "cambios_en_finalidades_o_proveedores"
   ],
   "accion_si_se_activa_un_disparador": "Reauditar tecnologías, actualizar políticas y determinar antes de producción si corresponde un gestor o banner de consentimiento."
