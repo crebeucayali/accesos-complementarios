@@ -144,3 +144,18 @@ Valores:
 ## Estado de validación de Storage
 
 La integración técnica de Storage para Galería está implementada. Queda pendiente una prueba funcional real desde una sesión administrativa AAL2 antes de considerar cerrada esta etapa.
+
+
+## Galerías por actividad
+
+Cada actividad puede contener entre 1 y 5 fotografías. Las imágenes se registran en `public.galeria_item_imagenes`, relacionadas con `public.galeria_items`.
+
+Cada fotografía conserva:
+
+- orden dentro de la actividad;
+- URL de imagen;
+- texto alternativo propio.
+
+La primera fotografía también se mantiene reflejada en `galeria_items.imagen_url` e `imagen_alt` para compatibilidad con registros y código histórico.
+
+La página pública adapta automáticamente el mosaico según la cantidad de fotografías disponibles. Las fotografías adicionales no crean nuevas tarjetas ni nuevas actividades.
