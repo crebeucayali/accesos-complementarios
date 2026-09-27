@@ -27,7 +27,7 @@
   let archivoCapFlyerSeleccionado = null;
   let archivoCapInfografiaSeleccionado = null;
   let archivoRepositorioSeleccionado = null;
-  let archivoGaleriaSeleccionado = null;
+  let imagenesGaleriaEditor = [];
 
   function mostrarMensaje(texto, tipo = "") {
     mensajeAdmin.textContent = texto || "";
@@ -1212,24 +1212,6 @@
     return texto;
   }
 
-  function mostrarVistaPreviaGaleria(origen, mensaje) {
-    const panel = $("gal-imagen-panel");
-    const imagen = $("gal-imagen-preview");
-    const estado = $("gal-imagen-estado");
-    const url = String(origen || "").trim();
-
-    if (!url) {
-      panel.hidden = true;
-      imagen.removeAttribute("src");
-      estado.textContent = "";
-      return;
-    }
-
-    imagen.src = resolverVistaPreviaGaleria(url);
-    estado.textContent = mensaje || "Fotografía actualmente asociada a la tarjeta.";
-    panel.hidden = false;
-  }
-
   function esImagenStorageGaleria(valor) {
     try {
       const url = new URL(String(valor || "").trim());
@@ -1243,16 +1225,35 @@
     }
   }
 
-  function rutaStorageGaleria(archivo) {
+  function validarImagenGaleria(valor) {
+    const texto = String(valor || "").trim();
+    if (!texto) throw new Error("La imagen es obligatoria.");
+
+    if (/^imagenes-(galeria|calendario)\/[a-z0-9._/-]+$/i.test(texto)) return texto;
+    if (esImagenStorageGaleria(texto)) return new URL(texto).href;
+
+    try {
+      const url = new URL(texto);
+      if (url.protocol !== "https:" || url.hostname.toLowerCase() !== "crebeucayali.github.io") {
+        throw new Error();
+      }
+      return url.href;
+    } catch {
+      throw new Error("La imagen debe pertenecer a la Galería del EVA o al Storage institucional autorizado.");
+    }
+  }
+
+  function rutaStorageGaleria(archivo, orden) {
     const fecha = $("gal-fecha").value || "sin-fecha";
     return (
       "galeria/" + fecha + "/" +
+      String(orden).padStart(2, "0") + "-" +
       Date.now() + "-" + identificadorArchivoNoticia() +
       "." + extensionImagenNoticia(archivo)
     );
   }
 
-  async function subirImagenGaleria(archivo) {
+  async function subirImagenGaleria(archivo, orden) {
     validarArchivoImagenNoticia(archivo);
     await refrescarSesionSiHaceFalta();
 
@@ -1261,7 +1262,7 @@
       throw new Error("La carga de imágenes requiere una sesión administrativa con MFA AAL2.");
     }
 
-    const ruta = rutaStorageGaleria(archivo);
+    const ruta = rutaStorageGaleria(archivo, orden);
     const rutaCodificada = ruta.split("/").map(encodeURIComponent).join("/");
 
     await solicitar(
@@ -1280,43 +1281,98 @@
       }
     );
 
-    return {
-      ruta,
-      url: STORAGE_NOTICIAS_BASE + ruta
-    };
+    return { ruta, url: STORAGE_NOTICIAS_BASE + ruta };
   }
 
-  function gestionarArchivoGaleria(evento) {
-    try {
-      const archivo = validarArchivoImagenNoticia(evento.target.files?.[0] || null);
-      archivoGaleriaSeleccionado = archivo;
+  function limpiarPreviewTemporalGaleria(item) {
+    if (item?.previewTemporal && item.previewUrl) {
+      try { URL.revokeObjectURL(item.previewUrl); } catch {}
+    }
+  }
 
-      if (!archivo) {
-        const valorActual = $("gal-imagen").value;
-        mostrarVistaPreviaGaleria(
-          valorActual,
-          valorActual ? "Fotografía actualmente asociada a la tarjeta." : ""
-        );
-        return;
+  function renderizarImagenesGaleriaEditor() {
+    const contenedor = $("gal-imagenes-editor");
+    contenedor.replaceChildren();
+
+    if (!imagenesGaleriaEditor.length) {
+      const vacio = document.createElement("p");
+      vacio.className = "nota";
+      vacio.textContent = "Aún no has seleccionado fotografías para esta actividad.";
+      contenedor.appendChild(vacio);
+      return;
+    }
+
+    imagenesGaleriaEditor.forEach((item, indice) => {
+      const tarjeta = document.createElement("article");
+      tarjeta.className = "imagen-admin-preview galeria-admin-foto";
+
+      const imagen = document.createElement("img");
+      imagen.src = item.previewUrl || resolverVistaPreviaGaleria(item.url);
+      imagen.alt = "Vista previa de la fotografía " + (indice + 1);
+
+      const info = document.createElement("div");
+      info.className = "imagen-admin-preview-info";
+
+      const titulo = document.createElement("p");
+      titulo.className = "nota";
+      titulo.textContent = "Fotografía " + (indice + 1) + " de " + imagenesGaleriaEditor.length;
+
+      const etiqueta = document.createElement("label");
+      etiqueta.textContent = "Texto alternativo de la fotografía " + (indice + 1);
+
+      const input = document.createElement("input");
+      input.type = "text";
+      input.maxLength = 220;
+      input.required = true;
+      input.placeholder = "Describe brevemente lo que muestra esta fotografía";
+      input.value = item.alt || "";
+      input.addEventListener("input", () => {
+        imagenesGaleriaEditor[indice].alt = input.value;
+      });
+
+      const retirar = document.createElement("button");
+      retirar.type = "button";
+      retirar.className = "secundario";
+      retirar.textContent = "Retirar fotografía";
+      retirar.addEventListener("click", () => {
+        limpiarPreviewTemporalGaleria(imagenesGaleriaEditor[indice]);
+        imagenesGaleriaEditor.splice(indice, 1);
+        renderizarImagenesGaleriaEditor();
+        mostrarMensaje("Fotografía retirada de la actividad. El cambio se aplicará al guardar.");
+      });
+
+      etiqueta.appendChild(input);
+      info.append(titulo, etiqueta, retirar);
+      tarjeta.append(imagen, info);
+      contenedor.appendChild(tarjeta);
+    });
+  }
+
+  function gestionarArchivosGaleria(evento) {
+    try {
+      const archivos = Array.from(evento.target.files || []);
+      if (!archivos.length) return;
+
+      if (imagenesGaleriaEditor.length + archivos.length > 5) {
+        throw new Error("Cada actividad puede contener como máximo 5 fotografías.");
       }
 
-      const lector = new FileReader();
-      lector.addEventListener("load", () => {
-        mostrarVistaPreviaGaleria(
-          lector.result,
-          archivo.name + " · " + Math.max(1, Math.round(archivo.size / 1024)) + " KB · preparada para subir"
-        );
+      archivos.forEach((archivo) => {
+        validarArchivoImagenNoticia(archivo);
+        imagenesGaleriaEditor.push({
+          url: "",
+          alt: "",
+          archivo,
+          previewUrl: URL.createObjectURL(archivo),
+          previewTemporal: true
+        });
       });
-      lector.readAsDataURL(archivo);
+
+      evento.target.value = "";
+      renderizarImagenesGaleriaEditor();
       mostrarMensaje("");
     } catch (error) {
-      archivoGaleriaSeleccionado = null;
       evento.target.value = "";
-      const valorActual = $("gal-imagen").value;
-      mostrarVistaPreviaGaleria(
-        valorActual,
-        valorActual ? "Fotografía actualmente asociada a la tarjeta." : ""
-      );
       mostrarMensaje(error.message, "error");
     }
   }
@@ -1326,40 +1382,68 @@
     $("gal-fecha").value = fila?.fecha || "";
     $("gal-titulo").value = fila?.titulo || "";
     $("gal-descripcion").value = fila?.descripcion || "";
-    $("gal-imagen").value = fila?.imagen_url || "";
-    $("gal-alt").value = fila?.imagen_alt || "";
     $("gal-visible").checked = fila?.visible === true;
     $("gal-autorizada").checked = fila?.publicacion_autorizada === true;
     $("boton-eliminar-foto").hidden = !fila?.id;
-
-    archivoGaleriaSeleccionado = null;
     $("gal-imagen-archivo").value = "";
-    mostrarVistaPreviaGaleria(
-      fila?.imagen_url || "",
-      fila?.imagen_url ? "Fotografía actualmente asociada a la tarjeta." : ""
-    );
+
+    imagenesGaleriaEditor.forEach(limpiarPreviewTemporalGaleria);
+
+    const imagenes = Array.isArray(fila?.imagenes) && fila.imagenes.length
+      ? fila.imagenes
+      : (fila?.imagen_url ? [{
+          orden: 1,
+          imagen_url: fila.imagen_url,
+          imagen_alt: fila.imagen_alt || ""
+        }] : []);
+
+    imagenesGaleriaEditor = imagenes
+      .sort((a, b) => Number(a.orden || 0) - Number(b.orden || 0))
+      .slice(0, 5)
+      .map((imagen) => ({
+        url: imagen.imagen_url,
+        alt: imagen.imagen_alt || "",
+        archivo: null,
+        previewUrl: "",
+        previewTemporal: false
+      }));
+
+    renderizarImagenesGaleriaEditor();
   }
 
   async function cargarGaleriaAdmin() {
-    galeriaItems = await rest(
-      "galeria_items?select=*&order=orden.desc,id.desc",
-      { method: "GET" }
-    );
+    const [items, imagenes] = await Promise.all([
+      rest("galeria_items?select=*&order=orden.desc,id.desc", { method: "GET" }),
+      rest("galeria_item_imagenes?select=id,galeria_item_id,orden,imagen_url,imagen_alt&order=galeria_item_id.asc,orden.asc", { method: "GET" })
+    ]);
+
+    const porItem = new Map();
+    (Array.isArray(imagenes) ? imagenes : []).forEach((imagen) => {
+      const clave = String(imagen.galeria_item_id);
+      if (!porItem.has(clave)) porItem.set(clave, []);
+      porItem.get(clave).push(imagen);
+    });
+
+    galeriaItems = (Array.isArray(items) ? items : []).map((fila) => ({
+      ...fila,
+      imagenes: porItem.get(String(fila.id)) || []
+    }));
 
     const selector = $("galeria-selector");
     selector.replaceChildren();
 
     const vacio = document.createElement("option");
     vacio.value = "";
-    vacio.textContent = "Seleccionar fotografía";
+    vacio.textContent = "Seleccionar actividad";
     selector.appendChild(vacio);
 
     galeriaItems.forEach((fila, indice) => {
       const opcion = document.createElement("option");
       opcion.value = String(indice);
       const fecha = fila.fecha ? fila.fecha + " · " : "";
+      const cantidad = fila.imagenes?.length || (fila.imagen_url ? 1 : 0);
       opcion.textContent =
-        fecha + fila.titulo +
+        fecha + fila.titulo + " · " + cantidad + (cantidad === 1 ? " foto" : " fotos") +
         (fila.visible === false ? " · Oculta" : "") +
         (fila.publicacion_autorizada === false ? " · Sin autorización" : "");
       selector.appendChild(opcion);
@@ -1378,79 +1462,90 @@
     mostrarMensaje("");
   }
 
-  function validarImagenGaleria(valor) {
-    const texto = String(valor || "").trim();
-    if (!texto) throw new Error("La imagen es obligatoria.");
-
-    if (/^imagenes-(galeria|calendario)\/[a-z0-9._/-]+$/i.test(texto)) {
-      return texto;
-    }
-
-    if (esImagenStorageGaleria(texto)) return new URL(texto).href;
-
-    try {
-      const url = new URL(texto);
-      if (url.protocol !== "https:" || url.hostname.toLowerCase() !== "crebeucayali.github.io") {
-        throw new Error();
-      }
-      return url.href;
-    } catch {
-      throw new Error("La imagen debe pertenecer a la Galería del EVA o al Storage institucional autorizado.");
-    }
-  }
-
   function siguienteOrdenGaleria() {
     const ordenes = galeriaItems.map((fila) => Number(fila.orden || 0));
     return (ordenes.length ? Math.max(...ordenes) : 0) + 1;
+  }
+
+  async function guardarImagenesGaleria(galeriaItemId, imagenes) {
+    await rest(
+      "galeria_item_imagenes?galeria_item_id=eq." + encodeURIComponent(galeriaItemId),
+      { method: "DELETE", headers: { Prefer: "return=minimal" } }
+    );
+
+    const filas = imagenes.map((imagen, indice) => ({
+      galeria_item_id: Number(galeriaItemId),
+      orden: indice + 1,
+      imagen_url: imagen.url,
+      imagen_alt: imagen.alt
+    }));
+
+    await rest("galeria_item_imagenes", {
+      method: "POST",
+      headers: { Prefer: "return=minimal" },
+      body: JSON.stringify(filas)
+    });
   }
 
   async function guardarFotoGaleria() {
     const id = $("gal-id").value.trim();
     const titulo = $("gal-titulo").value.trim();
     const descripcion = $("gal-descripcion").value.trim();
-    const alt = $("gal-alt").value.trim();
     const visible = $("gal-visible").checked;
     const autorizada = $("gal-autorizada").checked;
 
-    if (!titulo) throw new Error("El título de la fotografía es obligatorio.");
-    if (!alt) throw new Error("El texto alternativo de la fotografía es obligatorio.");
-    if (!$("gal-imagen").value.trim() && !archivoGaleriaSeleccionado) {
-      throw new Error("La imagen de la fotografía es obligatoria.");
+    if (!titulo) throw new Error("El título de la actividad es obligatorio.");
+    if (imagenesGaleriaEditor.length < 1 || imagenesGaleriaEditor.length > 5) {
+      throw new Error("La actividad debe contener entre 1 y 5 fotografías.");
     }
+
+    imagenesGaleriaEditor.forEach((imagen, indice) => {
+      if (!String(imagen.alt || "").trim()) {
+        throw new Error("Completa el texto alternativo de la fotografía " + (indice + 1) + ".");
+      }
+    });
+
     if (visible && !autorizada) {
-      throw new Error("Para publicar una fotografía debes confirmar primero que está autorizada para publicación institucional.");
+      throw new Error("Para publicar la actividad debes confirmar primero que sus fotografías están autorizadas para publicación institucional.");
     }
 
     const existente = id
       ? galeriaItems.find((fila) => String(fila.id) === id)
       : null;
 
-    let imagen = $("gal-imagen").value.trim();
+    const imagenesFinales = [];
+    for (let indice = 0; indice < imagenesGaleriaEditor.length; indice += 1) {
+      const item = imagenesGaleriaEditor[indice];
+      let url = item.url;
 
-    if (archivoGaleriaSeleccionado) {
-      mostrarMensaje("Subiendo fotografía a Supabase Storage…");
-      const subida = await subirImagenGaleria(archivoGaleriaSeleccionado);
-      imagen = subida.url;
-      $("gal-imagen").value = imagen;
-      archivoGaleriaSeleccionado = null;
-      $("gal-imagen-archivo").value = "";
-      mostrarVistaPreviaGaleria(imagen, "Fotografía subida a Storage. Pendiente de guardar la tarjeta.");
+      if (item.archivo) {
+        mostrarMensaje(
+          "Subiendo fotografía " + (indice + 1) + " de " + imagenesGaleriaEditor.length + " a Supabase Storage…"
+        );
+        const subida = await subirImagenGaleria(item.archivo, indice + 1);
+        url = subida.url;
+      }
+
+      imagenesFinales.push({
+        url: validarImagenGaleria(url),
+        alt: String(item.alt || "").trim()
+      });
     }
 
+    const principal = imagenesFinales[0];
     const payload = {
       orden: existente ? Number(existente.orden || 1) : siguienteOrdenGaleria(),
       fecha: $("gal-fecha").value || null,
       titulo,
       descripcion,
-      imagen_url: validarImagenGaleria(imagen),
-      imagen_alt: alt,
+      imagen_url: principal.url,
+      imagen_alt: principal.alt,
       publicacion_autorizada: autorizada,
       visible,
       origen: existente?.origen || "panel_admin"
     };
 
     let resultado;
-
     if (id) {
       resultado = await rest("galeria_items?id=eq." + encodeURIComponent(id), {
         method: "PATCH",
@@ -1465,18 +1560,25 @@
       });
     }
 
+    const guardada = Array.isArray(resultado) ? resultado[0] : null;
+    const galeriaItemId = guardada?.id || Number(id);
+    if (!galeriaItemId) throw new Error("No se pudo identificar la actividad guardada.");
+
+    await guardarImagenesGaleria(galeriaItemId, imagenesFinales);
+
+    imagenesGaleriaEditor.forEach(limpiarPreviewTemporalGaleria);
     await cargarGaleriaAdmin();
 
-    const guardada = Array.isArray(resultado) ? resultado[0] : null;
-    if (guardada?.id) {
-      const indice = galeriaItems.findIndex((fila) => Number(fila.id) === Number(guardada.id));
-      if (indice >= 0) {
-        $("galeria-selector").value = String(indice);
-        llenarGaleriaAdmin(galeriaItems[indice]);
-      }
+    const indiceGuardado = galeriaItems.findIndex((fila) => Number(fila.id) === Number(galeriaItemId));
+    if (indiceGuardado >= 0) {
+      $("galeria-selector").value = String(indiceGuardado);
+      llenarGaleriaAdmin(galeriaItems[indiceGuardado]);
     }
 
-    mostrarMensaje(id ? "Fotografía actualizada correctamente." : "Fotografía agregada correctamente.", "exito");
+    mostrarMensaje(
+      id ? "Actividad actualizada correctamente." : "Actividad agregada correctamente.",
+      "exito"
+    );
   }
 
   async function eliminarFotoGaleria() {
@@ -1484,10 +1586,10 @@
     if (!id) return;
 
     const fila = galeriaItems.find((item) => String(item.id) === id);
-    if (!fila) throw new Error("No se encontró la fotografía seleccionada.");
+    if (!fila) throw new Error("No se encontró la actividad seleccionada.");
 
     const aceptar = window.confirm(
-      '¿Eliminar "' + fila.titulo + '" de la Galería?\n\nLa tarjeta dejará de mostrarse y el registro se eliminará de Supabase.'
+      '¿Eliminar "' + fila.titulo + '" de la Galería?\n\nLa actividad y sus fotografías dejarán de mostrarse.'
     );
     if (!aceptar) return;
 
@@ -1500,14 +1602,13 @@
     );
 
     if (!Array.isArray(resultado) || !resultado.length) {
-      throw new Error("No se pudo eliminar la fotografía.");
+      throw new Error("No se pudo eliminar la actividad.");
     }
 
     await cargarGaleriaAdmin();
     nuevaFotoGaleria();
-    mostrarMensaje("Fotografía eliminada correctamente.", "exito");
+    mostrarMensaje("Actividad eliminada correctamente.", "exito");
   }
-
 
   const NOMBRES_MODULOS = {
     principal: "Plataforma principal",
@@ -1691,15 +1792,7 @@
 
   $("boton-nueva-foto").addEventListener("click", nuevaFotoGaleria);
 
-  $("gal-imagen-archivo").addEventListener("change", gestionarArchivoGaleria);
-
-  $("gal-imagen-retirar").addEventListener("click", () => {
-    archivoGaleriaSeleccionado = null;
-    $("gal-imagen-archivo").value = "";
-    $("gal-imagen").value = "";
-    mostrarVistaPreviaGaleria("", "");
-    mostrarMensaje("La fotografía se retirará al guardar. Para mantener la tarjeta, selecciona otra imagen.");
-  });
+  $("gal-imagen-archivo").addEventListener("change", gestionarArchivosGaleria);
 
   $("boton-eliminar-foto").addEventListener("click", async () => {
     try {
