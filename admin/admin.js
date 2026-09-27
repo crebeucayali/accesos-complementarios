@@ -21,6 +21,7 @@
   let capacitaciones = [];
   let actividades = [];
   let recursosRepositorio = [];
+  let noticiasDestacadas = [];
 
   function mostrarMensaje(texto, tipo = "") {
     mensajeAdmin.textContent = texto || "";
@@ -175,7 +176,7 @@
     estadoTitulo.textContent = "Acceso administrativo activo";
     estadoMensaje.textContent = "";
     $("usuario-actual").textContent = sesion?.user?.email || "Administrador";
-    await Promise.all([cargarCapacitaciones(), cargarCalendario(), cargarRepositorio()]);
+    await Promise.all([cargarCapacitaciones(), cargarCalendario(), cargarRepositorio(), cargarNoticiasDestacadas()]);
   }
 
   async function iniciarSesion(correo, clave) {
@@ -553,12 +554,178 @@
     mostrarMensaje("Recurso eliminado correctamente.", "exito");
   }
 
+
+  function llenarNoticiaDestacada(fila) {
+    $("not-id").value = fila?.id || "";
+    $("not-categoria").value = fila?.categoria || "Noticia destacada";
+    $("not-titulo").value = fila?.titulo || "";
+    $("not-descripcion").value = fila?.descripcion || "";
+    $("not-imagen").value = fila?.imagen_url || "";
+    $("not-enlace").value = fila?.enlace_url || "";
+    $("not-visible").checked = fila?.visible !== false;
+    $("boton-eliminar-noticia").hidden = !fila?.id;
+  }
+
+  async function cargarNoticiasDestacadas() {
+    noticiasDestacadas = await rest(
+      "noticias_destacadas?select=*&order=orden.asc,id.asc",
+      { method: "GET" }
+    );
+
+    const selector = $("noticia-selector");
+    selector.replaceChildren();
+
+    const vacio = document.createElement("option");
+    vacio.value = "";
+    vacio.textContent = "Seleccionar noticia";
+    selector.appendChild(vacio);
+
+    noticiasDestacadas.forEach((fila, indice) => {
+      const opcion = document.createElement("option");
+      opcion.value = String(indice);
+      opcion.textContent =
+        fila.categoria + " · " + fila.titulo +
+        (fila.visible === false ? " · Oculta" : "");
+      selector.appendChild(opcion);
+    });
+
+    llenarNoticiaDestacada(null);
+  }
+
+  function nuevaNoticiaDestacada() {
+    $("noticia-selector").value = "";
+    llenarNoticiaDestacada(null);
+    $("not-titulo").focus();
+    mostrarMensaje("");
+  }
+
+  function validarImagenNoticia(valor) {
+    const texto = String(valor || "").trim();
+    if (!texto) return "";
+    if (/^imagenes\/noticias\/[a-z0-9._/-]+$/i.test(texto)) return texto;
+
+    try {
+      const url = new URL(texto);
+      if (url.protocol !== "https:" || url.hostname.toLowerCase() !== "crebeucayali.github.io") {
+        throw new Error();
+      }
+      return url.href;
+    } catch {
+      throw new Error("La imagen debe usar una ruta imagenes/noticias/... o una URL HTTPS de crebeucayali.github.io.");
+    }
+  }
+
+  function validarEnlaceNoticia(valor) {
+    const texto = String(valor || "").trim();
+    if (!texto) return "";
+
+    try {
+      const url = new URL(texto);
+      if (url.protocol !== "https:" || url.hostname.toLowerCase() !== "crebeucayali.github.io") {
+        throw new Error();
+      }
+      return url.href;
+    } catch {
+      throw new Error("El enlace para ampliar debe pertenecer a crebeucayali.github.io.");
+    }
+  }
+
+  function siguienteOrdenNoticia() {
+    const ordenes = noticiasDestacadas.map((fila) => Number(fila.orden || 0));
+    return (ordenes.length ? Math.max(...ordenes) : 0) + 1;
+  }
+
+  async function guardarNoticiaDestacada() {
+    const id = $("not-id").value.trim();
+    const categoria = $("not-categoria").value.trim();
+    const titulo = $("not-titulo").value.trim();
+    const descripcion = $("not-descripcion").value.trim();
+
+    if (!categoria) throw new Error("La categoría es obligatoria.");
+    if (!titulo) throw new Error("El título es obligatorio.");
+    if (!descripcion) throw new Error("La síntesis breve es obligatoria.");
+
+    const existente = id
+      ? noticiasDestacadas.find((fila) => String(fila.id) === id)
+      : null;
+
+    const payload = {
+      orden: existente ? Number(existente.orden || 1) : siguienteOrdenNoticia(),
+      categoria,
+      titulo,
+      descripcion,
+      imagen_url: validarImagenNoticia($("not-imagen").value),
+      enlace_url: validarEnlaceNoticia($("not-enlace").value),
+      visible: $("not-visible").checked,
+      origen: existente?.origen || "panel_admin"
+    };
+
+    let resultado;
+
+    if (id) {
+      resultado = await rest("noticias_destacadas?id=eq." + encodeURIComponent(id), {
+        method: "PATCH",
+        headers: { Prefer: "return=representation" },
+        body: JSON.stringify(payload)
+      });
+    } else {
+      resultado = await rest("noticias_destacadas", {
+        method: "POST",
+        headers: { Prefer: "return=representation" },
+        body: JSON.stringify(payload)
+      });
+    }
+
+    await cargarNoticiasDestacadas();
+
+    const guardada = Array.isArray(resultado) ? resultado[0] : null;
+    if (guardada?.id) {
+      const indice = noticiasDestacadas.findIndex((fila) => Number(fila.id) === Number(guardada.id));
+      if (indice >= 0) {
+        $("noticia-selector").value = String(indice);
+        llenarNoticiaDestacada(noticiasDestacadas[indice]);
+      }
+    }
+
+    mostrarMensaje(id ? "Noticia actualizada correctamente." : "Noticia agregada correctamente.", "exito");
+  }
+
+  async function eliminarNoticiaDestacada() {
+    const id = $("not-id").value.trim();
+    if (!id) return;
+
+    const fila = noticiasDestacadas.find((item) => String(item.id) === id);
+    if (!fila) throw new Error("No se encontró la noticia seleccionada.");
+
+    const aceptar = window.confirm(
+      '¿Eliminar "' + fila.titulo + '" de Noticias destacadas?\n\nEsta acción retirará la tarjeta de la portada.'
+    );
+    if (!aceptar) return;
+
+    const resultado = await rest(
+      "noticias_destacadas?id=eq." + encodeURIComponent(id),
+      {
+        method: "DELETE",
+        headers: { Prefer: "return=representation" }
+      }
+    );
+
+    if (!Array.isArray(resultado) || !resultado.length) {
+      throw new Error("No se pudo eliminar la noticia.");
+    }
+
+    await cargarNoticiasDestacadas();
+    nuevaNoticiaDestacada();
+    mostrarMensaje("Noticia eliminada correctamente.", "exito");
+  }
+
   document.querySelectorAll(".tab").forEach((boton) => {
     boton.addEventListener("click", () => {
       document.querySelectorAll(".tab").forEach((x) => x.classList.toggle("activo", x === boton));
       $("panel-capacitaciones").hidden = boton.dataset.panel !== "capacitaciones";
       $("panel-calendario").hidden = boton.dataset.panel !== "calendario";
       $("panel-repositorio").hidden = boton.dataset.panel !== "repositorio";
+      $("panel-noticias").hidden = boton.dataset.panel !== "noticias";
       mostrarMensaje("");
     });
   });
@@ -586,6 +753,22 @@
   $("boton-eliminar-recurso").addEventListener("click", async () => {
     try {
       await eliminarRecursoRepositorio();
+    } catch (error) {
+      mostrarMensaje(error.message, "error");
+    }
+  });
+
+  $("noticia-selector").addEventListener("change", (evento) => {
+    const valor = evento.target.value;
+    if (valor === "") return nuevaNoticiaDestacada();
+    llenarNoticiaDestacada(noticiasDestacadas[Number(valor)]);
+  });
+
+  $("boton-nueva-noticia").addEventListener("click", nuevaNoticiaDestacada);
+
+  $("boton-eliminar-noticia").addEventListener("click", async () => {
+    try {
+      await eliminarNoticiaDestacada();
     } catch (error) {
       mostrarMensaje(error.message, "error");
     }
@@ -629,6 +812,15 @@
     evento.preventDefault();
     try {
       await guardarRecursoRepositorio();
+    } catch (error) {
+      mostrarMensaje(error.message, "error");
+    }
+  });
+
+  $("form-noticia").addEventListener("submit", async (evento) => {
+    evento.preventDefault();
+    try {
+      await guardarNoticiaDestacada();
     } catch (error) {
       mostrarMensaje(error.message, "error");
     }
