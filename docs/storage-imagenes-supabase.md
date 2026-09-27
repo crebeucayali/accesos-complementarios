@@ -106,4 +106,31 @@ Los archivos descargables o enlaces externos del Repositorio no se trasladan a S
 
 La página pública solo acepta como imagen externa la ruta específica `eva-publico/repositorio/`.
 
-La Etapa 1D queda implementada técnicamente y pendiente de una prueba funcional real desde una sesión administrativa AAL2 antes de extender Storage a Galería.
+### Estado de validación de 1D
+
+Repositorio Accesible fue validado con una carga real desde el Panel Administrativo: la imagen se subió correctamente a Storage y se visualizó en la tarjeta pública correspondiente.
+
+
+## Etapa 1E — Galería
+
+Galería incorpora Storage para las fotografías institucionales publicadas en `recursos/galeria.html`.
+
+El Panel Administrativo permite:
+
+1. seleccionar WebP, JPG/JPEG o PNG de hasta 5 MB;
+2. mostrar una vista previa local;
+3. exigir texto alternativo;
+4. mantener la confirmación explícita de autorización de publicación;
+5. subir el archivo a una ruta organizada bajo `eva-publico/galeria/`;
+6. guardar la URL pública resultante en `public.galeria_items.imagen_url`;
+7. mostrar la fotografía desde Supabase Storage tanto en la tarjeta como en el visor ampliado.
+
+Las referencias históricas `imagenes-galeria/...`, `imagenes-calendario/...` y las URLs HTTPS ya admitidas de `crebeucayali.github.io` continúan siendo compatibles y no se migran automáticamente.
+
+La página pública solo acepta como imagen externa de Storage la ruta específica `eva-publico/galeria/`.
+
+La escritura mantiene la misma guardia: administrador autorizado y MFA AAL2. Las reglas de autorización institucional de la fotografía siguen vigentes y son independientes del lugar donde se almacena el archivo.
+
+### Estado de validación de 1E
+
+La Etapa 1E está implementada técnicamente y pendiente de una prueba funcional real desde una sesión administrativa AAL2.
