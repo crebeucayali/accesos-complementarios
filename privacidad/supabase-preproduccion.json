@@ -1,0 +1,38 @@
+{
+  "version": "2026-09",
+  "proyecto": "crebe Project",
+  "project_ref": "dteimbhwtzghhsijeeld",
+  "region": "us-east-1",
+  "uso_actual": "datos_publicos_capacitaciones_solo_lectura",
+  "auth_activo_en_frontend": false,
+  "edge_functions_activas": 0,
+  "rls_tablas_publicas_actuales": true,
+  "escritura_publica": false,
+  "secreto_administrativo_en_frontend": false,
+  "gate": {
+    "objeto": "private.supabase_preproduccion_gate",
+    "habilitado_para_datos_personales": false,
+    "motivo": "Existen controles institucionales, jurídicos y operativos pendientes."
+  },
+  "controles_verificados": [
+    "region_proyecto",
+    "datos_actuales",
+    "rls_public",
+    "escritura_publica",
+    "edge_functions",
+    "auth_frontend",
+    "secretos_frontend"
+  ],
+  "controles_pendientes": [
+    "registro_banco_datos",
+    "flujo_transfronterizo",
+    "dpa_subencargados",
+    "retencion_eliminacion",
+    "acceso_administrativo",
+    "incidentes_documento_seguridad",
+    "auth_sesiones",
+    "storage_personal",
+    "respaldo_recuperacion"
+  ],
+  "regla": "No incorporar datos personales ni Supabase Auth hasta cerrar los controles bloqueantes y registrar la evidencia correspondiente."
+}
