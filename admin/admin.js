@@ -1409,7 +1409,7 @@
     $("gal-fecha").value = fila?.fecha || "";
     $("gal-titulo").value = fila?.titulo || "";
     $("gal-descripcion").value = fila?.descripcion || "";
-    $("gal-visible").checked = fila?.visible === true;
+    $("gal-estado-publicacion").value = fila?.estado_publicacion || (fila?.visible === false ? "borrador" : "publicado");
     $("gal-autorizada").checked = fila?.publicacion_autorizada === true;
     $("boton-eliminar-foto").hidden = !fila?.id;
     $("gal-imagen-archivo").value = "";
@@ -1471,7 +1471,11 @@
       const cantidad = fila.imagenes?.length || (fila.imagen_url ? 1 : 0);
       opcion.textContent =
         fecha + fila.titulo + " · " + cantidad + (cantidad === 1 ? " foto" : " fotos") +
-        (fila.visible === false ? " · Oculta" : "") +
+        " · " + ({
+          borrador: "Borrador",
+          publicado: "Publicado",
+          archivado: "Archivado"
+        }[fila.estado_publicacion] || (fila.visible === false ? "Borrador" : "Publicado")) +
         (fila.publicacion_autorizada === false ? " · Sin autorización" : "");
       selector.appendChild(opcion);
     });
@@ -1483,7 +1487,7 @@
     $("galeria-selector").value = "";
     llenarGaleriaAdmin(null);
     $("gal-fecha").value = "";
-    $("gal-visible").checked = false;
+    $("gal-estado-publicacion").value = "borrador";
     $("gal-autorizada").checked = false;
     $("gal-titulo").focus();
     mostrarMensaje("");
@@ -1518,7 +1522,8 @@
     const id = $("gal-id").value.trim();
     const titulo = $("gal-titulo").value.trim();
     const descripcion = $("gal-descripcion").value.trim();
-    const visible = $("gal-visible").checked;
+    const estadoPublicacion = $("gal-estado-publicacion").value;
+    const visible = estadoPublicacion === "publicado";
     const autorizada = $("gal-autorizada").checked;
 
     if (!titulo) throw new Error("El título de la actividad es obligatorio.");
@@ -1568,6 +1573,7 @@
       imagen_url: principal.url,
       imagen_alt: principal.alt,
       publicacion_autorizada: autorizada,
+      estado_publicacion: estadoPublicacion,
       visible,
       origen: existente?.origen || "panel_admin"
     };
