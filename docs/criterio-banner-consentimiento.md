@@ -28,7 +28,7 @@ Antes de publicar cualquiera de las siguientes incorporaciones debe realizarse u
 4. Nuevas cookies o almacenamiento no estrictamente funcional.
 5. Inicio de sesión, autenticación o sesiones persistentes.
 6. SDK o scripts de terceros que se ejecuten automáticamente.
-7. Uso de Supabase en el cliente, especialmente Auth, sesiones o tratamiento de datos personales.
+7. Ampliación del uso actual de Supabase hacia Auth, sesiones persistentes, formularios o tratamiento de datos personales.
 8. Cambios relevantes en proveedores, finalidades o flujos de datos.
 
 ## Procedimiento de revisión
