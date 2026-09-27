@@ -130,3 +130,16 @@ Las imágenes históricas no se migran automáticamente ni se eliminan de GitHub
 La tabla contiene exclusivamente información pública sobre materiales y equipos. No está destinada a datos personales.
 
 La incorporación de Repositorio Accesible no modifica el gate general de preproducción para otros tratamientos de datos personales.
+
+
+## Etapa 2B — estados de publicación
+
+Repositorio Accesible incorpora tres estados editoriales:
+
+- `borrador`: el recurso se conserva en el panel, pero no aparece públicamente;
+- `publicado`: el recurso puede mostrarse en su categoría correspondiente;
+- `archivado`: el recurso permanece conservado en Supabase y en el panel, pero queda retirado de la página pública.
+
+El campo `estado_publicacion` convive con `visible` por compatibilidad con la implementación anterior. Solo el estado `publicado` mantiene `visible = true`.
+
+La lectura pública mediante RLS exige simultáneamente `estado_publicacion = 'publicado'` y `visible = true`. Los administradores autorizados con MFA AAL2 pueden consultar y gestionar los tres estados.
