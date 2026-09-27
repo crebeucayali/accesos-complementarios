@@ -908,3 +908,42 @@ body.alto-contraste .ayuda-campo{
     max-height:240px;
   }
 }
+
+
+/* Editor de múltiples fotografías de Galería */
+.galeria-admin-imagenes{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+  margin:8px 0 18px;
+}
+
+.galeria-admin-imagenes > .nota{
+  grid-column:1 / -1;
+  margin:0;
+}
+
+.galeria-admin-foto{
+  margin:0;
+  grid-template-columns:minmax(120px,180px) 1fr;
+}
+
+.galeria-admin-foto label{
+  display:block;
+  margin:0 0 10px;
+}
+
+.galeria-admin-foto input{
+  margin-top:6px;
+}
+
+@media(max-width:820px){
+  .galeria-admin-imagenes{
+    grid-template-columns:1fr;
+  }
+}
+
+body.alto-contraste .galeria-admin-foto{
+  background:#000!important;
+  border-color:#fff!important;
+}
