@@ -62,6 +62,19 @@ La arquitectura, reglas de integración, gestión de versiones, excepciones temp
 
 Esta definición corresponde a la **Etapa 1 de centralización**. Durante esta etapa no se eliminan todavía archivos locales que tengan referencias activas; las migraciones se realizarán de forma progresiva y verificable.
 
+## Gobernanza de privacidad y consentimiento
+
+El estado técnico del consentimiento global del EVA se mantiene documentado para evitar incorporar banners genéricos sin una necesidad real. Actualmente el ecosistema permanece sin banner global y utiliza avisos o consentimientos específicos únicamente en las funciones que lo requieren.
+
+Documentación asociada:
+
+- [Estado técnico del consentimiento](privacidad/estado-consentimiento.json)
+- [Criterio para banner y consentimiento global](docs/criterio-banner-consentimiento.md)
+- [Política de cookies y tecnologías similares](paginas/politica-cookies.html)
+- [Política de privacidad](paginas/politica-privacidad.html)
+
+Toda incorporación futura de analítica no esencial, publicidad, autenticación, nuevas cookies, SDK de terceros o funciones de Supabase en el cliente debe activar una nueva revisión antes de su publicación.
+
 ## Funcionalidades principales
 
 El repositorio puede contemplar una página principal del módulo, páginas auxiliares organizadas en carpetas, directorios, sección de firma de visita, recursos complementarios, enlaces internos, botones de navegación, páginas informativas, registro de participación, acceso a galería, calendario y documentos internos que expliquen la finalidad, alcance, criterios de publicación y estructura del proyecto.
