@@ -46,6 +46,14 @@
       "consentimiento_global": false,
       "autenticacion": false,
       "datos_personales": false
+    },
+    {
+      "id": "supabase_calendario_publico",
+      "categoria": "consulta_publica_solo_lectura",
+      "almacenamiento": "sin_almacenamiento_de_sesion_en_cliente",
+      "consentimiento_global": false,
+      "autenticacion": false,
+      "datos_personales": false
     }
   ],
   "disparadores_de_revision": [
