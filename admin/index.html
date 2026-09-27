@@ -401,9 +401,12 @@
                 <label>Fecha
                   <input id="gal-fecha" type="date">
                 </label>
-                <label class="check check-repositorio">
-                  <input id="gal-visible" type="checkbox">
-                  Visible en la Galería
+                <label>Estado de publicación
+                  <select id="gal-estado-publicacion">
+                    <option value="borrador">Borrador</option>
+                    <option value="publicado">Publicado</option>
+                    <option value="archivado">Archivado</option>
+                  </select>
                 </label>
               </div>
 
@@ -536,7 +539,7 @@
     </div>
   </footer>
 
-  <script src="admin.js?v=22" defer></script>
+  <script src="admin.js?v=23" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>
 </html>
