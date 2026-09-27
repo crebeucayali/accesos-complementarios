@@ -18,8 +18,8 @@
     </header>
 
     <section class="estado-panel" aria-live="polite">
-      <strong id="estado-panel-titulo">Preparación técnica completada</strong>
-      <p id="estado-panel-mensaje">El acceso permanece deshabilitado hasta completar los controles institucionales y registrar una cuenta administrativa autorizada.</p>
+      <strong id="estado-panel-titulo">Panel administrativo protegido</strong>
+      <p id="estado-panel-mensaje">El inicio de sesión está disponible únicamente para cuentas previamente autorizadas. Las operaciones de escritura requieren MFA con nivel AAL2.</p>
     </section>
 
     <section class="tarjeta" id="seccion-login" aria-labelledby="titulo-login">
@@ -82,12 +82,17 @@
 
           <label>Título<input id="cap-titulo" type="text" required></label>
           <label>Tema<textarea id="cap-tema" rows="3"></textarea></label>
-          <label>Infografía<input id="cap-infografia" type="text"></label>
+          <label>Flyer<input id="cap-flyer" type="text" placeholder="imagenes/..."></label>
+          <label>Infografía<input id="cap-infografia" type="text" placeholder="imagenes/..."></label>
           <label>PDF<input id="cap-pdf" type="url"></label>
           <label>Video<input id="cap-video" type="url"></label>
           <label>Vista previa de video<input id="cap-video-preview" type="url"></label>
           <label>Diapositivas<input id="cap-diapositivas" type="url"></label>
           <label>Vista previa de diapositivas<input id="cap-diapositivas-preview" type="url"></label>
+          <label>Materiales complementarios
+            <textarea id="cap-recursos" rows="5" placeholder="Título | URL | Descripción opcional"></textarea>
+          </label>
+          <p class="nota">Para materiales complementarios usa una línea por recurso: <strong>Título | URL | Descripción opcional</strong>.</p>
 
           <button type="submit">Guardar cambios</button>
         </form>
