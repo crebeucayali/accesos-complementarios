@@ -1765,29 +1765,7 @@
     });
   }
 
-  async function cargarEstadisticasVisitas() {
-    const datos = await rest("rpc/estadisticas_visitas_eva", {
-      method: "POST",
-      body: "{}"
-    });
-
-    const resumen = Array.isArray(datos) ? datos[0] : datos;
-    $("est-total").textContent = numeroES(resumen?.total);
-    $("est-hoy").textContent = numeroES(resumen?.hoy);
-    $("est-7dias").textContent = numeroES(resumen?.ultimos_7_dias);
-    $("est-mes").textContent = numeroES(resumen?.mes_actual);
-
-    $("est-desde").textContent = resumen?.inicio_medicion
-      ? "Datos disponibles desde " + fechaEstadistica(resumen.inicio_medicion, {
-          day: "numeric",
-          month: "long",
-          year: "numeric"
-        }) + "."
-      : "Aún no hay sesiones EVA registradas.";
-
-    renderEstadisticasMensuales(resumen?.mensual_6_meses);
-    renderEstadisticasDiarias(resumen?.diario_30_dias);
-
+  function renderDistribucionModulos(resumen) {
     const cuerpo = $("estadisticas-modulos");
     cuerpo.replaceChildren();
 
@@ -1833,6 +1811,56 @@
       tr.append(tdNombre, tdVisitas, tdParticipacion);
       cuerpo.appendChild(tr);
     });
+  }
+
+  async function cargarEstadisticasPeriodo(periodo) {
+    const valorPeriodo = periodo || $("est-periodo")?.value || "30d";
+    const datos = await rest("rpc/estadisticas_visitas_eva_periodo", {
+      method: "POST",
+      body: JSON.stringify({ p_periodo: valorPeriodo })
+    });
+
+    const resumen = Array.isArray(datos) ? datos[0] : datos;
+    $("est-periodo-sesiones").textContent = numeroES(resumen?.sesiones);
+
+    const desde = resumen?.fecha_desde
+      ? fechaEstadistica(resumen.fecha_desde, { day: "numeric", month: "short", year: "numeric" })
+      : "";
+    const hasta = resumen?.fecha_hasta
+      ? fechaEstadistica(resumen.fecha_hasta, { day: "numeric", month: "short", year: "numeric" })
+      : "";
+
+    $("est-periodo-rango").textContent =
+      desde && hasta
+        ? desde + " – " + hasta
+        : "Sin datos disponibles para este periodo.";
+
+    renderDistribucionModulos(resumen);
+  }
+
+  async function cargarEstadisticasVisitas() {
+    const datos = await rest("rpc/estadisticas_visitas_eva", {
+      method: "POST",
+      body: "{}"
+    });
+
+    const resumen = Array.isArray(datos) ? datos[0] : datos;
+    $("est-total").textContent = numeroES(resumen?.total);
+    $("est-hoy").textContent = numeroES(resumen?.hoy);
+    $("est-7dias").textContent = numeroES(resumen?.ultimos_7_dias);
+    $("est-mes").textContent = numeroES(resumen?.mes_actual);
+
+    $("est-desde").textContent = resumen?.inicio_medicion
+      ? "Datos disponibles desde " + fechaEstadistica(resumen.inicio_medicion, {
+          day: "numeric",
+          month: "long",
+          year: "numeric"
+        }) + "."
+      : "Aún no hay sesiones EVA registradas.";
+
+    renderEstadisticasMensuales(resumen?.mensual_6_meses);
+    renderEstadisticasDiarias(resumen?.diario_30_dias);
+    await cargarEstadisticasPeriodo($("est-periodo")?.value || "30d");
   }
 
   document.querySelectorAll(".tab").forEach((boton) => {
@@ -1983,6 +2011,15 @@
   $("boton-eliminar-foto").addEventListener("click", async () => {
     try {
       await eliminarFotoGaleria();
+    } catch (error) {
+      mostrarMensaje(error.message, "error");
+    }
+  });
+
+  $("est-periodo").addEventListener("change", async (evento) => {
+    try {
+      await cargarEstadisticasPeriodo(evento.target.value);
+      mostrarMensaje("");
     } catch (error) {
       mostrarMensaje(error.message, "error");
     }
