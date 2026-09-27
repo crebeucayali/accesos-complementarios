@@ -28,7 +28,8 @@ El panel administra actualmente:
 - Calendario;
 - Repositorio Accesible;
 - Noticias destacadas de la portada principal;
-- Galería de actividades.
+- Galería de actividades;
+- Estadísticas agregadas de visitas EVA.
 
 ## Flujo de acceso
 
@@ -149,6 +150,20 @@ La Galería administra únicamente tarjetas fotográficas dentro de `recursos/ga
 El panel exige título, imagen y texto alternativo. Para publicar una tarjeta también debe confirmarse explícitamente que la fotografía está autorizada para publicación institucional.
 
 Los archivos de imagen permanecen alojados en EVA/GitHub; Supabase almacena solo metadatos y referencias.
+
+## Estadísticas de visitas
+
+La pestaña **Estadísticas** es de consulta administrativa y requiere sesión autorizada con MFA AAL2.
+
+Presenta:
+
+- total acumulado EVA;
+- visitas del día;
+- últimos 7 días;
+- mes actual;
+- visitas acumuladas por acceso.
+
+La medición utiliza una sesión de 30 minutos de inactividad en el navegador. La base de datos conserva conteos agregados por fecha y módulo, no un perfil de cada visitante.
 
 ## Auditoría
 
