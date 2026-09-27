@@ -132,7 +132,11 @@
       const enrolado = await solicitar(SUPABASE_URL + "/auth/v1/factors", {
         method: "POST",
         headers: authHeaders(sesion.access_token),
-        body: JSON.stringify({ factor_type: "totp", friendly_name: "EVA Administración" })
+        body: JSON.stringify({
+          factor_type: "totp",
+          friendly_name: "CREBE Ucayali - EVA Administración",
+          issuer: "https://crebeucayali.github.io"
+        })
       });
       factorMfa = enrolado.id;
       $("mfa-enrolamiento").hidden = false;
