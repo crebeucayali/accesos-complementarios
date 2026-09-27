@@ -82,4 +82,28 @@ PDF, videos, diapositivas y materiales complementarios conservan su integración
 
 Las páginas de primera y segunda jornada solo aceptan como imágenes externas las rutas públicas específicas de `eva-publico/capacitaciones/`.
 
-La Etapa 1C queda implementada técnicamente y pendiente de una prueba funcional real desde una sesión administrativa AAL2 antes de extender Storage al Repositorio Accesible.
+### Estado de validación de 1C
+
+Capacitaciones fue validado con una carga real desde el Panel Administrativo: la infografía se subió correctamente a Storage y se visualizó en la jornada pública correspondiente.
+
+## Etapa 1D — Repositorio Accesible
+
+Repositorio Accesible incorpora Storage únicamente para la imagen de presentación de cada recurso.
+
+El Panel Administrativo permite:
+
+1. seleccionar WebP, JPG/JPEG o PNG de hasta 5 MB;
+2. mostrar una vista previa local;
+3. exigir texto alternativo cuando existe una imagen;
+4. subir el archivo a una ruta organizada por categoría, por ejemplo:
+   `eva-publico/repositorio/materiales_elaborados/...`;
+5. guardar la URL pública resultante en `public.repositorio_recursos.imagen_url`;
+6. mostrar la imagen desde Supabase Storage en la tarjeta pública del recurso.
+
+Las imágenes históricas `assets/...` continúan siendo compatibles y no se migran automáticamente.
+
+Los archivos descargables o enlaces externos del Repositorio no se trasladan a Storage en esta etapa. El bucket sigue limitado a imágenes institucionales públicas.
+
+La página pública solo acepta como imagen externa la ruta específica `eva-publico/repositorio/`.
+
+La Etapa 1D queda implementada técnicamente y pendiente de una prueba funcional real desde una sesión administrativa AAL2 antes de extender Storage a Galería.
