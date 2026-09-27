@@ -3,7 +3,7 @@
   "proyecto": "crebe Project",
   "project_ref": "dteimbhwtzghhsijeeld",
   "region": "us-east-1",
-  "uso_actual": "datos_publicos_capacitaciones_calendario_mas_interfaz_auth_sin_cuentas",
+  "uso_actual": "datos_publicos_capacitaciones_calendario_repositorio_mas_panel_admin_auth",
   "auth_activo_en_frontend": true,
   "edge_functions_activas": 0,
   "rls_tablas_publicas_actuales": true,
@@ -24,7 +24,8 @@
     "secretos_frontend",
     "auth_sesiones",
     "rls_admin_mfa",
-    "panel_admin_scaffold"
+    "panel_admin_scaffold",
+    "repositorio_publico"
   ],
   "controles_pendientes": [
     "auth_frontend",
@@ -38,30 +39,28 @@
     "respaldo_recuperacion",
     "storage_personal"
   ],
-  "regla": "La interfaz puede permanecer publicada, pero no debe crearse o autorizarse la primera cuenta administrativa hasta cerrar los controles bloqueantes aplicables y activar/verificar el hook de restricción de altas.",
+  "regla": "El panel puede administrar contenido público con la cuenta autorizada y MFA. No ampliar a nuevos tratamientos de datos personales o Storage personal hasta cerrar los controles bloqueantes aplicables.",
   "panel_administrativo": {
-    "estado": "interfaz_habilitada_sin_cuentas_autorizadas",
+    "estado": "operativo_con_cuenta_autorizada_y_mfa",
     "ruta": "admin/",
-    "auth_users_actuales": 0,
-    "administradores_autorizados_actuales": 0,
-    "factores_mfa_actuales": 0,
+    "auth_users_actuales": 1,
+    "administradores_autorizados_actuales": 1,
+    "factores_mfa_actuales": 1,
     "registro_publico_en_panel": false,
     "hook_restriccion_creacion": "preparado_pendiente_de_habilitar_en_auth_hooks",
     "sesion_cliente": "sessionStorage",
     "mfa": "TOTP_AAL2_obligatorio_para_escritura",
     "permisos": {
-      "lectura": "publica_segun_RLS",
-      "escritura": "solo_admin_autorizado_con_AAL2",
-      "delete_authenticated": false
+      "capacitaciones": "SELECT publico; INSERT/UPDATE admin AAL2; sin DELETE",
+      "calendario": "SELECT publico; INSERT/UPDATE admin AAL2; sin DELETE",
+      "repositorio": "SELECT publico visible; INSERT/UPDATE/DELETE admin AAL2"
     },
-    "activacion_pendiente": [
-      "habilitar_hook_before_user_created",
-      "crear_o_invitar_cuenta_autorizada",
-      "vincular_user_id",
-      "enrolar_TOTP",
-      "cerrar_controles_bloqueantes_del_gate",
-      "probar_UPDATE_controlado"
-    ],
-    "correo_autorizado_inicial": "senordelosmilagroscrebe@gmail.com"
+    "activacion_pendiente": [],
+    "correo_autorizado_inicial": "senordelosmilagroscrebe@gmail.com",
+    "alcance": [
+      "capacitaciones",
+      "calendario",
+      "repositorio_accesible"
+    ]
   }
 }
