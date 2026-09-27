@@ -159,3 +159,22 @@ Cada fotografía conserva:
 La primera fotografía también se mantiene reflejada en `galeria_items.imagen_url` e `imagen_alt` para compatibilidad con registros y código histórico.
 
 La página pública adapta automáticamente el mosaico según la cantidad de fotografías disponibles. Las fotografías adicionales no crean nuevas tarjetas ni nuevas actividades.
+
+
+## Etapa 2C — estados de publicación
+
+Galería incorpora tres estados editoriales para cada actividad:
+
+- `borrador`: la actividad y sus fotografías permanecen disponibles para el administrador, pero no se muestran públicamente;
+- `publicado`: la actividad puede mostrarse en la Galería pública;
+- `archivado`: la actividad y su colección de fotografías se conservan en Supabase y en el panel, pero quedan retiradas de la Galería pública.
+
+La autorización institucional de publicación se mantiene como una condición independiente. Una actividad solo puede mostrarse públicamente cuando cumple simultáneamente:
+
+- `estado_publicacion = 'publicado'`;
+- `visible = true`;
+- `publicacion_autorizada = true`.
+
+El campo `visible` se conserva por compatibilidad con la implementación anterior y queda sincronizado desde el panel: solo el estado `publicado` lo mantiene en `true`.
+
+Las políticas RLS de `galeria_items` y `galeria_item_imagenes` aplican la misma condición pública. Los administradores autorizados con MFA AAL2 pueden consultar y gestionar los tres estados.
