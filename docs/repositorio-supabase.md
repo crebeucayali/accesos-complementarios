@@ -113,12 +113,17 @@ No se expone `service_role` en el navegador.
 
 Se admiten:
 
-- rutas locales `assets/...`;
-- URL HTTPS del dominio `crebeucayali.github.io`.
+- rutas históricas locales `assets/...`;
+- URL HTTPS histórica del propio Repositorio Accesible;
+- nuevas imágenes públicas alojadas en `eva-publico/repositorio/...`.
 
-La imagen es opcional. Un recurso puede publicarse solo con título y descripción.
+Desde el Panel Administrativo se puede seleccionar una imagen WebP, JPG/JPEG o PNG de hasta 5 MB, previsualizarla y subirla directamente a Supabase Storage. La escritura requiere administrador autorizado con MFA AAL2.
 
-La migración actual no utiliza Supabase Storage.
+Cuando existe una imagen, el panel exige texto alternativo antes de guardar para mantener la accesibilidad del recurso.
+
+La imagen sigue siendo opcional. Un recurso puede publicarse solo con título y descripción.
+
+Las imágenes históricas no se migran automáticamente ni se eliminan de GitHub.
 
 ## Privacidad
 
