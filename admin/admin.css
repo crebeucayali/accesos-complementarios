@@ -710,3 +710,17 @@ body.alto-contraste .peligro{
     grid-template-columns:1fr;
   }
 }
+
+
+/* Cuarta pestaña administrativa: Noticias destacadas */
+@media(max-width:760px){
+  .tabs{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:520px){
+  .tabs{
+    grid-template-columns:1fr;
+  }
+}
