@@ -62,7 +62,8 @@ Permite:
 - crear;
 - editar;
 - ocultar;
-- eliminar.
+- eliminar;
+- seleccionar y subir una imagen destacada directamente a Supabase Storage.
 
 Campos administrativos:
 
@@ -72,6 +73,8 @@ Campos administrativos:
 - imagen opcional;
 - enlace opcional;
 - visibilidad.
+
+La imagen puede conservar una referencia histórica de GitHub o cargarse desde el panel al bucket público `eva-publico`, dentro de `noticias/`. Las nuevas cargas admiten WebP, JPG/JPEG y PNG con un máximo de 5 MB. El archivo se sube únicamente con sesión administrativa autorizada y MFA AAL2.
 
 Los recursos nuevos se agregan al final del carrusel según su orden.
 
@@ -86,7 +89,10 @@ Administrador autorizado con MFA AAL2:
 - SELECT;
 - INSERT;
 - UPDATE;
-- DELETE.
+- DELETE;
+- carga de imágenes en `eva-publico/noticias/`.
+
+El bucket es público solo para lectura de los archivos. Las operaciones de escritura sobre Storage continúan protegidas mediante RLS y `private.es_admin_mfa()`.
 
 Las operaciones administrativas se registran mediante `private.auditoria_administrativa`.
 
