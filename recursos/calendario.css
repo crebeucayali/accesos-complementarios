@@ -1,4 +1,4 @@
-@import url("../paginas/nosotros.css?v=4");
+@import url("../paginas/nosotros.css?v=5");
 
 /* Calendario anual */
 .grid-meses{grid-template-columns:1fr;gap:22px;min-width:0}
