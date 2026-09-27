@@ -58,14 +58,29 @@
     {
       "id": "supabase_panel_admin_auth",
       "categoria": "autenticacion_administrativa_restringida",
-      "estado": "interfaz_habilitada_sin_cuentas_auth",
+      "estado": "operativo_con_cuenta_autorizada_y_mfa",
       "almacenamiento": "sessionStorage_solo_al_iniciar_sesion",
       "consentimiento_global": false,
       "autenticacion": true,
       "registro_publico_en_panel": false,
       "mfa": "TOTP_AAL2_obligatorio_para_escritura",
-      "datos_personales_persistentes_actuales": false,
-      "requisito": "Crear la primera cuenta solo después de habilitar la restricción de creación y cerrar los controles preproducción aplicables."
+      "datos_personales_persistentes_actuales": true,
+      "requisito": "Crear la primera cuenta solo después de habilitar la restricción de creación y cerrar los controles preproducción aplicables.",
+      "alcance": [
+        "capacitaciones",
+        "calendario",
+        "repositorio_accesible"
+      ]
+    },
+    {
+      "id": "supabase_repositorio_publico",
+      "categoria": "consulta_publica_y_gestion_admin",
+      "almacenamiento": "sin_sesion_para_visitantes_publicos",
+      "consentimiento_global": false,
+      "autenticacion_publica": false,
+      "datos_personales_publicos": false,
+      "escritura_admin": "cuenta_autorizada_mfa_aal2",
+      "eliminacion_admin": true
     }
   ],
   "disparadores_de_revision": [
@@ -80,10 +95,10 @@
   ],
   "accion_si_se_activa_un_disparador": "Reauditar tecnologías, actualizar políticas y determinar antes de producción si corresponde un gestor o banner de consentimiento.",
   "supabase_preproduccion": {
-    "estado": "panel_auth_interfaz_habilitada_sin_cuentas",
+    "estado": "panel_auth_operativo_para_gestion_de_contenido_publico",
     "control": "private.supabase_preproduccion_gate",
     "archivo": "privacidad/supabase-preproduccion.json",
-    "regla": "No crear ni autorizar la primera cuenta administrativa hasta cerrar los controles bloqueantes y habilitar/verificar la restricción de creación de cuentas."
+    "regla": "Mantener MFA AAL2, mínimo privilegio y RLS. No ampliar a nuevos datos personales o Storage personal hasta cerrar los controles bloqueantes aplicables."
   },
   "preparaciones_inactivas": []
 }
