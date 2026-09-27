@@ -843,3 +843,68 @@ body.alto-contraste .estadisticas-encabezado h3{
     flex-direction:column;
   }
 }
+
+
+/* Vista previa de imágenes administradas con Supabase Storage */
+.ayuda-campo{
+  display:block;
+  margin-top:6px;
+  color:var(--texto-suave);
+  font-size:.86rem;
+  line-height:1.45;
+}
+
+.imagen-admin-preview{
+  display:grid;
+  grid-template-columns:minmax(150px,220px) 1fr;
+  gap:16px;
+  align-items:center;
+  margin:8px 0 18px;
+  padding:14px;
+  border:1px solid var(--borde);
+  border-radius:18px;
+  background:#f8fbfb;
+}
+
+.imagen-admin-preview[hidden]{
+  display:none!important;
+}
+
+.imagen-admin-preview img{
+  display:block;
+  width:100%;
+  max-height:180px;
+  object-fit:cover;
+  border-radius:14px;
+  border:1px solid var(--borde);
+  background:#fff;
+}
+
+.imagen-admin-preview-info{
+  min-width:0;
+}
+
+.imagen-admin-preview-info .nota{
+  margin:0 0 10px;
+  overflow-wrap:anywhere;
+}
+
+body.alto-contraste .imagen-admin-preview,
+body.alto-contraste .imagen-admin-preview img{
+  color:#fff!important;
+  background:#000!important;
+  border-color:#fff!important;
+}
+
+body.alto-contraste .ayuda-campo{
+  color:#fff!important;
+}
+
+@media(max-width:620px){
+  .imagen-admin-preview{
+    grid-template-columns:1fr;
+  }
+  .imagen-admin-preview img{
+    max-height:240px;
+  }
+}
