@@ -95,6 +95,7 @@
           <li>ARASAAC, para búsquedas y descarga de pictogramas.</li>
           <li>Gutendex, para búsquedas de recursos bibliográficos abiertos.</li>
           <li>GitHub Pages, como infraestructura de publicación del ecosistema.</li>
+          <li>Supabase, utilizado actualmente por el módulo de Capacitaciones para consultar datos públicos de las sesiones mediante su API. Esta integración no utiliza Supabase Auth ni crea una sesión de usuario.</li>
           <li>Otros sitios enlazados, como redes sociales, fuentes institucionales o plataformas externas, cuando el usuario decide abrirlos.</li>
         </ul>
         <p>Estos proveedores pueden aplicar sus propias tecnologías de almacenamiento o tratamiento técnico conforme a sus políticas. Un enlace externo no significa que CREBE instale las cookies del sitio de destino antes de que el usuario lo visite.</p>
@@ -125,9 +126,9 @@
       </article>
 
       <article class="bloque-legal">
-        <h3>10. Incorporación de Supabase u otros servicios</h3>
-        <p>La existencia de un proyecto o integración administrativa con Supabase no implica, por sí sola, que el navegador del visitante esté utilizando cookies o almacenamiento de Supabase. Actualmente no se ha identificado código cliente de Supabase activo en los repositorios auditados.</p>
-        <p>Cuando Supabase se incorpore a las páginas públicas, se revisará nuevamente esta política. Si se utiliza únicamente para consultar información pública, se documentará el flujo técnico correspondiente. Si posteriormente se utiliza autenticación, sesiones, almacenamiento de preferencias o tratamiento de datos personales, se detallarán las tecnologías empleadas y se aplicarán las medidas de información y consentimiento que correspondan.</p>
+        <h3>10. Uso actual de Supabase y futuras ampliaciones</h3>
+        <p>Supabase se utiliza actualmente en el módulo de Capacitaciones como fuente de datos públicos de las sesiones. El navegador realiza una consulta de solo lectura a la API del proyecto mediante una clave publicable destinada al uso en cliente. Esta integración no utiliza Supabase Auth, no inicia sesión y no almacena credenciales de usuario.</p>
+        <p>La consulta pública puede implicar el tratamiento técnico normal de una conexión web por parte del proveedor, como dirección IP, encabezados y registros operativos de infraestructura. Si en el futuro se incorporan autenticación, sesiones persistentes, almacenamiento de preferencias, formularios o tratamiento de datos personales mediante Supabase, se realizará una nueva revisión de privacidad y consentimiento antes de su puesta en producción.</p>
       </article>
 
       <article class="bloque-legal">
