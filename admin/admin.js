@@ -127,8 +127,13 @@
       });
       factorMfa = enrolado.id;
       $("mfa-enrolamiento").hidden = false;
-      if (enrolado?.totp?.qr_code) $("mfa-qr").src = enrolado.totp.qr_code;
-      $("mfa-secreto").textContent = enrolado?.totp?.secret ? "Clave alternativa: " + enrolado.totp.secret : "";
+      if (enrolado?.totp?.qr_code) {
+        const qr = String(enrolado.totp.qr_code).trim();
+        $("mfa-qr").src = qr.startsWith("data:")
+          ? qr
+          : "data:image/svg+xml;charset=utf-8," + encodeURIComponent(qr);
+      }
+      $("mfa-secreto").textContent = enrolado?.totp?.secret || "No disponible";
     }
 
     const desafio = await solicitar(SUPABASE_URL + "/auth/v1/factors/" + encodeURIComponent(factorMfa) + "/challenge", {
