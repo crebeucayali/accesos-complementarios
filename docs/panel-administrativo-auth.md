@@ -180,23 +180,24 @@ No permite eliminar registros desde la interfaz.
 
 Actualmente:
 
+- correo autorizado para la primera cuenta: **senordelosmilagroscrebe@gmail.com**;
 - usuarios en Supabase Auth: **0**;
 - administradores autorizados: **0**;
 - factores MFA: **0**.
 
+El correo institucional ya está registrado en `admin_guard.admin_correos_autorizados`.
+
 Para poner el panel en uso administrativo real todavía se debe:
 
-1. definir el correo personal que se utilizará como cuenta administradora;
-2. añadirlo a `admin_guard.admin_correos_autorizados`;
-3. habilitar y verificar el hook `Before User Created`;
-4. crear o invitar la cuenta mediante Supabase Auth;
-5. vincular su `user_id` a `admin_guard.admin_usuarios_autorizados`;
-6. iniciar sesión desde `/admin/`;
-7. enrolar TOTP;
-8. verificar que la sesión alcanza `aal2`;
-9. ejecutar una prueba controlada de edición.
+1. habilitar y verificar el hook `Before User Created`;
+2. crear o invitar la cuenta `senordelosmilagroscrebe@gmail.com` mediante Supabase Auth;
+3. vincular su `user_id` a `admin_guard.admin_usuarios_autorizados`;
+4. iniciar sesión desde `/admin/`;
+5. enrolar TOTP;
+6. verificar que la sesión alcanza `aal2`;
+7. ejecutar una prueba controlada de edición.
 
-No se debe utilizar como cuenta administrativa un correo compartido sin haber decidido previamente quién es responsable de su custodia.
+La custodia de esta cuenta institucional debe mantenerse restringida a las personas expresamente responsables de la administración del EVA.
 
 ## Gate de privacidad
 
