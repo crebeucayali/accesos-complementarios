@@ -663,3 +663,50 @@ body.alto-contraste button{
     align-items:flex-start;
   }
 }
+
+
+/* Repositorio Accesible */
+.acciones-repositorio{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.peligro{
+  color:#fff;
+  background:#a12626;
+}
+
+.peligro:hover,
+.peligro:focus-visible{
+  background:#7f1d1d;
+}
+
+.check-repositorio{
+  align-self:end;
+  min-height:46px;
+}
+
+body.alto-contraste .peligro{
+  color:#000!important;
+  background:#fff!important;
+  border:1px solid #fff!important;
+}
+
+@media(max-width:760px){
+  .tabs{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+
+  .acciones-repositorio{
+    display:grid;
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:520px){
+  .tabs{
+    grid-template-columns:1fr;
+  }
+}
