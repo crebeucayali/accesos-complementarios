@@ -712,9 +712,45 @@
     }
   }
 
-  function llenarRecursoRepositorio(fila) {
+  function actualizarSelectorRepositorio(categoria, idSeleccionado = "") {
+    const selector = $("repositorio-selector");
+    selector.replaceChildren();
+
+    const etiquetaCategoria = ETIQUETAS_REPOSITORIO[categoria] || categoria;
+    const vacio = document.createElement("option");
+    vacio.value = "";
+    vacio.textContent = "Seleccionar recurso de " + etiquetaCategoria;
+    selector.appendChild(vacio);
+
+    recursosRepositorio.forEach((fila, indice) => {
+      if (fila.categoria !== categoria) return;
+
+      const opcion = document.createElement("option");
+      opcion.value = String(indice);
+      opcion.textContent =
+        fila.titulo +
+        " · " + ({
+          borrador: "Borrador",
+          publicado: "Publicado",
+          archivado: "Archivado"
+        }[fila.estado_publicacion] || (fila.visible === false ? "Borrador" : "Publicado"));
+      selector.appendChild(opcion);
+
+      if (idSeleccionado && String(fila.id) === String(idSeleccionado)) {
+        selector.value = String(indice);
+      }
+    });
+  }
+
+  function llenarRecursoRepositorio(fila, categoriaPreferida = "") {
+    const categoria =
+      fila?.categoria ||
+      categoriaPreferida ||
+      $("rep-categoria").value ||
+      "materiales_disponibles";
+
     $("rep-id").value = fila?.id || "";
-    $("rep-categoria").value = fila?.categoria || "materiales_disponibles";
+    $("rep-categoria").value = categoria;
     $("rep-titulo").value = fila?.titulo || "";
     $("rep-descripcion").value = fila?.descripcion || "";
     $("rep-imagen").value = fila?.imagen_url || "";
@@ -728,6 +764,8 @@
       fila?.imagen_url || "",
       fila?.imagen_url ? "Imagen actualmente asociada al recurso." : ""
     );
+
+    actualizarSelectorRepositorio(categoria, fila?.id || "");
   }
 
   async function cargarRepositorio() {
@@ -736,34 +774,13 @@
       { method: "GET" }
     );
 
-    const selector = $("repositorio-selector");
-    selector.replaceChildren();
-
-    const vacio = document.createElement("option");
-    vacio.value = "";
-    vacio.textContent = "Seleccionar recurso";
-    selector.appendChild(vacio);
-
-    recursosRepositorio.forEach((fila, indice) => {
-      const opcion = document.createElement("option");
-      opcion.value = String(indice);
-      opcion.textContent =
-        (ETIQUETAS_REPOSITORIO[fila.categoria] || fila.categoria) +
-        " · " + fila.titulo +
-        " · " + ({
-          borrador: "Borrador",
-          publicado: "Publicado",
-          archivado: "Archivado"
-        }[fila.estado_publicacion] || (fila.visible === false ? "Borrador" : "Publicado"));
-      selector.appendChild(opcion);
-    });
-
-    llenarRecursoRepositorio(null);
+    const categoriaActual = $("rep-categoria").value || "materiales_disponibles";
+    llenarRecursoRepositorio(null, categoriaActual);
   }
 
   function nuevoRecursoRepositorio() {
-    $("repositorio-selector").value = "";
-    llenarRecursoRepositorio(null);
+    const categoriaActual = $("rep-categoria").value || "materiales_disponibles";
+    llenarRecursoRepositorio(null, categoriaActual);
     $("rep-titulo").focus();
     mostrarMensaje("");
   }
@@ -1721,6 +1738,12 @@
     const valor = evento.target.value;
     if (valor === "") return nuevoRecursoRepositorio();
     llenarRecursoRepositorio(recursosRepositorio[Number(valor)]);
+  });
+
+  $("rep-categoria").addEventListener("change", (evento) => {
+    const categoria = evento.target.value;
+    const idActual = $("rep-id").value.trim();
+    actualizarSelectorRepositorio(categoria, idActual);
   });
 
   $("boton-nuevo-recurso").addEventListener("click", nuevoRecursoRepositorio);
