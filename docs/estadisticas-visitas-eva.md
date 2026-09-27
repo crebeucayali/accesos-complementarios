@@ -45,7 +45,7 @@ El estado se renueva cuando han transcurrido 30 minutos de inactividad.
 
 La tabla privada:
 
-`private.eva_visitas_diarias`
+`public.eva_visitas_diarias`
 
 almacena únicamente datos agregados:
 
@@ -55,11 +55,15 @@ almacena únicamente datos agregados:
 
 No se guarda en esta tabla un identificador del visitante, correo, ubicación ni dirección IP.
 
-## RPC público
+## Registro público protegido
 
-`public.registrar_visita_eva(...)`
+El navegador envía una inserción a:
 
-permite incrementar los conteos agregados sin conceder acceso directo a la tabla.
+`public.eva_visitas_eventos`
+
+La tabla funciona como endpoint efímero. Un trigger privado incrementa `public.eva_visitas_diarias` y cancela la inserción, de modo que el evento individual no queda almacenado.
+
+La tabla agregada permite lectura de los conteos, pero no escritura directa desde el navegador.
 
 `public.contador_visitas_eva()`
 
