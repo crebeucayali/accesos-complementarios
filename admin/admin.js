@@ -20,6 +20,7 @@
   let desafioMfa = null;
   let capacitaciones = [];
   let actividades = [];
+  let recursosRepositorio = [];
 
   function mostrarMensaje(texto, tipo = "") {
     mensajeAdmin.textContent = texto || "";
@@ -174,7 +175,7 @@
     estadoTitulo.textContent = "Acceso administrativo activo";
     estadoMensaje.textContent = "";
     $("usuario-actual").textContent = sesion?.user?.email || "Administrador";
-    await Promise.all([cargarCapacitaciones(), cargarCalendario()]);
+    await Promise.all([cargarCapacitaciones(), cargarCalendario(), cargarRepositorio()]);
   }
 
   async function iniciarSesion(correo, clave) {
@@ -392,11 +393,172 @@
     await cargarCalendario();
   }
 
+
+  const ETIQUETAS_REPOSITORIO = {
+    materiales_disponibles: "Materiales disponibles",
+    equipos_tecnologicos: "Equipos tecnológicos",
+    materiales_elaborados: "Materiales elaborados"
+  };
+
+  function llenarRecursoRepositorio(fila) {
+    $("rep-id").value = fila?.id || "";
+    $("rep-categoria").value = fila?.categoria || "materiales_disponibles";
+    $("rep-titulo").value = fila?.titulo || "";
+    $("rep-descripcion").value = fila?.descripcion || "";
+    $("rep-imagen").value = fila?.imagen_url || "";
+    $("rep-alt").value = fila?.imagen_alt || "";
+    $("rep-visible").checked = fila?.visible !== false;
+    $("boton-eliminar-recurso").hidden = !fila?.id;
+  }
+
+  async function cargarRepositorio() {
+    recursosRepositorio = await rest(
+      "repositorio_recursos?select=*&order=categoria.asc,orden.asc,titulo.asc",
+      { method: "GET" }
+    );
+
+    const selector = $("repositorio-selector");
+    selector.replaceChildren();
+
+    const vacio = document.createElement("option");
+    vacio.value = "";
+    vacio.textContent = "Seleccionar recurso";
+    selector.appendChild(vacio);
+
+    recursosRepositorio.forEach((fila, indice) => {
+      const opcion = document.createElement("option");
+      opcion.value = String(indice);
+      opcion.textContent =
+        (ETIQUETAS_REPOSITORIO[fila.categoria] || fila.categoria) +
+        " · " + fila.titulo +
+        (fila.visible === false ? " · Oculto" : "");
+      selector.appendChild(opcion);
+    });
+
+    llenarRecursoRepositorio(null);
+  }
+
+  function nuevoRecursoRepositorio() {
+    $("repositorio-selector").value = "";
+    llenarRecursoRepositorio(null);
+    $("rep-titulo").focus();
+    mostrarMensaje("");
+  }
+
+  function validarImagenRepositorio(valor) {
+    const texto = String(valor || "").trim();
+    if (!texto) return "";
+    if (/^assets\/[a-z0-9._/-]+$/i.test(texto)) return texto;
+
+    try {
+      const url = new URL(texto);
+      if (url.protocol !== "https:" || url.hostname.toLowerCase() !== "crebeucayali.github.io") {
+        throw new Error();
+      }
+      return url.href;
+    } catch {
+      throw new Error("La imagen debe usar una ruta local assets/... o una URL HTTPS de crebeucayali.github.io.");
+    }
+  }
+
+  function siguienteOrdenRepositorio(categoria) {
+    const ordenes = recursosRepositorio
+      .filter((fila) => fila.categoria === categoria)
+      .map((fila) => Number(fila.orden || 0));
+    return (ordenes.length ? Math.max(...ordenes) : 0) + 1;
+  }
+
+  async function guardarRecursoRepositorio() {
+    const id = $("rep-id").value.trim();
+    const categoria = $("rep-categoria").value;
+    const titulo = $("rep-titulo").value.trim();
+    const imagen = validarImagenRepositorio($("rep-imagen").value);
+
+    if (!titulo) throw new Error("El título del recurso es obligatorio.");
+
+    const existente = id
+      ? recursosRepositorio.find((fila) => String(fila.id) === id)
+      : null;
+
+    const orden = existente && existente.categoria === categoria
+      ? Number(existente.orden || 1)
+      : siguienteOrdenRepositorio(categoria);
+
+    const payload = {
+      categoria,
+      orden,
+      titulo,
+      descripcion: $("rep-descripcion").value.trim(),
+      imagen_url: imagen,
+      imagen_alt: $("rep-alt").value.trim(),
+      visible: $("rep-visible").checked,
+      origen: existente?.origen || "panel_admin"
+    };
+
+    let resultado;
+    if (id) {
+      resultado = await rest("repositorio_recursos?id=eq." + encodeURIComponent(id), {
+        method: "PATCH",
+        headers: { Prefer: "return=representation" },
+        body: JSON.stringify(payload)
+      });
+    } else {
+      resultado = await rest("repositorio_recursos", {
+        method: "POST",
+        headers: { Prefer: "return=representation" },
+        body: JSON.stringify(payload)
+      });
+    }
+
+    await cargarRepositorio();
+
+    const guardado = Array.isArray(resultado) ? resultado[0] : null;
+    if (guardado?.id) {
+      const indice = recursosRepositorio.findIndex((fila) => Number(fila.id) === Number(guardado.id));
+      if (indice >= 0) {
+        $("repositorio-selector").value = String(indice);
+        llenarRecursoRepositorio(recursosRepositorio[indice]);
+      }
+    }
+
+    mostrarMensaje(id ? "Recurso actualizado correctamente." : "Recurso agregado correctamente.", "exito");
+  }
+
+  async function eliminarRecursoRepositorio() {
+    const id = $("rep-id").value.trim();
+    if (!id) return;
+
+    const fila = recursosRepositorio.find((item) => String(item.id) === id);
+    if (!fila) throw new Error("No se encontró el recurso seleccionado.");
+
+    const aceptar = window.confirm(
+      '¿Eliminar "' + fila.titulo + '" del Repositorio Accesible?\n\nEsta acción retirará la tarjeta de Supabase.'
+    );
+    if (!aceptar) return;
+
+    const resultado = await rest(
+      "repositorio_recursos?id=eq." + encodeURIComponent(id),
+      {
+        method: "DELETE",
+        headers: { Prefer: "return=representation" }
+      }
+    );
+
+    if (!Array.isArray(resultado) || !resultado.length) {
+      throw new Error("No se pudo eliminar el recurso.");
+    }
+
+    await cargarRepositorio();
+    nuevoRecursoRepositorio();
+    mostrarMensaje("Recurso eliminado correctamente.", "exito");
+  }
+
   document.querySelectorAll(".tab").forEach((boton) => {
     boton.addEventListener("click", () => {
       document.querySelectorAll(".tab").forEach((x) => x.classList.toggle("activo", x === boton));
       $("panel-capacitaciones").hidden = boton.dataset.panel !== "capacitaciones";
       $("panel-calendario").hidden = boton.dataset.panel !== "calendario";
+      $("panel-repositorio").hidden = boton.dataset.panel !== "repositorio";
       mostrarMensaje("");
     });
   });
@@ -412,6 +574,22 @@
   });
 
   $("boton-nueva-actividad").addEventListener("click", nuevaActividad);
+
+  $("repositorio-selector").addEventListener("change", (evento) => {
+    const valor = evento.target.value;
+    if (valor === "") return nuevoRecursoRepositorio();
+    llenarRecursoRepositorio(recursosRepositorio[Number(valor)]);
+  });
+
+  $("boton-nuevo-recurso").addEventListener("click", nuevoRecursoRepositorio);
+
+  $("boton-eliminar-recurso").addEventListener("click", async () => {
+    try {
+      await eliminarRecursoRepositorio();
+    } catch (error) {
+      mostrarMensaje(error.message, "error");
+    }
+  });
 
   formLogin.addEventListener("submit", async (evento) => {
     evento.preventDefault();
@@ -445,6 +623,15 @@
   $("form-calendario").addEventListener("submit", async (evento) => {
     evento.preventDefault();
     try { await guardarActividad(); } catch (error) { mostrarMensaje(error.message, "error"); }
+  });
+
+  $("form-repositorio").addEventListener("submit", async (evento) => {
+    evento.preventDefault();
+    try {
+      await guardarRecursoRepositorio();
+    } catch (error) {
+      mostrarMensaje(error.message, "error");
+    }
   });
 
   $("boton-salir").addEventListener("click", cerrarSesion);
