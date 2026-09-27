@@ -143,6 +143,11 @@ El Calendario no utiliza los estados editoriales `borrador / publicado / archiva
 
 La visibilidad pública continúa controlándose de forma independiente mediante `visible`.
 
-En la cuadrícula pública, el estado de cada actividad se presenta como una etiqueta visible antes del título. El título y las líneas adicionales se muestran después de esa etiqueta, por lo que agregar contenido descriptivo no sustituye ni oculta el estado seleccionado.
+En la cuadrícula pública no se muestra una etiqueta adicional de estado dentro de cada fecha, para evitar sobrecarga visual. El estado se conserva en Supabase y en el panel administrativo; el título y las líneas adicionales son el contenido visible de cada actividad.
 
 La vista `public.calendario_publico` conserva `security_invoker = true` y publica las actividades propias del Calendario únicamente cuando `visible = true`. Las sesiones procedentes de Capacitaciones continúan integrándose sin cambios.
+
+
+## Corrección de permisos del RPC administrativo
+
+El RPC `public.admin_guardar_actividad_calendario` valida ahora la autorización mediante `private.es_admin_mfa()`. De este modo, la sesión administrativa no necesita acceso directo a `admin_guard.admin_usuarios_autorizados`; la tabla privada continúa sin exponerse a `authenticated`.
