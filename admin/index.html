@@ -408,9 +408,19 @@
                 <textarea id="gal-descripcion" rows="4" maxlength="500" placeholder="Descripción breve de la actividad o evidencia fotográfica."></textarea>
               </label>
 
-              <label>Imagen
-                <input id="gal-imagen" type="text" required placeholder="imagenes-galeria/... o imagenes-calendario/...">
+              <label for="gal-imagen-archivo">Imagen
+                <input id="gal-imagen-archivo" type="file" accept="image/webp,image/jpeg,image/png">
+                <span class="ayuda-campo">WebP, JPG o PNG. Máximo 5 MB. La fotografía se subirá a Supabase Storage al guardar.</span>
               </label>
+              <input id="gal-imagen" type="hidden">
+
+              <div id="gal-imagen-panel" class="imagen-admin-preview" hidden>
+                <img id="gal-imagen-preview" alt="Vista previa de la fotografía de la Galería">
+                <div class="imagen-admin-preview-info">
+                  <p id="gal-imagen-estado" class="nota"></p>
+                  <button id="gal-imagen-retirar" type="button" class="secundario">Retirar imagen</button>
+                </div>
+              </div>
 
               <label>Texto alternativo de la imagen
                 <input id="gal-alt" type="text" maxlength="220" required placeholder="Describe brevemente lo que muestra la fotografía">
@@ -426,7 +436,7 @@
                 <button id="boton-eliminar-foto" type="button" class="peligro" hidden>Eliminar fotografía</button>
               </div>
 
-              <p class="nota">La fotografía se mostrará únicamente dentro de la <strong>Galería de actividades</strong>. No se crea ninguna página ni subacceso adicional. Por ahora la imagen debe estar previamente publicada en el EVA/GitHub; Supabase almacena la tarjeta y la referencia, no el archivo fotográfico.</p>
+              <p class="nota">La fotografía se mostrará únicamente dentro de la <strong>Galería de actividades</strong>. No se crea ninguna página ni subacceso adicional. Las nuevas imágenes se guardan en Supabase Storage; las referencias históricas alojadas en EVA/GitHub continúan siendo compatibles.</p>
             </form>
           </section>
 
