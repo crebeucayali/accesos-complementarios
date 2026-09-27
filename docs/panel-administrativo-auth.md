@@ -2,21 +2,21 @@
 
 ## Estado
 
-El panel administrativo ha sido preparado técnicamente, pero permanece **deshabilitado** hasta completar los controles preproducción pendientes y registrar la primera cuenta administradora autorizada.
-
-Ruta preparada:
+La interfaz del panel administrativo está **habilitada técnicamente** en:
 
 `/admin/`
 
-El archivo `admin/admin.js` mantiene:
+El formulario de acceso puede comunicarse con Supabase Auth, pero actualmente no existen usuarios Auth ni administradores autorizados. Por ello, el panel todavía no tiene una cuenta capaz de realizar operaciones administrativas.
 
-`PANEL_HABILITADO = false`
+El frontend mantiene:
 
-Mientras ese valor permanezca en `false`, el formulario de acceso no realiza autenticación.
+`PANEL_HABILITADO = true`
+
+Esto habilita el flujo de autenticación, no la autorización de escritura.
 
 ## Alcance
 
-El panel está diseñado únicamente para administrar:
+El panel administra únicamente:
 
 - Capacitaciones;
 - Calendario.
@@ -25,37 +25,37 @@ No se incorporan otros módulos del EVA en esta etapa.
 
 ## Modelo de acceso
 
-La arquitectura preparada exige simultáneamente:
+Para editar contenido deben cumplirse simultáneamente estas condiciones:
 
-1. una cuenta de Supabase Auth;
-2. que su `user_id` figure como activo en `admin_guard.admin_usuarios_autorizados`;
-3. autenticación multifactor TOTP;
-4. una sesión con nivel `aal2`;
-5. políticas RLS que autoricen la operación solicitada.
+1. existir una cuenta válida de Supabase Auth;
+2. estar vinculada como activa en `admin_guard.admin_usuarios_autorizados`;
+3. completar MFA TOTP;
+4. disponer de una sesión con `aal2`;
+5. superar las políticas RLS de la tabla correspondiente.
 
-Una contraseña correcta por sí sola no concede escritura.
+Una contraseña válida por sí sola no concede permisos de edición.
 
 ## Registro público
 
-El panel no contiene función de registro de usuarios.
+El panel no contiene formulario de registro.
 
-Además, se preparó:
+También se prepararon:
 
 `admin_guard.admin_correos_autorizados`
 
-y el hook:
+y:
 
 `private.auth_restringir_creacion_admin(event jsonb)`
 
-para limitar la creación de cuentas a correos expresamente autorizados.
+El hook rechaza la creación de cuentas cuyo correo no esté previamente autorizado. Su función ya existe en PostgreSQL, pero todavía debe seleccionarse y habilitarse en **Authentication > Hooks > Before User Created** antes de crear la primera cuenta administrativa.
 
-Ese hook debe quedar habilitado en la configuración de Authentication antes de activar el panel. Mientras no se haya verificado esa configuración y no exista un primer correo autorizado, el panel debe permanecer deshabilitado.
+La disponibilidad del endpoint Auth de Supabase no equivale a autorización administrativa: una cuenta no incluida en la guardia no supera las políticas de escritura.
 
 ## MFA
 
-La escritura administrativa exige `aal2`.
+La escritura exige `aal2`.
 
-El flujo previsto es:
+Flujo previsto:
 
 ```text
 correo + contraseña
@@ -66,12 +66,32 @@ TOTP
         ↓
 sesión aal2
         ↓
-RLS valida administrador autorizado
+administrador autorizado
+        ↓
+RLS
         ↓
 INSERT / UPDATE
 ```
 
-El frontend contempla enrolamiento y verificación TOTP. Supabase recomienda que MFA sea aplicado también en las políticas de base de datos; por ello la comprobación principal no depende únicamente de la interfaz.
+El panel permite enrolar un factor TOTP y resolver el desafío MFA. La comprobación de AAL2 se repite en la base de datos; no depende solo de la interfaz.
+
+## Guardia administrativa
+
+Las tablas de autorización se mantienen fuera del esquema público:
+
+`admin_guard.admin_usuarios_autorizados`
+
+`admin_guard.admin_correos_autorizados`
+
+Los usuarios autenticados no tienen acceso directo a esas tablas.
+
+Las funciones:
+
+`public.es_admin_autorizado()`
+
+`public.es_admin_mfa()`
+
+son `SECURITY DEFINER` y permiten a las políticas consultar únicamente el resultado necesario para autorizar la operación.
 
 ## Permisos
 
@@ -82,7 +102,7 @@ El frontend contempla enrolamiento y verificación TOTP. Supabase recomienda que
 
 `authenticated`:
 - SELECT;
-- INSERT y UPDATE únicamente si el usuario está autorizado y tiene `aal2`;
+- INSERT y UPDATE solamente cuando `public.es_admin_mfa()` devuelve verdadero;
 - sin DELETE.
 
 ### Calendario
@@ -91,81 +111,109 @@ El frontend contempla enrolamiento y verificación TOTP. Supabase recomienda que
 - SELECT de actividades visibles.
 
 `authenticated`:
-- SELECT;
-- INSERT y UPDATE únicamente si el usuario está autorizado y tiene `aal2`;
+- SELECT público;
+- acceso administrativo a registros y escritura únicamente con administrador autorizado + AAL2;
 - sin DELETE.
 
-La edición del Calendario utiliza la función:
-
-`public.admin_guardar_actividad_calendario(...)`
-
-en modo `SECURITY INVOKER`, de manera que las políticas RLS siguen siendo obligatorias.
+El panel utiliza `public.admin_guardar_actividad_calendario(...)` para crear o editar actividades. La función vuelve a verificar administrador autorizado y AAL2 antes de modificar datos.
 
 ## Protección contra eliminaciones accidentales
 
 El rol `authenticated` no recibe permiso `DELETE`.
 
-Para retirar una actividad del Calendario se utiliza:
+En Calendario, una actividad puede retirarse de la vista pública mediante:
 
 `visible = false`
 
-en lugar de eliminar el registro.
+sin destruir el registro.
 
 ## Auditoría
 
-Se preparó:
+Se mantiene:
 
 `private.auditoria_administrativa`
 
-Los cambios sobre Capacitaciones y Calendario generan trazabilidad con:
+Los cambios administrativos registran trazabilidad de la operación, incluyendo el identificador del usuario autenticado y el nivel AAL cuando exista una sesión administrativa.
 
-- tabla;
-- operación;
-- clave del registro;
-- identificador del usuario autenticado cuando exista;
-- nivel de autenticación;
+La tabla de auditoría no es accesible para visitantes ni usuarios autenticados ordinarios.
+
+## Sesión del navegador
+
+El panel utiliza `sessionStorage` para conservar temporalmente los tokens de la sesión administrativa.
+
+La copia local se elimina al cerrar sesión y está limitada al contexto de la pestaña/sesión del navegador. No se utiliza `localStorage` para la sesión administrativa.
+
+Las credenciales y tokens no deben copiarse a repositorios, documentos públicos ni registros de diagnóstico.
+
+## Funciones disponibles en el panel
+
+### Capacitaciones
+
+Permite editar:
+
 - fecha;
-- estado anterior;
-- estado nuevo.
+- estado;
+- título;
+- tema;
+- flyer;
+- infografía;
+- PDF;
+- video y vista previa;
+- diapositivas y vista previa;
+- materiales complementarios.
 
-La tabla es privada y no está disponible para visitantes ni usuarios autenticados ordinarios.
+Las restricciones de integridad creadas anteriormente en PostgreSQL siguen aplicándose.
 
-## Sesiones
+### Calendario
 
-Cuando se active el panel, el frontend almacenará la sesión administrativa en `sessionStorage`, no en `localStorage`.
+Permite:
 
-Esto implica que el estado local del panel está pensado para finalizar al cerrar la pestaña o sesión del navegador. El cierre de sesión elimina también la copia local.
+- crear una actividad;
+- editar una actividad existente;
+- sustituir un marcador `En planificación`;
+- cambiar estado y clase visual;
+- controlar la visibilidad.
 
-Los tokens de Supabase no deben copiarse, compartirse ni registrarse en repositorios.
+No permite eliminar registros desde la interfaz.
 
-## Cuenta administrativa
+## Primera cuenta administrativa
 
-Actualmente no se ha creado ni autorizado ninguna cuenta.
+Actualmente:
 
-Antes de activar el panel se debe:
+- usuarios en Supabase Auth: **0**;
+- administradores autorizados: **0**;
+- factores MFA: **0**.
 
-1. definir el correo administrativo;
-2. incorporarlo a la lista de creación autorizada;
-3. verificar que el mecanismo de restricción de altas esté activo;
-4. crear o invitar la cuenta;
-5. vincular su `user_id` en `admin_guard.admin_usuarios_autorizados`;
-6. completar el enrolamiento TOTP;
-7. comprobar que la sesión alcanza `aal2`;
-8. realizar una prueba controlada de UPDATE;
-9. mantener DELETE bloqueado.
+Para poner el panel en uso administrativo real todavía se debe:
+
+1. definir el correo personal que se utilizará como cuenta administradora;
+2. añadirlo a `admin_guard.admin_correos_autorizados`;
+3. habilitar y verificar el hook `Before User Created`;
+4. crear o invitar la cuenta mediante Supabase Auth;
+5. vincular su `user_id` a `admin_guard.admin_usuarios_autorizados`;
+6. iniciar sesión desde `/admin/`;
+7. enrolar TOTP;
+8. verificar que la sesión alcanza `aal2`;
+9. ejecutar una prueba controlada de edición.
+
+No se debe utilizar como cuenta administrativa un correo compartido sin haber decidido previamente quién es responsable de su custodia.
 
 ## Gate de privacidad
 
-La preparación técnica del panel no cambia por sí sola:
+El panel técnico no modifica automáticamente:
 
 `private.supabase_preproduccion_gate.habilitado_para_datos_personales`
 
-El gate continúa en `false` mientras existan controles institucionales o jurídicos bloqueantes.
+El gate continúa en `false` mientras sigan pendientes controles institucionales o jurídicos.
 
-Por tanto, la existencia del código del panel no debe interpretarse como autorización para iniciar tratamiento de datos personales.
+Por tanto, el panel está preparado para la activación de una cuenta, pero esa activación debe hacerse de forma deliberada y documentada.
 
 ## Verificación técnica
 
-Después de preparar las políticas de administración se ejecutan los asesores de seguridad y rendimiento de Supabase.
+Después de cada modificación de permisos, funciones o políticas RLS deben ejecutarse los asesores de seguridad y rendimiento de Supabase y comprobarse nuevamente que:
 
-El objetivo antes de activar el panel es mantener ambos sin advertencias asociadas a esta implementación.
+- no exista escritura para `anon`;
+- ninguna cuenta no autorizada pueda escribir;
+- una cuenta autorizada con `aal1` no pueda escribir;
+- una cuenta autorizada con `aal2` sí pueda realizar las operaciones previstas;
+- `DELETE` continúe bloqueado para `authenticated`.
