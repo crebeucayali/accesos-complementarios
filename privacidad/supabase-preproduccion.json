@@ -3,7 +3,7 @@
   "proyecto": "crebe Project",
   "project_ref": "dteimbhwtzghhsijeeld",
   "region": "us-east-1",
-  "uso_actual": "datos_publicos_contenidos_galeria_estadisticas_agregadas_storage_publico_noticias_mas_panel_admin_auth",
+  "uso_actual": "datos_publicos_contenidos_galeria_estadisticas_agregadas_storage_publico_noticias_capacitaciones_mas_panel_admin_auth",
   "auth_activo_en_frontend": true,
   "edge_functions_activas": 0,
   "rls_tablas_publicas_actuales": true,
@@ -55,7 +55,7 @@
     "sesion_cliente": "sessionStorage",
     "mfa": "TOTP_AAL2_obligatorio_para_escritura",
     "permisos": {
-      "capacitaciones": "SELECT publico; INSERT/UPDATE admin AAL2; sin DELETE",
+      "capacitaciones": "SELECT publico; INSERT/UPDATE admin AAL2; sin DELETE; imágenes públicas en eva-publico/capacitaciones con escritura admin AAL2",
       "calendario": "SELECT publico; INSERT/UPDATE admin AAL2; sin DELETE",
       "repositorio": "SELECT publico visible; INSERT/UPDATE/DELETE admin AAL2",
       "noticias_destacadas": "SELECT publico visible; INSERT/UPDATE/DELETE admin AAL2; imágenes públicas en eva-publico/noticias con escritura admin AAL2",
@@ -88,7 +88,7 @@
     "escritura_tabla_agregada_publica": false
   },
   "storage_publico": {
-    "estado": "piloto_operativo_en_noticias_destacadas",
+    "estado": "operativo_en_noticias_y_capacitaciones",
     "bucket": "eva-publico",
     "lectura": "publica",
     "escritura": "solo_admin_autorizado_mfa_aal2",
@@ -105,7 +105,8 @@
       "galeria/"
     ],
     "modulo_activo": [
-      "noticias_destacadas"
+      "noticias_destacadas",
+      "capacitaciones"
     ],
     "datos_personales": "no_incorporados_en_esta_etapa"
   }
