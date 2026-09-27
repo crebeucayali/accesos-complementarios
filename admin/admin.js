@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const PANEL_HABILITADO = false;
+  const PANEL_HABILITADO = true;
   const SUPABASE_URL = "https://dteimbhwtzghhsijeeld.supabase.co";
   const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_tHbo1jTeW_dC90hdA5DvyQ_a6LrfKpq";
   const SESSION_KEY = "eva_admin_supabase_session_v1";
@@ -207,17 +207,57 @@
     location.reload();
   }
 
+  function recursosATexto(recursos) {
+    if (!Array.isArray(recursos)) return "";
+    return recursos.map((recurso) => {
+      const titulo = String(recurso?.titulo || "").trim();
+      const url = String(recurso?.url || "").trim();
+      const descripcion = String(recurso?.descripcion || "").trim();
+      return [titulo, url, descripcion].join(" | ").replace(/\\s+\\|\\s*$/, "").trim();
+    }).filter(Boolean).join("\\n");
+  }
+
+  function textoARecursos(texto) {
+    return String(texto || "").split(/\\r?\\n/).map((linea) => linea.trim()).filter(Boolean).map((linea) => {
+      const partes = linea.split("|").map((parte) => parte.trim());
+      if (!partes[0] || !partes[1]) {
+        throw new Error("Cada material debe usar: Título | URL | Descripción opcional.");
+      }
+      return {
+        titulo: partes[0],
+        url: partes[1],
+        descripcion: partes.slice(2).join(" | ").trim()
+      };
+    });
+  }
+
+  function fechaTextoES(fecha) {
+    if (!fecha) return "";
+    const [anio, mes, dia] = fecha.split("-").map(Number);
+    const valor = new Date(Date.UTC(anio, mes - 1, dia));
+    const texto = new Intl.DateTimeFormat("es-PE", {
+      weekday: "long",
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+      timeZone: "UTC"
+    }).format(valor);
+    return texto.charAt(0).toUpperCase() + texto.slice(1);
+  }
+
   function llenarCapacitacion(fila) {
     $("cap-fecha").value = fila?.fecha || "";
     $("cap-estado").value = fila?.estado || "pendiente";
     $("cap-titulo").value = fila?.titulo || "";
     $("cap-tema").value = fila?.tema || "";
+    $("cap-flyer").value = fila?.flyer_url || "";
     $("cap-infografia").value = fila?.infografia_url || "";
     $("cap-pdf").value = fila?.pdf_url || "";
     $("cap-video").value = fila?.video_url || "";
     $("cap-video-preview").value = fila?.video_preview_url || "";
     $("cap-diapositivas").value = fila?.diapositivas_url || "";
     $("cap-diapositivas-preview").value = fila?.diapositivas_preview_url || "";
+    $("cap-recursos").value = recursosATexto(fila?.recursos_adicionales);
   }
 
   async function cargarCapacitaciones() {
@@ -238,17 +278,21 @@
     const fila = capacitaciones[indice];
     if (!fila) throw new Error("Selecciona una sesión válida.");
 
+    const fecha = $("cap-fecha").value;
     const cambios = {
-      fecha: $("cap-fecha").value,
+      fecha,
+      fecha_texto: fechaTextoES(fecha),
       estado: $("cap-estado").value,
       titulo: $("cap-titulo").value.trim(),
       tema: $("cap-tema").value.trim(),
+      flyer_url: $("cap-flyer").value.trim(),
       infografia_url: $("cap-infografia").value.trim(),
       pdf_url: $("cap-pdf").value.trim(),
       video_url: $("cap-video").value.trim(),
       video_preview_url: $("cap-video-preview").value.trim(),
       diapositivas_url: $("cap-diapositivas").value.trim(),
-      diapositivas_preview_url: $("cap-diapositivas-preview").value.trim()
+      diapositivas_preview_url: $("cap-diapositivas-preview").value.trim(),
+      recursos_adicionales: textoARecursos($("cap-recursos").value)
     };
 
     const resultado = await rest(
@@ -390,10 +434,13 @@
 
   if (!PANEL_HABILITADO) {
     formLogin.querySelectorAll("input,button").forEach((control) => control.disabled = true);
-    estadoTitulo.textContent = "Panel preparado, activación pendiente";
-    estadoMensaje.textContent = "La base de datos ya exige administrador autorizado y MFA AAL2. Falta cerrar los controles preproducción y registrar la cuenta administrativa antes de habilitar el inicio de sesión.";
+    estadoTitulo.textContent = "Panel temporalmente deshabilitado";
+    estadoMensaje.textContent = "El acceso administrativo ha sido deshabilitado por configuración.";
     return;
   }
+
+  estadoTitulo.textContent = "Panel administrativo protegido";
+  estadoMensaje.textContent = "Solo pueden ingresar cuentas previamente autorizadas. La escritura exige MFA AAL2 y queda registrada en auditoría.";
 
   leerSesion();
   if (sesion?.access_token) {
