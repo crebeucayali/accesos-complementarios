@@ -27,6 +27,7 @@
   let archivoCapFlyerSeleccionado = null;
   let archivoCapInfografiaSeleccionado = null;
   let archivoRepositorioSeleccionado = null;
+  let archivoGaleriaSeleccionado = null;
 
   function mostrarMensaje(texto, tipo = "") {
     mensajeAdmin.textContent = texto || "";
@@ -1202,6 +1203,124 @@
   }
 
 
+  function resolverVistaPreviaGaleria(valor) {
+    const texto = String(valor || "").trim();
+    if (!texto) return "";
+    if (/^imagenes-(galeria|calendario)\/[a-z0-9._/-]+$/i.test(texto)) {
+      return "https://crebeucayali.github.io/accesos-complementarios/" + texto;
+    }
+    return texto;
+  }
+
+  function mostrarVistaPreviaGaleria(origen, mensaje) {
+    const panel = $("gal-imagen-panel");
+    const imagen = $("gal-imagen-preview");
+    const estado = $("gal-imagen-estado");
+    const url = String(origen || "").trim();
+
+    if (!url) {
+      panel.hidden = true;
+      imagen.removeAttribute("src");
+      estado.textContent = "";
+      return;
+    }
+
+    imagen.src = resolverVistaPreviaGaleria(url);
+    estado.textContent = mensaje || "Fotografía actualmente asociada a la tarjeta.";
+    panel.hidden = false;
+  }
+
+  function esImagenStorageGaleria(valor) {
+    try {
+      const url = new URL(String(valor || "").trim());
+      return (
+        url.protocol === "https:" &&
+        url.hostname.toLowerCase() === "dteimbhwtzghhsijeeld.supabase.co" &&
+        /^\/storage\/v1\/object\/public\/eva-publico\/galeria\/[a-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(url.pathname)
+      );
+    } catch {
+      return false;
+    }
+  }
+
+  function rutaStorageGaleria(archivo) {
+    const fecha = $("gal-fecha").value || "sin-fecha";
+    return (
+      "galeria/" + fecha + "/" +
+      Date.now() + "-" + identificadorArchivoNoticia() +
+      "." + extensionImagenNoticia(archivo)
+    );
+  }
+
+  async function subirImagenGaleria(archivo) {
+    validarArchivoImagenNoticia(archivo);
+    await refrescarSesionSiHaceFalta();
+
+    const estado = await comprobarAutorizacion();
+    if (!estado.autorizado || estado.aal !== "aal2") {
+      throw new Error("La carga de imágenes requiere una sesión administrativa con MFA AAL2.");
+    }
+
+    const ruta = rutaStorageGaleria(archivo);
+    const rutaCodificada = ruta.split("/").map(encodeURIComponent).join("/");
+
+    await solicitar(
+      SUPABASE_URL + "/storage/v1/object/" + encodeURIComponent(STORAGE_BUCKET_EVA) + "/" + rutaCodificada,
+      {
+        method: "POST",
+        headers: {
+          apikey: SUPABASE_PUBLISHABLE_KEY,
+          Authorization: "Bearer " + sesion.access_token,
+          "Content-Type": archivo.type,
+          Accept: "application/json",
+          "Cache-Control": "3600",
+          "x-upsert": "false"
+        },
+        body: archivo
+      }
+    );
+
+    return {
+      ruta,
+      url: STORAGE_NOTICIAS_BASE + ruta
+    };
+  }
+
+  function gestionarArchivoGaleria(evento) {
+    try {
+      const archivo = validarArchivoImagenNoticia(evento.target.files?.[0] || null);
+      archivoGaleriaSeleccionado = archivo;
+
+      if (!archivo) {
+        const valorActual = $("gal-imagen").value;
+        mostrarVistaPreviaGaleria(
+          valorActual,
+          valorActual ? "Fotografía actualmente asociada a la tarjeta." : ""
+        );
+        return;
+      }
+
+      const lector = new FileReader();
+      lector.addEventListener("load", () => {
+        mostrarVistaPreviaGaleria(
+          lector.result,
+          archivo.name + " · " + Math.max(1, Math.round(archivo.size / 1024)) + " KB · preparada para subir"
+        );
+      });
+      lector.readAsDataURL(archivo);
+      mostrarMensaje("");
+    } catch (error) {
+      archivoGaleriaSeleccionado = null;
+      evento.target.value = "";
+      const valorActual = $("gal-imagen").value;
+      mostrarVistaPreviaGaleria(
+        valorActual,
+        valorActual ? "Fotografía actualmente asociada a la tarjeta." : ""
+      );
+      mostrarMensaje(error.message, "error");
+    }
+  }
+
   function llenarGaleriaAdmin(fila) {
     $("gal-id").value = fila?.id || "";
     $("gal-fecha").value = fila?.fecha || "";
@@ -1212,6 +1331,13 @@
     $("gal-visible").checked = fila?.visible === true;
     $("gal-autorizada").checked = fila?.publicacion_autorizada === true;
     $("boton-eliminar-foto").hidden = !fila?.id;
+
+    archivoGaleriaSeleccionado = null;
+    $("gal-imagen-archivo").value = "";
+    mostrarVistaPreviaGaleria(
+      fila?.imagen_url || "",
+      fila?.imagen_url ? "Fotografía actualmente asociada a la tarjeta." : ""
+    );
   }
 
   async function cargarGaleriaAdmin() {
@@ -1260,6 +1386,8 @@
       return texto;
     }
 
+    if (esImagenStorageGaleria(texto)) return new URL(texto).href;
+
     try {
       const url = new URL(texto);
       if (url.protocol !== "https:" || url.hostname.toLowerCase() !== "crebeucayali.github.io") {
@@ -1267,7 +1395,7 @@
       }
       return url.href;
     } catch {
-      throw new Error("La imagen debe usar imagenes-galeria/..., imagenes-calendario/... o una URL HTTPS de crebeucayali.github.io.");
+      throw new Error("La imagen debe pertenecer a la Galería del EVA o al Storage institucional autorizado.");
     }
   }
 
@@ -1286,6 +1414,9 @@
 
     if (!titulo) throw new Error("El título de la fotografía es obligatorio.");
     if (!alt) throw new Error("El texto alternativo de la fotografía es obligatorio.");
+    if (!$("gal-imagen").value.trim() && !archivoGaleriaSeleccionado) {
+      throw new Error("La imagen de la fotografía es obligatoria.");
+    }
     if (visible && !autorizada) {
       throw new Error("Para publicar una fotografía debes confirmar primero que está autorizada para publicación institucional.");
     }
@@ -1294,12 +1425,24 @@
       ? galeriaItems.find((fila) => String(fila.id) === id)
       : null;
 
+    let imagen = $("gal-imagen").value.trim();
+
+    if (archivoGaleriaSeleccionado) {
+      mostrarMensaje("Subiendo fotografía a Supabase Storage…");
+      const subida = await subirImagenGaleria(archivoGaleriaSeleccionado);
+      imagen = subida.url;
+      $("gal-imagen").value = imagen;
+      archivoGaleriaSeleccionado = null;
+      $("gal-imagen-archivo").value = "";
+      mostrarVistaPreviaGaleria(imagen, "Fotografía subida a Storage. Pendiente de guardar la tarjeta.");
+    }
+
     const payload = {
       orden: existente ? Number(existente.orden || 1) : siguienteOrdenGaleria(),
       fecha: $("gal-fecha").value || null,
       titulo,
       descripcion,
-      imagen_url: validarImagenGaleria($("gal-imagen").value),
+      imagen_url: validarImagenGaleria(imagen),
       imagen_alt: alt,
       publicacion_autorizada: autorizada,
       visible,
@@ -1547,6 +1690,16 @@
   });
 
   $("boton-nueva-foto").addEventListener("click", nuevaFotoGaleria);
+
+  $("gal-imagen-archivo").addEventListener("change", gestionarArchivoGaleria);
+
+  $("gal-imagen-retirar").addEventListener("click", () => {
+    archivoGaleriaSeleccionado = null;
+    $("gal-imagen-archivo").value = "";
+    $("gal-imagen").value = "";
+    mostrarVistaPreviaGaleria("", "");
+    mostrarMensaje("La fotografía se retirará al guardar. Para mantener la tarjeta, selecciona otra imagen.");
+  });
 
   $("boton-eliminar-foto").addEventListener("click", async () => {
     try {
