@@ -531,7 +531,7 @@
     $("cal-lineas").value = lineasActividad(fila);
     $("cal-estado").value = fila?.estado || "confirmada";
     $("cal-clase").value = fila?.clase_css || "";
-    $("cal-visible").checked = fila?.visible !== false;
+    $("cal-estado-publicacion").value = fila?.estado_publicacion || (fila?.visible === false ? "borrador" : "publicado");
   }
 
   async function cargarCalendario() {
@@ -546,7 +546,13 @@
     actividades.forEach((fila, indice) => {
       const opcion = document.createElement("option");
       opcion.value = String(indice);
-      opcion.textContent = fila.fecha + " · " + fila.titulo;
+      opcion.textContent =
+        fila.fecha + " · " + fila.titulo +
+        " · " + ({
+          borrador: "Borrador",
+          publicado: "Publicado",
+          archivado: "Archivado"
+        }[fila.estado_publicacion] || (fila.visible === false ? "Borrador" : "Publicado"));
       selector.appendChild(opcion);
     });
   }
@@ -559,7 +565,7 @@
     $("cal-lineas").value = "";
     $("cal-estado").value = "confirmada";
     $("cal-clase").value = "";
-    $("cal-visible").checked = true;
+    $("cal-estado-publicacion").value = "borrador";
     mostrarMensaje("");
   }
 
@@ -576,7 +582,7 @@
         p_contenido_lineas: [titulo, ...extras],
         p_estado: $("cal-estado").value,
         p_clase_css: $("cal-clase").value,
-        p_visible: $("cal-visible").checked
+        p_estado_publicacion: $("cal-estado-publicacion").value
       })
     });
 
