@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="admin.css?v=8">
+  <link rel="stylesheet" href="admin.css?v=9">
   <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
 <body class="theme-crebe wsite-theme-light panel-admin-page">
@@ -453,6 +453,7 @@
             </div>
 
             <p class="nota">Una nueva visita EVA se contabiliza después de 30 minutos de inactividad. Dentro de una misma visita, cada acceso principal se cuenta como máximo una vez.</p>
+            <p id="est-desde" class="nota estadisticas-periodo"></p>
 
             <div class="estadisticas-resumen" aria-label="Resumen de visitas">
               <article class="estadistica-card">
@@ -473,17 +474,44 @@
               </article>
             </div>
 
+            <div class="estadisticas-graficos">
+              <section class="estadisticas-bloque" aria-labelledby="titulo-est-mensual">
+                <div class="estadisticas-encabezado">
+                  <div>
+                    <p class="micro-etiqueta">Sesiones EVA</p>
+                    <h3 id="titulo-est-mensual">Evolución mensual · últimos 6 meses</h3>
+                  </div>
+                </div>
+                <div id="estadisticas-mensual" class="estadisticas-barras-mensuales" role="list" aria-label="Evolución mensual de sesiones EVA"></div>
+              </section>
+
+              <section class="estadisticas-bloque" aria-labelledby="titulo-est-diaria">
+                <div class="estadisticas-encabezado">
+                  <div>
+                    <p class="micro-etiqueta">Actividad reciente</p>
+                    <h3 id="titulo-est-diaria">Últimos 30 días</h3>
+                  </div>
+                </div>
+                <div id="estadisticas-diarias" class="estadisticas-barras-diarias" role="list" aria-label="Sesiones EVA por día durante los últimos 30 días"></div>
+              </section>
+            </div>
+
             <div class="estadisticas-bloque">
               <div class="estadisticas-encabezado">
-                <h3>Visitas por acceso</h3>
+                <div>
+                  <p class="micro-etiqueta">Distribución acumulada</p>
+                  <h3>Visitas por acceso</h3>
+                </div>
                 <button id="boton-actualizar-estadisticas" type="button" class="secundario">Actualizar</button>
               </div>
+              <p class="nota">La participación corresponde al peso de cada módulo dentro del total de accesos a módulos registrados; no representa porcentaje de personas.</p>
               <div class="tabla-estadisticas-wrap">
                 <table class="tabla-estadisticas">
                   <thead>
                     <tr>
                       <th scope="col">Acceso</th>
                       <th scope="col">Visitas</th>
+                      <th scope="col">Participación</th>
                     </tr>
                   </thead>
                   <tbody id="estadisticas-modulos"></tbody>
@@ -542,7 +570,7 @@
     </div>
   </footer>
 
-  <script src="admin.js?v=25" defer></script>
+  <script src="admin.js?v=26" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>
 </html>
