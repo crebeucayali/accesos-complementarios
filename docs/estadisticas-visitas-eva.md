@@ -101,3 +101,39 @@ Puede variar por factores como:
 - interrupciones de red.
 
 Por ello debe interpretarse como una métrica operativa de uso y no como un censo exacto de personas.
+
+
+## Cobertura final por repositorio
+
+La instrumentación se aplicó por etapas y quedó distribuida de la siguiente manera:
+
+| Módulo | Páginas públicas instrumentadas |
+| --- | ---: |
+| Plataforma principal | 3 |
+| Accesos Complementarios | 17 |
+| Capacitaciones | 3 |
+| Materiales Educativos Accesibles | 11 |
+| Banco Digital Accesible | 13 |
+| Repositorio Accesible | 1 |
+| Noti Inclusivos | 9 |
+| DUA 3.0 | 3 |
+| **Total** | **60** |
+
+Todas estas páginas utilizan el mismo control de sesión de 30 minutos y uno de los ocho identificadores admitidos por el sistema.
+
+### Exclusiones intencionales
+
+No se contabilizan como visitas públicas:
+
+- el panel administrativo de Accesos Complementarios;
+- la antigua ruta de prueba/redirección del buscador, marcada `noindex`;
+- el archivo técnico de verificación de Google;
+- fragmentos HTML generados exclusivamente para descargas locales que no constituyen páginas navegables.
+
+En la plataforma principal, además de la portada, se contabilizan como `principal`:
+
+- el Buscador unificado de EVA;
+- Tarjetas educativas accesibles.
+
+La tarjeta pública **Visitas al EVA** permanece únicamente en el footer de la plataforma principal. El resto de páginas registra la visita sin mostrar un contador individual.
+
