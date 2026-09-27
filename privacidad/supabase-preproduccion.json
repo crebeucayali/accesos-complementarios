@@ -3,8 +3,8 @@
   "proyecto": "crebe Project",
   "project_ref": "dteimbhwtzghhsijeeld",
   "region": "us-east-1",
-  "uso_actual": "datos_publicos_capacitaciones_solo_lectura",
-  "auth_activo_en_frontend": false,
+  "uso_actual": "datos_publicos_capacitaciones_calendario_mas_interfaz_auth_sin_cuentas",
+  "auth_activo_en_frontend": true,
   "edge_functions_activas": 0,
   "rls_tablas_publicas_actuales": true,
   "escritura_publica": false,
@@ -12,8 +12,8 @@
   "gate": {
     "objeto": "private.supabase_preproduccion_gate",
     "habilitado_para_datos_personales": false,
-    "motivo": "La arquitectura Auth está preparada, pero continúan controles bloqueantes y no existe una cuenta administrativa autorizada.",
-    "estado": "no_habilitado_para_datos_personales"
+    "motivo": "La interfaz Auth administrativa está habilitada, pero no existen usuarios ni administradores autorizados y permanecen controles bloqueantes pendientes.",
+    "estado": "no_habilitado_para_uso_productivo_de_cuentas_administrativas"
   },
   "controles_verificados": [
     "region_proyecto",
@@ -21,28 +21,33 @@
     "rls_public",
     "escritura_publica",
     "edge_functions",
-    "auth_frontend",
-    "secretos_frontend"
+    "secretos_frontend",
+    "auth_sesiones",
+    "rls_admin_mfa",
+    "panel_admin_scaffold"
   ],
   "controles_pendientes": [
+    "auth_frontend",
+    "auth_signup_restringido",
     "registro_banco_datos",
     "flujo_transfronterizo",
     "dpa_subencargados",
     "retencion_eliminacion",
     "acceso_administrativo",
     "incidentes_documento_seguridad",
-    "auth_sesiones",
-    "storage_personal",
-    "respaldo_recuperacion"
+    "respaldo_recuperacion",
+    "storage_personal"
   ],
-  "regla": "No incorporar datos personales ni Supabase Auth hasta cerrar los controles bloqueantes y registrar la evidencia correspondiente.",
+  "regla": "La interfaz puede permanecer publicada, pero no debe crearse o autorizarse la primera cuenta administrativa hasta cerrar los controles bloqueantes aplicables y activar/verificar el hook de restricción de altas.",
   "panel_administrativo": {
-    "estado": "preparado_no_habilitado",
+    "estado": "interfaz_habilitada_sin_cuentas_autorizadas",
     "ruta": "admin/",
     "auth_users_actuales": 0,
     "administradores_autorizados_actuales": 0,
+    "factores_mfa_actuales": 0,
     "registro_publico_en_panel": false,
-    "sesion_cliente": "sessionStorage_al_activar",
+    "hook_restriccion_creacion": "preparado_pendiente_de_habilitar_en_auth_hooks",
+    "sesion_cliente": "sessionStorage",
     "mfa": "TOTP_AAL2_obligatorio_para_escritura",
     "permisos": {
       "lectura": "publica_segun_RLS",
@@ -50,12 +55,14 @@
       "delete_authenticated": false
     },
     "activacion_pendiente": [
-      "definir_correo_administrativo",
-      "habilitar_y_verificar_restriccion_de_creacion_de_cuentas",
+      "definir_correo_administrativo_personal",
+      "agregar_correo_a_admin_guard.admin_correos_autorizados",
+      "habilitar_hook_before_user_created",
       "crear_o_invitar_cuenta_autorizada",
       "vincular_user_id",
       "enrolar_TOTP",
-      "cerrar_controles_bloqueantes_del_gate"
+      "cerrar_controles_bloqueantes_del_gate",
+      "probar_UPDATE_controlado"
     ]
   }
 }
