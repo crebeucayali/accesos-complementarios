@@ -278,12 +278,22 @@
                 <textarea id="rep-descripcion" rows="4" placeholder="Descripción breve del recurso, equipo o material."></textarea>
               </label>
 
-              <label>Imagen (opcional)
-                <input id="rep-imagen" type="text" placeholder="assets/imagenes/... o https://crebeucayali.github.io/...">
+              <label for="rep-imagen-archivo">Imagen (opcional)
+                <input id="rep-imagen-archivo" type="file" accept="image/webp,image/jpeg,image/png">
+                <span class="ayuda-campo">WebP, JPG o PNG. Máximo 5 MB. La imagen se subirá a Supabase Storage al guardar.</span>
               </label>
+              <input id="rep-imagen" type="hidden">
+
+              <div id="rep-imagen-panel" class="imagen-admin-preview" hidden>
+                <img id="rep-imagen-preview" alt="Vista previa de la imagen del recurso">
+                <div class="imagen-admin-preview-info">
+                  <p id="rep-imagen-estado" class="nota"></p>
+                  <button id="rep-imagen-retirar" type="button" class="secundario">Retirar imagen</button>
+                </div>
+              </div>
 
               <label>Texto alternativo de la imagen
-                <input id="rep-alt" type="text" placeholder="Descripción accesible de la imagen">
+                <input id="rep-alt" type="text" maxlength="220" placeholder="Descripción accesible de la imagen">
               </label>
 
               <div class="acciones-repositorio">
@@ -520,7 +530,7 @@
     </div>
   </footer>
 
-  <script src="admin.js?v=16" defer></script>
+  <script src="admin.js?v=17" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>
 </html>
