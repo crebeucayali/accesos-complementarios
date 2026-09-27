@@ -41,11 +41,14 @@
       <div id="mfa-enrolamiento" hidden>
         <p>Escanea el código con una aplicación autenticadora y luego introduce el código de seis dígitos.</p>
         <img id="mfa-qr" alt="Código QR para configurar autenticación en dos pasos">
-        <p id="mfa-secreto" class="secreto"></p>
+        <details class="detalle-secreto">
+          <summary>Usar clave manual en lugar del QR</summary>
+          <p id="mfa-secreto" class="secreto"></p>
+        </details>
       </div>
       <form id="form-mfa">
         <label for="codigo-mfa">Código del autenticador</label>
-        <input id="codigo-mfa" name="codigo-mfa" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6,10}" required>
+        <input id="codigo-mfa" name="codigo-mfa" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" required>
         <button type="submit">Verificar</button>
       </form>
     </section>
@@ -140,6 +143,6 @@
     </section>
   </main>
 
-  <script src="admin.js?v=3" defer></script>
+  <script src="admin.js?v=4" defer></script>
 </body>
 </html>
