@@ -72,8 +72,10 @@ Documentación asociada:
 - [Criterio para banner y consentimiento global](docs/criterio-banner-consentimiento.md)
 - [Política de cookies y tecnologías similares](paginas/politica-cookies.html)
 - [Política de privacidad](paginas/politica-privacidad.html)
+- [Revisión de privacidad y seguridad previa a datos personales en Supabase](docs/supabase-privacidad-seguridad-preproduccion.md)
+- [Estado preproducción de Supabase](privacidad/supabase-preproduccion.json)
 
-Toda incorporación futura de analítica no esencial, publicidad, autenticación, nuevas cookies, SDK de terceros o funciones de Supabase en el cliente debe activar una nueva revisión antes de su publicación.
+El uso actual de Supabase se limita a consultas públicas de Capacitaciones. Cualquier ampliación hacia Supabase Auth, sesiones persistentes, formularios, Storage con información personal o tratamiento de datos personales debe pasar primero por la revisión preproducción documentada. Mientras existan controles bloqueantes pendientes, el proyecto se considera no habilitado para ese alcance.
 
 ## Funcionalidades principales
 
