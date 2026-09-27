@@ -72,5 +72,16 @@
     "control": "private.supabase_preproduccion_gate",
     "archivo": "privacidad/supabase-preproduccion.json",
     "regla": "No activar Supabase Auth ni almacenar datos personales mientras existan controles bloqueantes pendientes."
-  }
+  },
+  "preparaciones_inactivas": [
+    {
+      "id": "supabase_panel_admin_auth",
+      "estado": "preparado_no_habilitado",
+      "autenticacion": "email_password_mas_TOTP_AAL2",
+      "almacenamiento_sesion": "sessionStorage_al_activar",
+      "registro_publico": false,
+      "datos_personales_activos": false,
+      "requisito": "Cerrar controles preproducción y vincular una cuenta administradora autorizada antes de activar."
+    }
+  ]
 }
