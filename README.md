@@ -77,8 +77,9 @@ Documentación asociada:
 - [Calendario público con Supabase](docs/calendario-supabase.md)
 - [Panel administrativo con Supabase Auth](docs/panel-administrativo-auth.md)
 - [Repositorio Accesible con Supabase](docs/repositorio-supabase.md)
+- [Noticias destacadas con Supabase](docs/noticias-destacadas-supabase.md)
 
-El uso público de Supabase comprende actualmente Capacitaciones, Calendario y Repositorio Accesible. El panel administrativo en `admin/` está operativo con una cuenta autorizada y MFA TOTP/AAL2. Capacitaciones y Calendario permiten gestión controlada sin eliminación directa; Repositorio Accesible permite crear, editar y eliminar recursos bajo RLS y auditoría.
+El uso público de Supabase comprende actualmente Capacitaciones, Calendario, Repositorio Accesible y el bloque Noticias destacadas de la portada. El panel administrativo en `admin/` está operativo con una cuenta autorizada y MFA TOTP/AAL2. Capacitaciones y Calendario permiten gestión controlada sin eliminación directa; Repositorio Accesible permite crear, editar y eliminar recursos bajo RLS y auditoría.
 
 ## Funcionalidades principales
 
