@@ -5,144 +5,257 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://dteimbhwtzghhsijeeld.supabase.co; frame-src 'none'; form-action 'self'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow,noarchive">
-  <meta name="description" content="Panel administrativo privado para Capacitaciones y Calendario del Ecosistema Virtual Accesible.">
-  <title>Panel administrativo | EVA</title>
-  <link rel="stylesheet" href="admin.css?v=1">
+  <meta name="description" content="Panel administrativo privado para Capacitaciones y Calendario del Ecosistema Virtual Accesible del CREBE Señor de los Milagros - Ucayali.">
+  <meta name="theme-color" content="#0b3550">
+  <meta name="application-name" content="CREBE Señor de los Milagros Región Ucayali">
+  <title>Panel administrativo | CREBE Ucayali</title>
+
+  <link rel="icon" href="../assets/favicon/favicon-crebe.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="admin.css?v=2">
+  <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
-<body>
-  <main class="contenedor">
-    <header class="cabecera-panel">
-      <p class="eyebrow">ECOSISTEMA VIRTUAL ACCESIBLE</p>
-      <h1>Panel administrativo</h1>
-      <p>Gestión privada de Capacitaciones y Calendario.</p>
-    </header>
+<body class="theme-crebe wsite-theme-light panel-admin-page">
+  <header class="cabecera-crebe">
+    <div class="cabecera-interior">
+      <a class="marca-crebe" href="https://crebeucayali.github.io/" aria-label="Ir a la plataforma principal CREBE Ucayali">
+        <span class="marca-logo">
+          <img alt="Logo del CREBE Señor de los Milagros - Ucayali" class="marca-logo-img" src="../logo-crebe.webp?v=3">
+        </span>
+        <span class="marca-texto">
+          <strong>CREBE "Señor de los Milagros" - Ucayali</strong>
+          <small>Centro de Recursos de Educación Básica Especial</small>
+          <small>Ecosistema Virtual Accesible</small>
+        </span>
+      </a>
 
-    <section class="estado-panel" aria-live="polite">
-      <strong id="estado-panel-titulo">Panel administrativo protegido</strong>
-      <p id="estado-panel-mensaje">El inicio de sesión está disponible únicamente para cuentas previamente autorizadas. Las operaciones de escritura requieren MFA con nivel AAL2.</p>
-    </section>
-
-    <section class="tarjeta" id="seccion-login" aria-labelledby="titulo-login">
-      <h2 id="titulo-login">Acceso administrativo</h2>
-      <form id="form-login" autocomplete="on">
-        <label for="correo">Correo electrónico</label>
-        <input id="correo" name="correo" type="email" autocomplete="username" required>
-
-        <label for="clave">Contraseña</label>
-        <input id="clave" name="clave" type="password" autocomplete="current-password" required>
-
-        <button type="submit" id="boton-login">Ingresar</button>
-      </form>
-      <p class="nota">No existe registro público de usuarios. El acceso requiere una cuenta autorizada y MFA.</p>
-    </section>
-
-    <section class="tarjeta" id="seccion-mfa" hidden aria-labelledby="titulo-mfa">
-      <h2 id="titulo-mfa">Verificación en dos pasos</h2>
-      <div id="mfa-enrolamiento" hidden>
-        <p>Escanea el código con una aplicación autenticadora y luego introduce el código de seis dígitos.</p>
-        <img id="mfa-qr" alt="Código QR para configurar autenticación en dos pasos">
-        <details class="detalle-secreto">
-          <summary>Usar clave manual en lugar del QR</summary>
-          <p id="mfa-secreto" class="secreto"></p>
-        </details>
-      </div>
-      <form id="form-mfa">
-        <label for="codigo-mfa">Código del autenticador</label>
-        <input id="codigo-mfa" name="codigo-mfa" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" required>
-        <button type="submit">Verificar</button>
-      </form>
-    </section>
-
-    <section id="seccion-admin" hidden>
-      <div class="barra-admin">
-        <div>
-          <strong>Sesión administrativa activa</strong>
-          <span id="usuario-actual"></span>
-        </div>
-        <button id="boton-salir" type="button" class="secundario">Cerrar sesión</button>
-      </div>
-
-      <nav class="tabs" aria-label="Secciones administrativas">
-        <button type="button" class="tab activo" data-panel="capacitaciones">Capacitaciones</button>
-        <button type="button" class="tab" data-panel="calendario">Calendario</button>
+      <nav aria-label="Navegación principal" class="pestanas-crebe">
+        <a href="https://crebeucayali.github.io/">Inicio</a>
+        <a href="../paginas/nosotros.html">Nosotros</a>
+        <a href="../paginas/que-hacemos.html">Qué hacemos</a>
+        <a href="../directorios/directorio-institucional.html">Directorio</a>
+        <a href="../directorios/directorio-ciudadano.html">Entidades</a>
+        <a href="../paginas/contacto.html">Contacto</a>
       </nav>
+    </div>
+  </header>
 
-      <section class="tarjeta panel-seccion" id="panel-capacitaciones">
-        <h2>Capacitaciones</h2>
-        <label for="sesion-selector">Seleccionar sesión</label>
-        <select id="sesion-selector"></select>
+  <main class="portal-admin-crebe">
+    <section class="admin-hero" aria-labelledby="titulo-panel-admin">
+      <div class="admin-hero-contenido">
+        <p class="admin-etiqueta">Gestión institucional privada</p>
+        <h1 id="titulo-panel-admin">Panel administrativo EVA</h1>
+        <p class="admin-subtitulo">Gestión segura de Capacitaciones y Calendario del Ecosistema Virtual Accesible.</p>
+      </div>
+    </section>
 
-        <form id="form-capacitacion">
-          <div class="grid">
-            <label>Fecha<input id="cap-fecha" type="date" required></label>
-            <label>Estado
-              <select id="cap-estado">
-                <option value="pendiente">Pendiente</option>
-                <option value="disponible">Disponible</option>
-              </select>
-            </label>
+    <section class="admin-contenido">
+      <div class="contenedor">
+        <section class="estado-panel" aria-live="polite">
+          <strong id="estado-panel-titulo">Panel administrativo protegido</strong>
+          <p id="estado-panel-mensaje">El inicio de sesión está disponible únicamente para cuentas previamente autorizadas. Las operaciones de escritura requieren MFA con nivel AAL2.</p>
+        </section>
+
+        <section class="tarjeta" id="seccion-login" aria-labelledby="titulo-login">
+          <div class="titulo-tarjeta">
+            <span class="identificador-admin" aria-hidden="true">ADM</span>
+            <div>
+              <p class="micro-etiqueta">Acceso restringido</p>
+              <h2 id="titulo-login">Acceso administrativo</h2>
+            </div>
+          </div>
+          <form id="form-login" autocomplete="on">
+            <label for="correo">Correo electrónico</label>
+            <input id="correo" name="correo" type="email" autocomplete="username" required>
+
+            <label for="clave">Contraseña</label>
+            <input id="clave" name="clave" type="password" autocomplete="current-password" required>
+
+            <button type="submit" id="boton-login">Ingresar</button>
+          </form>
+          <p class="nota">No existe registro público de usuarios. El acceso requiere una cuenta autorizada y verificación en dos pasos.</p>
+        </section>
+
+        <section class="tarjeta" id="seccion-mfa" hidden aria-labelledby="titulo-mfa">
+          <div class="titulo-tarjeta">
+            <span class="identificador-admin" aria-hidden="true">2FA</span>
+            <div>
+              <p class="micro-etiqueta">Segundo factor</p>
+              <h2 id="titulo-mfa">Verificación en dos pasos</h2>
+            </div>
+          </div>
+          <div id="mfa-enrolamiento" hidden>
+            <p>Escanea el código con una aplicación autenticadora y luego introduce el código de seis dígitos.</p>
+            <img id="mfa-qr" alt="Código QR para configurar autenticación en dos pasos">
+            <details class="detalle-secreto">
+              <summary>Usar clave manual en lugar del QR</summary>
+              <p id="mfa-secreto" class="secreto"></p>
+            </details>
+          </div>
+          <form id="form-mfa">
+            <label for="codigo-mfa">Código del autenticador</label>
+            <input id="codigo-mfa" name="codigo-mfa" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" required>
+            <button type="submit">Verificar</button>
+          </form>
+        </section>
+
+        <section id="seccion-admin" hidden>
+          <div class="barra-admin">
+            <div class="sesion-admin-info">
+              <span class="estado-sesion-punto" aria-hidden="true"></span>
+              <div>
+                <strong>Sesión administrativa activa</strong>
+                <span id="usuario-actual"></span>
+              </div>
+            </div>
+            <button id="boton-salir" type="button" class="secundario">Cerrar sesión</button>
           </div>
 
-          <label>Título<input id="cap-titulo" type="text" required></label>
-          <label>Tema<textarea id="cap-tema" rows="3"></textarea></label>
-          <label>Flyer<input id="cap-flyer" type="text" placeholder="imagenes/..."></label>
-          <label>Infografía<input id="cap-infografia" type="text" placeholder="imagenes/..."></label>
-          <label>PDF<input id="cap-pdf" type="url"></label>
-          <label>Video<input id="cap-video" type="url"></label>
-          <label>Vista previa de video<input id="cap-video-preview" type="url"></label>
-          <label>Diapositivas<input id="cap-diapositivas" type="url"></label>
-          <label>Vista previa de diapositivas<input id="cap-diapositivas-preview" type="url"></label>
-          <label>Materiales complementarios
-            <textarea id="cap-recursos" rows="5" placeholder="Título | URL | Descripción opcional"></textarea>
-          </label>
-          <p class="nota">Para materiales complementarios usa una línea por recurso: <strong>Título | URL | Descripción opcional</strong>.</p>
+          <nav class="tabs" aria-label="Secciones administrativas">
+            <button type="button" class="tab activo" data-panel="capacitaciones">Capacitaciones</button>
+            <button type="button" class="tab" data-panel="calendario">Calendario</button>
+          </nav>
 
-          <button type="submit">Guardar cambios</button>
-        </form>
-      </section>
+          <section class="tarjeta panel-seccion" id="panel-capacitaciones">
+            <div class="titulo-tarjeta">
+              <span class="identificador-admin" aria-hidden="true">CAP</span>
+              <div>
+                <p class="micro-etiqueta">Gestión de contenidos</p>
+                <h2>Capacitaciones</h2>
+              </div>
+            </div>
 
-      <section class="tarjeta panel-seccion" id="panel-calendario" hidden>
-        <h2>Calendario</h2>
-        <div class="grid">
-          <label for="actividad-selector">Actividad existente
-            <select id="actividad-selector"></select>
-          </label>
-          <button id="boton-nueva-actividad" type="button" class="secundario">Nueva actividad</button>
-        </div>
+            <label for="sesion-selector">Seleccionar sesión</label>
+            <select id="sesion-selector"></select>
 
-        <form id="form-calendario">
-          <input id="cal-id" type="hidden">
-          <label>Fecha<input id="cal-fecha" type="date" required></label>
-          <label>Título<input id="cal-titulo" type="text" required></label>
-          <label>Líneas adicionales<textarea id="cal-lineas" rows="4" placeholder="Una línea por renglón"></textarea></label>
-          <div class="grid">
-            <label>Estado
-              <select id="cal-estado">
-                <option value="confirmada">Confirmada</option>
-                <option value="planificacion">En planificación</option>
-                <option value="interna">Actividad interna</option>
-                <option value="feriado">Feriado</option>
-                <option value="cancelada">Cancelada</option>
-              </select>
-            </label>
-            <label>Clase visual
-              <select id="cal-clase">
-                <option value="">Sin clase especial</option>
-                <option value="feriado">Feriado</option>
-                <option value="lunes-colegiado">Trabajo colegiado</option>
-                <option value="sin-foto-consentimiento">Sin foto por consentimiento</option>
-              </select>
-            </label>
-          </div>
-          <label class="check"><input id="cal-visible" type="checkbox" checked> Visible públicamente</label>
-          <button type="submit">Guardar actividad</button>
-        </form>
-      </section>
+            <form id="form-capacitacion">
+              <div class="grid">
+                <label>Fecha<input id="cap-fecha" type="date" required></label>
+                <label>Estado
+                  <select id="cap-estado">
+                    <option value="pendiente">Pendiente</option>
+                    <option value="disponible">Disponible</option>
+                  </select>
+                </label>
+              </div>
 
-      <p id="mensaje-admin" class="mensaje" aria-live="polite"></p>
+              <label>Título<input id="cap-titulo" type="text" required></label>
+              <label>Tema<textarea id="cap-tema" rows="3"></textarea></label>
+              <label>Flyer<input id="cap-flyer" type="text" placeholder="imagenes/..."></label>
+              <label>Infografía<input id="cap-infografia" type="text" placeholder="imagenes/..."></label>
+              <label>PDF<input id="cap-pdf" type="url"></label>
+              <label>Video<input id="cap-video" type="url"></label>
+              <label>Vista previa de video<input id="cap-video-preview" type="url"></label>
+              <label>Diapositivas<input id="cap-diapositivas" type="url"></label>
+              <label>Vista previa de diapositivas<input id="cap-diapositivas-preview" type="url"></label>
+              <label>Materiales complementarios
+                <textarea id="cap-recursos" rows="5" placeholder="Título | URL | Descripción opcional"></textarea>
+              </label>
+              <p class="nota">Para materiales complementarios usa una línea por recurso: <strong>Título | URL | Descripción opcional</strong>.</p>
+
+              <button type="submit">Guardar cambios</button>
+            </form>
+          </section>
+
+          <section class="tarjeta panel-seccion" id="panel-calendario" hidden>
+            <div class="titulo-tarjeta">
+              <span class="identificador-admin" aria-hidden="true">CAL</span>
+              <div>
+                <p class="micro-etiqueta">Programación institucional</p>
+                <h2>Calendario</h2>
+              </div>
+            </div>
+
+            <div class="grid">
+              <label for="actividad-selector">Actividad existente
+                <select id="actividad-selector"></select>
+              </label>
+              <button id="boton-nueva-actividad" type="button" class="secundario">Nueva actividad</button>
+            </div>
+
+            <form id="form-calendario">
+              <input id="cal-id" type="hidden">
+              <label>Fecha<input id="cal-fecha" type="date" required></label>
+              <label>Título<input id="cal-titulo" type="text" required></label>
+              <label>Líneas adicionales<textarea id="cal-lineas" rows="4" placeholder="Una línea por renglón"></textarea></label>
+              <div class="grid">
+                <label>Estado
+                  <select id="cal-estado">
+                    <option value="confirmada">Confirmada</option>
+                    <option value="planificacion">En planificación</option>
+                    <option value="interna">Actividad interna</option>
+                    <option value="feriado">Feriado</option>
+                    <option value="cancelada">Cancelada</option>
+                  </select>
+                </label>
+                <label>Clase visual
+                  <select id="cal-clase">
+                    <option value="">Sin clase especial</option>
+                    <option value="feriado">Feriado</option>
+                    <option value="lunes-colegiado">Trabajo colegiado</option>
+                    <option value="sin-foto-consentimiento">Sin foto por consentimiento</option>
+                  </select>
+                </label>
+              </div>
+              <label class="check"><input id="cal-visible" type="checkbox" checked> Visible públicamente</label>
+              <button type="submit">Guardar actividad</button>
+            </form>
+          </section>
+
+          <p id="mensaje-admin" class="mensaje" aria-live="polite"></p>
+        </section>
+      </div>
     </section>
   </main>
 
-  <script src="admin.js?v=6" defer></script>
+  <footer class="pie-crebe pie-crebe-completo" aria-label="Pie de página institucional">
+    <div class="pie-crebe-contenido">
+      <section class="pie-crebe-bloque pie-crebe-identidad">
+        <img class="pie-crebe-logo" src="../logo-crebe.webp?v=3" alt="Logo del CREBE Señor de los Milagros - Ucayali">
+        <div>
+          <h2>Ecosistema Virtual Accesible</h2>
+          <p>Plataforma digital del CREBE "Señor de los Milagros" - Ucayali que reúne recursos, materiales y servicios accesibles para la comunidad educativa.</p>
+        </div>
+      </section>
+
+      <section class="pie-crebe-bloque">
+        <h2>Enlaces</h2>
+        <p>
+          <a href="https://crebeucayali.github.io/">Inicio principal</a><br>
+          <a href="https://crebeucayali.github.io/banco-digital-accesible/">Banco Digital Accesible</a><br>
+          <a href="https://crebeucayali.github.io/materiales-educativos-accesibles/">Materiales Educativos Accesibles</a><br>
+          <a href="https://crebeucayali.github.io/capacitaciones/">Capacitaciones CREBE</a><br>
+          <a href="https://crebeucayali.github.io/noti-inclusivos/">Noti Inclusivos</a><br>
+          <a href="https://crebeucayali.github.io/repositorio-accesible/">Repositorio Accesible</a>
+        </p>
+      </section>
+
+      <section class="pie-crebe-bloque">
+        <h2>Contacto CREBE</h2>
+        <p>CREBE "Señor de los Milagros" - Ucayali<br>
+          Correo: senordelosmilagroscrebe@gmail.com<br>
+          Horario: lunes a viernes, 8:00 a. m. - 12:00 p. m.<br>
+          <a href="../paginas/contacto.html">Ver página de contacto</a>
+        </p>
+      </section>
+    </div>
+
+    <nav class="pie-crebe-secundario" aria-label="Enlaces legales y de organización web">
+      <a href="../paginas/aviso-legal.html">Aviso legal</a>
+      <a href="../paginas/politica-privacidad.html">Política de privacidad</a>
+      <a href="../paginas/politica-cookies.html">Cookies y tecnologías similares</a>
+      <a href="../mapa-web.html">Mapa web</a>
+    </nav>
+
+    <div class="pie-crebe-final">
+      <p>© 2026 Gabriel Berrospi. Desarrollo original. Uso institucional autorizado al CREBE "Señor de los Milagros" - Ucayali.</p>
+    </div>
+  </footer>
+
+  <script src="admin.js?v=7" defer></script>
+  <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>
 </html>
