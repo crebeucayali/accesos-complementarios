@@ -113,17 +113,17 @@ Repositorio Accesible fue validado con una carga real desde el Panel Administrat
 
 ## Etapa 1E — Galería
 
-Galería incorpora Storage para las fotografías institucionales publicadas en `recursos/galeria.html`.
+Galería incorpora Storage para las fotografías institucionales publicadas en `recursos/galeria.html`. Cada actividad puede reunir entre 1 y 5 fotografías dentro de una sola tarjeta.
 
 El Panel Administrativo permite:
 
-1. seleccionar WebP, JPG/JPEG o PNG de hasta 5 MB;
-2. mostrar una vista previa local;
-3. exigir texto alternativo;
-4. mantener la confirmación explícita de autorización de publicación;
-5. subir el archivo a una ruta organizada bajo `eva-publico/galeria/`;
-6. guardar la URL pública resultante en `public.galeria_items.imagen_url`;
-7. mostrar la fotografía desde Supabase Storage tanto en la tarjeta como en el visor ampliado.
+1. seleccionar de 1 a 5 fotografías WebP, JPG/JPEG o PNG de hasta 5 MB cada una;
+2. mostrar una vista previa de todas las fotografías;
+3. exigir texto alternativo individual para cada imagen;
+4. mantener una confirmación explícita de autorización de publicación para la actividad;
+5. subir los archivos a rutas organizadas bajo `eva-publico/galeria/`;
+6. registrar la colección en `public.galeria_item_imagenes` y mantener la primera fotografía reflejada en `public.galeria_items` por compatibilidad;
+7. mostrar las fotografías en un mosaico que se adapta automáticamente a la cantidad disponible y permite ampliarlas individualmente.
 
 Las referencias históricas `imagenes-galeria/...`, `imagenes-calendario/...` y las URLs HTTPS ya admitidas de `crebeucayali.github.io` continúan siendo compatibles y no se migran automáticamente.
 
