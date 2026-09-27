@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="admin.css?v=3">
+  <link rel="stylesheet" href="admin.css?v=4">
   <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
 <body class="theme-crebe wsite-theme-light panel-admin-page">
@@ -48,7 +48,7 @@
       <div class="admin-hero-contenido">
         <p class="admin-etiqueta">Gestión institucional privada</p>
         <h1 id="titulo-panel-admin">Panel administrativo EVA</h1>
-        <p class="admin-subtitulo">Gestión segura de Capacitaciones, Calendario y Repositorio Accesible del Ecosistema Virtual Accesible.</p>
+        <p class="admin-subtitulo">Gestión segura de Capacitaciones, Calendario, Repositorio Accesible y Noticias destacadas del Ecosistema Virtual Accesible.</p>
       </div>
     </section>
 
@@ -118,6 +118,7 @@
             <button type="button" class="tab activo" data-panel="capacitaciones">Capacitaciones</button>
             <button type="button" class="tab" data-panel="calendario">Calendario</button>
             <button type="button" class="tab" data-panel="repositorio">Repositorio</button>
+            <button type="button" class="tab" data-panel="noticias">Noticias</button>
           </nav>
 
           <section class="tarjeta panel-seccion" id="panel-capacitaciones">
@@ -265,6 +266,61 @@
             </form>
           </section>
 
+
+          <section class="tarjeta panel-seccion" id="panel-noticias" hidden>
+            <div class="titulo-tarjeta">
+              <span class="identificador-admin" aria-hidden="true">ND</span>
+              <div>
+                <p class="micro-etiqueta">Portada principal</p>
+                <h2>Noticias destacadas</h2>
+              </div>
+            </div>
+
+            <div class="grid">
+              <label for="noticia-selector">Noticia existente
+                <select id="noticia-selector"></select>
+              </label>
+              <button id="boton-nueva-noticia" type="button" class="secundario">Nueva noticia</button>
+            </div>
+
+            <form id="form-noticia">
+              <input id="not-id" type="hidden">
+
+              <div class="grid">
+                <label>Categoría
+                  <input id="not-categoria" type="text" maxlength="60" value="Noticia destacada" required>
+                </label>
+                <label class="check check-repositorio">
+                  <input id="not-visible" type="checkbox" checked>
+                  Visible en la portada
+                </label>
+              </div>
+
+              <label>Título
+                <input id="not-titulo" type="text" maxlength="140" required>
+              </label>
+
+              <label>Síntesis breve
+                <textarea id="not-descripcion" rows="4" maxlength="350" required placeholder="Resumen corto y directo de la noticia."></textarea>
+              </label>
+
+              <label>Imagen (opcional)
+                <input id="not-imagen" type="text" placeholder="imagenes/noticias/... o https://crebeucayali.github.io/...">
+              </label>
+
+              <label>Enlace para ampliar (opcional)
+                <input id="not-enlace" type="url" placeholder="https://crebeucayali.github.io/...">
+              </label>
+
+              <div class="acciones-repositorio">
+                <button type="submit">Guardar noticia</button>
+                <button id="boton-eliminar-noticia" type="button" class="peligro" hidden>Eliminar noticia</button>
+              </div>
+
+              <p class="nota">Este formulario administra únicamente el carrusel <strong>Noticias destacadas</strong> de la plataforma principal. No modifica el módulo completo Noti Inclusivos.</p>
+            </form>
+          </section>
+
           <p id="mensaje-admin" class="mensaje" aria-live="polite"></p>
         </section>
       </div>
@@ -315,7 +371,7 @@
     </div>
   </footer>
 
-  <script src="admin.js?v=8" defer></script>
+  <script src="admin.js?v=9" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>
 </html>
