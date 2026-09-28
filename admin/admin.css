@@ -1178,3 +1178,35 @@ body.alto-contraste .estadistica-periodo-card *{
     grid-template-columns:1fr;
   }
 }
+
+
+/* Portada inicial del panel administrativo */
+.panel-inicio-admin{
+  min-height:360px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.panel-inicio-logo{
+  display:block;
+  width:min(280px,58vw);
+  height:auto;
+  object-fit:contain;
+}
+
+body.alto-contraste .panel-inicio-logo{
+  background:#fff!important;
+  border-radius:24px;
+  padding:10px;
+}
+
+@media(max-width:620px){
+  .panel-inicio-admin{
+    min-height:280px;
+  }
+
+  .panel-inicio-logo{
+    width:min(220px,62vw);
+  }
+}
