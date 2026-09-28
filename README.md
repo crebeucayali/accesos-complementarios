@@ -80,6 +80,7 @@ Documentación asociada:
 - [Noticias destacadas con Supabase](docs/noticias-destacadas-supabase.md)
 - [Galería dinámica con Supabase](docs/galeria-supabase.md)
 - [Estadísticas de visitas EVA](docs/estadisticas-visitas-eva.md)
+- [Consolidación y cierre técnico · Etapa 5](docs/cierre-tecnico-etapa-5.md)
 
 El uso público de Supabase comprende actualmente Capacitaciones, Calendario, Repositorio Accesible, el bloque Noticias destacadas de la portada, los metadatos de la Galería y los conteos agregados de visitas EVA. El panel administrativo en `admin/` está operativo con una cuenta autorizada y MFA TOTP/AAL2. Capacitaciones y Calendario permiten gestión controlada sin eliminación directa; Repositorio Accesible, Noticias destacadas y Galería permiten crear, editar y eliminar tarjetas bajo RLS y auditoría. En Galería las nuevas fotografías pueden cargarse directamente al Storage institucional de Supabase desde el panel; las imágenes históricas alojadas en EVA/GitHub continúan siendo compatibles.
 
@@ -184,4 +185,4 @@ Proyecto mayor: Ecosistema Virtual Accesible, EVA
 Autor y desarrollador: Psicólogo Gabriel Berrospi  
 Tipo de proyecto: Proyecto personal de carácter educativo, inclusivo, organizativo, comunicacional y digital  
 Finalidad general: Organización y acceso a páginas, rutas y recursos complementarios vinculados al funcionamiento transversal del EVA  
-Estado del proyecto: En construcción y ampliación progresiva
+Estado del proyecto: Base funcional consolidada; mantenimiento y mejora evolutiva
