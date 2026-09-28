@@ -171,3 +171,23 @@ La consulta actualiza las sesiones EVA del intervalo, el rango de fechas, las vi
 La documentación completa se encuentra en:
 
 [Etapa 4C — Consulta administrativa por periodo](consulta-estadisticas-eva-etapa-4c.md)
+
+
+## Etapa 4D — validación integral
+
+La Etapa 4D validó de extremo a extremo el flujo público de estadísticas EVA mediante una prueba reversible que no dejó datos artificiales.
+
+Se confirmó:
+
+- cobertura 60/60;
+- evento público válido;
+- agregación mediante trigger;
+- cero eventos individuales persistidos;
+- bloqueo de eventos inválidos;
+- contador público operativo;
+- RPC administrativos restringidos;
+- ausencia de cambios en los datos reales tras el rollback.
+
+La documentación completa se encuentra en:
+
+[Etapa 4D — Validación integral](validacion-estadisticas-eva-etapa-4d.md)
