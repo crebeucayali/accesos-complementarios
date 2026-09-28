@@ -132,11 +132,14 @@ Por ello, las cifras deben seguir interpretándose como métricas operativas y n
 
 ### 6. Infraestructura histórica residual
 
-Existe además `private.eva_visitas_diarias` y el RPC histórico `public.registrar_visita_eva(...)`.
+Durante la auditoría 4A existían `private.eva_visitas_diarias` y el RPC histórico `public.registrar_visita_eva(...)`.
 
-El RPC no tiene permiso de ejecución para `anon` ni `authenticated`, por lo que no constituye una vía pública de escritura. La tabla privada contiene 2 registros históricos y **no alimenta los contadores actuales**, que leen `public.eva_visitas_diarias`.
+Este punto quedó resuelto en la Etapa 5 de consolidación:
 
-Conviene decidir su limpieza o conservación durante la etapa de consolidación técnica, no durante 4A.
+- el RPC obsoleto fue eliminado;
+- la tabla fue renombrada a `private.eva_visitas_diarias_legacy`;
+- sus 2 registros históricos se conservaron para trazabilidad;
+- la tabla legacy no participa en los contadores actuales.
 
 ### 7. Seguridad
 
