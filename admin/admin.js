@@ -1866,6 +1866,7 @@
   document.querySelectorAll(".tab").forEach((boton) => {
     boton.addEventListener("click", () => {
       document.querySelectorAll(".tab").forEach((x) => x.classList.toggle("activo", x === boton));
+      $("panel-inicio").hidden = true;
       $("panel-capacitaciones").hidden = boton.dataset.panel !== "capacitaciones";
       $("panel-calendario").hidden = boton.dataset.panel !== "calendario";
       $("panel-repositorio").hidden = boton.dataset.panel !== "repositorio";
