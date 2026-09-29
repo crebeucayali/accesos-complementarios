@@ -25,7 +25,7 @@ El trigger `private.registrar_compartir_eva_evento()` incrementa el agregado y d
 
 Los conteos se conservan en:
 
-`private.eva_compartidos_diarios`
+`public.eva_compartidos_diarios`
 
 por:
 
@@ -34,7 +34,7 @@ por:
 - ruta de página;
 - número de acciones.
 
-La tabla agregada no se expone para lectura pública.
+La tabla agregada tiene RLS activo. La lectura queda restringida a sesiones administrativas autorizadas con MFA AAL2; no se habilita lectura para visitantes anónimos.
 
 ## Panel administrativo
 
