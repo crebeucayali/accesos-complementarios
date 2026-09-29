@@ -80,9 +80,10 @@ Documentación asociada:
 - [Noticias destacadas con Supabase](docs/noticias-destacadas-supabase.md)
 - [Galería dinámica con Supabase](docs/galeria-supabase.md)
 - [Estadísticas de visitas EVA](docs/estadisticas-visitas-eva.md)
+- [Estadísticas de acciones de compartir EVA](docs/estadisticas-compartidos-eva.md)
 - [Consolidación y cierre técnico · Etapa 5](docs/cierre-tecnico-etapa-5.md)
 
-El uso público de Supabase comprende actualmente Capacitaciones, Calendario, Repositorio Accesible, el bloque Noticias destacadas de la portada, los metadatos de la Galería y los conteos agregados de visitas EVA. El panel administrativo en `admin/` está operativo con una cuenta autorizada y MFA TOTP/AAL2. Capacitaciones y Calendario permiten gestión controlada sin eliminación directa; Repositorio Accesible, Noticias destacadas y Galería permiten crear, editar y eliminar tarjetas bajo RLS y auditoría. En Galería las nuevas fotografías pueden cargarse directamente al Storage institucional de Supabase desde el panel; las imágenes históricas alojadas en EVA/GitHub continúan siendo compatibles.
+El uso público de Supabase comprende actualmente Capacitaciones, Calendario, Repositorio Accesible, el bloque Noticias destacadas de la portada, los metadatos de la Galería, los conteos agregados de visitas EVA y las acciones agregadas de compartir contenidos. El panel administrativo en `admin/` está operativo con una cuenta autorizada y MFA TOTP/AAL2. Capacitaciones y Calendario permiten gestión controlada sin eliminación directa; Repositorio Accesible, Noticias destacadas y Galería permiten crear, editar y eliminar tarjetas bajo RLS y auditoría. En Galería las nuevas fotografías pueden cargarse directamente al Storage institucional de Supabase desde el panel; las imágenes históricas alojadas en EVA/GitHub continúan siendo compatibles.
 
 ## Funcionalidades principales
 
