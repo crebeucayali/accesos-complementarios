@@ -1863,6 +1863,118 @@
     await cargarEstadisticasPeriodo($("est-periodo")?.value || "30d");
   }
 
+
+  function renderDistribucionCompartidos(resumen) {
+    const cuerpo = $("compartidos-modulos");
+    cuerpo.replaceChildren();
+
+    const filas = Array.isArray(resumen?.modulos) ? resumen.modulos : [];
+    const mapa = new Map(filas.map((fila) => [fila.modulo, Number(fila.acciones || 0)]));
+    const total = Object.keys(NOMBRES_MODULOS)
+      .reduce((acumulado, id) => acumulado + Number(mapa.get(id) || 0), 0);
+
+    Object.entries(NOMBRES_MODULOS).forEach(([id, nombre]) => {
+      const acciones = Number(mapa.get(id) || 0);
+      const participacion = total > 0 ? (acciones / total) * 100 : 0;
+      const tr = document.createElement("tr");
+      const tdNombre = document.createElement("td");
+      const tdAcciones = document.createElement("td");
+      const tdParticipacion = document.createElement("td");
+      tdNombre.textContent = nombre;
+      tdAcciones.textContent = numeroES(acciones);
+      tdAcciones.className = "estadistica-numero";
+
+      const grupo = document.createElement("div");
+      grupo.className = "estadistica-participacion";
+      const pista = document.createElement("span");
+      pista.className = "estadistica-participacion-pista";
+      pista.setAttribute("aria-hidden", "true");
+      const barra = document.createElement("span");
+      barra.className = "estadistica-participacion-valor";
+      barra.style.width = participacion + "%";
+      pista.appendChild(barra);
+      const texto = document.createElement("span");
+      texto.className = "estadistica-participacion-texto";
+      texto.textContent = porcentajeES(participacion);
+      grupo.append(pista, texto);
+      tdParticipacion.appendChild(grupo);
+      tr.append(tdNombre, tdAcciones, tdParticipacion);
+      cuerpo.appendChild(tr);
+    });
+  }
+
+  function renderPaginasCompartidas(resumen) {
+    const cuerpo = $("compartidos-paginas");
+    cuerpo.replaceChildren();
+    const filas = Array.isArray(resumen?.paginas_top) ? resumen.paginas_top : [];
+
+    if (!filas.length) {
+      const tr = document.createElement("tr");
+      const td = document.createElement("td");
+      td.colSpan = 3;
+      td.textContent = "Aún no hay acciones de compartir registradas en este periodo.";
+      tr.appendChild(td);
+      cuerpo.appendChild(tr);
+      return;
+    }
+
+    filas.forEach((fila) => {
+      const tr = document.createElement("tr");
+      const tdPagina = document.createElement("td");
+      const tdModulo = document.createElement("td");
+      const tdAcciones = document.createElement("td");
+      tdPagina.textContent = String(fila.pagina || "/");
+      tdPagina.className = "estadistica-ruta";
+      tdModulo.textContent = NOMBRES_MODULOS[fila.modulo] || String(fila.modulo || "");
+      tdAcciones.textContent = numeroES(fila.acciones);
+      tdAcciones.className = "estadistica-numero";
+      tr.append(tdPagina, tdModulo, tdAcciones);
+      cuerpo.appendChild(tr);
+    });
+  }
+
+  async function cargarEstadisticasCompartidosPeriodo(periodo) {
+    const valorPeriodo = periodo || $("comp-periodo")?.value || "30d";
+    const datos = await rest("rpc/estadisticas_compartidos_eva_periodo", {
+      method: "POST",
+      body: JSON.stringify({ p_periodo: valorPeriodo })
+    });
+    const resumen = Array.isArray(datos) ? datos[0] : datos;
+    $("comp-periodo-acciones").textContent = numeroES(resumen?.acciones);
+
+    const desde = resumen?.fecha_desde
+      ? fechaEstadistica(resumen.fecha_desde, { day: "numeric", month: "short", year: "numeric" })
+      : "";
+    const hasta = resumen?.fecha_hasta
+      ? fechaEstadistica(resumen.fecha_hasta, { day: "numeric", month: "short", year: "numeric" })
+      : "";
+
+    $("comp-periodo-rango").textContent =
+      desde && hasta ? desde + " – " + hasta : "Sin datos disponibles para este periodo.";
+
+    renderDistribucionCompartidos(resumen);
+    renderPaginasCompartidas(resumen);
+  }
+
+  async function cargarEstadisticasCompartidos() {
+    const datos = await rest("rpc/estadisticas_compartidos_eva", {
+      method: "POST",
+      body: "{}"
+    });
+    const resumen = Array.isArray(datos) ? datos[0] : datos;
+    $("comp-total").textContent = numeroES(resumen?.total);
+    $("comp-hoy").textContent = numeroES(resumen?.hoy);
+    $("comp-7dias").textContent = numeroES(resumen?.ultimos_7_dias);
+    $("comp-mes").textContent = numeroES(resumen?.mes_actual);
+    $("comp-desde").textContent = resumen?.inicio_medicion
+      ? "Datos disponibles desde " + fechaEstadistica(resumen.inicio_medicion, {
+          day: "numeric", month: "long", year: "numeric"
+        }) + "."
+      : "Aún no hay acciones de compartir registradas.";
+
+    await cargarEstadisticasCompartidosPeriodo($("comp-periodo")?.value || "30d");
+  }
+
   document.querySelectorAll(".tab").forEach((boton) => {
     boton.addEventListener("click", () => {
       document.querySelectorAll(".tab").forEach((x) => x.classList.toggle("activo", x === boton));
@@ -1874,7 +1986,10 @@
       $("panel-galeria").hidden = boton.dataset.panel !== "galeria";
       $("panel-estadisticas").hidden = boton.dataset.panel !== "estadisticas";
       if (boton.dataset.panel === "estadisticas") {
-        cargarEstadisticasVisitas().catch((error) => mostrarMensaje(error.message, "error"));
+        Promise.all([
+          cargarEstadisticasVisitas(),
+          cargarEstadisticasCompartidos()
+        ]).catch((error) => mostrarMensaje(error.message, "error"));
       }
       mostrarMensaje("");
     });
@@ -2030,6 +2145,24 @@
     try {
       await cargarEstadisticasVisitas();
       mostrarMensaje("Estadísticas actualizadas.", "exito");
+    } catch (error) {
+      mostrarMensaje(error.message, "error");
+    }
+  });
+
+  $("comp-periodo").addEventListener("change", async (evento) => {
+    try {
+      await cargarEstadisticasCompartidosPeriodo(evento.target.value);
+      mostrarMensaje("");
+    } catch (error) {
+      mostrarMensaje(error.message, "error");
+    }
+  });
+
+  $("boton-actualizar-compartidos").addEventListener("click", async () => {
+    try {
+      await cargarEstadisticasCompartidos();
+      mostrarMensaje("Acciones de compartir actualizadas.", "exito");
     } catch (error) {
       mostrarMensaje(error.message, "error");
     }
