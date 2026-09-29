@@ -1210,3 +1210,19 @@ body.alto-contraste .panel-inicio-logo{
     width:min(220px,62vw);
   }
 }
+
+
+/* Estadísticas EVA · acciones de compartir */
+.estadisticas-compartidos{
+  margin-top:32px;
+  padding-top:28px;
+  border-top:2px solid var(--borde);
+}
+
+.estadistica-ruta{
+  max-width:520px;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+  font-family:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+  font-size:.84rem;
+}
