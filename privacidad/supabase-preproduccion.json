@@ -91,7 +91,7 @@
   },
   "estadisticas_compartidos": {
     "estado": "operativo",
-    "tabla_agregada": "private.eva_compartidos_diarios",
+    "tabla_agregada": "public.eva_compartidos_diarios",
     "endpoint_publico": "public.eva_compartidos_eventos",
     "datos_persistentes": [
       "fecha",
