@@ -89,6 +89,22 @@
     "eventos_individuales_persistentes": false,
     "escritura_tabla_agregada_publica": false
   },
+  "estadisticas_compartidos": {
+    "estado": "operativo",
+    "tabla_agregada": "private.eva_compartidos_diarios",
+    "endpoint_publico": "public.eva_compartidos_eventos",
+    "datos_persistentes": [
+      "fecha",
+      "modulo",
+      "ruta_pagina",
+      "conteo_agregado"
+    ],
+    "eventos_individuales_persistentes": false,
+    "identificador_visitante_persistente": false,
+    "ip_en_tabla_aplicacion": false,
+    "confirmacion_publicacion_final": false,
+    "lectura_detallada": "solo_panel_admin_autorizado_mfa_aal2"
+  },
   "storage_publico": {
     "estado": "operativo_en_noticias_capacitaciones_y_repositorio",
     "bucket": "eva-publico",
