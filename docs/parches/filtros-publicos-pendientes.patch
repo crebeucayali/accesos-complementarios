@@ -1,0 +1,353 @@
+--- a/crebeucayali/capacitaciones/app.js
++++ b/crebeucayali/capacitaciones/app.js
+@@ -298,8 +298,9 @@
+ }
+ 
+ function crearTarjeta(capacitacion, indice) {
++  const numeroSesion = capacitacion.numero_sesion || indice + 1;
+   const recursos = capacitacion.recursos || {};
+-  const modulo = capacitacion.modulo || (indice < 5
++  const modulo = capacitacion.modulo || (numeroSesion <= 5
+     ? "Módulo 1: Neurodiversidad"
+     : "Módulo 2: Diseño Universal para el Aprendizaje (DUA)");
+ 
+@@ -337,7 +338,7 @@
+   contenedorRecursos.className = "recursos";
+   contenedorRecursos.id = "materiales";
+ 
+-  if (indice === 0) {
++  if (numeroSesion === 1) {
+     contenedorRecursos.appendChild(
+       crearRecursoImagen(
+         "Flyer",
+@@ -365,8 +366,10 @@
+   return articulo;
+ }
+ 
++let publicacionConfirmada = false;
+ function renderizarCapacitaciones(lista) {
+   if (!lineaTiempo) return;
++  if (!publicacionConfirmada) lista = [];
+ 
+   const fragmento = document.createDocumentFragment();
+   lista.forEach((capacitacion, indice) => {
+@@ -450,16 +453,17 @@
+   contenedor.replaceChildren(iframe);
+ }
+ 
+-renderizarCapacitaciones(capacitaciones);
++// No presenta el respaldo estático sin confirmar qué sesiones siguen publicadas.
++renderizarCapacitaciones([]);
+ 
+ async function cargarPrimeraJornadaDesdeSupabase() {
+   if (!window.EVASupabasePublico?.consultarSesiones) return;
+ 
+   try {
+     const filas = await window.EVASupabasePublico.consultarSesiones(1);
+-    if (!filas.length) return;
+ 
+     const datosRemotos = filas.map((fila) => ({
++      numero_sesion: fila.numero_sesion,
+       fecha: fila.fecha_texto,
+       titulo: fila.titulo,
+       tema: fila.tema,
+@@ -474,12 +478,14 @@
+       }
+     }));
+ 
++    publicacionConfirmada = true;
+     capacitaciones.splice(0, capacitaciones.length, ...datosRemotos);
+     renderizarCapacitaciones(capacitaciones);
+     document.documentElement.dataset.capacitacionesFuente = "supabase";
+   } catch (error) {
+-    document.documentElement.dataset.capacitacionesFuente = "respaldo-local";
+-    console.warn("Capacitaciones: se mantiene el respaldo local.", error);
++    renderizarCapacitaciones([]);
++    document.documentElement.dataset.capacitacionesFuente = "no-disponible";
++    console.warn("Capacitaciones: no se pudo verificar el contenido publicado.", error);
+   }
+ }
+ 
+@@ -497,4 +503,3 @@
+     mostrarAvisoDrive(botonVideo, "el video", () => cargarVideoDrive(botonVideo));
+   }
+ });
+-
+--- a/crebeucayali/capacitaciones/primera-jornada.html
++++ b/crebeucayali/capacitaciones/primera-jornada.html
+@@ -88,7 +88,7 @@
+ <div class="footer-final"><p>© 2026 Gabriel Berrospi. Desarrollo original. Uso institucional autorizado al CREBE "Señor de los Milagros" - Ucayali.</p></div>
+   </footer>
+   <script src="supabase-publico.js?v=1" defer></script>
+-  <script src="app.js?v=33" defer></script>
++  <script src="app.js?v=34" defer></script>
+   <script src="actualizacion-semana-06.js?v=2" defer></script>
+   <script src="actualizacion-semanas-07-10.js?v=1" defer></script>
+   <script src="https://crebeucayali.github.io/accesos-complementarios/accesibilidad/accesibilidad.js?v=10" defer></script>
+--- a/crebeucayali/capacitaciones/segunda-jornada.js
++++ b/crebeucayali/capacitaciones/segunda-jornada.js
+@@ -358,20 +358,22 @@
+ }
+ 
+ async function cargarSegundaJornadaDesdeSupabase() {
++  const articulos = [...document.querySelectorAll("#lineaTiempo > article.capacitacion")];
++  articulos.forEach(articulo => { articulo.hidden = true; });
+   if (!window.EVASupabasePublico?.consultarSesiones) return;
+ 
+   try {
+     const filas = await window.EVASupabasePublico.consultarSesiones(2);
+-    if (!filas.length) return;
+-
+-    const articulos = [...document.querySelectorAll("#lineaTiempo > article.capacitacion")];
+     filas.forEach((fila) => {
+-      aplicarFilaSupabase(articulos[fila.numero_sesion - 1], fila);
++      const articulo = articulos[fila.numero_sesion - 1];
++      if (!articulo) return;
++      aplicarFilaSupabase(articulo, fila);
++      articulo.hidden = false;
+     });
+     document.documentElement.dataset.capacitacionesFuente = "supabase";
+   } catch (error) {
+-    document.documentElement.dataset.capacitacionesFuente = "respaldo-local";
+-    console.warn("Segunda jornada: se mantiene el respaldo local.", error);
++    document.documentElement.dataset.capacitacionesFuente = "no-disponible";
++    console.warn("Segunda jornada: no se pudo verificar el contenido publicado.", error);
+   }
+ }
+ 
+--- a/crebeucayali/capacitaciones/segunda-jornada.html
++++ b/crebeucayali/capacitaciones/segunda-jornada.html
+@@ -58,7 +58,7 @@
+     <section class="panel-capacitaciones" id="capacitaciones" aria-labelledby="titulo-capacitaciones">
+       <h2 id="titulo-capacitaciones" class="solo-lectores">Lista de capacitaciones</h2>
+       <div id="lineaTiempo" class="linea-tiempo" aria-live="polite">
+-        <article class="capacitacion pendiente" aria-labelledby="sesion-1-titulo">
++        <article class="capacitacion pendiente" hidden aria-labelledby="sesion-1-titulo">
+           <div class="punto-linea" aria-hidden="true"></div>
+           <div class="tarjeta-capacitacion">
+             <header class="cabecera-capacitacion">
+@@ -92,7 +92,7 @@
+             </div>
+           </div>
+         </article>
+-        <article class="capacitacion pendiente" aria-labelledby="sesion-2-titulo">
++        <article class="capacitacion pendiente" hidden aria-labelledby="sesion-2-titulo">
+           <div class="punto-linea" aria-hidden="true"></div>
+           <div class="tarjeta-capacitacion">
+             <header class="cabecera-capacitacion">
+@@ -120,7 +120,7 @@
+             </div>
+           </div>
+         </article>
+-        <article class="capacitacion pendiente" aria-labelledby="sesion-3-titulo">
++        <article class="capacitacion pendiente" hidden aria-labelledby="sesion-3-titulo">
+           <div class="punto-linea" aria-hidden="true"></div>
+           <div class="tarjeta-capacitacion">
+             <header class="cabecera-capacitacion">
+@@ -163,7 +163,7 @@
+             </section>
+           </div>
+         </article>
+-        <article class="capacitacion pendiente" aria-labelledby="sesion-4-titulo">
++        <article class="capacitacion pendiente" hidden aria-labelledby="sesion-4-titulo">
+           <div class="punto-linea" aria-hidden="true"></div>
+           <div class="tarjeta-capacitacion">
+             <header class="cabecera-capacitacion">
+@@ -179,7 +179,7 @@
+             </div>
+           </div>
+         </article>
+-        <article class="capacitacion pendiente" aria-labelledby="sesion-5-titulo">
++        <article class="capacitacion pendiente" hidden aria-labelledby="sesion-5-titulo">
+           <div class="punto-linea" aria-hidden="true"></div>
+           <div class="tarjeta-capacitacion">
+             <header class="cabecera-capacitacion">
+@@ -195,7 +195,7 @@
+             </div>
+           </div>
+         </article>
+-        <article class="capacitacion pendiente" aria-labelledby="sesion-6-titulo">
++        <article class="capacitacion pendiente" hidden aria-labelledby="sesion-6-titulo">
+           <div class="punto-linea" aria-hidden="true"></div>
+           <div class="tarjeta-capacitacion">
+             <header class="cabecera-capacitacion">
+@@ -211,7 +211,7 @@
+             </div>
+           </div>
+         </article>
+-        <article class="capacitacion pendiente" aria-labelledby="sesion-7-titulo">
++        <article class="capacitacion pendiente" hidden aria-labelledby="sesion-7-titulo">
+           <div class="punto-linea" aria-hidden="true"></div>
+           <div class="tarjeta-capacitacion">
+             <header class="cabecera-capacitacion">
+@@ -227,7 +227,7 @@
+             </div>
+           </div>
+         </article>
+-        <article class="capacitacion pendiente" aria-labelledby="sesion-8-titulo">
++        <article class="capacitacion pendiente" hidden aria-labelledby="sesion-8-titulo">
+           <div class="punto-linea" aria-hidden="true"></div>
+           <div class="tarjeta-capacitacion">
+             <header class="cabecera-capacitacion">
+@@ -243,7 +243,7 @@
+             </div>
+           </div>
+         </article>
+-        <article class="capacitacion pendiente" aria-labelledby="sesion-9-titulo">
++        <article class="capacitacion pendiente" hidden aria-labelledby="sesion-9-titulo">
+           <div class="punto-linea" aria-hidden="true"></div>
+           <div class="tarjeta-capacitacion">
+             <header class="cabecera-capacitacion">
+@@ -259,7 +259,7 @@
+             </div>
+           </div>
+         </article>
+-        <article class="capacitacion pendiente" aria-labelledby="sesion-10-titulo">
++        <article class="capacitacion pendiente" hidden aria-labelledby="sesion-10-titulo">
+           <div class="punto-linea" aria-hidden="true"></div>
+           <div class="tarjeta-capacitacion">
+             <header class="cabecera-capacitacion">
+@@ -306,7 +306,7 @@
+ <div class="footer-final"><p>© 2026 Gabriel Berrospi. Desarrollo original. Uso institucional autorizado al CREBE "Señor de los Milagros" - Ucayali.</p></div>
+   </footer>
+   <script src="supabase-publico.js?v=1" defer></script>
+-  <script src="segunda-jornada.js?v=4" defer></script>
++  <script src="segunda-jornada.js?v=5" defer></script>
+   <script src="https://crebeucayali.github.io/accesos-complementarios/accesibilidad/accesibilidad.js?v=10" defer></script>
+   <script src="https://crebeucayali.github.io/accesos-complementarios/estadisticas/visitas-eva.js?v=2" data-eva-modulo="capacitaciones" defer></script>
+   <script src="https://crebeucayali.github.io/capacitaciones/compartir-facebook.js?v=3" defer></script>
+--- a/crebeucayali/crebeucayali.github.io/main.js
++++ b/crebeucayali/crebeucayali.github.io/main.js
+@@ -266,8 +266,6 @@
+     if (!carrusel || !pista || !indicadores || !botonAnterior || !botonSiguiente) return;
+ 
+     const viewport = carrusel.querySelector(".noticias-viewport");
+-    const sourceUrl = carrusel.dataset.newsSource;
+-    const fallbackUrl = carrusel.dataset.fallbackSource || "noticias-destacadas.json";
+     const prefiereReducirMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+     const SUPABASE_URL_NOTICIAS = "https://dteimbhwtzghhsijeeld.supabase.co";
+     const SUPABASE_PUBLISHABLE_KEY_NOTICIAS = "sb_publishable_tHbo1jTeW_dC90hdA5DvyQ_a6LrfKpq";
+@@ -328,16 +326,6 @@
+     };
+ 
+     const obtenerNoticias = async () => {
+-      const intentar = async (url) => {
+-        const urlSegura = resolverUrlEvaSegura(url);
+-        if (!urlSegura) return [];
+-        const respuesta = await fetch(urlSegura, { cache: "no-store", credentials: "omit" });
+-        if (!respuesta.ok) {
+-          throw new Error("Supabase respondió con estado " + respuesta.status + ".");
+-        }
+-        return normalizarNoticias(await respuesta.json());
+-      };
+-
+       const consultarSupabase = async () => {
+         const endpoint = new URL(SUPABASE_URL_NOTICIAS + "/rest/v1/noticias_destacadas");
+         endpoint.searchParams.set(
+@@ -367,26 +355,10 @@
+         const remotas = await consultarSupabase();
+         document.documentElement.dataset.noticiasFuente = "supabase";
+         return remotas;
+-      } catch (error) {}
+-
+-      try {
+-        const externas = await intentar(sourceUrl);
+-        if (externas.length) {
+-          document.documentElement.dataset.noticiasFuente = "respaldo-json";
+-          return externas;
+-        }
+-      } catch (error) {}
+-
+-      try {
+-        const locales = await intentar(fallbackUrl);
+-        if (locales.length) {
+-          document.documentElement.dataset.noticiasFuente = "respaldo-json";
+-          return locales;
+-        }
+-      } catch (error) {}
+-
+-      document.documentElement.dataset.noticiasFuente = "respaldo-integrado";
+-      return noticiasBase.map((item) => ({ ...item, categoria: "Noticia destacada" }));
++      } catch (error) {
++        document.documentElement.dataset.noticiasFuente = "no-disponible";
++        return [];
++      }
+     };
+ 
+     const noticias = await obtenerNoticias();
+--- a/crebeucayali/crebeucayali.github.io/index.html
++++ b/crebeucayali/crebeucayali.github.io/index.html
+@@ -351,7 +351,7 @@
+ </div>
+ 
+ <button id="volver-arriba" class="volver-arriba" type="button" aria-label="Volver al inicio" hidden>↑</button>
+-<script src="main.js?v=13"></script>
++<script src="main.js?v=14"></script>
+ <script src="admin-sesion.js?v=1"></script>
+ <script src="admin-acceso.js?v=5"></script>
+ <script src="migracion-accesibilidad.js?v=1"></script>
+--- a/crebeucayali/repositorio-accesible/repositorio-supabase.js
++++ b/crebeucayali/repositorio-accesible/repositorio-supabase.js
+@@ -148,6 +148,7 @@
+       const categoria = lista.dataset.categoria;
+       const items = porCategoria.get(categoria) || [];
+       lista.replaceChildren();
++      lista.hidden = false;
+ 
+       if (!items.length) {
+         const vacio = document.createElement("li");
+@@ -165,13 +166,14 @@
+   }
+ 
+   async function cargarRepositorioDesdeSupabase() {
++    aplicarRecursos([]);
+     try {
+       const recursos = await consultarRecursos();
+       aplicarRecursos(recursos);
+       document.documentElement.dataset.repositorioFuente = "supabase";
+     } catch (error) {
+-      document.documentElement.dataset.repositorioFuente = "respaldo-local";
+-      console.warn("Repositorio Accesible: se mantiene el respaldo local.", error);
++      document.documentElement.dataset.repositorioFuente = "no-disponible";
++      console.warn("Repositorio Accesible: no se pudo verificar el contenido publicado.", error);
+     }
+   }
+ 
+--- a/crebeucayali/repositorio-accesible/index.html
++++ b/crebeucayali/repositorio-accesible/index.html
+@@ -57,7 +57,7 @@
+           <span class="numero-recurso">MD</span>
+           <h3>Materiales disponibles</h3>
+           <p>Recursos físicos o impresos que se encuentran disponibles para orientación, préstamo, consulta o apoyo pedagógico.</p>
+-          <ul class="lista-ejemplos" data-categoria="materiales_disponibles">
++          <ul class="lista-ejemplos" hidden data-categoria="materiales_disponibles">
+             <li class="item-recurso" tabindex="0">Textos en braille</li>
+             <li class="item-recurso" tabindex="0">Láminas adaptadas</li>
+             <li class="item-recurso" tabindex="0">Tarjetas de comunicación</li>
+@@ -69,7 +69,7 @@
+           <span class="numero-recurso">ET</span>
+           <h3>Equipos tecnológicos</h3>
+           <p>Equipos y herramientas que apoyan la accesibilidad, la elaboración de materiales y el trabajo institucional.</p>
+-          <ul class="lista-ejemplos" data-categoria="equipos_tecnologicos">
++          <ul class="lista-ejemplos" hidden data-categoria="equipos_tecnologicos">
+             <li class="item-recurso" tabindex="0">
+               Amplificador de imagen
+               <div class="recuadro-detalle" role="group" aria-label="Vista previa del amplificador de imagen">
+@@ -101,7 +101,7 @@
+           <span class="numero-recurso">ME</span>
+           <h3>Materiales elaborados</h3>
+           <p>Producciones realizadas por el equipo para responder a necesidades educativas, comunicativas o de accesibilidad.</p>
+-          <ul class="lista-ejemplos" data-categoria="materiales_elaborados">
++          <ul class="lista-ejemplos" hidden data-categoria="materiales_elaborados">
+             <li class="item-recurso" tabindex="0">
+               Silabario
+               <div class="recuadro-detalle" role="group" aria-label="Vista previa del silabario">
+@@ -273,7 +273,7 @@
+       <p>© 2026 Gabriel Berrospi. Desarrollo original. Uso institucional autorizado al CREBE "Señor de los Milagros" - Ucayali.</p>
+     </div>
+   </footer>
+-  <script src="repositorio-supabase.js?v=3" defer></script>
++  <script src="repositorio-supabase.js?v=4" defer></script>
+   <script src="repositorio.js?v=2" defer></script>
+   <script src="https://crebeucayali.github.io/accesos-complementarios/accesibilidad/accesibilidad.js?v=10" defer></script>
+   <script src="https://crebeucayali.github.io/accesos-complementarios/estadisticas/visitas-eva.js?v=2" data-eva-modulo="repositorio_accesible" defer></script>

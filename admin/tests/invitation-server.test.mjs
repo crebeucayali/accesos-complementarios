@@ -15,6 +15,11 @@ test('editor o AAL1 rechazado por la RPC no llega a invitar',async()=>{
   const urls=[];const r=await handle(req(),environment,async url=>{urls.push(url);return Response.json({code:'42501'},{status:403});});
   assert.equal(r.status,403);assert.equal(urls.length,1);assert.ok(urls[0].includes('/rest/v1/rpc/'));
 });
+test('la pausa SQL 55000 detiene la invitación antes de usar Auth',async()=>{
+  const urls=[];const r=await handle(req(),environment,async url=>{urls.push(url);return Response.json({code:'55000',message:'Invitaciones pausadas'},{status:500});});
+  assert.equal(urls.length,1);assert.ok(urls[0].includes('/rest/v1/rpc/'));
+  assert.ok(r.status>=400);assert.match((await r.json()).message,/pausadas/);
+});
 test('el cliente no puede enviar rol master',async()=>{
   let calls=0;const r=await handle(req({...data,rol:'master'}),environment,async()=>{calls++;});
   assert.equal(r.status,400);assert.equal(calls,0);

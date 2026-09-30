@@ -3,6 +3,7 @@
   const auth = window.EvaAdminSession;
   const $ = id => document.getElementById(id);
   const URL_SUPABASE = "https://dteimbhwtzghhsijeeld.supabase.co";
+  const invitacionesPausadas = true;
   const PUBLIC_KEY = "sb_publishable_tHbo1jTeW_dC90hdA5DvyQ_a6LrfKpq";
   const modulos = {capacitaciones:"Capacitaciones",calendario:"Calendario",noticias:"Noticias",galeria:"Galería",repositorio:"Repositorio Accesible"};
   let perfil = null, version = 0, usuarios = [], seleccionado = null, cargando = false;
@@ -36,7 +37,7 @@
       else {
         const boton=document.createElement("button"); boton.type="button"; boton.textContent="Editar";
         boton.addEventListener("click",()=>editar(usuario)); accion.append(boton);
-        if (usuario.pendiente && usuario.activo && usuario.rol==="editor") {
+        if (!invitacionesPausadas && usuario.pendiente && usuario.activo && usuario.rol==="editor") {
           const invitar=document.createElement("button"); invitar.type="button"; invitar.textContent="Enviar invitación";
           invitar.addEventListener("click",()=>enviarInvitacion(usuario.email,usuario.nombre,usuario.modulos,invitar).catch(error=>mensaje(error.message,"error")));
           accion.append(invitar);
@@ -90,7 +91,8 @@
     finally { boton.disabled=false; }
   }
   async function enviarInvitacion(email,nombre,asignacion,boton) {
-    exigeMaster(); if(boton.disabled) return; boton.disabled=true;
+    exigeMaster(); if(invitacionesPausadas) throw new Error("Invitaciones pausadas: falta completar el filtro público de Capacitaciones.");
+    if(boton.disabled) return; boton.disabled=true;
     const revision=version;
     try {
       const sesion=await auth.ensureSession(); exigeMaster();

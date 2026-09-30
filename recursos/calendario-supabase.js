@@ -112,12 +112,12 @@
         celda.dataset.fecha = fecha;
 
         const registros = porFecha.get(fecha);
-        if (!registros || !registros.length) return;
-
         celda.querySelectorAll(".datos-actividad").forEach((elemento) => elemento.remove());
         CLASES_CONTROLADAS.forEach((clase) => celda.classList.remove(clase));
         celda.classList.remove("celda-multiples-actividades");
         delete celda.dataset.actividades;
+
+        if (!registros || !registros.length) return;
 
         if (registros.length > 1) {
           celda.classList.add("celda-multiples-actividades");
@@ -162,8 +162,6 @@
         if (mesRegistro === mes) registros.push(...items);
       });
 
-      if (!registros.length) return;
-
       registros.sort((a, b) => a.fecha.localeCompare(b.fecha) || Number(a.orden) - Number(b.orden));
       const cuerpo = tabla.querySelector("tbody");
       if (!cuerpo) return;
@@ -192,6 +190,9 @@
   }
 
   async function cargarCalendarioDesdeSupabase() {
+    // Solo se muestra contenido cuya publicación haya confirmado Supabase.
+    aplicarMesesEnCuadricula(new Map());
+    aplicarMesesEnTabla(new Map());
     try {
       const registros = await consultarCalendario();
       const porFecha = agruparPorFecha(registros);
@@ -199,8 +200,8 @@
       aplicarMesesEnTabla(porFecha);
       document.documentElement.dataset.calendarioFuente = "supabase";
     } catch (error) {
-      document.documentElement.dataset.calendarioFuente = "respaldo-local";
-      console.warn("Calendario: se mantiene el respaldo local.", error);
+      document.documentElement.dataset.calendarioFuente = "no-disponible";
+      console.warn("Calendario: no se pudo verificar el contenido publicado.", error);
     }
   }
 

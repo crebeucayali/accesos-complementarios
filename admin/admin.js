@@ -41,7 +41,7 @@
     if (!perfil?.autorizado || perfil.aal !== "aal2") return false;
     if (perfil.rol === "master") return true;
     return modulosContenido.includes(modulo) && perfil.modulos.includes(modulo)
-      && (!escritura || perfil.rol === "editor");
+      && !escritura;
   }
 
   function limpiarContenidoPrivado() {
@@ -60,6 +60,7 @@
     });
     ["gal-imagenes-editor", "estadisticas-mensual", "estadisticas-diarias", "estadisticas-modulos", "compartidos-modulos", "compartidos-paginas"].forEach(id => $(id)?.replaceChildren());
     window.EvaUsuarios?.limpiar();
+    window.EvaPublicacion?.limpiar();
   }
 
   function aplicarPermisos() {
@@ -68,7 +69,10 @@
       if (boton.hidden) $("panel-" + boton.dataset.panel).hidden = true;
     });
     modulosContenido.forEach(modulo => {
-      $("panel-" + modulo)?.querySelectorAll("input,textarea,select,button").forEach(control => {
+      $("panel-" + modulo)?.querySelectorAll("[data-master-contenido]").forEach(bloque => {
+        bloque.hidden = perfil?.rol !== "master";
+      });
+      $("panel-" + modulo)?.querySelectorAll("[data-master-contenido] input,[data-master-contenido] textarea,[data-master-contenido] select,[data-master-contenido] button").forEach(control => {
         const bloquear = !permitePanel(modulo, true) && !(control.id?.endsWith("selector"));
         if (bloquear && control.dataset.bloqueadoPermiso !== "true") {
           control.dataset.disabledPrevio = String(control.disabled);
@@ -80,6 +84,11 @@
       });
     });
     window.EvaUsuarios?.configurar(perfil);
+    window.EvaPublicacion?.configurar(perfil, {alCambiar: async modulo => {
+      if (!permitePanel(modulo,true)) return;
+      const cargadores = {capacitaciones:cargarCapacitaciones,calendario:cargarCalendario,repositorio:cargarRepositorio,noticias:cargarNoticiasDestacadas,galeria:cargarGaleriaAdmin};
+      await cargadores[modulo]();
+    }});
   }
   let capacitaciones = [];
   let actividades = [];
@@ -270,7 +279,10 @@
     estadoMensaje.textContent = "";
     $("usuario-actual").textContent = (perfil.nombre || sesion?.user?.email || "Usuario") + " · " + perfil.rol;
     const cargadores = {capacitaciones:cargarCapacitaciones,calendario:cargarCalendario,repositorio:cargarRepositorio,noticias:cargarNoticiasDestacadas,galeria:cargarGaleriaAdmin,estadisticas:cargarEstadisticasVisitas};
-    const cargas = await Promise.allSettled(Object.entries(cargadores).filter(([modulo]) => permitePanel(modulo)).map(([,cargar]) => cargar()));
+    const cargas = await Promise.allSettled([
+      ...Object.entries(cargadores).filter(([modulo]) => permitePanel(modulo,true)).map(([,cargar]) => cargar()),
+      window.EvaPublicacion?.cargarTodos()
+    ]);
     if (!auth.getSession()) return;
     aplicarPermisos();
     if (perfil.rol !== "master" && !perfil.modulos.some(modulo => modulosContenido.includes(modulo))) {
@@ -559,10 +571,11 @@
     capacitaciones.forEach((fila, indice) => {
       const opcion = document.createElement("option");
       opcion.value = String(indice);
-      opcion.textContent = "Jornada " + fila.jornada + " · Sesión " + fila.numero_sesion + " · " + fila.fecha;
+      opcion.textContent = "Jornada " + fila.jornada + " · Sesión " + fila.numero_sesion + " · " + fila.fecha + (fila.visible === false ? " · Archivado" : " · Publicado");
       selector.appendChild(opcion);
     });
     llenarCapacitacion(capacitaciones[0]);
+    window.EvaPublicacion?.cargar("capacitaciones").catch(() => {});
   }
 
   async function guardarCapacitacion() {
@@ -666,9 +679,10 @@
           feriado: "Feriado",
           cancelada: "Cancelada"
         }[fila.estado] || fila.estado) +
-        (fila.visible === false ? " · No visible" : "");
+        (fila.visible === false ? " · Archivado" : "");
       selector.appendChild(opcion);
     });
+    window.EvaPublicacion?.cargar("calendario").catch(() => {});
   }
 
   function nuevaActividad() {
@@ -896,6 +910,7 @@
 
     const categoriaActual = $("rep-categoria").value || "materiales_disponibles";
     llenarRecursoRepositorio(null, categoriaActual);
+    window.EvaPublicacion?.cargar("repositorio").catch(() => {});
   }
 
   function nuevoRecursoRepositorio() {
@@ -1188,6 +1203,7 @@
     });
 
     llenarNoticiaDestacada(null);
+    window.EvaPublicacion?.cargar("noticias").catch(() => {});
   }
 
   function nuevaNoticiaDestacada() {
@@ -1601,6 +1617,7 @@
     });
 
     llenarGaleriaAdmin(null);
+    window.EvaPublicacion?.cargar("galeria").catch(() => {});
   }
 
   function nuevaFotoGaleria() {

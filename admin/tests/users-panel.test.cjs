@@ -49,3 +49,8 @@ test('cerrar sesión limpia el usuario seleccionado y sus datos',async()=>{
   assert.equal(p.get('usuario-editar-correo').textContent,'');assert.equal(p.get('form-usuario-editar').hidden,true);
   await p.get('form-usuario-editar').handlers.submit({preventDefault(){}});assert.ok(!p.calls.some(x=>x.p==='rpc/admin_guardar_usuario'));
 });
+test('la pausa de invitaciones impide llamadas a Auth incluso forzando el formulario',async()=>{
+  const p=app();p.get('usuario-invitar').disabled=false;
+  p.get('form-usuario-invitar').handlers.submit({preventDefault(){}});await tick();
+  assert.ok(!p.calls.some(x=>x.invite));assert.match(p.get('usuarios-mensaje').textContent,/Invitaciones pausadas/);
+});

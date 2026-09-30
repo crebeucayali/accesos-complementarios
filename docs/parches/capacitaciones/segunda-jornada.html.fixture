@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: https://dteimbhwtzghhsijeeld.supabase.co; font-src 'self'; connect-src 'self' https://dteimbhwtzghhsijeeld.supabase.co; media-src 'self'; frame-src https://drive.google.com; form-action 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Segunda jornada de capacitación del CREBE Señor de los Milagros - Ucayali.">
+  <title>Segunda jornada | Capacitaciones CREBE</title>
+  <link rel="icon" type="image/png" href="logo-crebe.png">
+  <link rel="stylesheet" href="estilos.css?v=29">
+  <link rel="stylesheet" href="https://crebeucayali.github.io/accesos-complementarios/accesibilidad/accesibilidad.css?v=10">
+  <link rel="canonical" href="https://crebeucayali.github.io/capacitaciones/segunda-jornada.html">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_PE">
+  <meta property="og:site_name" content="Ecosistema Virtual Accesible - CREBE Ucayali">
+  <meta property="og:title" content="Segunda jornada | Capacitaciones CREBE">
+  <meta property="og:description" content="Segunda jornada de capacitación del CREBE Señor de los Milagros - Ucayali.">
+  <meta property="og:url" content="https://crebeucayali.github.io/capacitaciones/segunda-jornada.html">
+  <meta property="og:image" content="https://crebeucayali.github.io/accesos-complementarios/logo-crebe.webp">
+  <meta property="og:image:alt" content="Logo institucional del CREBE Señor de los Milagros - Ucayali">
+  <link rel="stylesheet" href="https://crebeucayali.github.io/capacitaciones/compartir-facebook.css?v=1">
+</head>
+<body>
+  <a class="salto-contenido" href="#contenido">Ir al contenido</a>
+  <header class="cabecera" id="inicio">
+    <div class="patron-portada" aria-hidden="true"></div>
+    <nav class="navegacion" aria-label="Navegación principal">
+      <a class="marca marca-institucional" href="https://crebeucayali.github.io/capacitaciones/" aria-label="Volver a la portada de Capacitaciones CREBE">
+        <img class="marca-logo-superior" src="logo-crebe.png" alt="Logo del CREBE Señor de los Milagros - Ucayali">
+        <span class="marca-texto-superior">
+          <span class="marca-modulo">Capacitaciones CREBE</span>
+          <span class="marca-nombre-institucional">CREBE "Señor de los Milagros" - Ucayali</span>
+          <span class="marca-detalle-institucional">Centro de Recursos de Educación Básica Especial</span>
+        </span>
+      </a>
+      <div class="enlaces-cabecera">
+        <a class="enlace-cabecera" href="https://crebeucayali.github.io/capacitaciones/">Jornadas</a>
+        <a class="enlace-cabecera" href="https://crebeucayali.github.io/">Inicio principal</a>
+        <a class="enlace-cabecera" href="https://crebeucayali.github.io/accesos-complementarios/paginas/contacto.html">Contacto</a>
+      </div>
+    </nav>
+    <div class="presentacion">
+      <p class="etiqueta-superior">Segunda jornada de capacitación</p>
+      <h1>Jornadas de capacitación CREBE</h1>
+      <p class="subtitulo">Diez sesiones programadas cada jueves, del 10 de setiembre al 12 de noviembre de 2026. Las infografías, los PDF y los videos se incorporarán cuando estén disponibles.</p>
+    </div>
+  </header>
+  <main id="contenido">
+    <section class="panel-busqueda" aria-labelledby="titulo-busqueda">
+      <div class="panel-encabezado">
+        <div>
+          <p class="seccion-etiqueta">Línea de tiempo</p>
+          <h2 id="titulo-busqueda">Capacitaciones organizadas por fecha</h2>
+          <p class="descripcion-panel">Diez sesiones organizadas cronológicamente, cada jueves. Los temas y recursos se publicarán progresivamente.</p>
+        </div>
+      </div>
+    </section>
+    <section class="panel-capacitaciones" id="capacitaciones" aria-labelledby="titulo-capacitaciones">
+      <h2 id="titulo-capacitaciones" class="solo-lectores">Lista de capacitaciones</h2>
+      <div id="lineaTiempo" class="linea-tiempo" aria-live="polite">
+        <article class="capacitacion pendiente" hidden aria-labelledby="sesion-1-titulo">
+          <div class="punto-linea" aria-hidden="true"></div>
+          <div class="tarjeta-capacitacion">
+            <header class="cabecera-capacitacion">
+              <p class="seccion-etiqueta">Segunda jornada · Sesión 1 de 10</p>
+              <p class="fecha">Jueves 10 de setiembre de 2026</p>
+              <h3 id="sesion-1-titulo">Sesión 1: Fundamentos de la Educación Inclusiva</h3>
+              <p class="tema">Los materiales de esta sesión se incorporarán cuando estén disponibles.</p>
+            </header>
+            <div class="recursos">
+              <article class="recurso">
+                <h4>Infografía</h4>
+                <a class="vista-recurso" href="imagenes/segunda-jornada/capacitacion-01/infografia.webp" target="_blank" rel="noopener noreferrer">
+                  <img src="imagenes/segunda-jornada/capacitacion-01/infografia.webp" alt="Infografía de la sesión 1 de la segunda jornada de capacitación" loading="lazy" decoding="async">
+                </a>
+                <a class="boton-recurso" href="imagenes/segunda-jornada/capacitacion-01/infografia.webp" target="_blank" rel="noopener noreferrer">Abrir infografía</a>
+              </article>
+              <article class="recurso">
+                <h4>Diapositivas (PPTX)</h4>
+                <div class="vista-recurso pdf-recurso marcador">
+                  <button class="boton-recurso boton-cargar-diapositivas" type="button" data-slide-src="https://drive.google.com/file/d/10sF6vF71vz1EPpJYj19o8sqaF11xAmzT/preview">Ver vista previa</button>
+                </div>
+                <a class="boton-recurso" href="https://docs.google.com/presentation/d/10sF6vF71vz1EPpJYj19o8sqaF11xAmzT/edit?usp=drivesdk&amp;ouid=111231116463930767089&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener noreferrer">Abrir diapositivas en Drive</a>
+              </article>
+              <article class="recurso">
+                <h4>Video</h4>
+                <div class="vista-recurso video-recurso marcador" data-video-src="https://drive.google.com/file/d/1KULg2TmfWzCrgwUEF78F4F8Nl-jhxcBV/preview">
+                  <button class="boton-recurso boton-cargar-video" type="button" data-video-src="https://drive.google.com/file/d/1KULg2TmfWzCrgwUEF78F4F8Nl-jhxcBV/preview">Ver video</button>
+                </div>
+                <a class="boton-recurso" href="https://drive.google.com/file/d/1KULg2TmfWzCrgwUEF78F4F8Nl-jhxcBV/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Abrir video en Drive</a>
+              </article>
+            </div>
+          </div>
+        </article>
+        <article class="capacitacion pendiente" hidden aria-labelledby="sesion-2-titulo">
+          <div class="punto-linea" aria-hidden="true"></div>
+          <div class="tarjeta-capacitacion">
+            <header class="cabecera-capacitacion">
+              <p class="seccion-etiqueta">Segunda jornada · Sesión 2 de 10</p>
+              <p class="fecha">Jueves 17 de setiembre de 2026</p>
+              <h3 id="sesion-2-titulo">Sesión 2: Metodologías activas para la atención a la diversidad</h3>
+              <p class="tema">Los materiales de esta sesión se incorporarán cuando estén disponibles.</p>
+            </header>
+            <div class="recursos">
+              <article class="recurso">
+                <h4>Infografía</h4>
+                <a class="vista-recurso" href="imagenes/segunda-jornada/capacitacion-02/infografia.webp" target="_blank" rel="noopener noreferrer">
+                  <img src="imagenes/segunda-jornada/capacitacion-02/infografia.webp" alt="Infografía de la sesión 2 de la segunda jornada de capacitación" loading="lazy" decoding="async">
+                </a>
+                <a class="boton-recurso" href="imagenes/segunda-jornada/capacitacion-02/infografia.webp" target="_blank" rel="noopener noreferrer">Abrir infografía</a>
+              </article>
+              <article class="recurso recurso-pendiente"><h4>PDF</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin enlace</span></article>
+              <article class="recurso">
+                <h4>Video</h4>
+                <div class="vista-recurso video-recurso marcador" data-video-src="https://drive.google.com/file/d/1tuxu9xgoftLQuSTNbVLLnJUl5PdFhUre/preview">
+                  <button class="boton-recurso boton-cargar-video" type="button" data-video-src="https://drive.google.com/file/d/1tuxu9xgoftLQuSTNbVLLnJUl5PdFhUre/preview">Ver video</button>
+                </div>
+                <a class="boton-recurso" href="https://drive.google.com/file/d/1tuxu9xgoftLQuSTNbVLLnJUl5PdFhUre/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Abrir video en Drive</a>
+              </article>
+            </div>
+          </div>
+        </article>
+        <article class="capacitacion pendiente" hidden aria-labelledby="sesion-3-titulo">
+          <div class="punto-linea" aria-hidden="true"></div>
+          <div class="tarjeta-capacitacion">
+            <header class="cabecera-capacitacion">
+              <p class="seccion-etiqueta">Segunda jornada · Sesión 3 de 10</p>
+              <p class="fecha">Jueves 24 de setiembre de 2026</p>
+              <h3 id="sesion-3-titulo">Sesión 3: Diseño de sesiones y recursos inclusivos</h3>
+              <p class="tema">Diseño de sesiones y recursos inclusivos.</p>
+            </header>
+            <div class="recursos">
+              <article class="recurso">
+                <h4>Infografía</h4>
+                <a class="vista-recurso" href="imagenes/segunda-jornada/capacitacion-03/infografia.webp" target="_blank" rel="noopener noreferrer">
+                  <img src="imagenes/segunda-jornada/capacitacion-03/infografia.webp" alt="Infografía de la sesión 3 de la segunda jornada de capacitación" loading="lazy" decoding="async">
+                </a>
+                <a class="boton-recurso" href="imagenes/segunda-jornada/capacitacion-03/infografia.webp" target="_blank" rel="noopener noreferrer">Abrir infografía</a>
+              </article>
+              <article class="recurso">
+                <h4>Video</h4>
+                <div class="vista-recurso video-recurso marcador" data-video-src="https://drive.google.com/file/d/1cJvVdW3HHaTBkFy6qVW6LkEpzu9fWPcD/preview">
+                  <button class="boton-recurso boton-cargar-video" type="button" data-video-src="https://drive.google.com/file/d/1cJvVdW3HHaTBkFy6qVW6LkEpzu9fWPcD/preview">Ver video</button>
+                </div>
+                <a class="boton-recurso" href="https://drive.google.com/file/d/1cJvVdW3HHaTBkFy6qVW6LkEpzu9fWPcD/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Abrir video en Drive</a>
+              </article>
+            </div>
+            <section class="materiales-complementarios" aria-labelledby="sesion-3-materiales">
+              <div class="materiales-encabezado">
+                <p class="seccion-etiqueta">Materiales complementarios</p>
+                <h4 id="sesion-3-materiales">Materiales compartidos por la ponente</h4>
+                <p>Documentos complementarios utilizados durante la sesión para ampliar y aplicar los contenidos desarrollados.</p>
+              </div>
+              <div class="lista-materiales-complementarios">
+                <article class="material-complementario"><span class="material-numero">01</span><div><h5>SESIÓN CON REDES DEL DUA</h5><p>Documento Word compartido por la ponente.</p></div><a class="boton-recurso" href="https://docs.google.com/document/d/1d4oPvJcGsQ8ybHTP6rZw5xf7bUW-LAWq/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer">Abrir en Drive</a></article>
+                <article class="material-complementario"><span class="material-numero">02</span><div><h5>ABP SESIONES</h5><p>Documento Word compartido por la ponente.</p></div><a class="boton-recurso" href="https://docs.google.com/document/d/1DgLw-3xPayF8No_vsXEASv8KH99fKJs7/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer">Abrir en Drive</a></article>
+                <article class="material-complementario"><span class="material-numero">03</span><div><h5>SESIÓN CyT UNIDAD PRIMERO</h5><p>Documento Word compartido por la ponente.</p></div><a class="boton-recurso" href="https://docs.google.com/document/d/1YybaXIon5moCq5WbR_8vegMuhhFxGzgl/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer">Abrir en Drive</a></article>
+                <article class="material-complementario"><span class="material-numero">04</span><div><h5>INGLÉS SESIÓN DE CLASE CON DUA</h5><p>Documento Word compartido por la ponente.</p></div><a class="boton-recurso" href="https://docs.google.com/document/d/1rVc5XsJq5RMPfJKbazSWK88N2nVKLVl8/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer">Abrir en Drive</a></article>
+                <article class="material-complementario"><span class="material-numero">05</span><div><h5>EVALUACIÓN DE SALIDA</h5><p>Documento Word compartido por la ponente.</p></div><a class="boton-recurso" href="https://docs.google.com/document/d/1QGQHXIxi8X3eam-yAkBK_Dr6MyUSgY6z/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer">Abrir en Drive</a></article>
+                <article class="material-complementario"><span class="material-numero">06</span><div><h5>SESION DUA CEBE</h5><p>Documento Word compartido por la ponente.</p></div><a class="boton-recurso" href="https://docs.google.com/document/d/1z31AuSxYR4dIM_Q_Dkmo5kWQVGyZwKG7/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer">Abrir en Drive</a></article>
+                <article class="material-complementario"><span class="material-numero">07</span><div><h5>ACTIVIDAD DE APRENDIZAJE - 4°</h5><p>Documento Word compartido por la ponente.</p></div><a class="boton-recurso" href="https://docs.google.com/document/d/1EyQni9HRjsBM2sVXlTkCg-sGzRHglb1b/edit?usp=drivesdk" target="_blank" rel="noopener noreferrer">Abrir en Drive</a></article>
+              </div>
+            </section>
+          </div>
+        </article>
+        <article class="capacitacion pendiente" hidden aria-labelledby="sesion-4-titulo">
+          <div class="punto-linea" aria-hidden="true"></div>
+          <div class="tarjeta-capacitacion">
+            <header class="cabecera-capacitacion">
+              <p class="seccion-etiqueta">Segunda jornada · Sesión 4 de 10</p>
+              <p class="fecha">Jueves 01 de octubre de 2026</p>
+              <h3 id="sesion-4-titulo">Sesión 4: Tema pendiente de publicación</h3>
+              <p class="tema">Los materiales de esta sesión se incorporarán cuando estén disponibles.</p>
+            </header>
+            <div class="recursos">
+              <article class="recurso recurso-pendiente"><h4>Infografía</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin archivo</span></article>
+              <article class="recurso recurso-pendiente"><h4>PDF</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin enlace</span></article>
+              <article class="recurso recurso-pendiente"><h4>Video</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin enlace</span></article>
+            </div>
+          </div>
+        </article>
+        <article class="capacitacion pendiente" hidden aria-labelledby="sesion-5-titulo">
+          <div class="punto-linea" aria-hidden="true"></div>
+          <div class="tarjeta-capacitacion">
+            <header class="cabecera-capacitacion">
+              <p class="seccion-etiqueta">Segunda jornada · Sesión 5 de 10</p>
+              <p class="fecha">Jueves 08 de octubre de 2026</p>
+              <h3 id="sesion-5-titulo">Sesión 5: Tema pendiente de publicación</h3>
+              <p class="tema">Los materiales de esta sesión se incorporarán cuando estén disponibles.</p>
+            </header>
+            <div class="recursos">
+              <article class="recurso recurso-pendiente"><h4>Infografía</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin archivo</span></article>
+              <article class="recurso recurso-pendiente"><h4>PDF</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin enlace</span></article>
+              <article class="recurso recurso-pendiente"><h4>Video</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin enlace</span></article>
+            </div>
+          </div>
+        </article>
+        <article class="capacitacion pendiente" hidden aria-labelledby="sesion-6-titulo">
+          <div class="punto-linea" aria-hidden="true"></div>
+          <div class="tarjeta-capacitacion">
+            <header class="cabecera-capacitacion">
+              <p class="seccion-etiqueta">Segunda jornada · Sesión 6 de 10</p>
+              <p class="fecha">Jueves 15 de octubre de 2026</p>
+              <h3 id="sesion-6-titulo">Sesión 6: Tema pendiente de publicación</h3>
+              <p class="tema">Los materiales de esta sesión se incorporarán cuando estén disponibles.</p>
+            </header>
+            <div class="recursos">
+              <article class="recurso recurso-pendiente"><h4>Infografía</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin archivo</span></article>
+              <article class="recurso recurso-pendiente"><h4>PDF</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin enlace</span></article>
+              <article class="recurso recurso-pendiente"><h4>Video</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin enlace</span></article>
+            </div>
+          </div>
+        </article>
+        <article class="capacitacion pendiente" hidden aria-labelledby="sesion-7-titulo">
+          <div class="punto-linea" aria-hidden="true"></div>
+          <div class="tarjeta-capacitacion">
+            <header class="cabecera-capacitacion">
+              <p class="seccion-etiqueta">Segunda jornada · Sesión 7 de 10</p>
+              <p class="fecha">Jueves 22 de octubre de 2026</p>
+              <h3 id="sesion-7-titulo">Sesión 7: Tema pendiente de publicación</h3>
+              <p class="tema">Los materiales de esta sesión se incorporarán cuando estén disponibles.</p>
+            </header>
+            <div class="recursos">
+              <article class="recurso recurso-pendiente"><h4>Infografía</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin archivo</span></article>
+              <article class="recurso recurso-pendiente"><h4>PDF</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin enlace</span></article>
+              <article class="recurso recurso-pendiente"><h4>Video</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin enlace</span></article>
+            </div>
+          </div>
+        </article>
+        <article class="capacitacion pendiente" hidden aria-labelledby="sesion-8-titulo">
+          <div class="punto-linea" aria-hidden="true"></div>
+          <div class="tarjeta-capacitacion">
+            <header class="cabecera-capacitacion">
+              <p class="seccion-etiqueta">Segunda jornada · Sesión 8 de 10</p>
+              <p class="fecha">Jueves 29 de octubre de 2026</p>
+              <h3 id="sesion-8-titulo">Sesión 8: Tema pendiente de publicación</h3>
+              <p class="tema">Los materiales de esta sesión se incorporarán cuando estén disponibles.</p>
+            </header>
+            <div class="recursos">
+              <article class="recurso recurso-pendiente"><h4>Infografía</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin archivo</span></article>
+              <article class="recurso recurso-pendiente"><h4>PDF</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin enlace</span></article>
+              <article class="recurso recurso-pendiente"><h4>Video</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin enlace</span></article>
+            </div>
+          </div>
+        </article>
+        <article class="capacitacion pendiente" hidden aria-labelledby="sesion-9-titulo">
+          <div class="punto-linea" aria-hidden="true"></div>
+          <div class="tarjeta-capacitacion">
+            <header class="cabecera-capacitacion">
+              <p class="seccion-etiqueta">Segunda jornada · Sesión 9 de 10</p>
+              <p class="fecha">Jueves 05 de noviembre de 2026</p>
+              <h3 id="sesion-9-titulo">Sesión 9: Tema pendiente de publicación</h3>
+              <p class="tema">Los materiales de esta sesión se incorporarán cuando estén disponibles.</p>
+            </header>
+            <div class="recursos">
+              <article class="recurso recurso-pendiente"><h4>Infografía</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin archivo</span></article>
+              <article class="recurso recurso-pendiente"><h4>PDF</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin enlace</span></article>
+              <article class="recurso recurso-pendiente"><h4>Video</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin enlace</span></article>
+            </div>
+          </div>
+        </article>
+        <article class="capacitacion pendiente" hidden aria-labelledby="sesion-10-titulo">
+          <div class="punto-linea" aria-hidden="true"></div>
+          <div class="tarjeta-capacitacion">
+            <header class="cabecera-capacitacion">
+              <p class="seccion-etiqueta">Segunda jornada · Sesión 10 de 10</p>
+              <p class="fecha">Jueves 12 de noviembre de 2026</p>
+              <h3 id="sesion-10-titulo">Sesión 10: Tema pendiente de publicación</h3>
+              <p class="tema">Los materiales de esta sesión se incorporarán cuando estén disponibles.</p>
+            </header>
+            <div class="recursos">
+              <article class="recurso recurso-pendiente"><h4>Infografía</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin archivo</span></article>
+              <article class="recurso recurso-pendiente"><h4>PDF</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin enlace</span></article>
+              <article class="recurso recurso-pendiente"><h4>Video</h4><div class="vista-recurso marcador">Pendiente de publicación</div><span class="boton-recurso deshabilitado">Sin enlace</span></article>
+            </div>
+          </div>
+        </article>
+      </div>
+      <p id="sinResultados" class="estado-vacio" hidden>No se encontraron capacitaciones registradas.</p>
+    </section>
+  </main>
+    <section class="compartir-eva" aria-label="Compartir esta página">
+    <p>Comparte este contenido desde tu cuenta de Facebook.</p>
+    <a class="compartir-facebook" data-compartir-facebook href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcrebeucayali.github.io%2Fcapacitaciones%2Fsegunda-jornada.html" target="_blank" rel="noopener noreferrer">Compartir en Facebook</a>
+  </section>
+<footer id="contacto">
+    <div class="footer-contenido">
+      <div class="footer-bloque footer-identidad">
+        <img class="logo-footer" src="logo-crebe.png" alt="Logo del CREBE Señor de los Milagros - Ucayali">
+        <div><h2>Jornadas de capacitación CREBE</h2><p>Repositorio digital de sesiones formativas, materiales y recursos de apoyo para la Educación Básica Especial.</p></div>
+      </div>
+      <div class="footer-bloque">
+        <h2>Módulos</h2>
+        <p><a href="https://crebeucayali.github.io/capacitaciones/">Capacitaciones CREBE</a><br><a href="https://crebeucayali.github.io/banco-digital-accesible/">Banco Digital Accesible</a><br><a href="https://crebeucayali.github.io/materiales-educativos-accesibles/">Materiales Educativos Accesibles</a><br><a href="https://crebeucayali.github.io/noti-inclusivos/">Noti Inclusivo</a><br><a href="https://crebeucayali.github.io/repositorio-accesible/">Repositorio Accesible</a><br></p>
+      </div>
+      <div class="footer-bloque">
+        <h2>Contacto CREBE</h2>
+        <p>CREBE "Señor de los Milagros" - Ucayali<br>Correo: senordelosmilagroscrebe@gmail.com<br>Horario: lunes a viernes, 8:00 a.m. - 12:00 p.m.<br>Dirección: I.E. Santa Clara 64039<br>Avenida Santa Clara mz d lt 20<br>Coronel Portillo-Manantay<br><a href="https://www.facebook.com/CREBESM">Facebook</a><br><a href="https://www.tiktok.com/@crebe.sm.ucayali">TikTok</a><br></p>
+      </div>
+    </div>
+    <nav class="footer-legal-eva" aria-label="Enlaces legales">
+<a href="https://crebeucayali.github.io/accesos-complementarios/paginas/aviso-legal.html">Aviso legal</a>
+<a href="https://crebeucayali.github.io/accesos-complementarios/paginas/politica-privacidad.html">Política de privacidad</a>
+<a href="https://crebeucayali.github.io/accesos-complementarios/paginas/politica-cookies.html">Cookies y tecnologías similares</a>
+</nav>
+<div class="footer-final"><p>© 2026 Gabriel Berrospi. Desarrollo original. Uso institucional autorizado al CREBE "Señor de los Milagros" - Ucayali.</p></div>
+  </footer>
+  <script src="supabase-publico.js?v=1" defer></script>
+  <script src="segunda-jornada.js?v=5" defer></script>
+  <script src="https://crebeucayali.github.io/accesos-complementarios/accesibilidad/accesibilidad.js?v=10" defer></script>
+  <script src="https://crebeucayali.github.io/accesos-complementarios/estadisticas/visitas-eva.js?v=2" data-eva-modulo="capacitaciones" defer></script>
+  <script src="https://crebeucayali.github.io/capacitaciones/compartir-facebook.js?v=3" defer></script>
+</body>
+</html>
+

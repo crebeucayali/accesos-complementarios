@@ -41,6 +41,7 @@ function panel(options = {}) {
   const context=vm.createContext({window:{EvaAdminSession:options.noHelper?undefined:auth,EvaActivacionPendiente:options.activation},document:{getElementById:element,querySelectorAll:selector=>selector==='.tab'?tabs:[],createElement:()=>element('new')},
     fetch:async url=>{calls.push(url);if(options.pendingChallenge && url.includes('/challenge'))await new Promise(resolve=>{resolveChallenge=resolve;});return {ok:true,status:200,text:async()=>JSON.stringify({id:'synthetic-challenge'})};},
     URL,Intl,Date,console,location:{reload(){throw new Error('unexpected reload');}}});
+  vm.runInContext(fs.readFileSync(path.join(__dirname,'..','publicacion.js'),'utf8'),context);
   vm.runInContext(source,context);
   return {element,auth,calls,requests,publish,get current(){return current;},get authCount(){return authCount;},
     setRole(value,assigned){role=value;modules=assigned;},

@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: https://dteimbhwtzghhsijeeld.supabase.co; font-src 'self'; connect-src 'self' https://dteimbhwtzghhsijeeld.supabase.co; media-src 'self'; frame-src 'none'; form-action 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Repositorio Accesible del CREBE Señor de los Milagros - Ucayali: materiales disponibles, equipos tecnológicos y materiales elaborados para la inclusión educativa.">
+  <title>Repositorio Accesible | CREBE Ucayali</title>
+  <link rel="stylesheet" href="estilos.css?v=11">
+  <link rel="stylesheet" href="https://crebeucayali.github.io/accesos-complementarios/accesibilidad/accesibilidad.css?v=10">
+  <link rel="canonical" href="https://crebeucayali.github.io/repositorio-accesible/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_PE">
+  <meta property="og:site_name" content="Ecosistema Virtual Accesible - CREBE Ucayali">
+  <meta property="og:title" content="Repositorio Accesible | CREBE Ucayali">
+  <meta property="og:description" content="Repositorio Accesible del CREBE Señor de los Milagros - Ucayali: materiales disponibles, equipos tecnológicos y materiales elaborados para la inclusión educativa.">
+  <meta property="og:url" content="https://crebeucayali.github.io/repositorio-accesible/">
+  <meta property="og:image" content="https://crebeucayali.github.io/accesos-complementarios/logo-crebe.webp">
+  <meta property="og:image:alt" content="Logo institucional del CREBE Señor de los Milagros - Ucayali">
+  <link rel="stylesheet" href="https://crebeucayali.github.io/repositorio-accesible/compartir-facebook.css?v=1">
+</head>
+<body>
+  <a class="salto-contenido" href="#contenido-principal">Ir al contenido</a>
+  <header class="cabecera" id="inicio">
+    <div class="patron-portada" aria-hidden="true"></div>
+    <nav class="navegacion" aria-label="Navegación principal">
+      <a class="marca marca-institucional" href="index.html" aria-label="Ir al Repositorio Accesible">
+        <img class="marca-logo-superior" src="https://crebeucayali.github.io/banco-digital-accesible/logo-crebe.png" alt="Logo del CREBE Señor de los Milagros - Ucayali">
+        <span class="marca-texto-superior">
+          <span class="marca-modulo">Repositorio Accesible</span>
+          <span class="marca-nombre-institucional">CREBE "Señor de los Milagros" - Ucayali</span>
+          <span class="marca-detalle-institucional">Centro de Recursos de Educación Básica Especial</span>
+        </span>
+      </a>
+      <div class="enlaces-superiores">
+        <a class="enlace-cabecera" href="https://crebeucayali.github.io/">Inicio principal</a>
+        <a class="enlace-cabecera" href="https://crebeucayali.github.io/accesos-complementarios/paginas/contacto.html">Contacto</a>
+      </div>
+    </nav>
+    <div class="portada">
+      <p class="etiqueta-superior">ECOSISTEMA VIRTUAL ACCESIBLE</p>
+      <h1>Repositorio Accesible</h1>
+      <p class="subtitulo">Espacio para organizar materiales disponibles, equipos tecnológicos y producciones accesibles que fortalecen la atención educativa y la inclusión en el CREBE Ucayali.</p>
+    </div>
+  </header>
+
+  <main id="contenido-principal">
+    <section class="panel-recursos" aria-labelledby="titulo-recursos">
+      <div class="panel-encabezado">
+        <p class="seccion-etiqueta">Recursos de apoyo</p>
+        <h2 id="titulo-recursos">Materiales, equipos y producciones accesibles</h2>
+        <p class="descripcion-panel">Esta página presenta de forma ordenada los recursos disponibles y los materiales elaborados para facilitar su consulta, uso pedagógico y actualización institucional.</p>
+      </div>
+
+      <div class="grid-recursos">
+        <article class="tarjeta-recurso">
+          <span class="numero-recurso">MD</span>
+          <h3>Materiales disponibles</h3>
+          <p>Recursos físicos o impresos que se encuentran disponibles para orientación, préstamo, consulta o apoyo pedagógico.</p>
+          <ul class="lista-ejemplos" hidden data-categoria="materiales_disponibles">
+            <li class="item-recurso" tabindex="0">Textos en braille</li>
+            <li class="item-recurso" tabindex="0">Láminas adaptadas</li>
+            <li class="item-recurso" tabindex="0">Tarjetas de comunicación</li>
+            <li class="item-recurso" tabindex="0">Material manipulativo</li>
+          </ul>
+        </article>
+
+        <article class="tarjeta-recurso">
+          <span class="numero-recurso">ET</span>
+          <h3>Equipos tecnológicos</h3>
+          <p>Equipos y herramientas que apoyan la accesibilidad, la elaboración de materiales y el trabajo institucional.</p>
+          <ul class="lista-ejemplos" hidden data-categoria="equipos_tecnologicos">
+            <li class="item-recurso" tabindex="0">
+              Amplificador de imagen
+              <div class="recuadro-detalle" role="group" aria-label="Vista previa del amplificador de imagen">
+                <img src="assets/imagenes/equipos-tecnologicos/amplificador-de-imagen.webp" alt="Amplificador de imagen disponible en el Repositorio Accesible">
+                <div class="imagen-pendiente" hidden>Imagen pendiente de subir</div>
+                <div class="detalle-texto"><strong>Amplificador de imagen</strong><span>Equipo tecnológico de apoyo visual que permite ampliar textos, imágenes u objetos para facilitar su observación.</span></div>
+              </div>
+            </li>
+            <li class="item-recurso" tabindex="0">
+              Lectora inteligente
+              <div class="recuadro-detalle" role="group" aria-label="Vista previa de la lectora inteligente">
+                <img src="assets/imagenes/equipos-tecnologicos/lectora-inteligente.webp" alt="Lectora inteligente disponible en el Repositorio Accesible">
+                <div class="imagen-pendiente" hidden>Imagen pendiente de subir</div>
+                <div class="detalle-texto"><strong>Lectora inteligente</strong><span>Equipo de apoyo para el acceso y reconocimiento de información impresa o digital.</span></div>
+              </div>
+            </li>
+            <li class="item-recurso" tabindex="0">
+              Máquina Perkins
+              <div class="recuadro-detalle" role="group" aria-label="Vista previa de la máquina Perkins">
+                <img src="assets/imagenes/equipos-tecnologicos/maquina-perkins.webp" alt="Máquina Perkins disponible en el Repositorio Accesible">
+                <div class="imagen-pendiente" hidden>Imagen pendiente de subir</div>
+                <div class="detalle-texto"><strong>Máquina Perkins</strong><span>Equipo mecánico utilizado para la escritura en sistema braille.</span></div>
+              </div>
+            </li>
+          </ul>
+        </article>
+
+        <article class="tarjeta-recurso">
+          <span class="numero-recurso">ME</span>
+          <h3>Materiales elaborados</h3>
+          <p>Producciones realizadas por el equipo para responder a necesidades educativas, comunicativas o de accesibilidad.</p>
+          <ul class="lista-ejemplos" hidden data-categoria="materiales_elaborados">
+            <li class="item-recurso" tabindex="0">
+              Silabario
+              <div class="recuadro-detalle" role="group" aria-label="Vista previa del silabario">
+                <img src="assets/imagenes/materiales-elaborados/silabario.webp" alt="Silabario elaborado disponible en el Repositorio Accesible">
+                <div class="imagen-pendiente" hidden>Imagen pendiente de subir</div>
+                <div class="detalle-texto"><strong>Silabario</strong><span>Material educativo elaborado para apoyar el reconocimiento y aprendizaje progresivo de sílabas.</span></div>
+              </div>
+            </li>
+            <li class="item-recurso" tabindex="0">
+              Inclumemoria
+              <div class="recuadro-detalle" role="group" aria-label="Vista previa de Inclumemoria">
+                <img src="assets/imagenes/materiales-elaborados/inclumemoria.webp" alt="Inclumemoria disponible en el Repositorio Accesible">
+                <div class="imagen-pendiente" hidden>Imagen pendiente de subir</div>
+                <div class="detalle-texto"><strong>Inclumemoria</strong><span>Material lúdico elaborado para fortalecer la memoria, la atención y la asociación visual.</span></div>
+              </div>
+            </li>
+            <li class="item-recurso" tabindex="0">
+              Monstruos geométricos
+              <div class="recuadro-detalle" role="group" aria-label="Vista previa de Monstruos geométricos">
+                <img src="assets/imagenes/materiales-elaborados/monstruos-geometricos.webp" alt="Monstruos geométricos disponibles en el Repositorio Accesible">
+                <div class="imagen-pendiente" hidden>Imagen pendiente de subir</div>
+                <div class="detalle-texto"><strong>Monstruos geométricos</strong><span>Material elaborado para trabajar formas, clasificación, reconocimiento visual y creatividad.</span></div>
+              </div>
+            </li>
+            <li class="item-recurso" tabindex="0">
+              Sumario inclusivo
+              <div class="recuadro-detalle" role="group" aria-label="Vista previa del Sumario inclusivo">
+                <img src="assets/imagenes/materiales-elaborados/sumario-inclusivo.webp" alt="Sumario inclusivo disponible en el Repositorio Accesible">
+                <div class="imagen-pendiente" hidden>Imagen pendiente de subir</div>
+                <div class="detalle-texto"><strong>Sumario inclusivo</strong><span>Material elaborado como recurso de apoyo para actividades educativas inclusivas.</span></div>
+              </div>
+            </li>
+            <li class="item-recurso" tabindex="0">
+              Inclumate - Dobles y triples
+              <div class="recuadro-detalle" role="group" aria-label="Vista previa de Inclumate - Dobles y triples">
+                <img src="assets/imagenes/materiales-elaborados/inclumate-dobles-y-triples.webp" alt="Inclumate - Dobles y triples, material elaborado para actividades educativas inclusivas">
+                <div class="imagen-pendiente" hidden>Imagen pendiente de subir</div>
+                <div class="detalle-texto"><strong>Inclumate - Dobles y triples</strong><span>Material para fortalecer la comprensión matemática mediante el trabajo con dobles y triples, relacionando la suma repetida con la multiplicación.</span></div>
+              </div>
+            </li>
+            <li class="item-recurso" tabindex="0">
+              Babanasum
+              <div class="recuadro-detalle" role="group" aria-label="Vista previa de Babanasum">
+                <img src="assets/imagenes/materiales-elaborados/babanasum.webp" alt="Babanasum, material elaborado para actividades educativas inclusivas">
+                <div class="imagen-pendiente" hidden>Imagen pendiente de subir</div>
+                <div class="detalle-texto"><strong>Babanasum</strong><span>Material para reconocer números y cantidades mediante el conteo, asociar cada número con la cantidad correspondiente y realizar sumas.</span></div>
+              </div>
+            </li>
+            <li class="item-recurso" tabindex="0">
+              Asociación de colores y coordinación bimanual
+              <div class="recuadro-detalle" role="group" aria-label="Vista previa de Asociación de colores y coordinación bimanual">
+                <img src="assets/imagenes/materiales-elaborados/asociacion-colores-coordinacion-bimanual.webp" alt="Asociación de colores y coordinación bimanual, material elaborado para actividades educativas inclusivas">
+                <div class="imagen-pendiente" hidden>Imagen pendiente de subir</div>
+                <div class="detalle-texto"><strong>Asociación de colores y coordinación bimanual</strong><span>Actividad para identificar colores y reproducir patrones mediante movimientos coordinados de ambas manos, favoreciendo la coordinación motora y la agilidad visual y manual.</span></div>
+              </div>
+            </li>
+            <li class="item-recurso" tabindex="0">
+              Mis rutinas
+              <div class="recuadro-detalle" role="group" aria-label="Vista previa de Mis rutinas">
+                <img src="assets/imagenes/materiales-elaborados/mis-rutinas.webp" alt="Mis rutinas">
+                <div class="imagen-pendiente" hidden>Imagen pendiente de subir</div>
+                <div class="detalle-texto"><strong>Mis rutinas</strong><span>Tablero de rutinas diarias.</span></div>
+              </div>
+            </li>
+            <li class="item-recurso" tabindex="0">
+              El termómetro de las emociones
+              <div class="recuadro-detalle" role="group" aria-label="Vista previa de El termómetro de las emociones">
+                <img src="assets/imagenes/materiales-elaborados/termometro-de-las-emociones.webp" alt="El termómetro de las emociones">
+                <div class="imagen-pendiente" hidden>Imagen pendiente de subir</div>
+                <div class="detalle-texto"><strong>El termómetro de las emociones</strong><span>Termómetro que ayuda a niñas y niños de educación inicial a reconocer sus emociones mediante el lanzamiento de un dado.</span></div>
+              </div>
+            </li>
+            <li class="item-recurso" tabindex="0">
+              Reloj de las rutinas inclusivas
+              <div class="recuadro-detalle" role="group" aria-label="Vista previa de Reloj de las rutinas inclusivas">
+                <img src="assets/imagenes/materiales-elaborados/reloj-de-las-rutinas-inclusivas.webp" alt="Reloj de las rutinas inclusivas">
+                <div class="imagen-pendiente" hidden>Imagen pendiente de subir</div>
+                <div class="detalle-texto"><strong>Reloj de las rutinas inclusivas</strong></div>
+              </div>
+            </li>
+            <li class="item-recurso" tabindex="0">
+              Tablero de la concentración
+              <div class="recuadro-detalle" role="group" aria-label="Vista previa de Tablero de la concentración">
+                <img src="assets/imagenes/materiales-elaborados/tablero-de-la-concentracion.webp" alt="Tablero de la concentración">
+                <div class="imagen-pendiente" hidden>Imagen pendiente de subir</div>
+                <div class="detalle-texto"><strong>Tablero de la concentración</strong></div>
+              </div>
+            </li>
+            <li class="item-recurso" tabindex="0">
+              Elige tu saludo
+              <div class="recuadro-detalle" role="group" aria-label="Vista previa de Elige tu saludo">
+                <img src="assets/imagenes/materiales-elaborados/elige-tu-saludo.webp" alt="Elige tu saludo">
+                <div class="imagen-pendiente" hidden>Imagen pendiente de subir</div>
+                <div class="detalle-texto"><strong>Elige tu saludo</strong></div>
+              </div>
+            </li>
+            <li class="item-recurso" tabindex="0">
+              Sapo de los colores inclusivos
+              <div class="recuadro-detalle" role="group" aria-label="Vista previa de Sapo de los colores inclusivos">
+                <img src="assets/imagenes/materiales-elaborados/sapo-de-los-colores-inclusivos.webp" alt="Sapo de los colores inclusivos">
+                <div class="imagen-pendiente" hidden>Imagen pendiente de subir</div>
+                <div class="detalle-texto"><strong>Sapo de los colores inclusivos</strong></div>
+              </div>
+            </li>
+            <li class="item-recurso" tabindex="0">
+              Libro de texturas
+              <div class="recuadro-detalle" role="group" aria-label="Vista previa de Libro de texturas">
+                <img src="assets/imagenes/materiales-elaborados/libro-de-texturas.webp" alt="Libro de texturas">
+                <div class="imagen-pendiente" hidden>Imagen pendiente de subir</div>
+                <div class="detalle-texto"><strong>Libro de texturas</strong></div>
+              </div>
+            </li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="nota-inferior">
+        <strong>Nota:</strong> coloca cada imagen en la carpeta correspondiente a su categoría. Al pasar el cursor o enfocar con el teclado un recurso que tenga vista previa, aparecerá su imagen y una descripción breve.
+      </div>
+    </section>
+  </main>
+
+    <section class="compartir-eva" aria-label="Compartir esta página">
+    <p>Comparte este contenido desde tu cuenta de Facebook.</p>
+    <a class="compartir-facebook" data-compartir-facebook href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcrebeucayali.github.io%2Frepositorio-accesible%2F" target="_blank" rel="noopener noreferrer">Compartir en Facebook</a>
+  </section>
+<footer>
+    <div class="footer-contenido">
+      <div class="footer-bloque footer-identidad">
+        <img class="logo-footer" src="https://crebeucayali.github.io/banco-digital-accesible/logo-crebe.png" alt="Logo del CREBE Señor de los Milagros - Ucayali">
+        <div>
+          <h2>Repositorio Accesible</h2>
+          <p>Espacio específico de materiales, equipos y producciones accesibles del CREBE Ucayali.</p>
+        </div>
+      </div>
+
+      <div class="footer-bloque">
+        <h2>Módulos</h2>
+        <p>
+          <a href="https://crebeucayali.github.io/capacitaciones/">Capacitaciones CREBE</a><br>
+          <a href="https://crebeucayali.github.io/banco-digital-accesible/">Banco Digital Accesible</a><br>
+          <a href="https://crebeucayali.github.io/materiales-educativos-accesibles/">Materiales Educativos Accesibles</a><br>
+          <a href="https://crebeucayali.github.io/juegos-interactivos-accesibles/">Juegos Interactivos Accesibles</a><br>
+          <a href="https://crebeucayali.github.io/noti-inclusivos/">Noti Inclusivo</a>
+        </p>
+      </div>
+
+      <div class="footer-bloque">
+        <h2>Contacto CREBE</h2>
+        <p>
+          CREBE "Señor de los Milagros" - Ucayali<br>
+          Correo: senordelosmilagroscrebe@gmail.com<br>
+          Horario: lunes a viernes, 8:00 a.m. - 12:00 p.m.<br>
+          Dirección: I.E. Santa Clara 64039<br>
+          Avenida Santa Clara mz d lt 20<br>
+          Coronel Portillo-Manantay<br>
+          <a href="https://www.facebook.com/CREBESM" target="_blank" rel="noopener noreferrer">Facebook</a><br>
+          <a href="https://www.tiktok.com/@crebe.sm.ucayali?_r=1&_t=ZS-97Qjebz1I0b" target="_blank" rel="noopener noreferrer">TikTok</a>
+        </p>
+      </div>
+    </div>
+
+    <nav class="footer-legal-eva" aria-label="Enlaces legales">
+<a href="https://crebeucayali.github.io/accesos-complementarios/paginas/aviso-legal.html">Aviso legal</a>
+<a href="https://crebeucayali.github.io/accesos-complementarios/paginas/politica-privacidad.html">Política de privacidad</a>
+<a href="https://crebeucayali.github.io/accesos-complementarios/paginas/politica-cookies.html">Cookies y tecnologías similares</a>
+</nav>
+<div class="footer-final">
+      <p>© 2026 Gabriel Berrospi. Desarrollo original. Uso institucional autorizado al CREBE "Señor de los Milagros" - Ucayali.</p>
+    </div>
+  </footer>
+  <script src="repositorio-supabase.js?v=4" defer></script>
+  <script src="repositorio.js?v=2" defer></script>
+  <script src="https://crebeucayali.github.io/accesos-complementarios/accesibilidad/accesibilidad.js?v=10" defer></script>
+  <script src="https://crebeucayali.github.io/accesos-complementarios/estadisticas/visitas-eva.js?v=2" data-eva-modulo="repositorio_accesible" defer></script>
+  <script src="https://crebeucayali.github.io/repositorio-accesible/compartir-facebook.js?v=3" defer></script>
+</body>
+</html>
+

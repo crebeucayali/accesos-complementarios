@@ -1,5 +1,7 @@
 # Etapa 3: cuenta master, usuarios y permisos por módulo
 
+> Informe histórico de la implementación inicial. Los permisos editor y el procedimiento de invitación descritos aquí fueron sustituidos por la [corrección de publicación y archivado](correccion-etapa-3-publicacion-archivado.md). Actualmente los editores no tienen CRUD general ni DELETE y las invitaciones están pausadas.
+
 Fecha: 30 de septiembre de 2026. Alcance: administración, autenticación, autorización y auditoría del panel EVA. La Etapa 2 fue validada manualmente por el titular antes de autorizar esta intervención.
 
 ## Comportamiento anterior y nuevo
