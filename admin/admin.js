@@ -4,7 +4,7 @@
   const PANEL_HABILITADO = true;
   const SUPABASE_URL = "https://dteimbhwtzghhsijeeld.supabase.co";
   const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_tHbo1jTeW_dC90hdA5DvyQ_a6LrfKpq";
-  const SESSION_KEY = "eva_admin_supabase_session_v1";
+  const auth = window.EvaAdminSession;
 
   const $ = (id) => document.getElementById(id);
   const estadoTitulo = $("estado-panel-titulo");
@@ -14,10 +14,22 @@
   const seccionMfa = $("seccion-mfa");
   const seccionAdmin = $("seccion-admin");
   const mensajeAdmin = $("mensaje-admin");
+  const reintentarAcceso = $("boton-reintentar-acceso");
+
+  if (!auth) {
+    estadoTitulo.textContent = "No se pudo preparar el acceso";
+    estadoMensaje.textContent = "Recarga la página para volver a cargar la sesión administrativa.";
+    $("boton-login").disabled = true;
+    reintentarAcceso.hidden = false;
+    reintentarAcceso.addEventListener("click", () => location.reload());
+    return;
+  }
 
   let sesion = null;
   let factorMfa = null;
   let desafioMfa = null;
+  let accesoPendiente = null;
+  let saliendo = false;
   let capacitaciones = [];
   let actividades = [];
   let recursosRepositorio = [];
@@ -52,56 +64,30 @@
     try { datos = texto ? JSON.parse(texto) : null; } catch { datos = texto; }
     if (!respuesta.ok) {
       const mensaje = datos?.msg || datos?.message || datos?.error_description || datos?.error || ("Error HTTP " + respuesta.status);
-      throw new Error(mensaje);
+      const error = new Error(mensaje);
+      error.status = respuesta.status;
+      error.code = datos?.error_code || datos?.code || "http_error";
+      throw error;
     }
     return datos;
   }
 
-  function guardarSesion(datos) {
-    if (!datos?.access_token) throw new Error("Supabase no devolvió una sesión válida.");
-    sesion = {
-      access_token: datos.access_token,
-      refresh_token: datos.refresh_token || sesion?.refresh_token || "",
-      expires_at: datos.expires_at || Math.floor(Date.now() / 1000) + Number(datos.expires_in || 3600),
-      user: datos.user || sesion?.user || null
-    };
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify(sesion));
-  }
-
   function leerSesion() {
-    try {
-      const datos = JSON.parse(sessionStorage.getItem(SESSION_KEY) || "null");
-      if (datos?.access_token) sesion = datos;
-    } catch {
-      sessionStorage.removeItem(SESSION_KEY);
-    }
+    sesion = auth.getSession();
   }
 
   async function refrescarSesionSiHaceFalta() {
-    if (!sesion?.access_token) throw new Error("No hay sesión administrativa.");
-    const ahora = Math.floor(Date.now() / 1000);
-    if (Number(sesion.expires_at || 0) - ahora > 90) return;
-    if (!sesion.refresh_token) throw new Error("La sesión venció. Inicia sesión nuevamente.");
-
-    const datos = await solicitar(SUPABASE_URL + "/auth/v1/token?grant_type=refresh_token", {
-      method: "POST",
-      headers: authHeaders(),
-      body: JSON.stringify({ refresh_token: sesion.refresh_token })
-    });
-    guardarSesion(datos);
+    sesion = await auth.ensureSession();
   }
 
   async function rest(path, opciones = {}) {
     await refrescarSesionSiHaceFalta();
-    const headers = authHeaders(sesion.access_token, opciones.headers || {});
-    return solicitar(SUPABASE_URL + "/rest/v1/" + path, { ...opciones, headers });
+    return auth.request(path, opciones);
   }
 
   async function comprobarAutorizacion() {
-    const estado = await rest("rpc/estado_panel_admin", {
-      method: "POST",
-      body: "{}"
-    });
+    const estado = await auth.getAuthorization();
+    leerSesion();
     const fila = Array.isArray(estado) ? estado[0] : estado;
     return {
       autorizado: Boolean(fila?.autorizado),
@@ -167,7 +153,18 @@
   async function entrarPanel() {
     const estado = await comprobarAutorizacion();
     if (!estado.autorizado) {
-      throw new Error("La cuenta está autenticada, pero no está autorizada como administradora.");
+      seccionAdmin.hidden = true;
+      seccionMfa.hidden = true;
+      if (tarjetaLogin) tarjetaLogin.hidden = false;
+      await auth.signOut();
+      throw new Error("Esta cuenta no está autorizada para administrar EVA.");
+    }
+
+    leerSesion();
+    if (!sesion) {
+      const error = new Error("La sesión terminó. Inicia sesión nuevamente.");
+      error.definitive = true;
+      throw error;
     }
 
     if (tarjetaLogin) tarjetaLogin.hidden = true;
@@ -186,54 +183,72 @@
     estadoTitulo.textContent = "Acceso administrativo activo";
     estadoMensaje.textContent = "";
     $("usuario-actual").textContent = sesion?.user?.email || "Administrador";
-    await Promise.all([cargarCapacitaciones(), cargarCalendario(), cargarRepositorio(), cargarNoticiasDestacadas(), cargarGaleriaAdmin(), cargarEstadisticasVisitas()]);
+    const cargas = await Promise.allSettled([cargarCapacitaciones(), cargarCalendario(), cargarRepositorio(), cargarNoticiasDestacadas(), cargarGaleriaAdmin(), cargarEstadisticasVisitas()]);
+    if (!auth.getSession()) return;
+    if (cargas.some(resultado => resultado.status === "rejected")) {
+      estadoMensaje.textContent = "La sesión está activa. Parte de la información no pudo cargarse. Pulsa Reintentar acceso.";
+      reintentarAcceso.hidden = false;
+    }
   }
 
   async function iniciarSesion(correo, clave) {
-    const datos = await solicitar(SUPABASE_URL + "/auth/v1/token?grant_type=password", {
-      method: "POST",
-      headers: authHeaders(),
-      body: JSON.stringify({ email: correo, password: clave })
-    });
-    guardarSesion(datos);
-
-    const estado = await comprobarAutorizacion();
-    if (!estado.autorizado) {
-      await cerrarSesion();
-      throw new Error("Esta cuenta no está autorizada para administrar EVA.");
-    }
-    if (estado.aal !== "aal2") {
-      await prepararMfa();
-    } else {
-      await entrarPanel();
-    }
+    sesion = await auth.signIn(correo, clave);
+    await recuperarAcceso();
   }
 
   async function verificarMfa(codigo) {
-    const datos = await solicitar(SUPABASE_URL + "/auth/v1/factors/" + encodeURIComponent(factorMfa) + "/verify", {
-      method: "POST",
-      headers: authHeaders(sesion.access_token),
-      body: JSON.stringify({ challenge_id: desafioMfa, code: codigo })
-    });
-    if (datos?.access_token) guardarSesion(datos);
-    await entrarPanel();
+    sesion = await auth.verifyMfa(factorMfa, desafioMfa, codigo);
+    $("mfa-secreto").textContent = "";
+    $("mfa-qr").removeAttribute("src");
+    await recuperarAcceso();
   }
 
   async function cerrarSesion() {
+    if (saliendo) return;
+    saliendo = true;
+    $("boton-salir").disabled = true;
     try {
-      if (sesion?.access_token) {
-        await solicitar(SUPABASE_URL + "/auth/v1/logout", {
-          method: "POST",
-          headers: authHeaders(sesion.access_token),
-          body: "{}"
-        });
-      }
-    } catch {
-      // La limpieza local se realiza incluso si el cierre remoto falla.
+      const resultado = await auth.signOut();
+      mostrarAccesoCerrado();
+      estadoMensaje.textContent = resultado.remote ? "Sesión administrativa cerrada." : "Sesión cerrada en este navegador. No se pudo confirmar el cierre remoto.";
+    } finally {
+      saliendo = false;
+      $("boton-salir").disabled = false;
     }
+  }
+
+  function mostrarAccesoCerrado() {
     sesion = null;
-    sessionStorage.removeItem(SESSION_KEY);
-    location.reload();
+    factorMfa = null;
+    desafioMfa = null;
+    seccionAdmin.hidden = true;
+    seccionMfa.hidden = true;
+    if (tarjetaLogin) tarjetaLogin.hidden = false;
+    $("clave").value = "";
+    $("codigo-mfa").value = "";
+    $("mfa-secreto").textContent = "";
+    $("mfa-qr").removeAttribute("src");
+    $("usuario-actual").textContent = "";
+    reintentarAcceso.hidden = true;
+    estadoTitulo.textContent = "Acceso administrativo cerrado";
+  }
+
+  function informarErrorAcceso(error) {
+    if (error.definitive || !auth.getSession()) {
+      mostrarAccesoCerrado();
+    } else {
+      if (tarjetaLogin) tarjetaLogin.hidden = true;
+      estadoTitulo.textContent = "No se pudo completar el acceso";
+      reintentarAcceso.hidden = false;
+    }
+    estadoMensaje.textContent = error.message || "Revisa la conexión y vuelve a intentarlo.";
+  }
+
+  function recuperarAcceso() {
+    if (accesoPendiente) return accesoPendiente;
+    reintentarAcceso.hidden = true;
+    accesoPendiente = entrarPanel().catch(informarErrorAcceso).finally(() => { accesoPendiente = null; });
+    return accesoPendiente;
   }
 
   function recursosATexto(recursos) {
@@ -2178,17 +2193,24 @@
       estadoTitulo.textContent = "Acceso no completado";
       estadoMensaje.textContent = error.message;
     } finally {
+      $("clave").value = "";
       $("boton-login").disabled = false;
     }
   });
 
   $("form-mfa").addEventListener("submit", async (evento) => {
     evento.preventDefault();
+    const botonMfa = $("form-mfa").querySelector("button[type=submit]");
+    if (botonMfa.disabled) return;
     try {
+      botonMfa.disabled = true;
       await verificarMfa($("codigo-mfa").value.trim());
     } catch (error) {
       estadoTitulo.textContent = "No se pudo verificar MFA";
       estadoMensaje.textContent = error.message;
+    } finally {
+      $("codigo-mfa").value = "";
+      botonMfa.disabled = false;
     }
   });
 
@@ -2230,6 +2252,28 @@
   });
 
   $("boton-salir").addEventListener("click", cerrarSesion);
+  reintentarAcceso.addEventListener("click", recuperarAcceso);
+  auth.subscribe((evento, nuevaSesion, error) => {
+    sesion = nuevaSesion;
+    if (evento === "SIGNED_OUT") {
+      mostrarAccesoCerrado();
+      if (!saliendo) estadoMensaje.textContent = "La sesión terminó. Inicia sesión nuevamente.";
+    } else if (evento === "SESSION_ERROR") {
+      if (error?.definitive) informarErrorAcceso(error);
+      else {
+        estadoMensaje.textContent = "No se pudo renovar la sesión. Revisa la conexión o pulsa Reintentar acceso.";
+        reintentarAcceso.hidden = false;
+      }
+    } else if (evento === "SESSION_UPDATED" || evento === "TOKEN_REFRESHED") {
+      comprobarAutorizacion().then(estado => {
+        if (!auth.getSession()) return;
+        if (!estado.autorizado || estado.aal !== "aal2") {
+          seccionAdmin.hidden = true;
+          recuperarAcceso();
+        }
+      }).catch(informarErrorAcceso);
+    }
+  });
 
   if (!PANEL_HABILITADO) {
     formLogin.querySelectorAll("input,button").forEach((control) => control.disabled = true);
@@ -2243,9 +2287,7 @@
 
   leerSesion();
   if (sesion?.access_token) {
-    entrarPanel().catch(() => {
-      sessionStorage.removeItem(SESSION_KEY);
-      sesion = null;
-    });
+    if (tarjetaLogin) tarjetaLogin.hidden = true;
+    recuperarAcceso();
   }
 })();

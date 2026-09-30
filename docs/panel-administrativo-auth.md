@@ -49,7 +49,7 @@ RLS
 operaciones administrativas
 ```
 
-El acceso compacto de la plataforma principal reutiliza la misma sesión almacenada temporalmente en `sessionStorage`.
+El acceso compacto de la plataforma principal y el panel utilizan el mismo gestor de sesión, servido desde `/admin-sesion.js`. La sesión válida se recupera al abrir el panel; si Supabase informa AAL2, no se repite el desafío MFA.
 
 ## Guardia administrativa
 
@@ -183,11 +183,27 @@ La auditoría registra el identificador de usuario, AAL y los datos anteriores/n
 
 ## Sesión del navegador
 
-La sesión del panel se conserva temporalmente en:
+El acceso compacto y el panel utilizan la capa común `window.EvaAdminSession`, sobre la API HTTP existente de Supabase. No se incorpora un SDK ni una dependencia externa.
 
-`sessionStorage`
+En navegadores con Web Locks y almacenamiento local disponible, la sesión se conserva en `localStorage`, bajo `eva_admin_supabase_session_v2`. La portada y el panel comparten el mismo origen. La sesión anterior de `sessionStorage` se migra una vez y se mantiene una copia temporal compatible durante la transición.
 
-La contraseña no se almacena en GitHub ni en Supabase como texto visible. Los tokens de sesión no deben copiarse a repositorios, documentos públicos ni registros de diagnóstico.
+Web Locks coordina la renovación, el login, la verificación MFA, la comprobación administrativa y el logout entre pestañas. Una promesa compartida coordina las solicitudes de renovación dentro de cada pestaña.
+
+Se renueva el token cuando quedan 90 segundos o menos, antes de las solicitudes protegidas y mediante comprobación proactiva cuando la página está visible. Las pestañas ocultas posponen la renovación proactiva; al volver a estar visibles se comprueba la sesión.
+
+Los errores transitorios de red, timeout, HTTP 429, HTTP 5xx o carga de contenido no eliminan la sesión guardada. El panel ofrece "Reintentar acceso". Las respuestas explícitas de Supabase que identifican una sesión o refresh token revocado sí limpian la sesión.
+
+AAL2 se conserva exclusivamente mediante el token que devuelve Supabase y se comprueba a través del RPC existente. No hay una bandera local que otorgue AAL2.
+
+"Cerrar sesión" borra la sesión de este navegador y utiliza `scope=local` en Supabase, para conservar las sesiones independientes de otras personas que usan la misma cuenta. Si no se confirma el cierre remoto, la interfaz lo informa; la limpieza local se realiza igualmente. El cierre se comunica a las otras pestañas del mismo navegador.
+
+Si Web Locks no está disponible, el gestor utiliza almacenamiento de pestaña y coordinación interna. Si el almacenamiento está restringido, la persistencia entre aperturas no está garantizada. No se guardan contraseñas, códigos MFA ni secretos del autenticador. Los campos de contraseña y código se limpian después del envío, y el secreto/QR de enrolamiento se limpia al completar MFA o cerrar la sesión.
+
+La persistencia requiere cerrar la sesión al terminar de trabajar en un equipo compartido. Los access tokens emitidos antes de un logout pueden seguir siendo válidos hasta su caducidad; esta etapa no modifica las políticas de base de datos para exigir comprobaciones adicionales de `auth.sessions`.
+
+Pruebas del panel: `node admin/tests/auth-session.test.cjs`.
+
+[Informe de la etapa 2](https://github.com/crebeucayali/crebeucayali.github.io/blob/main/docs/autenticacion-etapa-2-sesion.md).
 
 ## Restricción de altas
 
@@ -228,3 +244,4 @@ Después de modificar permisos o políticas se debe comprobar:
 - DELETE está permitido en Repositorio Accesible, Noticias destacadas y Galería únicamente para el administrador AAL2;
 - una fotografía visible en Galería requiere confirmación de autorización de publicación;
 - los asesores de seguridad y rendimiento no presentan advertencias.
+
