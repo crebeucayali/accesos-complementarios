@@ -13,7 +13,7 @@ function panel(options = {}) {
   let contentError = options.contentError || false;
   let authorization = options.authorized !== false;
   const calls=[];const listeners=[];const nodes=new Map();
-  let authCount=0;
+  let authCount=0;let resolveChallenge=null;
   function element(id) {
     if (!nodes.has(id)) nodes.set(id,{hidden:['seccion-admin','seccion-mfa','boton-reintentar-acceso'].includes(id),disabled:false,value:'',textContent:'',dataset:{},style:{},handlers:{},
       classList:{toggle(){},add(){},remove(){}},closest(){return element('seccion-login');},
@@ -35,11 +35,11 @@ function panel(options = {}) {
     subscribe(fn){listeners.push(fn);}
   };
   const context=vm.createContext({window:{EvaAdminSession:options.noHelper?undefined:auth},document:{getElementById:element,querySelectorAll:()=>[],createElement:()=>element('new')},
-    fetch:async url=>{calls.push(url);return {ok:true,status:200,text:async()=>JSON.stringify({id:'synthetic-challenge'})};},
+    fetch:async url=>{calls.push(url);if(options.pendingChallenge && url.includes('/challenge'))await new Promise(resolve=>{resolveChallenge=resolve;});return {ok:true,status:200,text:async()=>JSON.stringify({id:'synthetic-challenge'})};},
     URL,Intl,Date,console,location:{reload(){throw new Error('unexpected reload');}}});
   vm.runInContext(source,context);
   return {element,auth,calls,publish,get current(){return current;},get authCount(){return authCount;},
-    setAuthError(value){authError=value;},setContentError(value){contentError=value;},setAal(value){aal=value;}};
+    setAuthError(value){authError=value;},setContentError(value){contentError=value;},setAal(value){aal=value;},finishChallenge(){resolveChallenge();}};
 }
 test('una sesión AAL2 abre el panel sin solicitar MFA',async()=>{
   const p=panel();await tick();
@@ -107,4 +107,10 @@ test('un rechazo de contraseña limpia el campo y mantiene el login',async()=>{
 test('una renovación que baja a AAL1 vuelve a bloquear el contenido',async()=>{
   const p=panel();await tick();p.setAal('aal1');p.publish('TOKEN_REFRESHED');await tick();
   assert.equal(p.element('seccion-admin').hidden,true);assert.equal(p.element('seccion-mfa').hidden,false);
+});
+test('un desafío MFA pendiente no vuelve a mostrar el acceso después de logout',async()=>{
+  const p=panel({aal:'aal1',pendingChallenge:true});await tick();
+  await p.auth.signOut();p.finishChallenge();await tick();
+  assert.equal(p.element('seccion-mfa').hidden,true);assert.equal(p.element('seccion-admin').hidden,true);
+  assert.equal(p.element('seccion-login').hidden,false);
 });

@@ -109,7 +109,15 @@
   }
 
   async function prepararMfa() {
+    const confirmarSesion = () => {
+      if (saliendo || !auth.getSession()) {
+        const error = new Error("La sesión terminó. Inicia sesión nuevamente.");
+        error.definitive = true;
+        throw error;
+      }
+    };
     const estadoMfa = await obtenerEstadoMfa();
+    confirmarSesion();
 
     if (estadoMfa.tieneFactorVerificado && estadoMfa.factorId) {
       factorMfa = estadoMfa.factorId;
@@ -119,6 +127,7 @@
         method: "POST",
         body: "{}"
       });
+      confirmarSesion();
 
       const enrolado = await solicitar(SUPABASE_URL + "/auth/v1/factors", {
         method: "POST",
@@ -129,6 +138,7 @@
           issuer: "https://crebeucayali.github.io"
         })
       });
+      confirmarSesion();
       factorMfa = enrolado.id;
       $("mfa-enrolamiento").hidden = false;
       if (enrolado?.totp?.qr_code) {
@@ -145,6 +155,7 @@
       headers: authHeaders(sesion.access_token),
       body: "{}"
     });
+    confirmarSesion();
     desafioMfa = desafio.id;
     seccionMfa.hidden = false;
     $("codigo-mfa").focus();
@@ -207,6 +218,8 @@
     if (saliendo) return;
     saliendo = true;
     $("boton-salir").disabled = true;
+    seccionAdmin.hidden = true;
+    seccionMfa.hidden = true;
     try {
       const resultado = await auth.signOut();
       mostrarAccesoCerrado();
