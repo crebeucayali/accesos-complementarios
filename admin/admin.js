@@ -6,6 +6,9 @@
   const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_tHbo1jTeW_dC90hdA5DvyQ_a6LrfKpq";
   const auth = window.EvaAdminSession;
 
+  // La activación de una invitación no reemplaza una sesión administrativa abierta.
+  if (window.EvaActivacionPendiente) return;
+
   const $ = (id) => document.getElementById(id);
   const estadoTitulo = $("estado-panel-titulo");
   const estadoMensaje = $("estado-panel-mensaje");
@@ -30,6 +33,54 @@
   let desafioMfa = null;
   let accesoPendiente = null;
   let saliendo = false;
+  let perfil = null;
+  let clavePermisos = "";
+  const modulosContenido = ["capacitaciones", "calendario", "repositorio", "noticias", "galeria"];
+
+  function permitePanel(modulo, escritura = false) {
+    if (!perfil?.autorizado || perfil.aal !== "aal2") return false;
+    if (perfil.rol === "master") return true;
+    return modulosContenido.includes(modulo) && perfil.modulos.includes(modulo)
+      && (!escritura || perfil.rol === "editor");
+  }
+
+  function limpiarContenidoPrivado() {
+    capacitaciones = []; actividades = []; recursosRepositorio = []; noticiasDestacadas = []; galeriaItems = [];
+    archivoNoticiaSeleccionado = null; archivoCapFlyerSeleccionado = null;
+    archivoCapInfografiaSeleccionado = null; archivoRepositorioSeleccionado = null; imagenesGaleriaEditor = [];
+    modulosContenido.forEach(modulo => {
+      const panel = $("panel-" + modulo);
+      panel?.querySelectorAll("input,textarea").forEach(control => {
+        if (control.type === "checkbox") control.checked = false; else control.value = "";
+      });
+      panel?.querySelectorAll("img").forEach(img => img.removeAttribute("src"));
+      panel?.querySelectorAll("select").forEach(control => {
+        if (control.id?.endsWith("selector")) control.replaceChildren();
+      });
+    });
+    ["gal-imagenes-editor", "estadisticas-mensual", "estadisticas-diarias", "estadisticas-modulos", "compartidos-modulos", "compartidos-paginas"].forEach(id => $(id)?.replaceChildren());
+    window.EvaUsuarios?.limpiar();
+  }
+
+  function aplicarPermisos() {
+    document.querySelectorAll(".tab").forEach(boton => {
+      boton.hidden = !permitePanel(boton.dataset.panel);
+      if (boton.hidden) $("panel-" + boton.dataset.panel).hidden = true;
+    });
+    modulosContenido.forEach(modulo => {
+      $("panel-" + modulo)?.querySelectorAll("input,textarea,select,button").forEach(control => {
+        const bloquear = !permitePanel(modulo, true) && !(control.id?.endsWith("selector"));
+        if (bloquear && control.dataset.bloqueadoPermiso !== "true") {
+          control.dataset.disabledPrevio = String(control.disabled);
+          control.dataset.bloqueadoPermiso = "true"; control.disabled = true;
+        } else if (!bloquear && control.dataset.bloqueadoPermiso === "true") {
+          control.disabled = control.dataset.disabledPrevio === "true";
+          delete control.dataset.bloqueadoPermiso; delete control.dataset.disabledPrevio;
+        }
+      });
+    });
+    window.EvaUsuarios?.configurar(perfil);
+  }
   let capacitaciones = [];
   let actividades = [];
   let recursosRepositorio = [];
@@ -82,7 +133,18 @@
 
   async function rest(path, opciones = {}) {
     await refrescarSesionSiHaceFalta();
-    return auth.request(path, opciones);
+    const usuario = sesion?.user?.id;
+    const permisos = clavePermisos;
+    const tablas = {capacitaciones_sesiones:"capacitaciones",calendario_actividades:"calendario",repositorio_recursos:"repositorio",noticias_destacadas:"noticias",galeria_items:"galeria",galeria_item_imagenes:"galeria","rpc/admin_guardar_actividad_calendario":"calendario"};
+    const modulo = tablas[path.split("?")[0]];
+    if (modulo && ["POST","PATCH","DELETE","PUT"].includes(opciones.method?.toUpperCase()) && !permitePanel(modulo,true)) {
+      throw new Error("No tienes permiso de escritura en este módulo.");
+    }
+    const resultado = await auth.request(path, opciones);
+    if (auth.getSession()?.user?.id !== usuario || clavePermisos !== permisos) {
+      throw new Error("La sesión o los permisos cambiaron durante la operación. Reintenta el acceso.");
+    }
+    return resultado;
   }
 
   async function comprobarAutorizacion() {
@@ -181,6 +243,8 @@
     if (tarjetaLogin) tarjetaLogin.hidden = true;
 
     if (estado.aal !== "aal2") {
+      perfil = null;
+      aplicarPermisos();
       seccionAdmin.hidden = true;
       seccionMfa.hidden = false;
       estadoTitulo.textContent = "Verificación en dos pasos";
@@ -189,13 +253,29 @@
       return;
     }
 
+    const nuevoPerfil = await rest("rpc/perfil_panel_admin", {method:"POST", body:"{}"});
+    if (!nuevoPerfil?.autorizado || nuevoPerfil.aal !== "aal2"
+      || !["master","editor","consulta"].includes(nuevoPerfil.rol)
+      || nuevoPerfil.user_id !== auth.getSession()?.user?.id || !Array.isArray(nuevoPerfil.modulos)) {
+      seccionAdmin.hidden = true;
+      throw new Error("Los permisos cambiaron. Reintenta el acceso para comprobar tu autorización.");
+    }
+    const nuevaClave = JSON.stringify([nuevoPerfil.user_id,nuevoPerfil.rol,nuevoPerfil.modulos]);
+    if (nuevaClave !== clavePermisos) limpiarContenidoPrivado();
+    perfil = nuevoPerfil; clavePermisos = nuevaClave;
+    aplicarPermisos();
     seccionMfa.hidden = true;
     seccionAdmin.hidden = false;
     estadoTitulo.textContent = "Acceso administrativo activo";
     estadoMensaje.textContent = "";
-    $("usuario-actual").textContent = sesion?.user?.email || "Administrador";
-    const cargas = await Promise.allSettled([cargarCapacitaciones(), cargarCalendario(), cargarRepositorio(), cargarNoticiasDestacadas(), cargarGaleriaAdmin(), cargarEstadisticasVisitas()]);
+    $("usuario-actual").textContent = (perfil.nombre || sesion?.user?.email || "Usuario") + " · " + perfil.rol;
+    const cargadores = {capacitaciones:cargarCapacitaciones,calendario:cargarCalendario,repositorio:cargarRepositorio,noticias:cargarNoticiasDestacadas,galeria:cargarGaleriaAdmin,estadisticas:cargarEstadisticasVisitas};
+    const cargas = await Promise.allSettled(Object.entries(cargadores).filter(([modulo]) => permitePanel(modulo)).map(([,cargar]) => cargar()));
     if (!auth.getSession()) return;
+    aplicarPermisos();
+    if (perfil.rol !== "master" && !perfil.modulos.some(modulo => modulosContenido.includes(modulo))) {
+      estadoMensaje.textContent = "Tu cuenta está activa y todavía no tiene módulos asignados. Solicita la asignación a la cuenta master.";
+    }
     if (cargas.some(resultado => resultado.status === "rejected")) {
       estadoMensaje.textContent = "La sesión está activa. Parte de la información no pudo cargarse. Pulsa Reintentar acceso.";
       reintentarAcceso.hidden = false;
@@ -231,6 +311,9 @@
   }
 
   function mostrarAccesoCerrado() {
+    perfil = null; clavePermisos = "";
+    limpiarContenidoPrivado();
+    aplicarPermisos();
     sesion = null;
     factorMfa = null;
     desafioMfa = null;
@@ -2005,6 +2088,7 @@
 
   document.querySelectorAll(".tab").forEach((boton) => {
     boton.addEventListener("click", () => {
+      if (!permitePanel(boton.dataset.panel)) return;
       document.querySelectorAll(".tab").forEach((x) => x.classList.toggle("activo", x === boton));
       $("panel-inicio").hidden = true;
       $("panel-capacitaciones").hidden = boton.dataset.panel !== "capacitaciones";
@@ -2013,6 +2097,10 @@
       $("panel-noticias").hidden = boton.dataset.panel !== "noticias";
       $("panel-galeria").hidden = boton.dataset.panel !== "galeria";
       $("panel-estadisticas").hidden = boton.dataset.panel !== "estadisticas";
+      $("panel-usuarios").hidden = boton.dataset.panel !== "usuarios";
+      if (boton.dataset.panel === "usuarios") {
+        window.EvaUsuarios?.cargar().catch(error => mostrarMensaje(error.message,"error"));
+      }
       if (boton.dataset.panel === "estadisticas") {
         Promise.all([
           cargarEstadisticasVisitas(),
@@ -2278,9 +2366,16 @@
         reintentarAcceso.hidden = false;
       }
     } else if (evento === "SESSION_UPDATED" || evento === "TOKEN_REFRESHED") {
-      comprobarAutorizacion().then(estado => {
+      comprobarAutorizacion().then(async estado => {
         if (!auth.getSession()) return;
         if (!estado.autorizado || estado.aal !== "aal2") {
+          seccionAdmin.hidden = true;
+          recuperarAcceso();
+          return;
+        }
+        const actual = await rest("rpc/perfil_panel_admin", {method:"POST",body:"{}"});
+        const claveActual = JSON.stringify([actual?.user_id,actual?.rol,actual?.modulos]);
+        if (!actual?.autorizado || actual.aal !== "aal2" || claveActual !== clavePermisos) {
           seccionAdmin.hidden = true;
           recuperarAcceso();
         }

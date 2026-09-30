@@ -80,6 +80,20 @@
           <p class="nota">No existe registro público de usuarios. El acceso requiere una cuenta autorizada y verificación en dos pasos.</p>
         </section>
 
+        <section class="tarjeta" id="seccion-activacion" hidden aria-labelledby="titulo-activacion">
+          <h2 id="titulo-activacion">Activar cuenta editorial</h2>
+          <p id="activacion-mensaje" role="status" aria-live="polite"></p>
+          <form id="form-activacion" hidden>
+            <label for="activacion-clave">Nueva contraseña (mínimo 12 caracteres)</label>
+            <input id="activacion-clave" type="password" minlength="12" autocomplete="new-password" required>
+            <label for="activacion-confirmacion">Repetir contraseña</label>
+            <input id="activacion-confirmacion" type="password" minlength="12" autocomplete="new-password" required>
+            <button type="submit">Guardar contraseña</button>
+          </form>
+          <p>Después de activar tu contraseña, inicia sesión y configura tu autenticador para acceder a los módulos asignados.</p>
+          <a href="./">Ir al acceso administrativo</a>
+        </section>
+
         <section class="tarjeta" id="seccion-mfa" hidden aria-labelledby="titulo-mfa">
           <div class="titulo-tarjeta">
             <span class="identificador-admin" aria-hidden="true">2FA</span>
@@ -122,6 +136,7 @@
             <button type="button" class="tab" data-panel="noticias">Noticias</button>
             <button type="button" class="tab" data-panel="galeria">Galería</button>
             <button type="button" class="tab" data-panel="estadisticas">Estadísticas</button>
+            <button type="button" class="tab" data-panel="usuarios" hidden>Usuarios</button>
           </nav>
 
           <section class="tarjeta panel-seccion panel-inicio-admin" id="panel-inicio" aria-label="Inicio del panel administrativo">
@@ -448,6 +463,44 @@
           </section>
 
 
+          <section class="tarjeta panel-seccion" id="panel-usuarios" hidden aria-labelledby="titulo-usuarios">
+            <div class="titulo-tarjeta"><span class="identificador-admin" aria-hidden="true">USR</span><div>
+              <p class="micro-etiqueta">Administración principal</p><h2 id="titulo-usuarios">Usuarios y módulos</h2>
+            </div></div>
+            <p>La cuenta master conserva el acceso completo y está protegida. Las nuevas cuentas comienzan como editor. Todos los cambios requieren verificación en dos pasos.</p>
+            <button id="usuarios-recargar" type="button" class="secundario">Actualizar listado</button>
+            <p id="usuarios-mensaje" class="mensaje" role="status" aria-live="polite"></p>
+            <div class="tabla-estadisticas-wrap"><table class="tabla-estadisticas">
+              <caption>Usuarios autorizados y autorizaciones pendientes</caption>
+              <thead><tr><th scope="col">Nombre</th><th scope="col">Correo</th><th scope="col">Rol</th><th scope="col">Estado</th><th scope="col">Módulos</th><th scope="col">Última modificación</th><th scope="col">Acción</th></tr></thead>
+              <tbody id="usuarios-listado"></tbody>
+            </table></div>
+            <form id="form-usuario-editar" hidden>
+              <h3>Editar acceso</h3>
+              <p id="usuario-editar-correo"></p>
+              <div class="grid">
+                <label>Nombre<input id="usuario-editar-nombre" maxlength="160" required></label>
+                <label>Rol<select id="usuario-editar-rol"><option value="editor">Editor</option><option value="consulta">Consulta (solo lectura)</option></select></label>
+              </div>
+              <label class="check"><input id="usuario-editar-activo" type="checkbox"> Cuenta activa</label>
+              <fieldset id="usuario-editar-modulos"><legend>Módulos asignados</legend></fieldset>
+              <p>Retirar un módulo o desactivar la cuenta bloquea su acceso administrativo en Supabase, incluso con una sesión previamente emitida.</p>
+              <button id="usuario-guardar" type="submit">Guardar cambios</button>
+              <button id="usuario-cancelar" type="button" class="secundario">Cancelar</button>
+            </form>
+            <form id="form-usuario-invitar">
+              <h3>Incorporar editor</h3>
+              <p>Introduce el correo real de la persona. Al enviar, se autorizará la cuenta y Supabase enviará su enlace de activación.</p>
+              <div class="grid">
+                <label>Nombre<input id="usuario-nuevo-nombre" maxlength="160" autocomplete="off" required></label>
+                <label>Correo<input id="usuario-nuevo-email" type="email" maxlength="254" autocomplete="off" required></label>
+              </div>
+              <fieldset id="usuario-nuevo-modulos"><legend>Módulos iniciales</legend></fieldset>
+              <p class="nota">Materiales queda reservado hasta que se integre su gestión. No se asignan otros módulos administrativos a los editores.</p>
+              <button id="usuario-invitar" type="submit">Autorizar y enviar invitación</button>
+            </form>
+          </section>
+
           <section class="tarjeta panel-seccion" id="panel-estadisticas" hidden>
             <div class="titulo-tarjeta">
               <span class="identificador-admin" aria-hidden="true">EST</span>
@@ -653,7 +706,9 @@
   </footer>
 
   <script src="https://crebeucayali.github.io/admin-sesion.js?v=1" defer></script>
-  <script src="admin.js?v=31" defer></script>
+  <script src="activacion.js?v=1" defer></script>
+  <script src="usuarios.js?v=1" defer></script>
+  <script src="admin.js?v=32" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>
 </html>
