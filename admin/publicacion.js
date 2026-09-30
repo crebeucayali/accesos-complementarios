@@ -9,8 +9,8 @@
     noticias: {tabla:"noticias_destacadas",campos:"id,titulo,visible,estado_publicacion,updated_at"},
     galeria: {tabla:"galeria_items",campos:"id,titulo,visible,estado_publicacion,publicacion_autorizada,updated_at"}
   };
-  // Se habilitará tras aplicar el filtro público pendiente en el repositorio Capacitaciones.
-  const filtroCapacitacionesPendiente = true;
+  // Los filtros públicos están desplegados; la pausa de invitaciones se conserva por separado.
+  const filtroCapacitacionesPendiente = false;
   let perfil = null, clave = "", revision = 0, alCambiar = null;
   const listas = new Map(), cargas = new Map(), operaciones = new Set();
   const vigente = () => perfil?.autorizado && perfil.aal === "aal2"

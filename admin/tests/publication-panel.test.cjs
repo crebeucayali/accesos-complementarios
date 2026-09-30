@@ -47,11 +47,13 @@ test('AAL1 no consulta ni opera contenido privado',async()=>{const p=panel({aal:
 test('otro módulo y Materiales se rechazan antes de llamar a API',async()=>{
   const p=panel();await assert.rejects(p.api.cargar('galeria'));await assert.rejects(p.api.cargar('materiales'));assert.equal(p.calls.length,0);
 });
-test('Capacitaciones mantiene acciones pausadas hasta completar filtro público',async()=>{
+test('Capacitaciones permite publicar y archivar después de cerrar el filtro público',async()=>{
   const p=panel({modules:['capacitaciones'],rows:[{id:1,titulo:'Sesión',jornada:1,numero_sesion:1,visible:false,updated_at:'v1'}]});
-  await p.api.cargarTodos();assert.equal(p.botones('capacitaciones').length,0);
-  assert.match(p.get('publicacion-mensaje-capacitaciones').textContent,/pausados/);
+  await p.api.cargarTodos();assert.deepEqual(p.botones('capacitaciones').map(b=>b.textContent),['Publicar']);
   assert.equal(p.get('publicacion-listado-capacitaciones').children[0].children[1].textContent,'Archivado');
+  await p.botones('capacitaciones')[0].handlers.click();
+  assert.deepEqual(p.botones('capacitaciones').map(b=>b.textContent),['Archivar']);
+  assert.equal(JSON.parse(p.calls.find(c=>c.p.startsWith('rpc/')).o.body).p_modulo,'capacitaciones');
 });
 test('Galería sin consentimiento del master no permite publicar',async()=>{
   const p=panel({modules:['galeria'],rows:[{id:1,titulo:'Álbum',visible:false,estado_publicacion:'archivado',publicacion_autorizada:false,updated_at:'v1'}]});

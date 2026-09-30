@@ -91,7 +91,7 @@
     finally { boton.disabled=false; }
   }
   async function enviarInvitacion(email,nombre,asignacion,boton) {
-    exigeMaster(); if(invitacionesPausadas) throw new Error("Invitaciones pausadas: falta completar el filtro público de Capacitaciones.");
+    exigeMaster(); if(invitacionesPausadas) throw new Error("Invitaciones pausadas hasta cerrar la auditoría y recibir autorización expresa.");
     if(boton.disabled) return; boton.disabled=true;
     const revision=version;
     try {
