@@ -75,6 +75,8 @@ Documentación: este informe, SQL aplicado, aviso de informe histórico en `docs
 
 ## Pruebas y resultados
 
+Los seis archivos de ejecución se publicaron en el [commit 9839c64](https://github.com/crebeucayali/accesos-complementarios/commit/9839c64c169b9a6033e0cc502d03350beea0b356). El [despliegue de GitHub Pages](https://github.com/crebeucayali/accesos-complementarios/actions/runs/36728550616) terminó con resultado `success`. La comparación del commit confirma que no cambió CSS ni archivos de otros repositorios. El seguimiento de pruebas/documentación no cambia los archivos de ejecución.
+
 - **62 comprobaciones Supabase conformes**, con roles PostgreSQL reales authenticated/anon y claims sintéticos, dentro de una transacción revertida. [SQL reproducible](../admin/tests/publication-rollback.sql) y [resultados](../admin/tests/publication-results.json). En los cinco módulos: master publica/archiva/restaura; editor lee publicados/archivados y publica/archiva; DELETE directo y PATCH generales editor bloqueados; campos y registros preservados; AAL2, versiones y asignaciones comprobadas. Master elimina en los tres módulos previstos. Auditoría de las cuatro acciones con UUID/rol/módulo/registro/fecha, imágenes y Storage conservados, usuarios/roles/permisos/estadísticas editor bloqueados y master protegido.
 - **75 pruebas Node conformes**: panel, sesión integrada, usuarios, activación, servidor de invitaciones y filtros públicos. Incluyen 13 comprobaciones de los parches externos preparados, que todavía no equivalen a una validación de sus páginas desplegadas.
 - **31 regresiones del helper de sesión de Etapa 2 conformes**: recuperación AAL2, renovación coordinada entre pestañas, fallos transitorios, logout y rechazo definitivo. El helper no fue modificado.

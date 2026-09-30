@@ -73,6 +73,9 @@ begin
     perform set_config('request.jwt.claims',jsonb_build_object('sub',m,'role','authenticated','aal','aal2')::text,true);
     execute format('select updated_at from public.%I where id=$1',t) into version using id_fila;
     resultado:=public.admin_cambiar_publicacion(v_modulo,id_fila,'archivar',version); assert resultado->>'estado'='archivado','Master no archiva';
+    resultado:=public.admin_cambiar_publicacion(v_modulo,id_fila,'publicar',(resultado->>'updated_at')::timestamptz);
+    assert resultado->>'estado'='publicado','Master no publica archivado';
+    resultado:=public.admin_cambiar_publicacion(v_modulo,id_fila,'archivar',(resultado->>'updated_at')::timestamptz);
     resultado:=public.admin_cambiar_publicacion(v_modulo,id_fila,'restaurar',(resultado->>'updated_at')::timestamptz);
     assert resultado->>'estado'='publicado','Master no restaura';
     resultado:=public.admin_cambiar_publicacion(v_modulo,id_fila,'publicar',(resultado->>'updated_at')::timestamptz);
