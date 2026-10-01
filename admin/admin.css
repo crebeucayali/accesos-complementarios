@@ -376,19 +376,21 @@ button:disabled{
 }
 .tabs{
   display:flex;
-  gap:10px;
+  gap:6px;
   margin:22px 0 0;
   padding:6px;
   background:#eaf1f3;
   border:1px solid var(--borde);
   border-radius:999px;
-  width:max-content;
+  width:100%;
   max-width:100%;
 }
 .tab{
+  flex:1 1 0;
+  min-width:0;
+  padding-inline:10px;
   color:#17324a;
   background:transparent;
-  min-width:150px;
 }
 .tab:hover{
   background:#d9e9e7;
