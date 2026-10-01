@@ -1,16 +1,24 @@
--- Fixtures sin contraseñas ni invitaciones. Ejecutar completo: siempre ROLLBACK.
+-- Fixtures sin contraseñas ni invitaciones. Sesiones sintéticas con rollback.
+-- Ejecutar completo: siempre ROLLBACK. No usa sesiones ni credenciales reales.
 begin;
 do $$
 declare m uuid; e uuid:=gen_random_uuid(); c uuid:=gen_random_uuid();
 begin
   select user_id into strict m from admin_guard.admin_usuarios_autorizados where rol='master' and activo;
   perform set_config('eva.fix.master',m::text,true); perform set_config('eva.fix.editor',e::text,true); perform set_config('eva.fix.consulta',c::text,true);
-  perform set_config('request.jwt.claims',jsonb_build_object('sub',m,'role','authenticated','aal','aal2')::text,true);
+  perform set_config('eva.fix.master_session',gen_random_uuid()::text,true);
+  perform set_config('eva.fix.editor_session',gen_random_uuid()::text,true);
+  perform set_config('eva.fix.consulta_session',gen_random_uuid()::text,true);
+  perform set_config('request.jwt.claims',jsonb_build_object('sub',m,'session_id',current_setting('eva.fix.master_session'),'role','authenticated','aal','aal2')::text,true);
   insert into admin_guard.admin_correos_autorizados(email,nombre,rol,modulos,autorizado_por) values
     ('editor-'||e||'@example.invalid','Fixture editor','editor',array['capacitaciones','calendario','repositorio','noticias','galeria'],m),
     ('consulta-'||c||'@example.invalid','Fixture consulta','consulta',array['noticias'],m);
   insert into auth.users(id,email,email_confirmed_at) values
     (e,'editor-'||e||'@example.invalid',now()),(c,'consulta-'||c||'@example.invalid',now());
+  insert into auth.sessions(id,user_id,aal,created_at,updated_at) values
+    (current_setting('eva.fix.master_session')::uuid,m,'aal2',now(),now()),
+    (current_setting('eva.fix.editor_session')::uuid,e,'aal2',now(),now()),
+    (current_setting('eva.fix.consulta_session')::uuid,c,'aal2',now(),now());
 end $$;
 set local role authenticated;
 do $$
@@ -42,14 +50,31 @@ end $$;
 do $$
 declare m uuid:=current_setting('eva.fix.master')::uuid; e uuid:=current_setting('eva.fix.editor')::uuid; c uuid:=current_setting('eva.fix.consulta')::uuid;
   mapa jsonb:=current_setting('eva.fix.mapa')::jsonb; v_modulo text; t text; id_fila bigint; fila jsonb; antes jsonb; version timestamptz;
-  resultado jsonb; n integer; bad boolean; qual text; permitido boolean; tests text[]:='{}';
+  resultado jsonb; n integer; bad boolean; qual text; permitido boolean; cols text; vals text; tests text[]:='{}';
 begin
   for v_modulo in select unnest(array['capacitaciones','calendario','repositorio','noticias','galeria']) loop
     t:=mapa->v_modulo->>'tabla'; id_fila:=(mapa->v_modulo->>'id')::bigint;
-    perform set_config('request.jwt.claims',jsonb_build_object('sub',e,'role','authenticated','aal','aal2','user_metadata','{"rol":"master"}'::jsonb)::text,true);
+    perform set_config('request.jwt.claims',jsonb_build_object('sub',m,'session_id',current_setting('eva.fix.master_session'),'role','authenticated','aal','aal2')::text,true);
+    if v_modulo='calendario' then
+      execute format('update public.%I set titulo=$1,contenido_lineas=jsonb_build_array($1::text) where id=$2',t) using 'Fixture editado por master',id_fila;
+    else
+      execute format('update public.%I set titulo=$1 where id=$2',t) using 'Fixture editado por master',id_fila;
+    end if;
+    get diagnostics n=row_count; assert n=1,'Master no edita estructura del módulo';
+    tests:=array_append(tests,v_modulo||': master edita contenido estructural');
+    perform set_config('request.jwt.claims',jsonb_build_object('sub',e,'session_id',current_setting('eva.fix.editor_session'),'role','authenticated','aal','aal2','user_metadata','{"rol":"master"}'::jsonb)::text,true);
     assert private.permite_modulo(v_modulo,false) and not private.permite_modulo(v_modulo,true),'Editor obtuvo escritura estructural';
     execute format('select to_jsonb(r) from public.%I r where id=$1',t) into antes using id_fila;
     assert antes is not null,'Editor no lee publicado asignado';
+    bad:=false;
+    begin
+      select string_agg(format('%I',attname),',' order by attnum),string_agg(format('r.%I',attname),',' order by attnum)
+        into cols,vals from pg_attribute where attrelid=format('public.%I',t)::regclass and attnum>0 and not attisdropped and attname<>'id';
+      execute format('insert into public.%I(%s) select %s from jsonb_populate_record(null::public.%I,$1) r',t,cols,vals,t)
+        using antes;
+    exception when insufficient_privilege then bad:=true; end;
+    assert bad,'Editor insertó contenido estructural';
+    tests:=array_append(tests,v_modulo||': editor INSERT estructural bloqueado');
     n:=0; begin execute format('delete from public.%I where id=$1',t) using id_fila; get diagnostics n=row_count;
       exception when insufficient_privilege then n:=0; end;
     assert n=0,'Editor ejecutó DELETE';
@@ -63,14 +88,14 @@ begin
     execute format('select to_jsonb(r) from public.%I r where id=$1',t) into fila using id_fila;
     assert fila is not null and (fila->>'visible')::boolean=false,'Archivado desapareció del panel o se eliminó';
     assert (fila-array['visible','estado_publicacion','updated_at'])=(antes-array['visible','estado_publicacion','updated_at']),'Archivar alteró campos de contenido';
-    bad:=false; begin perform public.admin_cambiar_publicacion(v_modulo,id_fila,'publicar',version); exception when serialization_failure then bad:=true; end;
+    bad:=false; begin perform public.admin_cambiar_publicacion(v_modulo,id_fila,'publicar',version-interval '1 day'); exception when serialization_failure then bad:=true; end;
     assert bad,'Una versión obsoleta no fue rechazada';
     version:=(fila->>'updated_at')::timestamptz;
     bad:=false; begin perform public.admin_cambiar_publicacion(v_modulo,id_fila,'restaurar',version); exception when insufficient_privilege then bad:=true; end;
     assert bad,'Editor accede a acción exclusiva Restaurar';
     resultado:=public.admin_cambiar_publicacion(v_modulo,id_fila,'publicar',version);
     assert resultado->>'estado'='publicado' and resultado->>'evento'='restaurado','Editor no publica archivado asignado';
-    perform set_config('request.jwt.claims',jsonb_build_object('sub',m,'role','authenticated','aal','aal2')::text,true);
+    perform set_config('request.jwt.claims',jsonb_build_object('sub',m,'session_id',current_setting('eva.fix.master_session'),'role','authenticated','aal','aal2')::text,true);
     execute format('select updated_at from public.%I where id=$1',t) into version using id_fila;
     resultado:=public.admin_cambiar_publicacion(v_modulo,id_fila,'archivar',version); assert resultado->>'estado'='archivado','Master no archiva';
     resultado:=public.admin_cambiar_publicacion(v_modulo,id_fila,'publicar',(resultado->>'updated_at')::timestamptz);
@@ -92,7 +117,7 @@ begin
   perform public.admin_cambiar_publicacion('noticias',id_fila,'archivar',(resultado->>'updated_at')::timestamptz);
   insert into public.noticias_destacadas(titulo,descripcion,visible,estado_publicacion)
     values('Fixture exclusivo master','Borrador sin entregar',false,'borrador') returning id,updated_at into id_fila,version;
-  perform set_config('request.jwt.claims',jsonb_build_object('sub',e,'role','authenticated','aal','aal2')::text,true);
+  perform set_config('request.jwt.claims',jsonb_build_object('sub',e,'session_id',current_setting('eva.fix.editor_session'),'role','authenticated','aal','aal2')::text,true);
   select count(*) into n from public.noticias_destacadas where id=id_fila; assert n=0,'Editor ve borrador privado';
   bad:=false; begin perform public.admin_cambiar_publicacion('noticias',id_fila,'publicar',version); exception when insufficient_privilege then bad:=true; end;
   assert bad,'Editor publica borrador sin preparación del master';
@@ -113,27 +138,30 @@ begin
   bad:=false; begin insert into storage.objects(bucket_id,name) values('eva-publico','noticias/_prohibido.jpg'); exception when insufficient_privilege then bad:=true; end; assert bad,'Editor subió Storage';
   update storage.objects set name='noticias/_cambio_prohibido.jpg' where id=current_setting('eva.fix.objeto')::uuid;
   get diagnostics n=row_count; assert n=0,'Editor modificó Storage';
+  n:=0; begin delete from storage.objects where id=current_setting('eva.fix.objeto')::uuid;
+    get diagnostics n=row_count; exception when insufficient_privilege then n:=0; end;
+  assert n=0,'Editor eliminó Storage';
   select p.qual into strict qual from pg_policies p where schemaname='storage' and tablename='objects' and policyname='eva_publico_admin_mfa_delete';
   execute 'select ('||qual||') from storage.objects where id=$1' into permitido using current_setting('eva.fix.objeto')::uuid;
   assert not permitido,'DELETE Storage permitido al editor';
   tests:=tests||array['master publica borrador','editor no ve ni publica borradores privados','RPC rechaza eliminar','editor no crea registros','RPC estructural calendario master',
     'editor no administra usuarios','editor no autoriza usuarios','editor no modifica roles/permisos','tabla administrativa privada',
     'editor sin estadísticas','Materiales no habilitado','Storage INSERT/UPDATE/DELETE editor bloqueados'];
-  perform set_config('request.jwt.claims',jsonb_build_object('sub',c,'role','authenticated','aal','aal2')::text,true);
+  perform set_config('request.jwt.claims',jsonb_build_object('sub',c,'session_id',current_setting('eva.fix.consulta_session'),'role','authenticated','aal','aal2')::text,true);
   select updated_at into version from public.noticias_destacadas where id=id_fila;
   bad:=false; begin perform public.admin_cambiar_publicacion('noticias',id_fila,'publicar',version); exception when insufficient_privilege then bad:=true; end;
   assert bad,'Consulta publicó'; tests:=array_append(tests,'consulta solo lectura');
-  perform set_config('request.jwt.claims',jsonb_build_object('sub',e,'role','authenticated','aal','aal1')::text,true);
+  perform set_config('request.jwt.claims',jsonb_build_object('sub',e,'session_id',current_setting('eva.fix.editor_session'),'role','authenticated','aal','aal1')::text,true);
   bad:=false; begin perform public.admin_cambiar_publicacion('noticias',id_fila,'publicar',version); exception when insufficient_privilege then bad:=true; end;
   assert bad,'AAL1 publicó'; tests:=array_append(tests,'AAL2 obligatorio');
-  perform set_config('request.jwt.claims',jsonb_build_object('sub',m,'role','authenticated','aal','aal2')::text,true);
+  perform set_config('request.jwt.claims',jsonb_build_object('sub',m,'session_id',current_setting('eva.fix.master_session'),'role','authenticated','aal','aal2')::text,true);
   select (value->>'actualizado_at')::timestamptz into version from jsonb_array_elements(public.admin_listar_usuarios()) where value->>'user_id'=e::text;
   perform public.admin_guardar_usuario(e,null,'Fixture editor','editor',true,array['noticias'],version);
   bad:=false; begin perform public.admin_autorizar_editor('nadie@example.invalid','Nadie',array['noticias']); exception when sqlstate '55000' then bad:=true; end;
   assert bad,'Invitaciones no están pausadas'; tests:=array_append(tests,'invitaciones bloqueadas también en servidor');
   bad:=false; begin perform public.admin_guardar_usuario(m,null,'Master','editor',false,'{}',now()); exception when insufficient_privilege then bad:=true; end;
   assert bad,'Master puede degradarse'; tests:=array_append(tests,'master protegido por RPC');
-  perform set_config('request.jwt.claims',jsonb_build_object('sub',e,'role','authenticated','aal','aal2')::text,true);
+  perform set_config('request.jwt.claims',jsonb_build_object('sub',e,'session_id',current_setting('eva.fix.editor_session'),'role','authenticated','aal','aal2')::text,true);
   bad:=false; begin perform public.admin_cambiar_publicacion('galeria',(mapa->'galeria'->>'id')::bigint,'archivar',now()); exception when insufficient_privilege then bad:=true; end;
   assert bad,'Editor opera módulo retirado'; tests:=array_append(tests,'módulo no asignado bloqueado con JWT vigente');
   perform set_config('eva.fix.tests',to_jsonb(tests)::text,true);
@@ -164,7 +192,7 @@ set local role authenticated;
 do $$
 declare v_modulo text; mapa jsonb:=current_setting('eva.fix.mapa')::jsonb; version timestamptz; t text;
 begin
-  perform set_config('request.jwt.claims',jsonb_build_object('sub',current_setting('eva.fix.master'),'role','authenticated','aal','aal2')::text,true);
+  perform set_config('request.jwt.claims',jsonb_build_object('sub',current_setting('eva.fix.master'),'session_id',current_setting('eva.fix.master_session'),'role','authenticated','aal','aal2')::text,true);
   for v_modulo in select unnest(array['capacitaciones','calendario','repositorio','noticias','galeria']) loop
     t:=mapa->v_modulo->>'tabla'; execute format('select updated_at from public.%I where id=$1',t) into version using (mapa->v_modulo->>'id')::bigint;
     perform public.admin_cambiar_publicacion(v_modulo,(mapa->v_modulo->>'id')::bigint,'archivar',version);

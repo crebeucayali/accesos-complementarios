@@ -1,3 +1,5 @@
+-- PRUEBA HISTÓRICA OBSOLETA: contiene expectativas de CRUD editor previas al cierre.
+-- No ejecutar para validar permisos actuales. Usar publication-rollback.sql y security-closure-rollback.sql.
 -- Ejecutar completo. Todos los datos sintéticos, autorizaciones y contenidos se revierten.
 -- No hay contraseñas, identidades de acceso ni correos enviados.
 begin;

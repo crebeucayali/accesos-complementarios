@@ -199,7 +199,9 @@ AAL2 se conserva exclusivamente mediante el token que devuelve Supabase y se com
 
 Si Web Locks no está disponible, el gestor utiliza almacenamiento de pestaña y coordinación interna. Si el almacenamiento está restringido, la persistencia entre aperturas no está garantizada. No se guardan contraseñas, códigos MFA ni secretos del autenticador. Los campos de contraseña y código se limpian después del envío, y el secreto/QR de enrolamiento se limpia al completar MFA o cerrar la sesión.
 
-La persistencia requiere cerrar la sesión al terminar de trabajar en un equipo compartido. Los access tokens emitidos antes de un logout pueden seguir siendo válidos hasta su caducidad; esta etapa no modifica las políticas de base de datos para exigir comprobaciones adicionales de `auth.sessions`.
+La persistencia requiere cerrar la sesión al terminar de trabajar en un equipo compartido. Desde la migración `20260930225705`, la autorización administrativa valida el `session_id` contra `auth.sessions`, su pertenencia al usuario y vigencia, además del estado administrativo y el bloqueo Auth. Un access token anterior ya no autoriza operaciones administrativas después de la revocación efectiva de su sesión. La firma/caducidad JWT sigue siendo validada por Auth/PostgREST. Si el logout remoto no se confirma por un fallo de red, la interfaz informa ese resultado y debe comprobarse el cierre con conexión.
+
+[Informe de cierre de sesiones y estadísticas](cierre-sesiones-estadisticas-master-2026-09-30.md).
 
 Pruebas del panel: `node admin/tests/auth-session.test.cjs`.
 
