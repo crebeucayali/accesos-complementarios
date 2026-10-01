@@ -829,6 +829,11 @@ body.alto-contraste .listado-publicaciones-scroll:focus-visible{
   overflow-wrap:anywhere;
 }
 
+#panel-usuarios .listado-publicaciones-scroll td:first-child{
+  min-width:8rem;
+  overflow-wrap:normal;
+}
+
 @media(max-width:760px){
   .listado-publicaciones-scroll{
     max-height:min(22rem,55vh);

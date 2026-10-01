@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="admin.css?v=13">
+  <link rel="stylesheet" href="admin.css?v=14">
   <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
 <body class="theme-crebe wsite-theme-light panel-admin-page">
@@ -540,7 +540,7 @@
             <p>La cuenta master conserva el acceso completo y está protegida. Las nuevas cuentas comienzan como editor. Todos los cambios requieren verificación en dos pasos.</p>
             <button id="usuarios-recargar" type="button" class="secundario">Actualizar listado</button>
             <p id="usuarios-mensaje" class="mensaje" role="status" aria-live="polite"></p>
-            <div class="tabla-estadisticas-wrap"><table class="tabla-estadisticas">
+            <div class="tabla-estadisticas-wrap listado-publicaciones-scroll" tabindex="0" role="region" aria-label="Usuarios autorizados y autorizaciones pendientes"><table class="tabla-estadisticas">
               <caption>Usuarios autorizados y autorizaciones pendientes</caption>
               <thead><tr><th scope="col">Nombre</th><th scope="col">Correo</th><th scope="col">Rol</th><th scope="col">Estado</th><th scope="col">Módulos</th><th scope="col">Última modificación</th><th scope="col">Acción</th></tr></thead>
               <tbody id="usuarios-listado"></tbody>
