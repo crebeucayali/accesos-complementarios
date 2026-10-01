@@ -386,11 +386,12 @@ button:disabled{
   max-width:100%;
 }
 .tab{
-  flex:1 1 0;
+  flex:1 1 auto;
   min-width:0;
-  padding-inline:10px;
+  padding-inline:14px;
   color:#17324a;
   background:transparent;
+  white-space:nowrap;
 }
 .tab:hover{
   background:#d9e9e7;
