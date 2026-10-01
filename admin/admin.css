@@ -804,6 +804,51 @@ body.alto-contraste .peligro{
   font-size:.86rem;
 }
 
+/* Solo el listado de publicaciones desplaza; los controles y formularios quedan fuera. */
+.listado-publicaciones-scroll{
+  max-height:min(28rem,60vh);
+  overflow-y:auto;
+}
+
+.listado-publicaciones-scroll:focus-visible{
+  outline:3px solid var(--azul-900);
+  outline-offset:3px;
+}
+
+body.alto-contraste .listado-publicaciones-scroll:focus-visible{
+  outline-color:#fff;
+}
+
+.listado-publicaciones-scroll th{
+  position:sticky;
+  top:0;
+  z-index:1;
+}
+
+.listado-publicaciones-scroll td:first-child{
+  overflow-wrap:anywhere;
+}
+
+@media(max-width:760px){
+  .listado-publicaciones-scroll{
+    max-height:min(22rem,55vh);
+    max-height:min(22rem,55dvh);
+  }
+
+  .listado-publicaciones-scroll th,
+  .listado-publicaciones-scroll td{
+    padding:12px 6px;
+  }
+
+  .listado-publicaciones-scroll .tabla-estadisticas{
+    font-size:.875rem;
+  }
+
+  .listado-publicaciones-scroll button{
+    padding-inline:12px;
+  }
+}
+
 .estadistica-numero{
   width:140px;
   text-align:right!important;
