@@ -13,7 +13,8 @@
   const filtroCapacitacionesPendiente = false;
   let perfil = null, clave = "", revision = 0, alCambiar = null;
   const listas = new Map(), cargas = new Map(), operaciones = new Set();
-  const vigente = () => perfil?.autorizado && perfil.aal === "aal2"
+  const vigente = () => perfil?.autorizado
+    && (perfil.rol === "master" ? perfil.aal === "aal2" : ["aal1","aal2"].includes(perfil.aal))
     && auth?.getSession()?.user?.id === perfil.user_id;
   const permite = modulo => vigente() && Object.hasOwn(tablas,modulo)
     && (perfil.rol === "master" || ["editor","consulta"].includes(perfil.rol) && perfil.modulos.includes(modulo));
