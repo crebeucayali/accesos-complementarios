@@ -26,13 +26,19 @@
     for (const usuario of usuarios) {
       const fila=document.createElement("tr");
       const estado=!usuario.activo?"Inactivo":usuario.pendiente?"Pendiente de invitación":usuario.confirmado?"Activo":"Pendiente de activación";
-      for (const valor of [usuario.nombre,usuario.email,({editor:"Publicador",consulta:"Consulta",master:"Master"})[usuario.rol] || usuario.rol,estado,
-        usuario.rol==="master"?"Todos":usuario.modulos.map(c=>modulos[c]||c).join(", ")||"Sin módulos",
-        fecha(usuario.ultima_modificacion||usuario.actualizado_at)
-          + (usuario.ultimos_eventos?.length ? " · " + usuario.ultimos_eventos.join(", ").replaceAll("_"," ") : "")]) {
-        const celda=document.createElement("td"); celda.textContent=valor; fila.append(celda);
+      const columnas=[
+        ["Nombre",usuario.nombre],
+        ["Correo",usuario.email],
+        ["Rol",({editor:"Publicador",consulta:"Consulta",master:"Master"})[usuario.rol] || usuario.rol],
+        ["Estado",estado],
+        ["Módulos",usuario.rol==="master"?"Todos":usuario.modulos.map(c=>modulos[c]||c).join(", ")||"Sin módulos"],
+        ["Última modificación",fecha(usuario.ultima_modificacion||usuario.actualizado_at)
+          + (usuario.ultimos_eventos?.length ? " · " + usuario.ultimos_eventos.join(", ").replaceAll("_"," ") : "")]
+      ];
+      for (const [etiqueta,valor] of columnas) {
+        const celda=document.createElement("td"); celda.dataset.label=etiqueta; celda.textContent=valor; fila.append(celda);
       }
-      const accion=document.createElement("td");
+      const accion=document.createElement("td"); accion.dataset.label="Acción";
       if (usuario.rol==="master") accion.textContent="Cuenta protegida";
       else {
         const boton=document.createElement("button"); boton.type="button"; boton.textContent="Editar";
