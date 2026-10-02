@@ -38,9 +38,12 @@
   const modulosContenido = ["capacitaciones", "calendario", "repositorio", "noticias", "galeria"];
 
   function permitePanel(modulo, escritura = false) {
-    if (!perfil?.autorizado || perfil.aal !== "aal2") return false;
-    if (perfil.rol === "master") return true;
-    return modulosContenido.includes(modulo) && perfil.modulos.includes(modulo)
+    if (!perfil?.autorizado) return false;
+    if (perfil.rol === "master") return perfil.aal === "aal2";
+    return ["editor","consulta"].includes(perfil.rol)
+      && ["aal1","aal2"].includes(perfil.aal)
+      && modulosContenido.includes(modulo)
+      && perfil.modulos.includes(modulo)
       && !escritura;
   }
 
@@ -252,23 +255,28 @@
 
     if (tarjetaLogin) tarjetaLogin.hidden = true;
 
-    if (estado.aal !== "aal2") {
+    const nuevoPerfil = await rest("rpc/perfil_panel_admin", {method:"POST", body:"{}"});
+    if (!nuevoPerfil?.autorizado
+      || !["master","editor","consulta"].includes(nuevoPerfil.rol)
+      || nuevoPerfil.user_id !== auth.getSession()?.user?.id || !Array.isArray(nuevoPerfil.modulos)) {
+      seccionAdmin.hidden = true;
+      throw new Error("Los permisos cambiaron. Reintenta el acceso para comprobar tu autorización.");
+    }
+
+    if (nuevoPerfil.rol === "master" && nuevoPerfil.aal !== "aal2") {
       perfil = null;
       aplicarPermisos();
       seccionAdmin.hidden = true;
       seccionMfa.hidden = false;
       estadoTitulo.textContent = "Verificación en dos pasos";
-      estadoMensaje.textContent = "La contraseña ya fue validada. Completa únicamente el código de tu autenticador.";
+      estadoMensaje.textContent = "La cuenta master requiere el código de tu autenticador para completar el acceso.";
       await prepararMfa();
       return;
     }
 
-    const nuevoPerfil = await rest("rpc/perfil_panel_admin", {method:"POST", body:"{}"});
-    if (!nuevoPerfil?.autorizado || nuevoPerfil.aal !== "aal2"
-      || !["master","editor","consulta"].includes(nuevoPerfil.rol)
-      || nuevoPerfil.user_id !== auth.getSession()?.user?.id || !Array.isArray(nuevoPerfil.modulos)) {
+    if (nuevoPerfil.rol !== "master" && !["aal1","aal2"].includes(nuevoPerfil.aal)) {
       seccionAdmin.hidden = true;
-      throw new Error("Los permisos cambiaron. Reintenta el acceso para comprobar tu autorización.");
+      throw new Error("No se pudo validar el nivel de autenticación de esta cuenta.");
     }
     const nuevaClave = JSON.stringify([nuevoPerfil.user_id,nuevoPerfil.rol,nuevoPerfil.modulos]);
     if (nuevaClave !== clavePermisos) limpiarContenidoPrivado();
