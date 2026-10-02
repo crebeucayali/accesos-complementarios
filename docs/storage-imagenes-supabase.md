@@ -113,11 +113,11 @@ Repositorio Accesible fue validado con una carga real desde el Panel Administrat
 
 ## Etapa 1E — Galería
 
-Galería incorpora Storage para las fotografías institucionales publicadas en `recursos/galeria.html`. Cada actividad puede reunir entre 1 y 5 fotografías dentro de una sola tarjeta.
+Galería incorpora Storage para las fotografías institucionales publicadas en `recursos/galeria.html`. Cada actividad puede reunir entre 1 y 8 fotografías dentro de una sola tarjeta.
 
 El Panel Administrativo permite:
 
-1. seleccionar de 1 a 5 fotografías WebP, JPG/JPEG o PNG de hasta 5 MB cada una;
+1. seleccionar de 1 a 8 fotografías WebP, JPG/JPEG o PNG de hasta 5 MB cada una;
 2. mostrar una vista previa de todas las fotografías;
 3. exigir texto alternativo individual para cada imagen;
 4. mantener una confirmación explícita de autorización de publicación para la actividad;

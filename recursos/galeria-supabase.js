@@ -1,6 +1,8 @@
 (() => {
   "use strict";
 
+  const MAX_FOTOGRAFIAS_GALERIA = 8;
+
   const SUPABASE_URL = "https://dteimbhwtzghhsijeeld.supabase.co";
   const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_tHbo1jTeW_dC90hdA5DvyQ_a6LrfKpq";
 
@@ -87,7 +89,7 @@
 
     return items.map((item) => ({
       ...item,
-      imagenes: (porItem.get(String(item.id)) || []).slice(0, 5)
+      imagenes: (porItem.get(String(item.id)) || []).slice(0, MAX_FOTOGRAFIAS_GALERIA)
     }));
   }
 
@@ -133,7 +135,7 @@
     imagenes = imagenes
       .map((imagen) => ({ ...imagen, urlResuelta: resolverImagen(imagen.imagen_url) }))
       .filter((imagen) => imagen.urlResuelta)
-      .slice(0, 5);
+      .slice(0, MAX_FOTOGRAFIAS_GALERIA);
 
     if (!imagenes.length) return null;
 

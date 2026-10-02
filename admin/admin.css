@@ -996,6 +996,12 @@ body.alto-contraste .ayuda-campo{
   }
 }
 
+@media(max-width:620px){
+  .galeria-admin-foto{
+    grid-template-columns:1fr;
+  }
+}
+
 body.alto-contraste .galeria-admin-foto{
   background:#000!important;
   border-color:#fff!important;

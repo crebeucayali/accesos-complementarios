@@ -148,7 +148,7 @@ La integración técnica de Storage para Galería está implementada. Queda pend
 
 ## Galerías por actividad
 
-Cada actividad puede contener entre 1 y 5 fotografías. Las imágenes se registran en `public.galeria_item_imagenes`, relacionadas con `public.galeria_items`.
+Cada actividad puede contener entre 1 y 8 fotografías. Las imágenes se registran en `public.galeria_item_imagenes`, relacionadas con `public.galeria_items`.
 
 Cada fotografía conserva:
 

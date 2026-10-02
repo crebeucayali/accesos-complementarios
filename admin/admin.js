@@ -94,6 +94,7 @@
   let actividades = [];
   let recursosRepositorio = [];
   let noticiasDestacadas = [];
+  const MAX_FOTOGRAFIAS_GALERIA = 8;
   let galeriaItems = [];
   let archivoNoticiaSeleccionado = null;
   let archivoCapFlyerSeleccionado = null;
@@ -1516,12 +1517,12 @@
       const archivos = Array.from(evento.target.files || []);
       if (!archivos.length) return;
 
-      if (imagenesGaleriaEditor.length + archivos.length > 5) {
-        throw new Error("Cada actividad puede contener como máximo 5 fotografías.");
+      if (imagenesGaleriaEditor.length + archivos.length > MAX_FOTOGRAFIAS_GALERIA) {
+        throw new Error("Cada actividad puede contener un máximo de " + MAX_FOTOGRAFIAS_GALERIA + " fotografías. Puedes agregar un máximo de " + (MAX_FOTOGRAFIAS_GALERIA - imagenesGaleriaEditor.length) + " más.");
       }
 
+      archivos.forEach(validarArchivoImagenNoticia);
       archivos.forEach((archivo) => {
-        validarArchivoImagenNoticia(archivo);
         imagenesGaleriaEditor.push({
           url: "",
           alt: "",
@@ -1562,7 +1563,7 @@
 
     imagenesGaleriaEditor = imagenes
       .sort((a, b) => Number(a.orden || 0) - Number(b.orden || 0))
-      .slice(0, 5)
+      .slice(0, MAX_FOTOGRAFIAS_GALERIA)
       .map((imagen) => ({
         url: imagen.imagen_url,
         alt: imagen.imagen_alt || "",
@@ -1664,8 +1665,8 @@
     const autorizada = $("gal-autorizada").checked;
 
     if (!titulo) throw new Error("El título de la actividad es obligatorio.");
-    if (imagenesGaleriaEditor.length < 1 || imagenesGaleriaEditor.length > 5) {
-      throw new Error("La actividad debe contener entre 1 y 5 fotografías.");
+    if (imagenesGaleriaEditor.length < 1 || imagenesGaleriaEditor.length > MAX_FOTOGRAFIAS_GALERIA) {
+      throw new Error("La actividad debe contener entre 1 y " + MAX_FOTOGRAFIAS_GALERIA + " fotografías.");
     }
 
     imagenesGaleriaEditor.forEach((imagen, indice) => {
