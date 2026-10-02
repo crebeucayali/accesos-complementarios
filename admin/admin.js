@@ -50,7 +50,7 @@
   function limpiarContenidoPrivado() {
     capacitaciones = []; actividades = []; recursosRepositorio = []; noticiasDestacadas = []; galeriaItems = [];
     archivoNoticiaSeleccionado = null; archivoCapFlyerSeleccionado = null;
-    archivoCapInfografiaSeleccionado = null; archivoRepositorioSeleccionado = null; imagenesGaleriaEditor = [];
+    archivoCapInfografiaSeleccionado = null; archivoRepositorioSeleccionado = null; archivoCalendarioSeleccionado = null; imagenesGaleriaEditor = [];
     modulosContenido.forEach(modulo => {
       const panel = $("panel-" + modulo);
       panel?.querySelectorAll("input,textarea").forEach(control => {
@@ -103,6 +103,7 @@
   let archivoCapFlyerSeleccionado = null;
   let archivoCapInfografiaSeleccionado = null;
   let archivoRepositorioSeleccionado = null;
+  let archivoCalendarioSeleccionado = null;
   let imagenesGaleriaEditor = [];
 
   function mostrarMensaje(texto, tipo = "") {
@@ -657,6 +658,90 @@
     return lineas.slice(1).join("\n");
   }
 
+  function esImagenStorageCalendario(valor) {
+    try {
+      const url = new URL(String(valor || "").trim());
+      return url.protocol === "https:"
+        && url.hostname.toLowerCase() === "dteimbhwtzghhsijeeld.supabase.co"
+        && /^\/storage\/v1\/object\/public\/eva-publico\/calendario\/[a-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(url.pathname);
+    } catch {
+      return false;
+    }
+  }
+
+  function mostrarVistaPreviaCalendario(origen, mensaje) {
+    const panel = $("cal-imagen-panel");
+    const imagen = $("cal-imagen-preview");
+    const estado = $("cal-imagen-estado");
+    const url = String(origen || "").trim();
+    if (!url) {
+      panel.hidden = true;
+      imagen.removeAttribute("src");
+      estado.textContent = "";
+      return;
+    }
+    imagen.src = url;
+    estado.textContent = mensaje || "Fotografía actualmente asociada a la actividad.";
+    panel.hidden = false;
+  }
+
+  function rutaStorageCalendario(archivo, fecha) {
+    const carpetaFecha = /^\d{4}-\d{2}-\d{2}$/.test(String(fecha || "")) ? String(fecha) : "sin-fecha";
+    return "calendario/" + carpetaFecha + "/" + Date.now() + "-" + identificadorArchivoNoticia() + "." + extensionImagenNoticia(archivo);
+  }
+
+  async function subirImagenCalendario(archivo, fecha) {
+    validarArchivoImagenNoticia(archivo);
+    await refrescarSesionSiHaceFalta();
+    const estado = await comprobarAutorizacion();
+    if (!estado.autorizado || estado.aal !== "aal2" || perfil?.rol !== "master") {
+      throw new Error("La carga de fotografías del Calendario está reservada a la cuenta master con MFA AAL2.");
+    }
+    const ruta = rutaStorageCalendario(archivo, fecha);
+    const rutaCodificada = ruta.split("/").map(encodeURIComponent).join("/");
+    await solicitar(
+      SUPABASE_URL + "/storage/v1/object/" + encodeURIComponent(STORAGE_BUCKET_EVA) + "/" + rutaCodificada,
+      {
+        method: "POST",
+        headers: {
+          apikey: SUPABASE_PUBLISHABLE_KEY,
+          Authorization: "Bearer " + sesion.access_token,
+          "Content-Type": archivo.type,
+          Accept: "application/json",
+          "Cache-Control": "3600",
+          "x-upsert": "false"
+        },
+        body: archivo
+      }
+    );
+    return STORAGE_NOTICIAS_BASE + ruta;
+  }
+
+  function gestionarArchivoCalendario(evento) {
+    try {
+      const archivo = validarArchivoImagenNoticia(evento.target.files?.[0] || null);
+      archivoCalendarioSeleccionado = archivo;
+      if (!archivo) {
+        mostrarVistaPreviaCalendario($("cal-imagen").value, "");
+        return;
+      }
+      const lector = new FileReader();
+      lector.addEventListener("load", () => {
+        mostrarVistaPreviaCalendario(
+          lector.result,
+          archivo.name + " · " + Math.max(1, Math.round(archivo.size / 1024)) + " KB · preparada para subir"
+        );
+      });
+      lector.readAsDataURL(archivo);
+      mostrarMensaje("");
+    } catch (error) {
+      archivoCalendarioSeleccionado = null;
+      evento.target.value = "";
+      mostrarVistaPreviaCalendario($("cal-imagen").value, "");
+      mostrarMensaje(error.message, "error");
+    }
+  }
+
   function llenarActividad(fila) {
     $("cal-id").value = fila?.id || "";
     $("cal-fecha").value = fila?.fecha || "";
@@ -665,6 +750,11 @@
     $("cal-estado").value = fila?.estado || "confirmada";
     $("cal-clase").value = fila?.clase_css || "";
     $("cal-visible").checked = fila?.visible !== false;
+    $("cal-imagen").value = fila?.imagen_url || "";
+    $("cal-imagen-alt").value = fila?.imagen_alt || "";
+    $("cal-imagen-archivo").value = "";
+    archivoCalendarioSeleccionado = null;
+    mostrarVistaPreviaCalendario(fila?.imagen_url || "", fila?.imagen_url ? "Fotografía actualmente asociada a la actividad." : "");
   }
 
   async function cargarCalendario() {
@@ -703,6 +793,11 @@
     $("cal-estado").value = "confirmada";
     $("cal-clase").value = "";
     $("cal-visible").checked = true;
+    $("cal-imagen").value = "";
+    $("cal-imagen-alt").value = "";
+    $("cal-imagen-archivo").value = "";
+    archivoCalendarioSeleccionado = null;
+    mostrarVistaPreviaCalendario("", "");
     mostrarMensaje("");
   }
 
@@ -711,7 +806,23 @@
     const extras = $("cal-lineas").value.split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
     const id = $("cal-id").value;
 
-    await rest("rpc/admin_guardar_actividad_calendario", {
+    if (!titulo) throw new Error("El título es obligatorio.");
+    if (!$("cal-fecha").value) throw new Error("La fecha es obligatoria.");
+
+    let imagenUrl = String($("cal-imagen").value || "").trim();
+    const imagenAlt = String($("cal-imagen-alt").value || "").trim();
+
+    if (archivoCalendarioSeleccionado && !imagenAlt) {
+      throw new Error("Escribe el texto alternativo de la fotografía antes de guardar.");
+    }
+    if (imagenUrl && !esImagenStorageCalendario(imagenUrl) && !/^imagenes-calendario\/[a-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(imagenUrl)) {
+      throw new Error("La fotografía del Calendario debe pertenecer al Storage institucional o al directorio histórico del Calendario.");
+    }
+    if (imagenUrl && !imagenAlt) {
+      throw new Error("La fotografía requiere texto alternativo.");
+    }
+
+    const actividadId = await rest("rpc/admin_guardar_actividad_calendario", {
       method: "POST",
       body: JSON.stringify({
         p_id: id ? Number(id) : null,
@@ -723,6 +834,20 @@
       })
     });
 
+    if (archivoCalendarioSeleccionado) {
+      imagenUrl = await subirImagenCalendario(archivoCalendarioSeleccionado, $("cal-fecha").value);
+    }
+
+    await rest("calendario_actividades?id=eq." + encodeURIComponent(actividadId), {
+      method: "PATCH",
+      headers: { Prefer: "return=minimal" },
+      body: JSON.stringify({
+        imagen_url: imagenUrl || null,
+        imagen_alt: imagenUrl ? imagenAlt : null
+      })
+    });
+
+    archivoCalendarioSeleccionado = null;
     mostrarMensaje(
       id ? "Actividad actualizada correctamente." : "Actividad registrada correctamente.",
       "exito"
@@ -2195,6 +2320,15 @@
   });
 
   $("boton-nueva-actividad").addEventListener("click", nuevaActividad);
+  $("cal-imagen-archivo").addEventListener("change", gestionarArchivoCalendario);
+  $("cal-imagen-retirar").addEventListener("click", () => {
+    archivoCalendarioSeleccionado = null;
+    $("cal-imagen-archivo").value = "";
+    $("cal-imagen").value = "";
+    $("cal-imagen-alt").value = "";
+    mostrarVistaPreviaCalendario("", "");
+    mostrarMensaje("La fotografía se retirará al guardar la actividad.");
+  });
 
   $("repositorio-selector").addEventListener("change", (evento) => {
     const valor = evento.target.value;
