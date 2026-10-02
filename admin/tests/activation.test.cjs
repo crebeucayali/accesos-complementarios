@@ -34,5 +34,7 @@ test('guardar contraseña cierra la sesión de activación sin reemplazar otra s
   assert.equal(p.calls[2].opts.method,'PUT');assert.ok(p.calls[3].url.endsWith('/logout?scope=local'));
   assert.equal(p.get('form-activacion').hidden,true);assert.equal(p.get('activacion-clave').value,'');
   assert.equal(p.get('activacion-confirmacion').value,'');
+  assert.match(p.get('activacion-mensaje').textContent,/correo y contraseña/);
+  assert.doesNotMatch(p.get('activacion-mensaje').textContent,/autenticador|MFA|QR/);
   assert.ok(!Object.keys(p.window).includes('EvaAdminSession'));
 });

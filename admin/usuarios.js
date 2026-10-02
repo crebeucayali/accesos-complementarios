@@ -3,7 +3,7 @@
   const auth = window.EvaAdminSession;
   const $ = id => document.getElementById(id);
   const URL_SUPABASE = "https://dteimbhwtzghhsijeeld.supabase.co";
-  const invitacionesPausadas = true;
+  const invitacionesPausadas = false;
   const PUBLIC_KEY = "sb_publishable_tHbo1jTeW_dC90hdA5DvyQ_a6LrfKpq";
   const modulos = {capacitaciones:"Capacitaciones",calendario:"Calendario",noticias:"Noticias",galeria:"Galería",repositorio:"Repositorio Accesible"};
   let perfil = null, version = 0, usuarios = [], seleccionado = null, cargando = false;
@@ -26,7 +26,7 @@
     for (const usuario of usuarios) {
       const fila=document.createElement("tr");
       const estado=!usuario.activo?"Inactivo":usuario.pendiente?"Pendiente de invitación":usuario.confirmado?"Activo":"Pendiente de activación";
-      for (const valor of [usuario.nombre,usuario.email,usuario.rol,estado,
+      for (const valor of [usuario.nombre,usuario.email,({editor:"Publicador",consulta:"Consulta",master:"Master"})[usuario.rol] || usuario.rol,estado,
         usuario.rol==="master"?"Todos":usuario.modulos.map(c=>modulos[c]||c).join(", ")||"Sin módulos",
         fecha(usuario.ultima_modificacion||usuario.actualizado_at)
           + (usuario.ultimos_eventos?.length ? " · " + usuario.ultimos_eventos.join(", ").replaceAll("_"," ") : "")]) {
@@ -74,7 +74,7 @@
     const boton=$("usuario-guardar"); if(boton.disabled) return;
     const revision=version;
     try {
-      exigeMaster(); if(!seleccionado || seleccionado.rol==="master") throw new Error("Selecciona un usuario editor o consulta.");
+      exigeMaster(); if(!seleccionado || seleccionado.rol==="master") throw new Error("Selecciona un usuario publicador o consulta.");
       boton.disabled=true;
       const estado=await auth.getAuthorization();
       if(!estado?.autorizado || estado.aal!=="aal2" || revision!==version) throw new Error("Revalida tu acceso antes de guardar.");
@@ -92,6 +92,9 @@
   }
   async function enviarInvitacion(email,nombre,asignacion,boton) {
     exigeMaster(); if(invitacionesPausadas) throw new Error("Invitaciones pausadas hasta cerrar la auditoría y recibir autorización expresa.");
+    if (!asignacion.length || asignacion.some(modulo => !Object.hasOwn(modulos,modulo))) throw new Error("Selecciona al menos un módulo permitido para el publicador.");
+    email=email.trim().toLowerCase(); nombre=nombre.trim();
+    if (!nombre || nombre.length>160 || email.length>254 || !/^[^\s@]+@[^\s@]+[.][^\s@]+$/.test(email)) throw new Error("Revisa el nombre y el correo del publicador.");
     if(boton.disabled) return; boton.disabled=true;
     const revision=version;
     try {

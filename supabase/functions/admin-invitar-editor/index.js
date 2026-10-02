@@ -32,6 +32,16 @@ export async function handle(req, env = Deno.env, request = fetch) {
       return reply(400, {message:'Datos de autorización no válidos.'});
     }
   } catch { return reply(400, {message:'Solicitud no válida.'}); }
+  const allowed = ['capacitaciones','calendario','repositorio','noticias','galeria'];
+  payload.email = payload.email.trim().toLowerCase();
+  payload.nombre = payload.nombre.trim();
+  if (!payload.nombre || payload.nombre.length > 160 || payload.email.length > 254
+    || !/^[^\s@]+@[^\s@]+[.][^\s@]+$/.test(payload.email)
+    || !payload.modulos.length || payload.modulos.length > allowed.length
+    || payload.modulos.some(modulo => !allowed.includes(modulo))
+    || new Set(payload.modulos).size !== payload.modulos.length) {
+    return reply(400, {message:'Revisa el nombre, correo y módulos del publicador.'});
+  }
   try {
     // PostgREST verifica el JWT y la RPC exige auth.uid() master activo + AAL2.
     const permitted = await request(url + '/rest/v1/rpc/admin_autorizar_editor', {
@@ -52,7 +62,7 @@ export async function handle(req, env = Deno.env, request = fetch) {
       body:JSON.stringify({email:authorized.email}), signal:AbortSignal.timeout(12000)
     });
     if (!invited.ok) return reply(502, {message:'La autorización quedó guardada. No se pudo confirmar el envío de la invitación; revisa el correo configurado en Supabase y el estado del usuario antes de reintentar.'});
-    return reply(200, {invitado:true,message:'Invitación enviada. La cuenta comienza como editor y debe activar su contraseña y configurar MFA.'});
+    return reply(200, {invitado:true,message:'Invitación enviada. La cuenta comienza como Publicador. Debe activar su contraseña y después ingresar con correo y contraseña, sin autenticador.'});
   } catch { return reply(503, {message:'No se pudo confirmar la operación. Recarga Usuarios para consultar su estado antes de reintentar.'}); }
 }
 

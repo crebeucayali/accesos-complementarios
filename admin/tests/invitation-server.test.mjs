@@ -59,3 +59,21 @@ test('preflight permite únicamente el origen del panel',async()=>{
 test('solo se admiten solicitudes POST',async()=>{
   assert.equal((await handle(new Request('https://test.invalid'),environment)).status,405);
 });
+
+for(const [label,payload] of [
+ ['sin módulos',{...data,modulos:[]}],['Materiales',{...data,modulos:['materiales']}],
+ ['módulos duplicados',{...data,modulos:['galeria','galeria']}],['correo inválido',{...data,email:'no valido'}],
+ ['nombre vacío',{...data,nombre:'   '}],['nombre largo',{...data,nombre:'x'.repeat(161)}]
+])test('rechaza '+label+' antes de acceder a Auth',async()=>{
+ let calls=0;const r=await handle(req(payload),environment,async()=>{calls++;});assert.equal(r.status,400);assert.equal(calls,0);
+});
+test('normaliza correo y mantiene la lista de módulos y el rol fijo de servidor',async()=>{
+ const calls=[];const r=await handle(req({...data,email:' PILOTO@EXAMPLE.INVALID ',nombre:' Piloto ',modulos:['galeria','noticias']}),environment,async(url,opts)=>{
+  calls.push({url,body:JSON.parse(opts.body)});return Response.json(url.includes('/invite?')?{id:'synthetic-editor'}:{email:'piloto@example.invalid',rol:'editor'});
+ });assert.equal(r.status,200);assert.deepEqual(calls[0].body,{p_email:'piloto@example.invalid',p_nombre:'Piloto',p_modulos:['galeria','noticias']});
+ assert.deepEqual(calls[1].body,{email:'piloto@example.invalid'});assert.match((await r.json()).message,/Publicador/);
+});
+test('una cuenta existente no genera una segunda invitación',async()=>{
+ let calls=0;const r=await handle(req(),environment,async()=>{calls++;return Response.json({message:'La cuenta ya está autorizada; utiliza Editar',code:'22023'},{status:400});});
+ assert.equal(r.status,400);assert.equal(calls,1);
+});

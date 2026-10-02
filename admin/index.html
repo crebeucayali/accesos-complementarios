@@ -56,7 +56,7 @@
       <div class="contenedor">
         <section class="estado-panel" aria-live="polite">
           <strong id="estado-panel-titulo">Panel administrativo protegido</strong>
-          <p id="estado-panel-mensaje">El inicio de sesión está disponible únicamente para cuentas previamente autorizadas. La cuenta master requiere MFA; los editores acceden con correo y contraseña y solo pueden publicar o archivar en sus módulos asignados.</p>
+          <p id="estado-panel-mensaje">El inicio de sesión está disponible únicamente para cuentas previamente autorizadas. La cuenta master requiere MFA; los publicadores acceden con correo y contraseña y solo pueden publicar o archivar en sus módulos asignados.</p>
           <button id="boton-reintentar-acceso" type="button" class="secundario" hidden>Reintentar acceso</button>
         </section>
 
@@ -81,7 +81,7 @@
         </section>
 
         <section class="tarjeta" id="seccion-activacion" hidden aria-labelledby="titulo-activacion">
-          <h2 id="titulo-activacion">Activar cuenta editorial</h2>
+          <h2 id="titulo-activacion">Activar cuenta de publicación</h2>
           <p id="activacion-mensaje" role="status" aria-live="polite"></p>
           <form id="form-activacion" hidden>
             <label for="activacion-clave">Nueva contraseña (mínimo 12 caracteres)</label>
@@ -537,7 +537,7 @@
             <div class="titulo-tarjeta"><span class="identificador-admin" aria-hidden="true">USR</span><div>
               <p class="micro-etiqueta">Administración principal</p><h2 id="titulo-usuarios">Usuarios y módulos</h2>
             </div></div>
-            <p>La cuenta master conserva el acceso completo y está protegida. Las nuevas cuentas comienzan como editor. Todos los cambios requieren verificación en dos pasos.</p>
+            <p>La cuenta master conserva el acceso completo y está protegida. Las nuevas cuentas comienzan como Publicador. Los publicadores acceden con correo y contraseña. El segundo factor está reservado a la cuenta master.</p>
             <button id="usuarios-recargar" type="button" class="secundario">Actualizar listado</button>
             <p id="usuarios-mensaje" class="mensaje" role="status" aria-live="polite"></p>
             <div class="tabla-estadisticas-wrap listado-publicaciones-scroll" tabindex="0" role="region" aria-label="Usuarios autorizados y autorizaciones pendientes"><table class="tabla-estadisticas">
@@ -550,7 +550,7 @@
               <p id="usuario-editar-correo"></p>
               <div class="grid">
                 <label>Nombre<input id="usuario-editar-nombre" maxlength="160" required></label>
-                <label>Rol<select id="usuario-editar-rol"><option value="editor">Editor</option><option value="consulta">Consulta (solo lectura)</option></select></label>
+                <label>Rol<select id="usuario-editar-rol"><option value="editor">Publicador</option><option value="consulta">Consulta (solo lectura)</option></select></label>
               </div>
               <label class="check"><input id="usuario-editar-activo" type="checkbox"> Cuenta activa</label>
               <fieldset id="usuario-editar-modulos"><legend>Módulos asignados</legend></fieldset>
@@ -559,17 +559,17 @@
               <button id="usuario-cancelar" type="button" class="secundario">Cancelar</button>
             </form>
             <form id="form-usuario-invitar">
-              <p class="nota" role="status">Invitaciones pausadas hasta cerrar la auditoría y recibir autorización expresa. No se incorporarán cuentas durante esta revisión.</p>
-              <fieldset disabled>
-              <h3>Incorporar editor</h3>
+              <fieldset>
+              <h3>Invitar publicador</h3>
               <p>Introduce el correo real de la persona. Al enviar, se autorizará la cuenta y Supabase enviará su enlace de activación.</p>
               <div class="grid">
                 <label>Nombre<input id="usuario-nuevo-nombre" maxlength="160" autocomplete="off" required></label>
                 <label>Correo<input id="usuario-nuevo-email" type="email" maxlength="254" autocomplete="off" required></label>
               </div>
+              <p>Rol: Publicador. Este usuario puede publicar y archivar únicamente en los módulos seleccionados.</p>
               <fieldset id="usuario-nuevo-modulos"><legend>Módulos iniciales</legend></fieldset>
-              <p class="nota">Materiales queda reservado hasta que se integre su gestión. No se asignan otros módulos administrativos a los editores.</p>
-              <button id="usuario-invitar" type="submit" disabled>Invitaciones pausadas</button>
+              <p class="nota">Selecciona al menos un módulo. Materiales queda reservado hasta que se integre su gestión. No se asignan otros módulos administrativos a los publicadores.</p>
+              <button id="usuario-invitar" type="submit">Enviar invitación</button>
               </fieldset>
             </form>
           </section>
@@ -779,11 +779,10 @@
   </footer>
 
   <script src="https://crebeucayali.github.io/admin-sesion.js?v=1" defer></script>
-  <script src="activacion.js?v=1" defer></script>
-  <script src="usuarios.js?v=3" defer></script>
+  <script src="activacion.js?v=2" defer></script>
+  <script src="usuarios.js?v=4" defer></script>
   <script src="publicacion.js?v=3" defer></script>
-  <script src="admin.js?v=36" defer></script>
+  <script src="admin.js?v=37" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>
 </html>
-

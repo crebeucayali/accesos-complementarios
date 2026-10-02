@@ -286,7 +286,7 @@
     seccionAdmin.hidden = false;
     estadoTitulo.textContent = "Acceso administrativo activo";
     estadoMensaje.textContent = "";
-    $("usuario-actual").textContent = (perfil.nombre || sesion?.user?.email || "Usuario") + " · " + perfil.rol;
+    $("usuario-actual").textContent = (perfil.nombre || sesion?.user?.email || "Usuario") + " · " + ({editor:"Publicador",consulta:"Consulta",master:"Master"})[perfil.rol];
     const cargadores = {capacitaciones:cargarCapacitaciones,calendario:cargarCalendario,repositorio:cargarRepositorio,noticias:cargarNoticiasDestacadas,galeria:cargarGaleriaAdmin,estadisticas:cargarEstadisticasVisitas};
     const cargas = await Promise.allSettled([
       ...Object.entries(cargadores).filter(([modulo]) => permitePanel(modulo,true)).map(([,cargar]) => cargar()),
@@ -2440,7 +2440,7 @@
   }
 
   estadoTitulo.textContent = "Panel administrativo protegido";
-  estadoMensaje.textContent = "Solo pueden ingresar cuentas previamente autorizadas. La escritura exige MFA AAL2 y queda registrada en auditoría.";
+  estadoMensaje.textContent = "Solo pueden ingresar cuentas previamente autorizadas. El master requiere autenticador; los publicadores acceden con correo y contraseña y solo publican o archivan en sus módulos asignados.";
 
   leerSesion();
   if (sesion?.access_token) {

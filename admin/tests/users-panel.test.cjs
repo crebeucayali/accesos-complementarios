@@ -49,8 +49,22 @@ test('cerrar sesión limpia el usuario seleccionado y sus datos',async()=>{
   assert.equal(p.get('usuario-editar-correo').textContent,'');assert.equal(p.get('form-usuario-editar').hidden,true);
   await p.get('form-usuario-editar').handlers.submit({preventDefault(){}});assert.ok(!p.calls.some(x=>x.p==='rpc/admin_guardar_usuario'));
 });
-test('la pausa de invitaciones impide llamadas a Auth incluso forzando el formulario',async()=>{
-  const p=app();p.get('usuario-invitar').disabled=false;
+test('master invita con datos reales ingresados, rol interno no se envía',async()=>{
+  const p=app();p.get('usuario-nuevo-email').value='PUBLICADOR@EXAMPLE.INVALID';p.get('usuario-nuevo-nombre').value='Piloto sintético';
+  p.get('usuario-nuevo-modulos').querySelectorAll('input').find(x=>x.value==='galeria').checked=true;
   p.get('form-usuario-invitar').handlers.submit({preventDefault(){}});await tick();
-  assert.ok(!p.calls.some(x=>x.invite));assert.match(p.get('usuarios-mensaje').textContent,/Invitaciones pausadas/);
+  assert.equal(p.calls.filter(x=>x.invite).length,1);
+});
+test('sin módulos no envía invitación',async()=>{
+  const p=app();p.get('usuario-nuevo-email').value='publicador@example.invalid';p.get('usuario-nuevo-nombre').value='Piloto sintético';
+  p.get('form-usuario-invitar').handlers.submit({preventDefault(){}});await tick();
+  assert.ok(!p.calls.some(x=>x.invite));assert.match(p.get('usuarios-mensaje').textContent,/al menos un módulo/);
+});
+test('el publicador no puede forzar el envío desde el formulario',async()=>{
+  const p=app({role:'editor'});p.get('usuario-nuevo-modulos').querySelectorAll('input')[0].checked=true;
+  p.get('form-usuario-invitar').handlers.submit({preventDefault(){}});await tick();assert.ok(!p.calls.some(x=>x.invite));
+});
+test('la etiqueta Publicador no cambia el valor técnico editor',async()=>{
+  const p=app();await p.window.EvaUsuarios.cargar();assert.equal(p.get('usuarios-listado').children[1].children[2].textContent,'Publicador');
+  p.get('usuarios-listado').children[1].children[6].children[0].handlers.click();assert.equal(p.get('usuario-editar-rol').value,'editor');
 });

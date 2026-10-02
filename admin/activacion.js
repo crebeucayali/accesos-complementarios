@@ -27,7 +27,7 @@
       const user=await solicitud("/auth/v1/user");
       const profile=await solicitud("/rest/v1/rpc/perfil_panel_admin",{method:"POST",body:"{}"});
       if(!profile.autorizado || !["editor","consulta"].includes(profile.rol) || profile.user_id!==user.id) {
-        throw new Error("Esta cuenta no tiene una autorización editorial activa.");
+        throw new Error("Esta cuenta no tiene una autorización de publicación o consulta activa.");
       }
       mensaje.textContent="Cuenta: "+profile.email+". Define tu contraseña para continuar.";
       formulario.hidden=false;
@@ -41,9 +41,9 @@
       if(password.length<12 || password!==$("activacion-confirmacion").value) throw new Error("Las contraseñas deben coincidir y tener al menos 12 caracteres.");
       boton.disabled=true;
       await solicitud("/auth/v1/user",{method:"PUT",body:JSON.stringify({password})});
-      // Revoca esta sesión de activación; el editor ingresará con su contraseña y MFA.
+      // Revoca esta sesión de activación; el publicador ingresará con correo y contraseña.
       try { await fetch(url+"/auth/v1/logout?scope=local",{method:"POST",headers:headers(),signal:AbortSignal.timeout(12000)}); } catch {}
-      token=""; formulario.hidden=true; mensaje.textContent="Contraseña guardada. Ve al acceso administrativo e inicia sesión para configurar tu autenticador.";
+      token=""; formulario.hidden=true; mensaje.textContent="Contraseña guardada. Ve al acceso administrativo e inicia sesión con tu correo y contraseña.";
     } catch(error) { mensaje.textContent=error.message; }
     finally { $("activacion-clave").value=""; $("activacion-confirmacion").value=""; boton.disabled=false; }
   });
