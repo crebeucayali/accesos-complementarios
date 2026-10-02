@@ -837,6 +837,39 @@ body.alto-contraste .listado-publicaciones-scroll:focus-visible{
   overflow-wrap:normal;
 }
 
+/* Usuarios: tabla compacta sin desplazamiento horizontal. */
+#panel-usuarios .listado-publicaciones-scroll{
+  overflow-x:hidden;
+}
+
+#panel-usuarios .tabla-estadisticas{
+  table-layout:fixed;
+}
+
+#panel-usuarios .tabla-estadisticas th:nth-child(1){width:14%;}
+#panel-usuarios .tabla-estadisticas th:nth-child(2){width:22%;}
+#panel-usuarios .tabla-estadisticas th:nth-child(3){width:11%;}
+#panel-usuarios .tabla-estadisticas th:nth-child(4){width:13%;}
+#panel-usuarios .tabla-estadisticas th:nth-child(5){width:17%;}
+#panel-usuarios .tabla-estadisticas th:nth-child(6){width:16%;}
+#panel-usuarios .tabla-estadisticas th:nth-child(7){width:7%;}
+
+#panel-usuarios .tabla-estadisticas td{
+  vertical-align:top;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+
+#panel-usuarios .tabla-estadisticas td:nth-child(2){
+  overflow-wrap:anywhere;
+}
+
+#panel-usuarios .tabla-estadisticas td:nth-child(7) button{
+  max-width:100%;
+  padding-inline:10px;
+}
+
 @media(max-width:760px){
   .listado-publicaciones-scroll{
     max-height:min(22rem,55vh);
@@ -854,6 +887,70 @@ body.alto-contraste .listado-publicaciones-scroll:focus-visible{
 
   .listado-publicaciones-scroll button{
     padding-inline:12px;
+  }
+
+  #panel-usuarios .listado-publicaciones-scroll{
+    overflow-x:hidden;
+    border:0;
+    border-radius:0;
+  }
+
+  #panel-usuarios .tabla-estadisticas,
+  #panel-usuarios .tabla-estadisticas tbody{
+    display:block;
+    width:100%;
+  }
+
+  #panel-usuarios .tabla-estadisticas thead{
+    position:absolute;
+    width:1px;
+    height:1px;
+    padding:0;
+    margin:-1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+    white-space:nowrap;
+    border:0;
+  }
+
+  #panel-usuarios .tabla-estadisticas tr{
+    display:block;
+    width:100%;
+    margin:0 0 12px;
+    padding:10px 12px;
+    border:1px solid var(--borde);
+    border-radius:14px;
+    background:#fff;
+  }
+
+  #panel-usuarios .tabla-estadisticas tr:last-child{
+    margin-bottom:0;
+  }
+
+  #panel-usuarios .tabla-estadisticas td{
+    display:grid;
+    grid-template-columns:minmax(7rem,35%) minmax(0,1fr);
+    gap:10px;
+    align-items:start;
+    width:auto!important;
+    min-width:0!important;
+    padding:8px 0!important;
+    border-bottom:1px solid var(--borde);
+    overflow-wrap:anywhere;
+  }
+
+  #panel-usuarios .tabla-estadisticas td::before{
+    content:attr(data-label);
+    color:var(--azul-900);
+    font-weight:700;
+  }
+
+  #panel-usuarios .tabla-estadisticas td:last-child{
+    border-bottom:0;
+  }
+
+  #panel-usuarios .tabla-estadisticas td:nth-child(7) button{
+    justify-self:start;
   }
 }
 
