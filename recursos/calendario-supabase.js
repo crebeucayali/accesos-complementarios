@@ -21,7 +21,7 @@
     const endpoint = new URL(`${SUPABASE_URL}/rest/v1/calendario_publico`);
     endpoint.searchParams.set(
       "select",
-      "registro_id,fecha,fuente,orden,estado,clase_css,contenido_lineas,jornada,numero_sesion,updated_at"
+      "registro_id,fecha,fuente,orden,estado,clase_css,contenido_lineas,jornada,numero_sesion,updated_at,imagen_url,imagen_alt"
     );
     endpoint.searchParams.set("order", "fecha.asc,orden.asc");
 
@@ -88,6 +88,29 @@
       elemento.textContent = linea;
       bloque.appendChild(elemento);
     });
+
+    if (registro.fuente === "calendario" && registro.imagen_url) {
+      try {
+        const fotoUrl = new URL(registro.imagen_url, location.href);
+        const storageValido =
+          fotoUrl.origin === SUPABASE_URL &&
+          /^\/storage\/v1\/object\/public\/eva-publico\/calendario\/[A-Za-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(fotoUrl.pathname);
+        const historicaValida =
+          fotoUrl.origin === location.origin &&
+          /^\/accesos-complementarios\/recursos\/imagenes-calendario\/[A-Za-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(fotoUrl.pathname);
+        if (storageValido || historicaValida) {
+          const imagen = document.createElement("img");
+          imagen.className = "calendario-actividad-foto";
+          imagen.src = fotoUrl.href;
+          imagen.alt = String(registro.imagen_alt || "Fotografía de la actividad");
+          imagen.loading = "lazy";
+          imagen.decoding = "async";
+          bloque.classList.add("con-fotografia");
+          bloque.tabIndex = 0;
+          bloque.appendChild(imagen);
+        }
+      } catch {}
+    }
 
     return bloque;
   }
