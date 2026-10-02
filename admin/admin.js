@@ -2001,16 +2001,18 @@
   }
 
 
+  const NOMBRES_MODULOS_COMPARTIDOS = { ...NOMBRES_MODULOS, galeria: "Galería" };
+
   function renderDistribucionCompartidos(resumen) {
     const cuerpo = $("compartidos-modulos");
     cuerpo.replaceChildren();
 
     const filas = Array.isArray(resumen?.modulos) ? resumen.modulos : [];
     const mapa = new Map(filas.map((fila) => [fila.modulo, Number(fila.acciones || 0)]));
-    const total = Object.keys(NOMBRES_MODULOS)
+    const total = Object.keys(NOMBRES_MODULOS_COMPARTIDOS)
       .reduce((acumulado, id) => acumulado + Number(mapa.get(id) || 0), 0);
 
-    Object.entries(NOMBRES_MODULOS).forEach(([id, nombre]) => {
+    Object.entries(NOMBRES_MODULOS_COMPARTIDOS).forEach(([id, nombre]) => {
       const acciones = Number(mapa.get(id) || 0);
       const participacion = total > 0 ? (acciones / total) * 100 : 0;
       const tr = document.createElement("tr");
@@ -2062,7 +2064,15 @@
       const tdAcciones = document.createElement("td");
       tdPagina.textContent = String(fila.pagina || "/");
       tdPagina.className = "estadistica-ruta";
-      tdModulo.textContent = NOMBRES_MODULOS[fila.modulo] || String(fila.modulo || "");
+      if (fila.modulo === "galeria" && /^\/accesos-complementarios\/recursos\/galeria\.html#actividad-[1-9][0-9]{0,18}$/.test(fila.pagina)) {
+        const enlace = document.createElement("a");
+        enlace.href = "https://crebeucayali.github.io" + fila.pagina;
+        enlace.target = "_blank";
+        enlace.rel = "noopener noreferrer";
+        enlace.textContent = fila.etiqueta_galeria || fila.pagina;
+        tdPagina.replaceChildren(enlace);
+      }
+      tdModulo.textContent = NOMBRES_MODULOS_COMPARTIDOS[fila.modulo] || String(fila.modulo || "");
       tdAcciones.textContent = numeroES(fila.acciones);
       tdAcciones.className = "estadistica-numero";
       tr.append(tdPagina, tdModulo, tdAcciones);
@@ -2089,6 +2099,19 @@
     $("comp-periodo-rango").textContent =
       desde && hasta ? desde + " – " + hasta : "Sin datos disponibles para este periodo.";
 
+    const paginasGaleria = (resumen?.paginas_top || []).filter(fila =>
+      fila.modulo === "galeria" && /^\/accesos-complementarios\/recursos\/galeria\.html#actividad-[1-9][0-9]{0,18}$/.test(fila.pagina));
+    if (paginasGaleria.length) {
+      const ids = [...new Set(paginasGaleria.map(fila => fila.pagina.split("#actividad-")[1]))];
+      try {
+        const actividades = await rest("galeria_items?select=id,titulo,fecha&id=in.(" + ids.join(",") + ")");
+        const etiquetas = new Map(actividades.map(item => [String(item.id), [item.titulo,
+          item.fecha ? fechaEstadistica(item.fecha, { day: "numeric", month: "long", year: "numeric" }) : ""].filter(Boolean).join(" · ")]));
+        paginasGaleria.forEach(fila => { fila.etiqueta_galeria = etiquetas.get(fila.pagina.split("#actividad-")[1]); });
+      } catch {
+        // La ruta sigue identificando la actividad si su título ya no está disponible.
+      }
+    }
     renderDistribucionCompartidos(resumen);
     renderPaginasCompartidas(resumen);
   }

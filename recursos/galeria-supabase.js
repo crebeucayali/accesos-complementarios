@@ -142,6 +142,8 @@
     const articulo = document.createElement("article");
     articulo.className = "galeria-item";
     articulo.dataset.galeriaId = String(item.id);
+    articulo.id = "actividad-" + String(item.id);
+    articulo.tabIndex = -1;
 
     const mosaico = document.createElement("div");
     mosaico.className = "galeria-imagenes";
@@ -196,8 +198,34 @@
       contenido.appendChild(parrafo);
     }
 
+    const urlActividad = new URL("https://crebeucayali.github.io/accesos-complementarios/recursos/galeria.html");
+    urlActividad.hash = articulo.id;
+    const compartir = document.createElement("a");
+    compartir.className = "compartir-facebook galeria-compartir";
+    compartir.href = urlActividad.href;
+    compartir.target = "_blank";
+    compartir.rel = "noopener noreferrer";
+    compartir.textContent = "Compartir";
+    compartir.dataset.evaModulo = "galeria";
+    compartir.dataset.compartirUrl = urlActividad.href;
+    compartir.dataset.compartirTitulo = String(item.titulo || "Actividad de Galería");
+    compartir.dataset.compartirTexto = [String(item.titulo || ""), fecha].filter(Boolean).join("\n");
+    compartir.setAttribute("aria-label", "Compartir actividad: " + String(item.titulo || "Galería").slice(0, 100));
+    contenido.appendChild(compartir);
     articulo.append(mosaico, contenido);
     return articulo;
+  }
+
+  function localizarActividad() {
+    if (!/^#actividad-[1-9][0-9]{0,18}$/.test(window.location.hash)) return;
+    const actividad = document.getElementById(window.location.hash.slice(1));
+    if (!actividad || !grid.contains(actividad)) {
+      estado.textContent = "La actividad solicitada no está disponible públicamente.";
+      return;
+    }
+    estado.textContent = "";
+    actividad.scrollIntoView({ block: "center", behavior: "auto" });
+    actividad.focus({ preventScroll: true });
   }
 
   async function cargarGaleria() {
@@ -228,6 +256,7 @@
         ? ""
         : "No hay fotografías disponibles para mostrar.";
       document.documentElement.dataset.galeriaFuente = "supabase";
+      localizarActividad();
     } catch (error) {
       grid.replaceChildren();
       estado.textContent = "La Galería no está disponible temporalmente. Intente nuevamente más tarde.";
@@ -237,6 +266,10 @@
   }
 
   modalCerrar?.addEventListener("click", cerrarVisor);
+  window.addEventListener("hashchange", localizarActividad);
+  grid.addEventListener("eva-compartir-error", () => {
+    estado.textContent = "No se pudo abrir Compartir. Intente nuevamente.";
+  });
 
   modal?.addEventListener("click", (evento) => {
     if (evento.target === modal) cerrarVisor();

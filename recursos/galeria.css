@@ -8,6 +8,34 @@
   overflow:hidden;
 }
 
+.galeria-item:target,
+.galeria-item:focus-visible{
+  outline:4px solid #0f766e;
+  outline-offset:4px;
+}
+
+.galeria-compartir{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  margin-top:16px;
+  padding:10px 18px;
+  border-radius:999px;
+  color:#fff;
+  background:#0b6257;
+  font-weight:850;
+  text-decoration:none;
+  box-sizing:border-box;
+}
+
+.galeria-compartir:hover{ background:#084c44; color:#fff; }
+.galeria-compartir:focus-visible{ outline:3px solid #0f766e; outline-offset:4px; }
+body.alto-contraste .galeria-compartir{ color:#000!important; background:#fff!important; }
+body.alto-contraste .galeria-compartir:focus-visible,
+body.alto-contraste .galeria-item:target,
+body.alto-contraste .galeria-item:focus-visible{ outline-color:#fff; }
+
 .galeria-imagenes{
   display:grid;
   grid-template-columns:repeat(6,minmax(0,1fr));
