@@ -106,6 +106,40 @@
       if(boton) boton.disabled=!permite(modulo);
     }
   }
+
+  // En Capacitaciones se permite pegar directamente una URL por línea.
+  // Antes de que admin.js procese el formulario, una URL sola se normaliza
+  // al formato interno existente sin cambiar la estructura guardada en Supabase.
+  function prepararMaterialesComplementariosSimples() {
+    const campo=$("cap-recursos");
+    if(!campo) return;
+    campo.placeholder="Pega un enlace por línea";
+    const nota=campo.closest("label")?.nextElementSibling;
+    if(nota?.classList?.contains("nota")) {
+      nota.textContent="Pega directamente un enlace por línea. Si deseas, también puedes usar: Título | URL | Descripción opcional.";
+    }
+  }
+
+  document.addEventListener("submit",evento=>{
+    if(evento.target?.id!=="form-capacitacion") return;
+    const campo=$("cap-recursos");
+    if(!campo) return;
+    let numero=0;
+    campo.value=String(campo.value||"").split(/\r?\n/).map(linea=>{
+      const texto=linea.trim();
+      if(!texto || texto.includes("|")) return texto;
+      try {
+        const url=new URL(texto);
+        if(!["http:","https:"].includes(url.protocol)) return texto;
+        numero+=1;
+        return (numero===1?"Material complementario":"Material complementario "+numero)+" | "+url.href;
+      } catch {
+        return texto;
+      }
+    }).join("\n");
+  },true);
+
+  prepararMaterialesComplementariosSimples();
   for(const modulo of Object.keys(tablas)) $("publicacion-recargar-"+modulo)?.addEventListener("click",()=>cargar(modulo).catch(()=>{}));
   window.EvaPublicacion={configurar,limpiar,cargar,cargarTodos:()=>Promise.all(Object.keys(tablas).filter(permite).map(cargar))};
 })();
