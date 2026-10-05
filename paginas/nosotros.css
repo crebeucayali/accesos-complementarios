@@ -50,3 +50,4 @@ body .subtitulo{max-width:880px!important;margin:0!important;color:rgba(255,255,
   .item-directorio h3,
   .galeria-item h3{font-size:1.1875rem;}
 }
+.footer-contenido > .footer-bloque:nth-child(3) p{overflow-wrap:anywhere;}
