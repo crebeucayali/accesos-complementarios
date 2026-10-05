@@ -94,6 +94,7 @@ footer{margin-top:56px;padding:44px clamp(20px,5vw,72px) 28px;color:#dbe9ee;back
 .footer-contenido{display:grid;grid-template-columns:1.2fr 1fr 1.25fr;gap:32px;max-width:1120px;margin:0 auto}
 .footer-bloque h2{margin:0 0 10px;color:#fff;font-size:.9375rem}
 .footer-bloque p{margin:0;color:#dbe9ee;font-size:.875rem;line-height:1.65}
+.footer-contenido > .footer-bloque:nth-child(3) p{overflow-wrap:anywhere;}
 .footer-bloque a{color:#dbe9ee;font-size:.875rem;text-decoration:underline;text-underline-offset:3px}
 .footer-identidad{display:flex;gap:16px;align-items:flex-start}
 .logo-footer{display:block;width:72px;max-width:72px;height:auto;max-height:72px;object-fit:contain;flex-shrink:0}
