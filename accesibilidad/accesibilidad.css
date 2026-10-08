@@ -143,6 +143,12 @@
   outline-offset:3px !important;
 }
 
+/* Fase 8 · Etapa 7: etiqueta de sección dentro de superficies claras. */
+body main .seccion-etiqueta{
+  color:#1f6a5a !important;
+  text-shadow:none !important;
+}
+
 html.eva-texto-grande{font-size:112.5%;}
 html.eva-texto-muy-grande{font-size:125%;}
 
