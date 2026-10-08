@@ -103,6 +103,8 @@
   color:#486581;
   font-size:1rem;
   line-height:1.6;
+  overflow-wrap:anywhere;
+  word-break:break-word;
 }
 
 .directorio-boton{
