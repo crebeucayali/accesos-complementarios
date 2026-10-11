@@ -1425,3 +1425,40 @@ body.alto-contraste .panel-inicio-logo{
     grid-template-columns:1fr;
   }
 }
+
+/* Usuarios: conservar la vista en tarjetas de móvil y evitar compresión ilegible en escritorio. */
+@media (min-width:761px){
+  #panel-usuarios .listado-publicaciones-scroll{
+    overflow-x:auto;
+  }
+
+  #panel-usuarios .tabla-estadisticas{
+    min-width:1180px;
+    table-layout:auto;
+  }
+
+  #panel-usuarios .tabla-estadisticas th:nth-child(1){width:150px;}
+  #panel-usuarios .tabla-estadisticas th:nth-child(2){width:250px;}
+  #panel-usuarios .tabla-estadisticas th:nth-child(3){width:110px;}
+  #panel-usuarios .tabla-estadisticas th:nth-child(4){width:155px;}
+  #panel-usuarios .tabla-estadisticas th:nth-child(5){width:205px;}
+  #panel-usuarios .tabla-estadisticas th:nth-child(6){width:220px;}
+  #panel-usuarios .tabla-estadisticas th:nth-child(7){width:90px;}
+
+  #panel-usuarios .tabla-estadisticas td{
+    overflow-wrap:normal;
+  }
+
+  #panel-usuarios .tabla-estadisticas td:nth-child(2){
+    overflow-wrap:anywhere;
+  }
+
+  #panel-usuarios .tabla-estadisticas td:nth-child(7),
+  #panel-usuarios .tabla-estadisticas td:nth-child(7) button{
+    white-space:nowrap;
+  }
+
+  #panel-usuarios .tabla-estadisticas td:nth-child(7) button{
+    max-width:none;
+  }
+}
