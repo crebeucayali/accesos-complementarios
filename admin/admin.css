@@ -1426,28 +1426,37 @@ body.alto-contraste .panel-inicio-logo{
   }
 }
 
-/* Usuarios: conservar la vista en tarjetas de móvil y evitar compresión ilegible en escritorio. */
+/* Usuarios: conservar la vista en tarjetas de móvil y compactar la tabla de escritorio. */
 @media (min-width:761px){
   #panel-usuarios .listado-publicaciones-scroll{
     overflow-x:auto;
   }
 
   #panel-usuarios .tabla-estadisticas{
-    min-width:1180px;
+    min-width:1060px;
     table-layout:auto;
+    font-size:.9rem;
   }
 
-  #panel-usuarios .tabla-estadisticas th:nth-child(1){width:150px;}
-  #panel-usuarios .tabla-estadisticas th:nth-child(2){width:250px;}
-  #panel-usuarios .tabla-estadisticas th:nth-child(3){width:110px;}
-  #panel-usuarios .tabla-estadisticas th:nth-child(4){width:155px;}
-  #panel-usuarios .tabla-estadisticas th:nth-child(5){width:205px;}
-  #panel-usuarios .tabla-estadisticas th:nth-child(6){width:220px;}
-  #panel-usuarios .tabla-estadisticas th:nth-child(7){width:90px;}
+  #panel-usuarios .tabla-estadisticas th{
+    font-size:.8rem;
+    line-height:1.3;
+    padding:10px 11px;
+  }
 
   #panel-usuarios .tabla-estadisticas td{
+    padding:10px 11px;
+    line-height:1.45;
     overflow-wrap:normal;
   }
+
+  #panel-usuarios .tabla-estadisticas th:nth-child(1){width:130px;}
+  #panel-usuarios .tabla-estadisticas th:nth-child(2){width:225px;}
+  #panel-usuarios .tabla-estadisticas th:nth-child(3){width:100px;}
+  #panel-usuarios .tabla-estadisticas th:nth-child(4){width:145px;}
+  #panel-usuarios .tabla-estadisticas th:nth-child(5){width:185px;}
+  #panel-usuarios .tabla-estadisticas th:nth-child(6){width:195px;}
+  #panel-usuarios .tabla-estadisticas th:nth-child(7){width:80px;}
 
   #panel-usuarios .tabla-estadisticas td:nth-child(2){
     overflow-wrap:anywhere;
@@ -1460,5 +1469,8 @@ body.alto-contraste .panel-inicio-logo{
 
   #panel-usuarios .tabla-estadisticas td:nth-child(7) button{
     max-width:none;
+    min-height:40px;
+    padding:8px 12px;
+    font-size:.86rem;
   }
 }
