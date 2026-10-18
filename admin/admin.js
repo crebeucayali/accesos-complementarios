@@ -1993,6 +1993,8 @@
     const datos = Array.isArray(filas) ? filas : [];
     const maximo = Math.max(0, ...datos.map((fila) => Number(fila.visitas || 0)));
 
+    const primerIndiceConDatos = datos.findIndex((fila) => Number(fila.visitas || 0) > 0);
+
     datos.forEach((fila, indice) => {
       const visitas = Number(fila.visitas || 0);
       const altura = maximo > 0 ? Math.max(visitas > 0 ? 8 : 0, (visitas / maximo) * 100) : 0;
@@ -2014,9 +2016,13 @@
       const etiqueta = document.createElement("span");
       etiqueta.className = "estadistica-dia-etiqueta";
       const mostrarEtiqueta =
-        indice === 0 ||
-        (indice + 1) % 7 === 0 ||
-        (indice === datos.length - 1 && indice % 7 >= 3);
+        primerIndiceConDatos >= 0 &&
+        indice >= primerIndiceConDatos &&
+        (
+          indice === primerIndiceConDatos ||
+          ((indice + 1) % 7 === 0 && indice - primerIndiceConDatos >= 3) ||
+          (indice === datos.length - 1 && indice % 7 >= 3)
+        );
       etiqueta.textContent = mostrarEtiqueta
         ? fechaEstadistica(fila.fecha, { day: "2-digit", month: "2-digit" })
         : "";
