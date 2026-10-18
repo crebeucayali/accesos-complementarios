@@ -2015,8 +2015,8 @@
       etiqueta.className = "estadistica-dia-etiqueta";
       const mostrarEtiqueta =
         indice === 0 ||
-        indice === datos.length - 1 ||
-        (indice + 1) % 7 === 0;
+        (indice + 1) % 7 === 0 ||
+        (indice === datos.length - 1 && indice % 7 >= 3);
       etiqueta.textContent = mostrarEtiqueta
         ? fechaEstadistica(fila.fecha, { day: "2-digit", month: "2-digit" })
         : "";
