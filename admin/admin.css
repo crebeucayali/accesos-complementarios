@@ -1175,12 +1175,16 @@ body.alto-contraste .galeria-admin-foto{
 }
 
 .estadisticas-barras-diarias{
+  width:100%;
+  min-width:0;
+  box-sizing:border-box;
   height:224px;
   display:grid;
   grid-template-columns:repeat(30,12px);
   gap:7px;
-  justify-content:space-between;
+  justify-content:start;
   align-items:stretch;
+  overflow-x:auto;
   padding:14px 8px 0;
   border-left:1px solid var(--borde);
   border-bottom:1px solid var(--borde);
