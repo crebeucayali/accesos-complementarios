@@ -1175,9 +1175,9 @@ body.alto-contraste .galeria-admin-foto{
 }
 
 .estadisticas-barras-diarias{
-  height:210px;
+  height:224px;
   display:grid;
-  grid-template-columns:repeat(30,minmax(5px,1fr));
+  grid-template-columns:repeat(30,minmax(7px,1fr));
   gap:3px;
   align-items:stretch;
   padding:14px 8px 0;
@@ -1189,7 +1189,7 @@ body.alto-contraste .galeria-admin-foto{
   min-width:0;
   height:100%;
   display:grid;
-  grid-template-rows:minmax(0,1fr) 26px;
+  grid-template-rows:minmax(0,1fr) 32px;
   align-items:end;
 }
 
@@ -1206,11 +1206,10 @@ body.alto-contraste .galeria-admin-foto{
   justify-self:center;
   padding-top:5px;
   color:var(--texto-suave);
-  font-size:.62rem;
-  line-height:1;
+  font-size:.68rem;
+  line-height:1.2;
   white-space:nowrap;
-  transform:rotate(-45deg);
-  transform-origin:center;
+  font-variant-numeric:tabular-nums;
 }
 
 .estadistica-participacion{
