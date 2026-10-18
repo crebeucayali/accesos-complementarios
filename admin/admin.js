@@ -1990,10 +1990,13 @@
     const contenedor = $("estadisticas-diarias");
     contenedor.replaceChildren();
 
-    const datos = Array.isArray(filas) ? filas : [];
+    const serieCompleta = Array.isArray(filas) ? filas : [];
+    const primerIndiceConDatos = serieCompleta.findIndex((fila) => Number(fila.visitas || 0) > 0);
+    const datos = primerIndiceConDatos >= 0
+      ? serieCompleta.slice(primerIndiceConDatos)
+      : serieCompleta;
     const maximo = Math.max(0, ...datos.map((fila) => Number(fila.visitas || 0)));
-
-    const primerIndiceConDatos = datos.findIndex((fila) => Number(fila.visitas || 0) > 0);
+    contenedor.style.setProperty("--dias-visibles", String(Math.max(1, datos.length)));
 
     datos.forEach((fila, indice) => {
       const visitas = Number(fila.visitas || 0);
@@ -2016,13 +2019,9 @@
       const etiqueta = document.createElement("span");
       etiqueta.className = "estadistica-dia-etiqueta";
       const mostrarEtiqueta =
-        primerIndiceConDatos >= 0 &&
-        indice >= primerIndiceConDatos &&
-        (
-          indice === primerIndiceConDatos ||
-          ((indice + 1) % 7 === 0 && indice - primerIndiceConDatos >= 3) ||
-          (indice === datos.length - 1 && indice % 7 >= 3)
-        );
+        indice === 0 ||
+        (indice > 2 && indice % 7 === 0) ||
+        (indice === datos.length - 1 && indice % 7 >= 4);
       etiqueta.textContent = mostrarEtiqueta
         ? fechaEstadistica(fila.fecha, { day: "2-digit", month: "2-digit" })
         : "";
