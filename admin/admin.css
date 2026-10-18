@@ -1180,8 +1180,8 @@ body.alto-contraste .galeria-admin-foto{
   box-sizing:border-box;
   height:224px;
   display:grid;
-  grid-template-columns:repeat(30,12px);
-  gap:7px;
+  grid-template-columns:repeat(30,14px);
+  column-gap:8px;
   justify-content:start;
   align-items:stretch;
   overflow-x:auto;
@@ -1191,8 +1191,8 @@ body.alto-contraste .galeria-admin-foto{
 }
 
 .estadistica-dia-columna{
-  width:12px;
-  min-width:12px;
+  width:14px;
+  min-width:14px;
   height:100%;
   display:grid;
   grid-template-rows:minmax(0,1fr) 32px;
@@ -1200,9 +1200,9 @@ body.alto-contraste .galeria-admin-foto{
 }
 
 .estadistica-dia-barra{
-  width:10px;
-  min-width:10px;
-  max-width:10px;
+  width:8px;
+  min-width:8px;
+  max-width:8px;
   justify-self:center;
   align-self:end;
   border-radius:5px 5px 0 0;
@@ -1275,8 +1275,8 @@ body.alto-contraste .estadistica-participacion-texto{
 
   .estadisticas-barras-diarias{
     overflow-x:auto;
-    grid-template-columns:repeat(30,12px);
-    gap:7px;
+    grid-template-columns:repeat(30,14px);
+    column-gap:8px;
     justify-content:start;
   }
 
