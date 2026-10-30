@@ -559,7 +559,7 @@
             <form id="form-comunicados" class="formulario" autocomplete="off">
               <input type="hidden" id="com-id">
               <label for="com-titulo">Título <input id="com-titulo" maxlength="160" required></label>
-              <label for="com-contenido">Contenido <textarea id="com-contenido" maxlength="3000" rows="4" required></textarea></label>
+              <label for="com-contenido">Contenido <textarea id="com-contenido" minlength="3" maxlength="3000" rows="4" required></textarea></label>
               <label for="com-tipo">Tipo <select id="com-tipo"><option value="informativo">Informativo</option><option value="actividad">Actividad</option><option value="aviso">Aviso importante</option></select></label>
               <label for="com-inicio">Inicio (opcional) <input id="com-inicio" type="datetime-local"></label>
               <label for="com-fin">Finalización (opcional) <input id="com-fin" type="datetime-local"></label>
@@ -841,7 +841,7 @@
   <script src="activacion.js?v=2" defer></script>
   <script src="usuarios.js?v=5" defer></script>
   <script src="publicacion.js?v=3" defer></script>
-  <script src="admin.js?v=47" defer></script>
+  <script src="admin.js?v=48" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>
 </html>
