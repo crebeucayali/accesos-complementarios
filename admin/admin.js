@@ -2285,7 +2285,22 @@
 
   function mensajeComunicados(texto) { $("com-estado-mensaje").textContent = texto; }
   function fechaFormulario(valor) { return valor ? new Date(valor).toISOString() : null; }
-  function limpiarFormularioComunicados() { $("form-comunicados").reset(); $("com-id").value=""; mensajeComunicados(""); }
+  function limpiarFormularioComunicados() {
+    $("form-comunicados").reset(); $("com-id").value=""; $("com-imagen-actual").textContent="Sin imagen seleccionada.";
+    $("com-destinos").querySelector('input[value="principal"]').checked=true; mensajeComunicados("");
+  }
+  function destinosComunicado(){return [...document.querySelectorAll('input[name="com-destino"]:checked')].map(x=>x.value);}
+  async function subirImagenComunicado(archivo) {
+    if (!["image/png","image/jpeg","image/webp"].includes(archivo.type)) throw new Error("La imagen debe ser PNG, JPG, JPEG o WebP.");
+    if (archivo.size > 5242880 || archivo.size === 0) throw new Error("La imagen debe ocupar entre 1 byte y 5 MB.");
+    await refrescarSesionSiHaceFalta();
+    const extension=archivo.type==="image/png"?"png":archivo.type==="image/webp"?"webp":"jpg";
+    const nombre=crypto.randomUUID()+"."+extension;
+    const url=SUPABASE_URL+"/storage/v1/object/eva-comunicados/"+nombre;
+    const respuesta=await fetch(url,{method:"POST",headers:{apikey:SUPABASE_PUBLISHABLE_KEY,Authorization:"Bearer "+sesion.access_token,"Content-Type":archivo.type,"x-upsert":"false"},body:archivo});
+    if (!respuesta.ok) {const error=await respuesta.json().catch(()=>({}));throw new Error(error.message||"No se pudo subir la imagen.");}
+    return SUPABASE_URL+"/storage/v1/object/public/eva-comunicados/"+nombre;
+  }
   let comunicadosDisponibles = [];
   async function cargarComunicados() {
     if (!permitePanel("comunicados",true)) return;
@@ -2303,7 +2318,10 @@
         $("com-tipo").value=registro.tipo; $("com-estado").value=registro.estado; $("com-frecuencia").value=registro.frecuencia;
         $("com-inicio").value=registro.inicio ? registro.inicio.slice(0,16) : "";
         $("com-fin").value=registro.fin ? registro.fin.slice(0,16) : "";
-        $("com-imagen").value=registro.imagen_url||""; $("com-enlace").value=registro.enlace_url||"";
+        $("com-imagen").value=""; $("com-quitar-imagen").checked=false;
+        $("com-imagen-actual").textContent=registro.imagen_url?"Imagen almacenada en Supabase.":"Sin imagen.";
+        document.querySelectorAll('input[name="com-destino"]').forEach(x=>x.checked=(registro.destinos||["principal"]).includes(x.value));
+        $("com-enlace").value=registro.enlace_url||"";
         $("com-enlace-texto").value=registro.enlace_texto||"";
         $("com-titulo").focus();
       });
@@ -2332,8 +2350,12 @@
       const payload={titulo:$("com-titulo").value.trim(),contenido:$("com-contenido").value.trim(),
         tipo:$("com-tipo").value,estado:$("com-estado").value,frecuencia:$("com-frecuencia").value,
         inicio:fechaFormulario($("com-inicio").value),fin:fechaFormulario($("com-fin").value),
-        imagen_url:$("com-imagen").value.trim()||null,enlace_url:$("com-enlace").value.trim()||null,
-        enlace_texto:$("com-enlace-texto").value.trim()||null,actualizado_en:new Date().toISOString()};
+        enlace_url:$("com-enlace").value.trim()||null,
+        enlace_texto:$("com-enlace-texto").value.trim()||null,destinos:destinosComunicado(),actualizado_en:new Date().toISOString()};
+      if (!payload.destinos.length) throw new Error("Selecciona al menos una ubicación.");
+      const previo=id?comunicadosDisponibles.find(x=>x.id===id):null;
+      const archivo=$("com-imagen").files[0];
+      payload.imagen_url=archivo?await subirImagenComunicado(archivo):($("com-quitar-imagen").checked?null:(previo?.imagen_url||null));
       if (payload.inicio && payload.fin && payload.fin<=payload.inicio) throw new Error("La fecha final debe ser posterior a la inicial.");
       await rest("eva_comunicados_emergentes"+(id?"?id=eq."+encodeURIComponent(id):""),{method:id?"PATCH":"POST",body:JSON.stringify(payload)});
       limpiarFormularioComunicados(); await cargarComunicados(); mensajeComunicados("Comunicado guardado.");
