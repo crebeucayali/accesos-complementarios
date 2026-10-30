@@ -2352,6 +2352,11 @@
         inicio:fechaFormulario($("com-inicio").value),fin:fechaFormulario($("com-fin").value),
         enlace_url:$("com-enlace").value.trim()||null,
         enlace_texto:$("com-enlace-texto").value.trim()||null,destinos:destinosComunicado(),actualizado_en:new Date().toISOString()};
+      if (payload.titulo.length < 3) throw new Error("El título debe tener al menos 3 caracteres.");
+      if (payload.contenido.length < 3) {
+        $("com-contenido").focus();
+        throw new Error("El contenido debe tener al menos 3 caracteres de texto, sin contar espacios. Amplía la descripción antes de guardar.");
+      }
       if (!payload.destinos.length) throw new Error("Selecciona al menos una ubicación.");
       const previo=id?comunicadosDisponibles.find(x=>x.id===id):null;
       const archivo=$("com-imagen").files[0];
