@@ -1482,3 +1482,19 @@ body.alto-contraste .panel-inicio-logo{
     font-size:.86rem;
   }
 }
+
+/* Separación uniforme de las columnas del gráfico diario. */
+.estadisticas-barras-diarias{
+  column-gap:0;
+}
+.estadistica-dia-columna{
+  justify-items:center;
+}
+.estadistica-dia-barra{
+  width:min(70%,8px);
+  max-width:8px;
+}
+@media(max-width:620px){
+  .estadisticas-barras-diarias{column-gap:0;}
+  .estadistica-dia-barra{width:min(70%,8px);}
+}
