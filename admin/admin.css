@@ -1527,3 +1527,8 @@ body.alto-contraste .panel-inicio-logo{
   .estadisticas-barras-diarias{column-gap:0;overflow:visible;}
   .estadistica-dia-barra{width:min(5px,65%);max-width:5px;}
 }
+
+/* Periodos del gráfico histórico de visitas. */
+.estadisticas-grafico-control{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:10px 0;color:var(--texto-suave);font-size:.85rem;font-weight:700}
+.estadisticas-grafico-control select{max-width:180px;min-height:36px;padding:5px 10px;border:1px solid var(--borde);border-radius:8px;background:#fff;color:var(--tinta)}
+.estadisticas-barras-diarias[data-agrupacion="mes"] .estadistica-dia-etiqueta{font-size:.63rem}
