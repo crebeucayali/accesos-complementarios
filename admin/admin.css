@@ -1498,3 +1498,11 @@ body.alto-contraste .panel-inicio-logo{
   .estadisticas-barras-diarias{column-gap:0;}
   .estadistica-dia-barra{width:min(70%,8px);}
 }
+
+/* Cada día conserva su posición; los días con cero sesiones se señalan discretamente. */
+.estadisticas-barras-diarias{column-gap:0;}
+.estadistica-dia-columna{position:relative;justify-items:center;}
+.estadistica-dia-barra{width:5px;min-width:5px;max-width:5px;justify-self:center;}
+.estadistica-dia-barra.estadistica-dia-sin-visitas{height:3px!important;background:#a2b7b6;border-radius:3px 3px 0 0;}
+@media(max-width:620px){.estadistica-dia-barra{width:4px;min-width:4px;max-width:4px;}}
+body.alto-contraste .estadistica-dia-barra.estadistica-dia-sin-visitas{background:#aaa!important;}
