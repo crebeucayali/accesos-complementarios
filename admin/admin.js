@@ -1986,15 +1986,12 @@
     });
   }
 
-  function renderEstadisticasDiarias(filas) {
+  function renderEstadisticasDiarias(filas, agrupacion = "dia") {
     const contenedor = $("estadisticas-diarias");
     contenedor.replaceChildren();
 
     const serieCompleta = Array.isArray(filas) ? filas : [];
-    const primerIndiceConDatos = serieCompleta.findIndex((fila) => Number(fila.visitas || 0) > 0);
-    const datos = primerIndiceConDatos >= 0
-      ? serieCompleta.slice(primerIndiceConDatos)
-      : serieCompleta;
+    const datos = serieCompleta;
     const maximo = Math.max(0, ...datos.map((fila) => Number(fila.visitas || 0)));
     contenedor.style.setProperty("--dias-visibles", String(Math.max(1, datos.length)));
 
@@ -2007,7 +2004,9 @@
       columna.setAttribute("role", "listitem");
       columna.setAttribute(
         "aria-label",
-        fechaEstadistica(fila.fecha, { day: "numeric", month: "long", year: "numeric" }) +
+        (fila.fecha_fin && fila.fecha_fin !== fila.fecha
+          ? fechaEstadistica(fila.fecha, {day:"numeric",month:"short",year:"numeric"}) + " al " + fechaEstadistica(fila.fecha_fin,{day:"numeric",month:"short",year:"numeric"})
+          : fechaEstadistica(fila.fecha,{day:"numeric",month:"long",year:"numeric"})) +
         ": " + numeroES(visitas) + (visitas === 1 ? " sesión EVA" : " sesiones EVA")
       );
       columna.title = columna.getAttribute("aria-label");
@@ -2020,12 +2019,10 @@
 
       const etiqueta = document.createElement("span");
       etiqueta.className = "estadistica-dia-etiqueta";
-      const mostrarEtiqueta =
-        indice === 0 ||
-        (indice > 2 && indice % 7 === 0) ||
-        (indice === datos.length - 1 && indice % 7 >= 4);
+      const intervalo = agrupacion === "mes" ? 1 : agrupacion === "semana" ? 4 : datos.length > 60 ? 15 : datos.length > 30 ? 10 : 7;
+      const mostrarEtiqueta = indice === 0 || indice === datos.length - 1 || indice % intervalo === 0;
       etiqueta.textContent = mostrarEtiqueta
-        ? fechaEstadistica(fila.fecha, { day: "2-digit", month: "2-digit" })
+        ? fechaEstadistica(fila.fecha, agrupacion === "mes" ? {month:"short",year:"2-digit"} : {day:"2-digit",month:"2-digit"})
         : "";
       etiqueta.setAttribute("aria-hidden", "true");
 
@@ -2107,6 +2104,24 @@
     renderDistribucionModulos(resumen);
   }
 
+  let solicitudGrafico = 0;
+  async function cargarGraficoVisitas() {
+    const selector = $("est-grafico-periodo");
+    if (!selector) return;
+    const periodo = selector.value;
+    const ticket = ++solicitudGrafico;
+    const titulos = {"30d":"Últimos 30 días","60d":"Últimos 60 días","90d":"Últimos 90 días","1a":"Último año","historico":"Histórico completo"};
+    $("titulo-est-diaria").textContent = titulos[periodo];
+    const contenedor = $("estadisticas-diarias");
+    contenedor.setAttribute("aria-label", "Sesiones EVA: " + titulos[periodo]);
+    const respuesta = await rest("rpc/estadisticas_visitas_eva_grafico", {
+      method:"POST",body:JSON.stringify({p_periodo:periodo})
+    });
+    if (ticket !== solicitudGrafico) return;
+    renderEstadisticasDiarias(respuesta?.datos || [], respuesta?.agrupacion || "dia");
+    contenedor.dataset.agrupacion = respuesta?.agrupacion || "dia";
+  }
+
   async function cargarEstadisticasVisitas() {
     const datos = await rest("rpc/estadisticas_visitas_eva", {
       method: "POST",
@@ -2128,7 +2143,7 @@
       : "Aún no hay sesiones EVA registradas.";
 
     renderEstadisticasMensuales(resumen?.mensual_6_meses);
-    renderEstadisticasDiarias(resumen?.diario_30_dias);
+    await cargarGraficoVisitas();
     await cargarEstadisticasPeriodo($("est-periodo")?.value || "30d");
   }
 
@@ -2438,7 +2453,10 @@
     }
   });
 
-  $("est-periodo").addEventListener("change", async (evento) => {
+  $("est-grafico-periodo").addEventListener("change", () => {
+    cargarGraficoVisitas().catch(error => mostrarMensaje(error.message,"error"));
+  });
+    $("est-periodo").addEventListener("change", async (evento) => {
     try {
       await cargarEstadisticasPeriodo(evento.target.value);
       mostrarMensaje("");
