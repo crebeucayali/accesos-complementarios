@@ -2014,13 +2014,13 @@
       const barra = document.createElement("span");
       barra.className = "estadistica-dia-barra";
       if (visitas === 0) barra.classList.add("estadistica-dia-sin-visitas");
-      barra.style.height = altura + "%";
+      barra.style.height = "calc((100% - 64px) * " + (altura / 100) + ")";
       barra.dataset.visitas = String(visitas);
 
       const etiqueta = document.createElement("span");
       etiqueta.className = "estadistica-dia-etiqueta";
       const intervalo = agrupacion === "mes" ? 1 : agrupacion === "semana" ? 4 : datos.length > 60 ? 15 : datos.length > 30 ? 10 : 7;
-      const mostrarEtiqueta = indice === 0 || indice === datos.length - 1 || indice % intervalo === 0;
+      const mostrarEtiqueta = indice === 0 || indice % intervalo === 0 || (indice === datos.length - 1 && (indice % intervalo) >= Math.ceil(intervalo / 2));
       etiqueta.textContent = mostrarEtiqueta
         ? fechaEstadistica(fila.fecha, agrupacion === "mes" ? {month:"short",year:"2-digit"} : {day:"2-digit",month:"2-digit"})
         : "";
