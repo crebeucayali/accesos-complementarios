@@ -78,35 +78,96 @@
     try { return JSON.parse(texto); } catch { return null; }
   }
 
+  function mostrarReconocimientoHito(hito) {
+    if (!Number.isSafeInteger(hito) || hito <= 0 || hito % 1000 !== 0) return;
+    const marca = "eva_hito_mostrado_v1_" + hito;
+    try {
+      if (localStorage.getItem(marca) === "1") return;
+      localStorage.setItem(marca, "1");
+    } catch {
+      // Sin almacenamiento persistente, el reconocimiento sigue siendo funcional.
+    }
+    if (document.getElementById("eva-reconocimiento-hito")) return;
+
+    const estilo = document.createElement("style");
+    estilo.id = "eva-reconocimiento-estilos";
+    estilo.textContent = `
+      #eva-reconocimiento-hito{position:fixed;inset:0;z-index:2147483000;background:rgba(5,29,58,.74);display:grid;place-items:center;padding:20px;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+      #eva-reconocimiento-hito .eva-hito-tarjeta{position:relative;background:#fff;color:#102e58;border:4px solid #78b936;border-radius:22px;max-width:490px;width:100%;padding:34px 24px;box-sizing:border-box;text-align:center;box-shadow:0 18px 70px rgba(0,0,0,.35)}
+      #eva-reconocimiento-hito .eva-hito-cerrar{position:absolute;right:12px;top:10px;background:transparent;border:0;color:#102e58;font-size:27px;cursor:pointer;padding:4px 10px}
+      #eva-reconocimiento-hito .eva-hito-numero{font-size:clamp(3rem,12vw,5rem);font-weight:800;color:#24793c;line-height:1.2}
+      #eva-reconocimiento-hito .eva-hito-boton{margin-top:18px;border:0;border-radius:10px;padding:12px 24px;background:#103c75;color:white;font-weight:700;font-size:1rem;cursor:pointer}
+      #eva-reconocimiento-hito h2{margin:0 0 10px;font-size:clamp(1.4rem,5vw,2rem)}
+      #eva-reconocimiento-hito p{margin:10px 0;line-height:1.5}
+      @media (prefers-reduced-motion:reduce){#eva-reconocimiento-hito *{animation:none!important;transition:none!important}}
+    `;
+    document.head.appendChild(estilo);
+
+    const fondo = document.createElement("div");
+    fondo.id = "eva-reconocimiento-hito";
+    fondo.setAttribute("role", "dialog");
+    fondo.setAttribute("aria-modal", "true");
+    fondo.setAttribute("aria-labelledby", "eva-hito-titulo");
+    const tarjeta = document.createElement("div");
+    tarjeta.className = "eva-hito-tarjeta";
+    const cerrar = document.createElement("button");
+    cerrar.className = "eva-hito-cerrar";
+    cerrar.setAttribute("aria-label", "Cerrar reconocimiento");
+    cerrar.textContent = "×";
+    const titulo = document.createElement("h2");
+    titulo.id = "eva-hito-titulo";
+    titulo.textContent = "¡Felicitaciones!";
+    const numero = document.createElement("div");
+    numero.className = "eva-hito-numero";
+    numero.textContent = new Intl.NumberFormat("es-PE").format(hito);
+    const mensaje = document.createElement("p");
+    mensaje.textContent = "¡Tu visita ha alcanzado el hito número " + new Intl.NumberFormat("es-PE").format(hito) + " de EVA!";
+    const gracias = document.createElement("p");
+    gracias.textContent = 'Gracias por formar parte de nuestra comunidad educativa inclusiva. CREBE "Señor de los Milagros" - Ucayali.';
+    const aceptar = document.createElement("button");
+    aceptar.className = "eva-hito-boton";
+    aceptar.textContent = "Continuar navegando";
+    tarjeta.append(cerrar,titulo,numero,mensaje,gracias,aceptar);
+    fondo.appendChild(tarjeta);
+    const focoPrevio = document.activeElement;
+    const quitar = () => {
+      fondo.remove();
+      estilo.remove();
+      document.removeEventListener("keydown", teclado);
+      if (focoPrevio && typeof focoPrevio.focus === "function") focoPrevio.focus();
+    };
+    const teclado = (evento) => {
+      if (evento.key === "Escape") quitar();
+      if (evento.key === "Tab") {
+        const botones = [cerrar,aceptar];
+        const indice = botones.indexOf(document.activeElement);
+        if (evento.shiftKey && indice <= 0) {evento.preventDefault();aceptar.focus();}
+        else if (!evento.shiftKey && indice >= botones.length-1) {evento.preventDefault();cerrar.focus();}
+      }
+    };
+    cerrar.addEventListener("click",quitar);
+    aceptar.addEventListener("click",quitar);
+    fondo.addEventListener("click",(evento) => {if(evento.target===fondo) quitar();});
+    document.addEventListener("keydown",teclado);
+    document.body.appendChild(fondo);
+    cerrar.focus();
+  }
+
   async function registrar(nuevaSesion, nuevoModulo) {
     if ((!nuevaSesion && !nuevoModulo) || registroEnCurso) return;
 
     registroEnCurso = true;
     try {
-      const respuesta = await fetch(SUPABASE_URL + "/rest/v1/eva_visitas_eventos", {
-        method: "POST",
-        headers: {
-          apikey: SUPABASE_PUBLISHABLE_KEY,
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Prefer: "return=minimal"
-        },
-        body: JSON.stringify({
-          modulo,
-          nueva_sesion: Boolean(nuevaSesion),
-          nuevo_modulo: Boolean(nuevoModulo)
-        }),
-        credentials: "omit",
-        cache: "no-store",
-        referrerPolicy: "strict-origin-when-cross-origin",
-        keepalive: true
+      const resultado = await rpc("registrar_visita_eva_hito", {
+        p_modulo: modulo,
+        p_nueva_sesion: Boolean(nuevaSesion),
+        p_nuevo_modulo: Boolean(nuevoModulo)
       });
-
-      if (!respuesta.ok) {
-        throw new Error("Supabase respondió con estado " + respuesta.status + ".");
-      }
-
       document.documentElement.dataset.evaVisitas = "registrada";
+      const hito = Number(resultado?.hito);
+      if (nuevaSesion && Number.isSafeInteger(hito) && hito > 0) {
+        mostrarReconocimientoHito(hito);
+      }
     } catch (error) {
       document.documentElement.dataset.evaVisitas = "error";
       console.warn("Estadísticas EVA:", error);
