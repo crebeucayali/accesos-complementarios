@@ -2016,6 +2016,7 @@
       barra.className = "estadistica-dia-barra";
       if (visitas === 0) barra.classList.add("estadistica-dia-sin-visitas");
       barra.style.height = altura + "%";
+      barra.dataset.visitas = String(visitas);
 
       const etiqueta = document.createElement("span");
       etiqueta.className = "estadistica-dia-etiqueta";
