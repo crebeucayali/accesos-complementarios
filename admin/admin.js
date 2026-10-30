@@ -61,6 +61,7 @@
         if (control.id?.endsWith("selector")) control.replaceChildren();
       });
     });
+    $("com-listado")?.replaceChildren(); $("form-comunicados")?.reset();
     ["gal-imagenes-editor", "estadisticas-mensual", "estadisticas-diarias", "estadisticas-modulos", "compartidos-modulos", "compartidos-paginas"].forEach(id => $(id)?.replaceChildren());
     window.EvaUsuarios?.limpiar();
     window.EvaPublicacion?.limpiar();
@@ -2282,6 +2283,63 @@
     await cargarEstadisticasCompartidosPeriodo($("comp-periodo")?.value || "30d");
   }
 
+  function mensajeComunicados(texto) { $("com-estado-mensaje").textContent = texto; }
+  function fechaFormulario(valor) { return valor ? new Date(valor).toISOString() : null; }
+  function limpiarFormularioComunicados() { $("form-comunicados").reset(); $("com-id").value=""; mensajeComunicados(""); }
+  let comunicadosDisponibles = [];
+  async function cargarComunicados() {
+    if (!permitePanel("comunicados",true)) return;
+    const registros = await rest("eva_comunicados_emergentes?select=*&order=creado_en.desc", {method:"GET"});
+    comunicadosDisponibles = Array.isArray(registros) ? registros : [];
+    const lista = $("com-listado"); lista.replaceChildren();
+    if (!comunicadosDisponibles.length) { lista.textContent="Todavía no hay comunicados registrados."; return; }
+    comunicadosDisponibles.forEach(registro => {
+      const fila = document.createElement("article"); fila.className="tarjeta";
+      const titulo = document.createElement("h4"); titulo.textContent=registro.titulo;
+      const estado = document.createElement("p"); estado.textContent="Estado: "+registro.estado;
+      const editar = document.createElement("button"); editar.type="button"; editar.textContent="Editar"; editar.className="secundario";
+      editar.addEventListener("click",()=>{
+        $("com-id").value=registro.id; $("com-titulo").value=registro.titulo; $("com-contenido").value=registro.contenido;
+        $("com-tipo").value=registro.tipo; $("com-estado").value=registro.estado; $("com-frecuencia").value=registro.frecuencia;
+        $("com-inicio").value=registro.inicio ? registro.inicio.slice(0,16) : "";
+        $("com-fin").value=registro.fin ? registro.fin.slice(0,16) : "";
+        $("com-imagen").value=registro.imagen_url||""; $("com-enlace").value=registro.enlace_url||"";
+        $("com-enlace-texto").value=registro.enlace_texto||"";
+        $("com-titulo").focus();
+      });
+      const desactivar=document.createElement("button"); desactivar.type="button"; desactivar.textContent="Desactivar"; desactivar.className="secundario";
+      desactivar.disabled=registro.estado==="desactivado";
+      desactivar.addEventListener("click",async()=>{
+        if (!confirm("¿Desactivar este comunicado?")) return;
+        await rest("eva_comunicados_emergentes?id=eq."+encodeURIComponent(registro.id),{method:"PATCH",body:JSON.stringify({estado:"desactivado",actualizado_en:new Date().toISOString()})});
+        await cargarComunicados(); mensajeComunicados("Comunicado desactivado.");
+      });
+      const eliminar=document.createElement("button"); eliminar.type="button"; eliminar.textContent="Eliminar"; eliminar.className="secundario";
+      eliminar.addEventListener("click",async()=>{
+        if (!confirm("¿Eliminar definitivamente este comunicado?")) return;
+        await rest("eva_comunicados_emergentes?id=eq."+encodeURIComponent(registro.id),{method:"DELETE"});
+        await cargarComunicados(); mensajeComunicados("Comunicado eliminado.");
+      });
+      fila.append(titulo,estado,editar,desactivar,eliminar); lista.appendChild(fila);
+    });
+  }
+  $("com-nuevo").addEventListener("click",limpiarFormularioComunicados);
+  $("form-comunicados").addEventListener("submit",async evento=>{
+    evento.preventDefault();
+    if (!permitePanel("comunicados",true)) return;
+    try {
+      const id=$("com-id").value;
+      const payload={titulo:$("com-titulo").value.trim(),contenido:$("com-contenido").value.trim(),
+        tipo:$("com-tipo").value,estado:$("com-estado").value,frecuencia:$("com-frecuencia").value,
+        inicio:fechaFormulario($("com-inicio").value),fin:fechaFormulario($("com-fin").value),
+        imagen_url:$("com-imagen").value.trim()||null,enlace_url:$("com-enlace").value.trim()||null,
+        enlace_texto:$("com-enlace-texto").value.trim()||null,actualizado_en:new Date().toISOString()};
+      if (payload.inicio && payload.fin && payload.fin<=payload.inicio) throw new Error("La fecha final debe ser posterior a la inicial.");
+      await rest("eva_comunicados_emergentes"+(id?"?id=eq."+encodeURIComponent(id):""),{method:id?"PATCH":"POST",body:JSON.stringify(payload)});
+      limpiarFormularioComunicados(); await cargarComunicados(); mensajeComunicados("Comunicado guardado.");
+    } catch(error) { mensajeComunicados(error.message); }
+  });
+
   document.querySelectorAll(".tab").forEach((boton) => {
     boton.addEventListener("click", () => {
       if (!permitePanel(boton.dataset.panel)) return;
@@ -2292,6 +2350,8 @@
       $("panel-repositorio").hidden = boton.dataset.panel !== "repositorio";
       $("panel-noticias").hidden = boton.dataset.panel !== "noticias";
       $("panel-galeria").hidden = boton.dataset.panel !== "galeria";
+      $("panel-comunicados").hidden = boton.dataset.panel !== "comunicados";
+      if (boton.dataset.panel === "comunicados") cargarComunicados().catch(error => mostrarMensaje(error.message,"error"));
       $("panel-estadisticas").hidden = boton.dataset.panel !== "estadisticas";
       $("panel-usuarios").hidden = boton.dataset.panel !== "usuarios";
       if (boton.dataset.panel === "usuarios") {
