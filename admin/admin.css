@@ -1482,27 +1482,48 @@ body.alto-contraste .panel-inicio-logo{
     font-size:.86rem;
   }
 }
-
-/* Separación uniforme de las columnas del gráfico diario. */
+/* Gráfico diario: geometría fija por fecha, sin recortes ni solapamientos. */
 .estadisticas-barras-diarias{
+  grid-template-columns:repeat(var(--dias-visibles,30),minmax(0,1fr));
   column-gap:0;
+  overflow:visible;
 }
 .estadistica-dia-columna{
-  justify-items:center;
+  position:relative;
+  display:block;
+  min-width:0;
+  width:100%;
+  height:100%;
 }
 .estadistica-dia-barra{
-  width:min(70%,8px);
-  max-width:8px;
+  position:absolute;
+  bottom:32px;
+  left:50%;
+  transform:translateX(-50%);
+  display:block;
+  box-sizing:border-box;
+  width:min(6px,65%);
+  min-width:0;
+  max-width:6px;
+  min-height:0;
+  margin:0;
+  border-radius:4px 4px 0 0;
+}
+.estadistica-dia-barra[data-visitas]:not([data-visitas="0"]){
+  min-height:3px;
+}
+.estadistica-dia-barra.estadistica-dia-sin-visitas{
+  height:0!important;
+  min-height:0;
+}
+.estadistica-dia-etiqueta{
+  position:absolute;
+  top:calc(100% - 32px);
+  left:50%;
+  transform:translateX(-50%);
+  text-align:center;
 }
 @media(max-width:620px){
-  .estadisticas-barras-diarias{column-gap:0;}
-  .estadistica-dia-barra{width:min(70%,8px);}
+  .estadisticas-barras-diarias{column-gap:0;overflow:visible;}
+  .estadistica-dia-barra{width:min(5px,65%);max-width:5px;}
 }
-
-/* Cada día conserva su posición; los días con cero sesiones se señalan discretamente. */
-.estadisticas-barras-diarias{column-gap:0;}
-.estadistica-dia-columna{position:relative;justify-items:center;}
-.estadistica-dia-barra{width:5px;min-width:5px;max-width:5px;justify-self:center;}
-.estadistica-dia-barra.estadistica-dia-sin-visitas{height:3px!important;background:#a2b7b6;border-radius:3px 3px 0 0;}
-@media(max-width:620px){.estadistica-dia-barra{width:4px;min-width:4px;max-width:4px;}}
-body.alto-contraste .estadistica-dia-barra.estadistica-dia-sin-visitas{background:#aaa!important;}
