@@ -2014,6 +2014,7 @@
 
       const barra = document.createElement("span");
       barra.className = "estadistica-dia-barra";
+      if (visitas === 0) barra.classList.add("estadistica-dia-sin-visitas");
       barra.style.height = altura + "%";
 
       const etiqueta = document.createElement("span");
