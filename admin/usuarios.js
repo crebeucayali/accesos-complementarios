@@ -43,6 +43,11 @@
       else {
         const boton=document.createElement("button"); boton.type="button"; boton.textContent="Editar";
         boton.addEventListener("click",()=>editar(usuario)); accion.append(boton);
+        if (!usuario.pendiente && !usuario.confirmado && usuario.activo && usuario.user_id && ["editor","consulta"].includes(usuario.rol)) {
+          const reenvio=document.createElement("button"); reenvio.type="button"; reenvio.textContent="Reenviar activación";
+          reenvio.addEventListener("click",()=>reenviarActivacion(usuario,reenvio).catch(error=>mensaje(error.message,"error")));
+          accion.append(reenvio);
+        }
         if (!invitacionesPausadas && usuario.pendiente && usuario.activo && usuario.rol==="editor") {
           const invitar=document.createElement("button"); invitar.type="button"; invitar.textContent="Enviar invitación";
           invitar.addEventListener("click",()=>enviarInvitacion(usuario.email,usuario.nombre,usuario.modulos,invitar).catch(error=>mensaje(error.message,"error")));
@@ -117,6 +122,25 @@
       boton.disabled=false;
       if(revision===version && esMaster()) await cargar();
     }
+  }
+  async function reenviarActivacion(usuario,boton) {
+    exigeMaster();
+    if (!usuario?.user_id || usuario.pendiente || usuario.confirmado || !usuario.activo || !["editor","consulta"].includes(usuario.rol)) throw new Error("La cuenta no cumple los requisitos para reenviar su activación.");
+    if (boton.disabled || !window.confirm("¿Reenviar activación a "+usuario.email+"?")) return;
+    boton.disabled=true; const revision=version;
+    try {
+      const acceso=await auth.getAuthorization();
+      if (!acceso?.autorizado || acceso.aal!=="aal2" || revision!==version) throw new Error("Revalida tu acceso Master con MFA.");
+      const sesion=await auth.ensureSession(); exigeMaster();
+      const respuesta=await fetch(URL_SUPABASE+"/functions/v1/admin-reenviar-invitacion",{
+        method:"POST",headers:{apikey:PUBLIC_KEY,Authorization:"Bearer "+sesion.access_token,"Content-Type":"application/json"},
+        body:JSON.stringify({user_id:usuario.user_id}),signal:AbortSignal.timeout(30000)
+      });
+      const resultado=await respuesta.json().catch(()=>({}));
+      if (revision!==version || !esMaster()) return;
+      if (!respuesta.ok) throw new Error(resultado.message||"No se pudo confirmar el reenvío.");
+      await cargar(); mensaje(resultado.message||"Reenvío solicitado.","exito");
+    } finally { boton.disabled=false; }
   }
   function limpiar() {
     version++; perfil=null; usuarios=[]; seleccionado=null;
