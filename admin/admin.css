@@ -1578,3 +1578,23 @@ body.alto-contraste .panel-inicio-logo{
 .orden-noticias-acciones{display:flex;gap:7px;flex-shrink:0}
 .orden-noticias-acciones button{min-height:38px;padding:7px 10px;font-size:.88rem}
 @media(max-width:620px){.orden-noticias-item{align-items:stretch;flex-direction:column}.orden-noticias-acciones{justify-content:flex-end}}
+
+/* Indicadores institucionales: administración exclusiva de textos. */
+#panel-indicadores > section{margin:22px 0;padding:18px;border:1px solid var(--borde);border-radius:16px;background:#f9fbfc}
+#panel-indicadores h3{margin:0 0 12px;color:var(--azul-900)}
+#panel-indicadores form{display:grid;gap:12px}
+#panel-indicadores label{display:grid;gap:6px}
+#panel-indicadores .indicadores-check{display:flex;align-items:center;gap:9px}
+#panel-indicadores .indicadores-check input{width:auto}
+.indicadores-listado{display:grid;gap:10px;margin:16px 0 0;padding:0;list-style:none}
+.indicadores-item{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#fff;border:1px solid var(--borde);border-radius:12px;padding:13px}
+.indicadores-item-info{display:flex;flex-direction:column;gap:3px;min-width:0;overflow-wrap:anywhere}
+.indicadores-item-info small{color:var(--texto-suave)}
+.indicadores-acciones{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px}
+.indicadores-acciones button{font-size:.86rem;padding:7px 10px;min-height:38px}
+.indicadores-preview{margin-top:16px}
+.indicadores-preview-tarjeta{max-width:350px;padding:18px;border:1px solid var(--borde);border-radius:15px;text-align:center;background:#fff}
+.indicadores-preview-tarjeta strong{display:block;font:700 2.35rem Georgia,serif;color:var(--azul-900)}
+.indicadores-preview-tarjeta h4{color:var(--azul-900);margin:8px 0}
+.indicadores-preview-tarjeta p{color:var(--texto-suave);margin:0}
+@media(max-width:720px){.indicadores-item{align-items:stretch;flex-direction:column}.indicadores-acciones{justify-content:flex-start}}
