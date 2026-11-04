@@ -28,24 +28,51 @@
     el.textContent=texto;el.disabled=busy||deshabilitado;el.addEventListener("click",accion);return el;
   };
   function render(){
-    const lista=$("indicadores-listado");lista.replaceChildren();
+    const cuerpo=$("indicadores-listado");
+    const listaOrden=$("indicadores-orden-listado");
+    cuerpo.replaceChildren();
+    listaOrden.replaceChildren();
     const ordenadas=ordenar(filas);
-    if(!ordenadas.length){const empty=document.createElement("li");empty.textContent="Sin indicadores registrados.";lista.appendChild(empty);return;}
+    if(!ordenadas.length){
+      const fila=document.createElement("tr"),celda=document.createElement("td");
+      celda.colSpan=3;celda.textContent="No hay indicadores registrados.";
+      fila.appendChild(celda);cuerpo.appendChild(fila);
+      return;
+    }
     ordenadas.forEach((fila,i)=>{
-      const li=document.createElement("li");li.className="indicadores-item";
-      const info=document.createElement("div");info.className="indicadores-item-info";
-      const nombre=document.createElement("strong");nombre.textContent=(i+1)+". "+fila.cifra+" · "+fila.titulo;
-      const estado=document.createElement("small");estado.textContent=fila.visible?"Visible en la portada":"Oculto";
-      info.append(nombre,estado);
-      const acciones=document.createElement("div");acciones.className="indicadores-acciones";
-      acciones.append(
+      const tr=document.createElement("tr");
+      const contenido=document.createElement("td");
+      const titulo=document.createElement("strong");
+      titulo.textContent=fila.cifra+" · "+fila.titulo;
+      const descripcion=document.createElement("p");
+      descripcion.className="indicadores-descripcion-lista";
+      descripcion.textContent=fila.descripcion;
+      contenido.append(titulo,descripcion);
+      const estado=document.createElement("td");
+      estado.textContent=fila.visible?"Publicado":"Oculto";
+      const accion=document.createElement("td");
+      const botones=document.createElement("div");
+      botones.className="indicadores-acciones";
+      botones.append(
         boton("Editar",()=>editar(fila)),
-        boton("Subir",()=>mover(fila.id,-1),i===0),
-        boton("Bajar",()=>mover(fila.id,1),i===ordenadas.length-1),
-        boton(fila.visible?"Ocultar":"Mostrar",()=>cambiarVisible(fila)),
+        boton(fila.visible?"Ocultar":"Publicar",()=>cambiarVisible(fila)),
         boton("Eliminar",()=>eliminar(fila))
       );
-      li.append(info,acciones);lista.appendChild(li);
+      accion.appendChild(botones);
+      tr.append(contenido,estado,accion);cuerpo.appendChild(tr);
+
+      const li=document.createElement("li");
+      li.className="indicadores-item";
+      const info=document.createElement("span");
+      info.className="indicadores-item-info";
+      info.textContent=(i+1)+". "+fila.cifra+" · "+fila.titulo;
+      const ordenAcciones=document.createElement("span");
+      ordenAcciones.className="indicadores-acciones";
+      ordenAcciones.append(
+        boton("Subir",()=>mover(fila.id,-1),i===0),
+        boton("Bajar",()=>mover(fila.id,1),i===ordenadas.length-1)
+      );
+      li.append(info,ordenAcciones);listaOrden.appendChild(li);
     });
   }
   const refrescar=async()=>{
@@ -75,6 +102,7 @@
     $("indicador-visible").checked=Boolean(fila.visible);
     actualizarPreview();
     $("indicador-cifra").focus();
+    $("indicadores-editor-titulo").scrollIntoView({behavior:"smooth",block:"start"});
   }
   async function modificar(fila,patch){
     const out=await solicitar("eva_indicadores_institucionales?id=eq."+encodeURIComponent(fila.id),{
@@ -151,7 +179,7 @@
   }
   window.EvaIndicadoresAdmin={
     configurar(value){perfil=value;},
-    limpiar(){filas=[];perfil=null;if(initialized){$("indicadores-listado").replaceChildren();$("indicadores-config-form").reset();limpiarFormulario();aviso("");}},
+    limpiar(){filas=[];perfil=null;if(initialized){$("indicadores-listado").replaceChildren();$("indicadores-orden-listado").replaceChildren();$("indicadores-config-form").reset();limpiarFormulario();aviso("");}},
     async cargar(){requireMaster();init();await refrescar();aviso("");}
   };
 })();
