@@ -1598,3 +1598,19 @@ body.alto-contraste .panel-inicio-logo{
 .indicadores-preview-tarjeta h4{color:var(--azul-900);margin:8px 0}
 .indicadores-preview-tarjeta p{color:var(--texto-suave);margin:0}
 @media(max-width:720px){.indicadores-item{align-items:stretch;flex-direction:column}.indicadores-acciones{justify-content:flex-start}}
+
+/* Indicadores: misma lectura tabular que la pestaña Noticias. */
+#panel-indicadores > details{margin:22px 0;padding:18px;border:1px solid var(--borde);border-radius:16px;background:#f9fbfc}
+#panel-indicadores .indicadores-config summary{cursor:pointer;font-weight:750;color:var(--azul-900);padding:4px 0}
+#panel-indicadores .indicadores-config form{margin-top:16px}
+#panel-indicadores .tabla-indicadores{width:100%}
+#panel-indicadores .tabla-indicadores th:first-child{width:53%}
+#panel-indicadores .tabla-indicadores th:nth-child(2){width:14%}
+#panel-indicadores .tabla-indicadores th:last-child{width:33%}
+#panel-indicadores .tabla-indicadores td{vertical-align:middle}
+#panel-indicadores .indicadores-descripcion-lista{margin:5px 0 0;font-size:.85rem;line-height:1.45;color:var(--texto-suave)}
+#panel-indicadores .indicadores-acciones{justify-content:flex-start}
+#panel-indicadores .indicadores-orden-listado{display:grid;gap:9px;list-style:none;padding:0;margin:14px 0 0}
+#panel-indicadores .indicadores-item{padding:10px 13px}
+#panel-indicadores .indicadores-item-info{display:block;flex:1}
+@media(max-width:680px){#panel-indicadores .tabla-indicadores{min-width:680px}}
