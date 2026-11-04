@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="admin.css?v=35">
+  <link rel="stylesheet" href="admin.css?v=36">
   <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
 <body class="theme-crebe wsite-theme-light panel-admin-page">
@@ -138,6 +138,7 @@
             <button type="button" class="tab" data-panel="comunicados" hidden>Comunicados emergentes</button>
             <button type="button" class="tab" data-panel="estadisticas">Estadísticas</button>
             <button type="button" class="tab" data-panel="indicadores" hidden>Indicadores</button>
+            <button type="button" class="tab" data-panel="destacados" hidden>Destacados</button>
             <button type="button" class="tab" data-panel="directorio" hidden>Directorio</button>
             <button type="button" class="tab" data-panel="usuarios" hidden>Usuarios</button>
           </nav>
@@ -686,6 +687,69 @@
             </details>
           </section>
 
+          <section class="tarjeta panel-seccion" id="panel-destacados" hidden>
+            <div class="titulo-tarjeta">
+              <span class="identificador-admin" aria-hidden="true">DES</span>
+              <div><p class="micro-etiqueta">Recursos oficiales de EVA</p><h2>Recursos y herramientas destacadas</h2></div>
+            </div>
+            <p class="nota">Selecciona recursos ya disponibles en CAP, BDA, MEA, NI, RA y DUA 3.0. Esta primera etapa prepara su gestión; la sección pública de destacados se incorporará por separado.</p>
+            <section class="destacados-lista-seccion" aria-labelledby="destacados-lista-titulo">
+              <h3 id="destacados-lista-titulo">Recursos registrados y estado</h3>
+              <button id="destacados-recargar" type="button" class="secundario">Actualizar listado</button>
+              <p id="destacados-mensaje" class="mensaje" role="status" aria-live="polite"></p>
+              <div class="tabla-estadisticas-wrap listado-publicaciones-scroll" tabindex="0" role="region" aria-label="Listado de recursos destacados">
+                <table class="tabla-estadisticas">
+                  <caption>Recursos y herramientas seleccionados</caption>
+                  <thead><tr><th scope="col">Contenido</th><th scope="col">Estado</th><th scope="col">Acciones</th></tr></thead>
+                  <tbody id="destacados-listado"></tbody>
+                </table>
+              </div>
+            </section>
+            <section class="destacados-orden-seccion" aria-labelledby="destacados-orden-titulo">
+              <h3 id="destacados-orden-titulo">Orden de visualización</h3>
+              <p class="nota">Usa Subir o Bajar para definir el orden. Se recomendará mostrar como máximo cuatro recursos de forma simultánea.</p>
+              <ol id="destacados-orden" class="destacados-orden" aria-label="Orden de los recursos destacados"></ol>
+            </section>
+            <section class="destacados-editor-seccion" aria-labelledby="destacados-editor-titulo">
+              <h3 id="destacados-editor-titulo">Agregar o editar recurso</h3>
+              <form id="destacados-form">
+                <input type="hidden" id="destacados-id">
+                <label>Módulo de origen
+                  <select id="destacados-modulo" required>
+                    <option value="">Selecciona un módulo</option>
+                    <option value="CAP">CAP - Capacitaciones</option>
+                    <option value="BDA">BDA - Banco Digital Accesible</option>
+                    <option value="MEA">MEA - Materiales Educativos Accesibles</option>
+                    <option value="NI">NI - Noti Inclusivos</option>
+                    <option value="RA">RA - Repositorio Accesible</option>
+                    <option value="DUA 3.0">DUA 3.0</option>
+                  </select>
+                </label>
+                <label>Título del recurso <input id="destacados-titulo" maxlength="140" required></label>
+                <label>Descripción breve <textarea id="destacados-descripcion" maxlength="350" rows="3" required></textarea></label>
+                <label>Enlace directo a la herramienta o recurso oficial de EVA
+                  <input id="destacados-enlace" type="url" maxlength="500" placeholder="https://crebeucayali.github.io/..." required>
+                </label>
+                <label>URL de imagen (opcional, alojada en GitHub institucional)
+                  <input id="destacados-imagen" type="url" maxlength="500" placeholder="https://crebeucayali.github.io/...">
+                </label>
+                <label class="destacados-check"><input id="destacados-visible" type="checkbox"> Marcar como visible para la futura sección pública</label>
+                <div class="acciones-repositorio">
+                  <button type="submit">Guardar recurso</button>
+                  <button id="destacados-nuevo" type="button" class="secundario">Nuevo recurso</button>
+                </div>
+              </form>
+              <div class="destacados-preview" aria-label="Vista previa del recurso">
+                <p class="nota">Vista previa del contenido</p>
+                <article class="destacados-preview-tarjeta">
+                  <span id="destacados-preview-modulo">Módulo</span>
+                  <h4 id="destacados-preview-titulo">Título del recurso</h4>
+                  <p id="destacados-preview-descripcion">Descripción del recurso.</p>
+                </article>
+              </div>
+            </section>
+          </section>
+
           <section class="tarjeta panel-seccion" id="panel-directorio" hidden>
             <div class="titulo-tarjeta">
               <span class="identificador-admin" aria-hidden="true">DIR</span>
@@ -946,7 +1010,8 @@
   <script src="publicacion.js?v=3" defer></script>
   <script src="indicadores.js?v=2" defer></script>
   <script src="directorio.js?v=1" defer></script>
-  <script src="admin.js?v=51" defer></script>
+  <script src="destacados.js?v=1" defer></script>
+  <script src="admin.js?v=52" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>
 </html>
