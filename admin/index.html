@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="admin.css?v=31">
+  <link rel="stylesheet" href="admin.css?v=32">
   <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
 <body class="theme-crebe wsite-theme-light panel-admin-page">
@@ -416,6 +416,12 @@
               </table></div>
             </div>
             <div data-master-contenido="noticias" hidden>
+            <section class="orden-noticias-admin" aria-labelledby="orden-noticias-titulo">
+              <h3 id="orden-noticias-titulo">Orden de las noticias destacadas</h3>
+              <p class="nota">Organiza las noticias publicadas con los botones Subir y Bajar. El primer elemento será el primero del carrusel público. El cambio se guarda automáticamente y no modifica las noticias archivadas o en borrador.</p>
+              <p id="orden-noticias-mensaje" class="mensaje" role="status" aria-live="polite"></p>
+              <ol id="orden-noticias-listado" class="orden-noticias-listado" aria-label="Orden actual de noticias publicadas"></ol>
+            </section>
 
             <div class="grid">
               <label for="noticia-selector">Noticia existente
@@ -841,7 +847,7 @@
   <script src="activacion.js?v=2" defer></script>
   <script src="usuarios.js?v=6" defer></script>
   <script src="publicacion.js?v=3" defer></script>
-  <script src="admin.js?v=48" defer></script>
+  <script src="admin.js?v=49" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>
 </html>
