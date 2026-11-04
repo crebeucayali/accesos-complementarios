@@ -1338,7 +1338,109 @@
     });
 
     llenarNoticiaDestacada(null);
+    renderizarOrdenNoticias();
     window.EvaPublicacion?.cargar("noticias").catch(() => {});
+  }
+
+  let moviendoOrdenNoticias = false;
+
+  function mensajeOrdenNoticias(texto, error = false) {
+    const contenedor = $("orden-noticias-mensaje");
+    contenedor.textContent = texto || "";
+    contenedor.className = "mensaje" + (error ? " error" : texto ? " exito" : "");
+  }
+
+  function noticiasPublicadasOrdenadas() {
+    return noticiasDestacadas
+      .filter(fila => fila.estado_publicacion === "publicado" && fila.visible === true)
+      .sort((a,b) => Number(a.orden) - Number(b.orden) || Number(a.id) - Number(b.id));
+  }
+
+  function renderizarOrdenNoticias() {
+    const listado = $("orden-noticias-listado");
+    if (!listado) return;
+    listado.replaceChildren();
+    const publicadas = noticiasPublicadasOrdenadas();
+    if (!publicadas.length) {
+      const vacio = document.createElement("li");
+      vacio.textContent = "No hay noticias publicadas para ordenar.";
+      listado.appendChild(vacio);
+      return;
+    }
+    publicadas.forEach((fila, indice) => {
+      const item = document.createElement("li");
+      item.className = "orden-noticias-item";
+      const info = document.createElement("span");
+      info.className = "orden-noticias-nombre";
+      const numero = document.createElement("strong");
+      numero.textContent = String(indice+1) + ". ";
+      const titulo = document.createElement("span");
+      titulo.textContent = fila.titulo;
+      info.append(numero,titulo);
+      const acciones = document.createElement("span");
+      acciones.className = "orden-noticias-acciones";
+      for(const [direccion,texto,disabled] of [[-1,"Subir",indice===0],[1,"Bajar",indice===publicadas.length-1]]) {
+        const boton = document.createElement("button");
+        boton.type = "button";
+        boton.className = "secundario";
+        boton.textContent = texto;
+        boton.setAttribute("aria-label",texto+" noticia: "+fila.titulo);
+        boton.disabled = moviendoOrdenNoticias || disabled;
+        boton.addEventListener("click",()=>moverOrdenNoticia(String(fila.id),direccion));
+        acciones.appendChild(boton);
+      }
+      item.append(info,acciones);
+      listado.appendChild(item);
+    });
+  }
+
+  async function moverOrdenNoticia(id,direccion) {
+    if(moviendoOrdenNoticias || !permitePanel("noticias",true) || perfil?.rol!=="master") return;
+    const actuales=noticiasPublicadasOrdenadas();
+    const indice=actuales.findIndex(fila=>String(fila.id)===id);
+    const otro=actuales[indice+direccion];
+    if(indice<0 || !otro) return;
+    moviendoOrdenNoticias=true;
+    mensajeOrdenNoticias("Guardando el nuevo orden…");
+    renderizarOrdenNoticias();
+    let primerCambio=false;
+    try {
+      // Comprobar el orden vigente antes de escribir para evitar sobrescribir otros cambios.
+      const frescas=await rest("noticias_destacadas?select=id,orden,estado_publicacion,visible&order=orden.asc,id.asc",{method:"GET"});
+      const publicadas=frescas.filter(fila=>fila.estado_publicacion==="publicado"&&fila.visible===true);
+      if(publicadas.length!==actuales.length || publicadas.some((fila,i)=>String(fila.id)!==String(actuales[i].id) || Number(fila.orden)!==Number(actuales[i].orden))) {
+        throw new Error("El orden cambió en otra sesión. Actualiza el listado antes de intentarlo de nuevo.");
+      }
+      const actual=actuales[indice];
+      const ordenActual=Number(actual.orden), ordenOtro=Number(otro.orden);
+      if(!Number.isInteger(ordenActual)||!Number.isInteger(ordenOtro)||ordenActual===ordenOtro) {
+        throw new Error("Se detectaron posiciones repetidas o inválidas. Revisa el listado antes de reordenar.");
+      }
+      const cambiar=async(fila,orden)=>{
+        const result=await rest("noticias_destacadas?id=eq."+encodeURIComponent(fila.id),{
+          method:"PATCH",headers:{Prefer:"return=representation"},body:JSON.stringify({orden})
+        });
+        if(!Array.isArray(result)||result.length!==1) throw new Error("No se confirmó el cambio de posición.");
+      };
+      await cambiar(actual,ordenOtro);
+      primerCambio=true;
+      try { await cambiar(otro,ordenActual); }
+      catch(error) {
+        try {await cambiar(actual,ordenActual);} catch { throw new Error("No se completó el intercambio y tampoco se pudo restablecer la posición original. Revisa el listado.");}
+        throw error;
+      }
+      await cargarNoticiasDestacadas();
+      mensajeOrdenNoticias("Orden actualizado. El cambio se mostrará en la portada al volver a cargarla.");
+    } catch(error) {
+      if(primerCambio) {
+        // La función anterior ya intentó restaurar el primer cambio si falló el segundo.
+      }
+      try {await cargarNoticiasDestacadas();} catch {}
+      mensajeOrdenNoticias(error.message||"No se pudo guardar el orden.",true);
+    } finally {
+      moviendoOrdenNoticias=false;
+      renderizarOrdenNoticias();
+    }
   }
 
   function nuevaNoticiaDestacada() {
