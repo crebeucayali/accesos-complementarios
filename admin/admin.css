@@ -1567,3 +1567,14 @@ body.alto-contraste .panel-inicio-logo{
 @media(max-width:520px){
   #seccion-admin > nav.tabs{grid-template-columns:1fr}
 }
+
+/* Orden manual de noticias, exclusivo del panel administrativo. */
+.orden-noticias-admin{margin:20px 0 24px;padding:18px;border:1px solid var(--borde);border-radius:16px;background:#f7fafb}
+.orden-noticias-admin h3{margin:0 0 8px;color:var(--azul-900)}
+.orden-noticias-admin .nota{margin:0 0 12px}
+.orden-noticias-listado{display:grid;gap:9px;margin:0;padding:0;list-style:none;counter-reset:none}
+.orden-noticias-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 13px;background:#fff;border:1px solid var(--borde);border-radius:10px}
+.orden-noticias-nombre{min-width:0;overflow-wrap:anywhere;line-height:1.4}
+.orden-noticias-acciones{display:flex;gap:7px;flex-shrink:0}
+.orden-noticias-acciones button{min-height:38px;padding:7px 10px;font-size:.88rem}
+@media(max-width:620px){.orden-noticias-item{align-items:stretch;flex-direction:column}.orden-noticias-acciones{justify-content:flex-end}}
