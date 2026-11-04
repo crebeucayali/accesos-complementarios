@@ -1614,3 +1614,17 @@ body.alto-contraste .panel-inicio-logo{
 #panel-indicadores .indicadores-item{padding:10px 13px}
 #panel-indicadores .indicadores-item-info{display:block;flex:1}
 @media(max-width:680px){#panel-indicadores .tabla-indicadores{min-width:680px}}
+
+/* Directorio institucional: misma distribución tabular de Noticias. */
+#panel-directorio > section{margin:22px 0;padding:18px;border:1px solid var(--borde);border-radius:16px;background:#f9fbfc}
+#panel-directorio h3{margin:0 0 12px;color:var(--azul-900)}
+#panel-directorio form{display:grid;gap:12px}
+#panel-directorio label{display:grid;gap:6px}
+#panel-directorio .directorio-check{display:flex;align-items:center;gap:9px}
+#panel-directorio .directorio-check input{width:auto}
+#panel-directorio .directorio-orden-listado{display:grid;gap:9px;list-style:none;margin:14px 0 0;padding:0}
+#panel-directorio .directorio-orden-item{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 13px;background:#fff;border:1px solid var(--borde);border-radius:10px}
+#panel-directorio .directorio-acciones{display:flex;flex-wrap:wrap;gap:7px}
+#panel-directorio .directorio-acciones button{padding:7px 10px;min-height:38px;font-size:.87rem}
+#panel-directorio .directorio-contenido-detalle{display:block;margin-top:5px;color:var(--texto-suave);font-size:.87rem}
+@media(max-width:700px){#panel-directorio .tabla-estadisticas{min-width:650px}#panel-directorio .directorio-orden-item{flex-direction:column;align-items:stretch}}
