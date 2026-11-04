@@ -40,6 +40,7 @@
   function permitePanel(modulo, escritura = false) {
     if (!perfil?.autorizado) return false;
     if (modulo === "indicadores") return perfil.rol === "master" && perfil.aal === "aal2";
+    if (modulo === "directorio") return perfil.rol === "master" && perfil.aal === "aal2";
     if (perfil.rol === "master") return perfil.aal === "aal2";
     return ["editor","consulta"].includes(perfil.rol)
       && ["aal1","aal2"].includes(perfil.aal)
@@ -67,6 +68,7 @@
     window.EvaUsuarios?.limpiar();
     window.EvaPublicacion?.limpiar();
     window.EvaIndicadoresAdmin?.limpiar();
+    window.EvaDirectorioAdmin?.limpiar();
   }
 
   function aplicarPermisos() {
@@ -90,6 +92,7 @@
       });
     });
     window.EvaIndicadoresAdmin?.configurar(perfil);
+    window.EvaDirectorioAdmin?.configurar(perfil);
     window.EvaUsuarios?.configurar(perfil);
     window.EvaPublicacion?.configurar(perfil, {alCambiar: async modulo => {
       if (!permitePanel(modulo,true)) return;
@@ -2486,6 +2489,8 @@
       if (boton.dataset.panel === "comunicados") cargarComunicados().catch(error => mostrarMensaje(error.message,"error"));
       $("panel-estadisticas").hidden = boton.dataset.panel !== "estadisticas";
       $("panel-indicadores").hidden = boton.dataset.panel !== "indicadores";
+      $("panel-directorio").hidden = boton.dataset.panel !== "directorio";
+      if (boton.dataset.panel === "directorio") window.EvaDirectorioAdmin?.cargar().catch(error=>mostrarMensaje(error.message,"error"));
       if (boton.dataset.panel === "indicadores") window.EvaIndicadoresAdmin?.cargar().catch(error=>mostrarMensaje(error.message,"error"));
       $("panel-usuarios").hidden = boton.dataset.panel !== "usuarios";
       if (boton.dataset.panel === "usuarios") {
