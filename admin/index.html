@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="admin.css?v=34">
+  <link rel="stylesheet" href="admin.css?v=35">
   <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
 <body class="theme-crebe wsite-theme-light panel-admin-page">
@@ -138,6 +138,7 @@
             <button type="button" class="tab" data-panel="comunicados" hidden>Comunicados emergentes</button>
             <button type="button" class="tab" data-panel="estadisticas">Estadísticas</button>
             <button type="button" class="tab" data-panel="indicadores" hidden>Indicadores</button>
+            <button type="button" class="tab" data-panel="directorio" hidden>Directorio</button>
             <button type="button" class="tab" data-panel="usuarios" hidden>Usuarios</button>
           </nav>
 
@@ -685,6 +686,49 @@
             </details>
           </section>
 
+          <section class="tarjeta panel-seccion" id="panel-directorio" hidden>
+            <div class="titulo-tarjeta">
+              <span class="identificador-admin" aria-hidden="true">DIR</span>
+              <div><p class="micro-etiqueta">Accesos Complementarios</p><h2>Directorio institucional</h2></div>
+            </div>
+            <p class="nota">Administra los integrantes del directorio institucional de AC. Se conservaron los registros publicados; los cambios de orden se reflejan en la página pública.</p>
+            <section class="directorio-listado-seccion">
+              <h3>Integrantes y estado de publicación</h3>
+              <button type="button" class="secundario" id="directorio-recargar">Actualizar listado</button>
+              <p id="directorio-mensaje" class="mensaje" role="status" aria-live="polite"></p>
+              <div class="tabla-estadisticas-wrap listado-publicaciones-scroll" tabindex="0" role="region" aria-label="Integrantes del directorio institucional">
+                <table class="tabla-estadisticas">
+                  <caption>Contenido del directorio y estado de publicación</caption>
+                  <thead><tr><th scope="col">Integrante y área</th><th scope="col">Estado</th><th scope="col">Acción</th></tr></thead>
+                  <tbody id="directorio-listado"></tbody>
+                </table>
+              </div>
+            </section>
+            <section class="directorio-orden-seccion">
+              <h3>Orden de los integrantes</h3>
+              <p class="nota">La primera posición aparece al inicio del directorio. Utiliza Subir o Bajar para cambiar la ubicación, sin alterar los datos de cada integrante.</p>
+              <ol id="directorio-orden-listado" class="directorio-orden-listado" aria-label="Orden de integrantes"></ol>
+            </section>
+            <section class="directorio-editor-seccion">
+              <h3 id="directorio-editor-titulo">Agregar o editar integrante</h3>
+              <form id="directorio-form">
+                <input type="hidden" id="directorio-id">
+                <label>Nombre completo con grado o título <input id="directorio-nombre" type="text" maxlength="180" required></label>
+                <label>Área responsable <input id="directorio-area" type="text" maxlength="200" required></label>
+                <label>Correo institucional <input id="directorio-correo" type="email" maxlength="254"></label>
+                <label>Imagen existente en el repositorio (ruta relativa a directorios/)
+                  <input id="directorio-foto" type="text" maxlength="250" placeholder="fotos/nombre.webp">
+                </label>
+                <p class="nota">La ruta de imagen debe apuntar a un archivo existente dentro de la carpeta fotos. Este formulario no sube ni elimina fotografías.</p>
+                <label class="directorio-check"><input id="directorio-visible" type="checkbox" checked> Mostrar en el directorio público</label>
+                <div class="acciones-repositorio">
+                  <button type="submit">Guardar integrante</button>
+                  <button type="button" class="secundario" id="directorio-nuevo">Nuevo integrante</button>
+                </div>
+              </form>
+            </section>
+          </section>
+
           <section class="tarjeta panel-seccion" id="panel-estadisticas" hidden>
             <div class="titulo-tarjeta">
               <span class="identificador-admin" aria-hidden="true">EST</span>
@@ -901,7 +945,8 @@
   <script src="usuarios.js?v=6" defer></script>
   <script src="publicacion.js?v=3" defer></script>
   <script src="indicadores.js?v=2" defer></script>
-  <script src="admin.js?v=50" defer></script>
+  <script src="directorio.js?v=1" defer></script>
+  <script src="admin.js?v=51" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>
 </html>
