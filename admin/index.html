@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="admin.css?v=32">
+  <link rel="stylesheet" href="admin.css?v=33">
   <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
 <body class="theme-crebe wsite-theme-light panel-admin-page">
@@ -137,6 +137,7 @@
             <button type="button" class="tab" data-panel="galeria">Galería</button>
             <button type="button" class="tab" data-panel="comunicados" hidden>Comunicados emergentes</button>
             <button type="button" class="tab" data-panel="estadisticas">Estadísticas</button>
+            <button type="button" class="tab" data-panel="indicadores" hidden>Indicadores</button>
             <button type="button" class="tab" data-panel="usuarios" hidden>Usuarios</button>
           </nav>
 
@@ -632,6 +633,47 @@
             </form>
           </section>
 
+          <section class="tarjeta panel-seccion" id="panel-indicadores" hidden>
+            <div class="titulo-tarjeta">
+              <span class="identificador-admin" aria-hidden="true">IND</span>
+              <div><p class="micro-etiqueta">Portada EVA</p><h2>Indicadores institucionales</h2></div>
+            </div>
+            <p class="nota">Administra exclusivamente los textos de "Indicadores de atención y fortalecimiento". Las cifras deben corresponder a registros institucionales verificables.</p>
+            <section class="indicadores-config" aria-labelledby="indicadores-config-titulo">
+              <h3 id="indicadores-config-titulo">Encabezado de la sección</h3>
+              <form id="indicadores-config-form">
+                <label>Etiqueta <input id="indicadores-etiqueta" maxlength="80" required></label>
+                <label>Título de la sección <input id="indicadores-titulo" maxlength="160" required></label>
+                <label>Descripción introductoria <textarea id="indicadores-descripcion" maxlength="500" rows="3" required></textarea></label>
+                <button type="submit">Guardar encabezado</button>
+              </form>
+            </section>
+            <section class="indicadores-gestion" aria-labelledby="indicadores-gestion-titulo">
+              <h3 id="indicadores-gestion-titulo">Tarjetas y orden de visualización</h3>
+              <p class="nota">Subir y Bajar modifican el orden. Ocultar conserva la tarjeta sin mostrarla en la portada. Eliminar requiere confirmación.</p>
+              <button id="indicadores-recargar" type="button" class="secundario">Actualizar listado</button>
+              <p id="indicadores-mensaje" role="status" aria-live="polite" class="mensaje"></p>
+              <ol id="indicadores-listado" class="indicadores-listado" aria-label="Listado de indicadores"></ol>
+            </section>
+            <section class="indicadores-editor" aria-labelledby="indicadores-editor-titulo">
+              <h3 id="indicadores-editor-titulo">Agregar o editar indicador</h3>
+              <form id="indicadores-form">
+                <input type="hidden" id="indicador-id">
+                <div class="grid">
+                  <label>Cifra o valor <input id="indicador-cifra" maxlength="32" required placeholder="Ej. 150+"></label>
+                  <label>Título <input id="indicador-titulo" maxlength="140" required></label>
+                </div>
+                <label>Descripción <textarea id="indicador-descripcion" maxlength="350" rows="3" required></textarea></label>
+                <label class="indicadores-check"><input id="indicador-visible" type="checkbox" checked> Mostrar en la portada</label>
+                <div class="acciones-repositorio"><button type="submit">Guardar indicador</button><button id="indicador-nuevo" class="secundario" type="button">Nuevo indicador</button></div>
+              </form>
+              <div class="indicadores-preview" aria-label="Vista previa del indicador">
+                <p class="nota">Vista previa de la tarjeta</p>
+                <article class="indicadores-preview-tarjeta"><strong id="indicador-preview-cifra">150+</strong><h4 id="indicador-preview-titulo">Título del indicador</h4><p id="indicador-preview-descripcion">Descripción del indicador.</p></article>
+              </div>
+            </section>
+          </section>
+
           <section class="tarjeta panel-seccion" id="panel-estadisticas" hidden>
             <div class="titulo-tarjeta">
               <span class="identificador-admin" aria-hidden="true">EST</span>
@@ -847,7 +889,8 @@
   <script src="activacion.js?v=2" defer></script>
   <script src="usuarios.js?v=6" defer></script>
   <script src="publicacion.js?v=3" defer></script>
-  <script src="admin.js?v=49" defer></script>
+  <script src="indicadores.js?v=1" defer></script>
+  <script src="admin.js?v=50" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>
 </html>
