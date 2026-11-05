@@ -31,7 +31,7 @@
       const li=document.createElement("li");li.textContent="Registra un recurso para establecer su posición.";orden.appendChild(li);
       return;
     }
-    items.forEach((item,i)=>{
+    items.forEach((item)=>{
       const fila=document.createElement("tr"),contenido=document.createElement("td");
       const titulo=document.createElement("strong");titulo.textContent=item.modulo+" · "+item.titulo;
       const detalle=document.createElement("span");detalle.className="destacados-detalle";detalle.textContent=item.descripcion;
@@ -42,10 +42,19 @@
         boton(item.visible?"Ocultar":"Mostrar",()=>visibilidad(item)),
         boton("Eliminar",()=>eliminar(item)));
       accion.appendChild(acciones);fila.append(contenido,estado,accion);tabla.appendChild(fila);
+    });
+    const visibles=items.filter(item=>item.visible===true);
+    if(!visibles.length){
+      const li=document.createElement("li");
+      li.textContent="No hay recursos visibles. Usa Mostrar en la tabla superior para activar una tarjeta.";
+      orden.appendChild(li);
+      return;
+    }
+    visibles.forEach((item,i)=>{
       const li=document.createElement("li");li.className="destacados-orden-item";
       const nombre=document.createElement("span");nombre.textContent=(i+1)+". "+item.titulo+" ("+item.modulo+")";
       const pasos=document.createElement("span");pasos.className="destacados-acciones";
-      pasos.append(boton("Subir",()=>mover(item.id,-1),i===0),boton("Bajar",()=>mover(item.id,1),i===items.length-1));
+      pasos.append(boton("Subir",()=>mover(item.id,-1),i===0),boton("Bajar",()=>mover(item.id,1),i===visibles.length-1));
       li.append(nombre,pasos);orden.appendChild(li);
     });
   }
@@ -105,14 +114,15 @@
   }
   async function mover(id,direccion){
     await ejecutar(async()=>{
-      const items=ordenados(),index=items.findIndex(x=>String(x.id)===String(id));
-      const actual=items[index],otro=items[index+direccion];
+      const items=ordenados(),visibles=items.filter(item=>item.visible===true);
+      const index=visibles.findIndex(x=>String(x.id)===String(id));
+      const actual=visibles[index],otro=visibles[index+direccion];
       if(!actual||!otro)return;
       if(!Number.isInteger(Number(actual.orden))||!Number.isInteger(Number(otro.orden))||Number(actual.orden)===Number(otro.orden)){
         throw new Error("Posiciones duplicadas o incorrectas. Actualiza el listado.");
       }
-      const remotos=await consultar("eva_recursos_destacados?select=id,orden&order=orden.asc,id.asc");
-      if(remotos.length!==items.length||remotos.some((x,i)=>String(x.id)!==String(items[i].id)||Number(x.orden)!==Number(items[i].orden))){
+      const remotos=await consultar("eva_recursos_destacados?select=id,orden,visible&order=orden.asc,id.asc");
+      if(remotos.length!==items.length||remotos.some((x,i)=>String(x.id)!==String(items[i].id)||Number(x.orden)!==Number(items[i].orden)||x.visible!==items[i].visible)){
         throw new Error("El orden cambió en otra sesión. Actualiza antes de reordenar.");
       }
       await modificar(actual,{orden:otro.orden});
