@@ -3,7 +3,6 @@
   'use strict';
 
   const STORAGE_KEY='eva_accesibilidad_preferencias';
-  const FAVICON_BASE='https://crebeucayali.github.io/accesos-complementarios/assets/favicon/';
   const clases=['eva-alto-contraste','eva-texto-grande','eva-texto-muy-grande','eva-fuente-legible','eva-espaciado-amplio','eva-enlaces-resaltados','eva-escala-grises','eva-reducir-movimiento'];
   const opciones=[
     {texto:'Alto contraste',clase:'eva-alto-contraste'},
@@ -38,21 +37,17 @@
   }
 
   function implementarFavicon(){
-    const recursos=[
-      {rel:'icon',href:FAVICON_BASE+'favicon-crebe.ico',sizes:'any'},
-      {rel:'icon',href:FAVICON_BASE+'favicon-32x32.png',type:'image/png',sizes:'32x32'},
-      {rel:'icon',href:FAVICON_BASE+'favicon-16x16.png',type:'image/png',sizes:'16x16'},
-      {rel:'apple-touch-icon',href:FAVICON_BASE+'apple-touch-icon.png',sizes:'180x180'}
-    ];
-    recursos.forEach(recurso=>{
-      if(document.head.querySelector(`link[rel="${recurso.rel}"][href="${recurso.href}"]`)) return;
+    // El favicon institucional se define en el HTML de cada página.
+    // El núcleo de accesibilidad nunca debe agregar alternativas competidoras.
+    const iconos=document.head.querySelectorAll('link[rel~="icon"]');
+    const faviconInstitucional='https://crebeucayali.github.io/materiales-educativos-accesibles/logo-crebe.webp?v=20261105';
+    if(!iconos.length){
       const enlace=document.createElement('link');
-      enlace.setAttribute('rel',recurso.rel);
-      enlace.setAttribute('href',recurso.href);
-      if(recurso.type) enlace.setAttribute('type',recurso.type);
-      if(recurso.sizes) enlace.setAttribute('sizes',recurso.sizes);
+      enlace.rel='icon';
+      enlace.type='image/webp';
+      enlace.href=faviconInstitucional;
       document.head.appendChild(enlace);
-    });
+    }
     if(!document.head.querySelector('meta[name="theme-color"]')){
       const meta=document.createElement('meta');
       meta.name='theme-color';
