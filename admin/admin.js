@@ -386,11 +386,11 @@
       const url = String(recurso?.url || "").trim();
       const descripcion = String(recurso?.descripcion || "").trim();
       return [titulo, url, descripcion].join(" | ").replace(/\\s+\\|\\s*$/, "").trim();
-    }).filter(Boolean).join("\\n");
+    }).filter(Boolean).join("\n");
   }
 
   function textoARecursos(texto) {
-    return String(texto || "").split(/\\r?\\n/).map((linea) => linea.trim()).filter(Boolean).map((linea) => {
+    return String(texto || "").split(/\r?\n/).map((linea) => linea.trim()).filter(Boolean).map((linea) => {
       const partes = linea.split("|").map((parte) => parte.trim());
       if (!partes[0] || !partes[1]) {
         throw new Error("Cada material debe usar: Título | URL | Descripción opcional.");
