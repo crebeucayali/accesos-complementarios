@@ -178,6 +178,24 @@
     const match=candidates.find(x=>x.keyword&&x.type===1)||candidates.find(x=>x.keyword);
     return String(match?.keyword || ("Pictograma "+(item._id||item.id))).trim();
   }
+  function relevantPictos(list, term) {
+    const clean = normalize(term).replace(/[^a-z0-9ñ ]/g, " ").replace(/\\s+/g, " ").trim();
+    const words = clean.split(" ").filter(w => w.length > 2 && !["los","las","del","con","para","por","una","uno","unos","unas"].includes(w));
+    if (!words.length) return [];
+    const stem = word => word.endsWith("arse") || word.endsWith("erse") || word.endsWith("irse")
+      ? word.slice(0,-3) : word.endsWith("ando") || word.endsWith("iendo")
+      ? word.slice(0,-4) : word.endsWith("es") ? word.slice(0,-2) : word.endsWith("s") ? word.slice(0,-1) : word;
+    const root = word => stem(word).slice(0,Math.max(4,Math.min(6,stem(word).length)));
+    const matchesWord = (a,b) => a===b || (root(a).length>=4 && root(a)===root(b));
+    const score = item => {
+      const terms = (item.keywords||[]).map(k => normalize(k.keyword||k.word||"")).filter(Boolean);
+      const labels = terms.flatMap(t=>t.split(/[^a-z0-9ñ]+/).filter(Boolean));
+      if (!words.every(w=>labels.some(label=>matchesWord(w,label)))) return -1;
+      return terms.some(t=>t===clean) ? 3 : terms.some(t=>words.every(w=>t.split(/[^a-z0-9ñ]+/).some(label=>matchesWord(w,label)))) ? 2 : 1;
+    };
+    return list.map((item,index)=>({item,index,score:score(item)}))
+      .filter(x=>x.score>=0).sort((a,b)=>b.score-a.score||a.index-b.index).map(x=>x.item);
+  }
   function showPictos(list) {
     const box=$("dia-resultados-fuente");box.replaceChildren();
     const seen=new Set();
@@ -249,12 +267,20 @@
         const match=bank.filter(x=>normalize(x.palabra).includes(needle));
         showLsp(match);
       }else{
-        const resp=await fetch(API+encodeURIComponent(term),{signal:controller.signal,cache:"no-store"});
-        if(!resp.ok)throw Error("ARASAAC no disponible ("+resp.status+").");
-        const data=await resp.json();
-        if(!Array.isArray(data))throw Error("Respuesta inesperada de ARASAAC.");
+        // ARASAAC searches multiple words with OR by default; quotes request a complete phrase.
+        const requests = term.split(/\\s+/).length > 1 ? ['"'+term+'"',term] : [term];
+        let matches=[];
+        for(const query of requests){
+          const resp=await fetch(API+encodeURIComponent(query),{signal:controller.signal,cache:"no-store"});
+          if(!resp.ok)throw Error("ARASAAC no disponible ("+resp.status+").");
+          const data=await resp.json();
+          if(!Array.isArray(data))throw Error("Respuesta inesperada de ARASAAC.");
+          matches=relevantPictos(data,term);
+          if(matches.length)break;
+        }
         if(current!==sequence||!canUse())return;
-        showPictos(data);
+        showPictos(matches);
+        if(!matches.length)setStatus("No se encontraron pictogramas que coincidan con toda la expresión. Prueba con una palabra más específica, por ejemplo: lavar.",true);
       }
     }catch(error){
       if(error.name!=="AbortError"&&current===sequence){
