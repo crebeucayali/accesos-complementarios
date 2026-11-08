@@ -1688,8 +1688,9 @@ body.alto-contraste .ra-semana-subtabs button[aria-pressed="true"]{background:#f
 #seccion-admin .admin-menu-fondo[hidden]{display:none!important}
 #seccion-admin .admin-menu-cerrar{display:none}
 #seccion-admin .admin-lateral button:focus-visible{outline:3px solid #ffd56d;outline-offset:2px}
+/* La cabecera, el banner shipibo y el panel utilizan el mismo ancho máximo. */
 @media(min-width:1000px){
- .admin-contenido>.contenedor{width:min(1320px,100%)}
+ .admin-contenido>.contenedor{width:min(var(--ancho-principal),100%)}
 }
 @media(max-width:900px){
  #seccion-admin .admin-movil-barra{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:16px 0}
