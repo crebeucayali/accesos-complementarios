@@ -8,6 +8,7 @@ on:
       - 'admin/recurso-dia.js'
       - 'admin/recurso-dia-fuentes.js'
       - 'admin/tests/recurso-dia-etapa-04-browser.cjs'
+      - 'admin/tests/recurso-dia-etapa-03-browser.cjs'
       - '.github/workflows/recurso-dia-etapa-04.yml'
   workflow_dispatch:
 permissions:
