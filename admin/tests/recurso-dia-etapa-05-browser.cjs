@@ -75,12 +75,12 @@ const section=html.slice(start,end);
    assert.equal(state.rows[0].fecha,"2026-12-10");
    assert.equal(state.rows[0].derechos_verificados,true);
    assert.equal(state.operations.filter(x=>x.method==="POST").length,1);
-   await page.locator("#dia-registros button").click();
    page.once("dialog",d=>d.accept());
-   // The first click above opens the confirmation; perform withdrawal with handler installed beforehand.
-   await page.waitForTimeout(50);
-   const status=await page.locator("#dia-mensaje").innerText();
-   assert.ok(status.includes("retir")||status.includes("Programación confirmada"),status);
+   await page.locator("#dia-registros button").click();
+   await page.waitForFunction(()=>document.getElementById("dia-mensaje").textContent.includes("Programación retirada"));
+   state=await page.evaluate(()=>({rows:window.__rows,operations:window.__operations}));
+   assert.equal(state.rows[0].estado,"retirado");
+   assert.equal(state.operations.filter(x=>x.method==="PATCH").length,1);
    assert.equal(errors.length,0,errors.join(" | "));
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
    console.log("PASS",width,"etapa05 validación de programación, fecha Perú y permisos");
