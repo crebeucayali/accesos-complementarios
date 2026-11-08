@@ -519,7 +519,7 @@
                   <select id="dia-tipo"><option value="lsp">Seña LSP del BDA</option><option value="arasaac">Pictograma ARASAAC</option></select>
                 </label>
                 <label for="dia-estado">Estado
-                  <select id="dia-estado"><option value="borrador">Borrador</option><option value="programado" disabled>Programado (ARASAAC validado)</option><option value="publicado" disabled>Publicado (reservado)</option><option value="retirado">Retirado</option></select>
+                  <select id="dia-estado"><option value="borrador">Borrador</option><option value="programado" disabled>Programado (validación requerida)</option><option value="publicado" disabled>Publicado (reservado)</option><option value="retirado">Retirado</option></select>
                 </label>
                 <label for="dia-lsp-id" data-dia-lsp>Identificador LSP
                   <input id="dia-lsp-id" pattern="LSP-[0-9]{6}" placeholder="Seleccionar en BDA" maxlength="10" autocomplete="off" readonly>
@@ -540,7 +540,7 @@
                 <label><input type="checkbox" id="dia-derechos"> Derechos de reutilización verificados documentalmente</label>
                 <label><input type="checkbox" id="dia-revision"> Revisión pedagógica completada</label>
               </div>
-              <p class="nota">Las casillas registran una declaración administrativa; no sustituyen la autorización jurídica. La programación ARASAAC requiere datos completos, licencia y revisiones documentadas. Las señas LSP solo pueden guardarse en borrador mientras no se confirme el derecho a republicar las imágenes del MINEDU. Para mostrar el recurso de ayer, puedes programar excepcionalmente un pictograma ARASAAC de la fecha anterior. Las señas LSP continúan bloqueadas para publicación.</p>
+              <p class="nota">Las casillas registran una declaración administrativa; no sustituyen la autorización jurídica. La programación ARASAAC requiere datos completos, licencia y revisiones documentadas. Las señas LSP requieren comprobación documental de reutilización y revisión pedagógica antes de programarse. Para mostrar el recurso de ayer, se permite excepcionalmente programar un recurso validado de la fecha anterior. La selección del catálogo no constituye autorización.</p>
               <div class="acciones-formulario dia-acciones">
                 <button type="submit" id="dia-guardar">Guardar borrador</button>
                 <button type="button" class="secundario" id="dia-nuevo">Nueva ficha</button>
