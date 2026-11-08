@@ -1,0 +1,31 @@
+name: Recursos del día - excepción controlada ayer
+on:
+  push:
+    branches: [fix/recurso-dia-permitir-ayer-arasaac]
+    paths:
+      - "admin/index.html"
+      - "admin/recurso-dia.js"
+      - "admin/tests/recurso-dia-permitir-ayer-browser.cjs"
+      - ".github/workflows/recurso-dia-ayer.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Instalar Playwright
+        run: npm install --no-save --no-package-lock playwright@1.56.1
+      - name: Verificar sintaxis
+        run: |
+          node --check admin/recurso-dia.js
+          node --check admin/tests/recurso-dia-permitir-ayer-browser.cjs
+      - name: Excepción de ayer y bloqueo de anteayer
+        run: node admin/tests/recurso-dia-permitir-ayer-browser.cjs
+      - name: Regresión programación de etapa 05
+        run: node admin/tests/recurso-dia-etapa-05-browser.cjs
