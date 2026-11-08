@@ -5,6 +5,7 @@
   const TABLE = "eva_recurso_dia_programacion";
   const FIELDS = "id,fecha,tipo,lsp_id,arasaac_ids,titulo,descripcion,texto_alternativo,imagen_lsp_url,fuente_url,atribucion,licencia,derechos_verificados,referencia_derechos,revision_pedagogica,estado,actualizado_en";
   const privateStates = new Set(["borrador", "retirado"]);
+  const RIGHTS_URL = "https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es";
   let profile = null, rows = [], loading = false, generation = 0;
 
   function authorized() {
@@ -54,6 +55,10 @@
   function set(id, value) { $(id).value = value == null ? "" : String(value); }
   function refreshKind() {
     const isLsp = $("dia-tipo").value === "lsp";
+    const opt = $("dia-estado").querySelector('option[value="programado"]');
+    opt.disabled = isLsp || !authorized();
+    if (opt.disabled && $("dia-estado").value === "programado") $("dia-estado").value = "borrador";
+    $("dia-guardar").textContent = $("dia-estado").value === "programado" ? "Confirmar programación" : "Guardar borrador";
     document.querySelectorAll("#panel-recurso-dia [data-dia-lsp]").forEach(el => { el.hidden = !isLsp; });
     document.querySelectorAll("#panel-recurso-dia [data-dia-arasaac]").forEach(el => { el.hidden = isLsp; });
   }
@@ -129,9 +134,12 @@
       });
       el.appendChild(btn);
     }
-    $("dia-resumen").textContent=rows.length+" registro(s) en "+selectedMonth()+". "+
-      rows.filter(x=>x.estado==="borrador").length+" borrador(es), "+
-      rows.filter(x=>x.estado==="programado"||x.estado==="publicado").length+" aprobado(s).";
+    const activeDays=new Set(rows.filter(x=>x.estado==="programado").map(x=>x.fecha));
+    $("dia-resumen").textContent="Mes "+selectedMonth()+": "+
+      activeDays.size+" de "+month.days+" días programados; "+
+      (month.days-activeDays.size)+" sin recurso aprobado. "+
+      rows.filter(x=>x.estado==="borrador").length+" borradores pendientes. "+
+      "Los días sin programación no tendrán recurso automático.";
   }
   function drawRows() {
     const body=$("dia-registros");body.replaceChildren();
@@ -145,6 +153,10 @@
         btn.type="button";btn.className="secundario";
         btn.addEventListener("click",()=>{edit(row);drawCalendar();});
         td.append(btn);
+      } else if (row.estado === "programado") {
+        const btn=element("button","Retirar programación");
+        btn.type="button";btn.className="secundario";
+        btn.addEventListener("click",()=>withdraw(row));td.append(btn);
       } else td.append(element("span","Solo lectura"));
       tr.append(td);body.append(tr);
     });
@@ -192,7 +204,7 @@
     if(!dateValid(fecha)||fecha.slice(0,7)!==selectedMonth())
       throw new Error("Selecciona una fecha válida dentro del mes actual.");
     if(!["lsp","arasaac"].includes(tipo)) throw new Error("Tipo de recurso inválido.");
-    if(!privateStates.has(estado)) throw new Error("La programación y publicación se habilitarán después de la validación de fuentes de la etapa 04.");
+    if(!privateStates.has(estado) && estado!=="programado") throw new Error("El estado seleccionado no está permitido.");
     const lsp_id=tipo==="lsp"?text("dia-lsp-id")||null:null;
     if(lsp_id&&!/^LSP-[0-9]{6}$/.test(lsp_id))
       throw new Error("El identificador LSP debe tener el formato LSP-000001.");
@@ -204,6 +216,21 @@
     const collision=rows.some(row=>row.fecha===fecha&&String(row.id)!==id
       && (row.estado==="programado"||row.estado==="publicado"));
     if(collision) throw new Error("Ya existe una programación activa para esta fecha.");
+    if(estado==="programado") {
+      if(tipo!=="arasaac") throw new Error("Las imágenes LSP no pueden programarse hasta verificar su permiso de reutilización.");
+      if(fecha<todayPeru()) throw new Error("No se puede programar una fecha pasada.");
+      if(!text("dia-titulo-recurso")||!text("dia-descripcion")||!text("dia-alt"))
+        throw new Error("Completa título, descripción pedagógica y texto alternativo.");
+      if(!text("dia-atribucion").includes("Sergio Palao")||!text("dia-atribucion").includes("ARASAAC")
+         ||!text("dia-atribucion").includes("Gobierno de Aragón"))
+        throw new Error("Comprueba los créditos obligatorios de ARASAAC.");
+      if(text("dia-licencia")!=="CC BY-NC-SA 4.0"||safeHttps("dia-referencia")!==RIGHTS_URL)
+        throw new Error("La licencia y su referencia deben corresponder a ARASAAC.");
+      if(!/^https:\/\/(?:www\.)?arasaac\.org(?:\/|$)/.test(safeHttps("dia-fuente")))
+        throw new Error("La fuente debe corresponder a ARASAAC.");
+      if(!$("dia-derechos").checked||!$("dia-revision").checked)
+        throw new Error("Confirma documentalmente los derechos y la revisión pedagógica antes de programar.");
+    }
     return {
       fecha,tipo,estado,lsp_id,arasaac_ids,
       titulo:text("dia-titulo-recurso"),descripcion:text("dia-descripcion"),
@@ -224,16 +251,39 @@
       const current=rows.find(row=>String(row.id)===id);
       if(id&&(!current||!privateStates.has(current.estado)))
         throw new Error("El registro ya no es un borrador editable. Actualiza el mes.");
+      if(data.estado==="programado" && !window.confirm("¿Confirmar la programación para el "+data.fecha+"? Quedará visible para la consulta pública en esa fecha, cuando se incorpore la tarjeta EVA."))return;
       loading=true;$("dia-guardar").disabled=true;
-      await request(TABLE+(id?"?id=eq."+encodeURIComponent(id):""),{
+      const saved=await request(TABLE+(id?"?id=eq."+encodeURIComponent(id):""),{
         method:id?"PATCH":"POST",
-        headers:{"Content-Type":"application/json",Prefer:"return=minimal"},
+        headers:{"Content-Type":"application/json",Prefer:data.estado==="programado"?"return=representation":"return=minimal"},
         body:JSON.stringify(data)
       });
+      if(data.estado==="programado" && (!Array.isArray(saved)||saved.length!==1||saved[0].estado!=="programado"))
+        throw new Error("No se pudo confirmar la programación. Actualiza el mes y revisa su estado.");
       await loadAfterSave(data.fecha);
-      message("Borrador guardado correctamente. No se ha publicado en EVA.");
+      message(data.estado==="programado"
+        ? "Programación confirmada para "+data.fecha+". La portada EVA aún no muestra el recurso del día."
+        : "Borrador guardado correctamente. No se ha publicado en EVA.");
     } catch(err) {message(err.message||"No se pudo guardar el borrador.",true);}
     finally {loading=false;$("dia-guardar").disabled=false;}
+  }
+  async function withdraw(row) {
+    if(!authorized()||row.estado!=="programado")return;
+    if(!window.confirm("¿Retirar la programación del "+row.fecha+"? La fecha dejará de estar disponible para consultas públicas."))return;
+    if(loading)return;
+    loading=true;
+    try {
+      const path=TABLE+"?id=eq."+encodeURIComponent(row.id)+"&estado=eq.programado";
+      const result=await request(path,{
+        method:"PATCH",headers:{"Content-Type":"application/json",Prefer:"return=representation"},
+        body:JSON.stringify({estado:"retirado"})
+      });
+      if(!Array.isArray(result)||result.length!==1||result[0].estado!=="retirado")
+        throw new Error("La programación cambió durante la operación. Actualiza el mes.");
+      await loadAfterSave(row.fecha);
+      message("Programación retirada. Se conserva el registro para revisión administrativa.");
+    }catch(error){message(error.message||"No se pudo retirar el recurso.",true);}
+    finally{loading=false;}
   }
   async function loadAfterSave(date) {
     const {start,end}=parseMonth(selectedMonth());
@@ -252,9 +302,9 @@
       control.disabled=!authorized()||(control.dataset.blockedStage==="true");
     });
     window.EvaRecursoDiaFuentes?.configurar({authorized});
-    // Los estados aprobados siguen deshabilitados hasta la etapa 05.
-    panel?.querySelectorAll("#dia-estado option[value=programado],#dia-estado option[value=publicado]")
-      .forEach(option=>option.disabled=true);
+    // La consulta por fecha está activa; solo ARASAAC completo se puede programar.
+    panel?.querySelector('#dia-estado option[value="publicado"]')?.setAttribute("disabled","");
+    refreshKind();
   }
   function clear() {
     ++generation;rows=[];profile=null;
@@ -276,6 +326,9 @@
   $("dia-tipo")?.addEventListener("change",()=>{
     refreshKind();
     window.EvaRecursoDiaFuentes?.cambiarTipo();
+  });
+  $("dia-estado")?.addEventListener("change",()=>{
+    $("dia-guardar").textContent=$("dia-estado").value==="programado"?"Confirmar programación":"Guardar borrador";
   });
   $("dia-fecha")?.addEventListener("change",drawCalendar);
   $("dia-nuevo")?.addEventListener("click",()=>{defaultForm(selectedDate()||selectedMonth()+"-01");drawCalendar();});
