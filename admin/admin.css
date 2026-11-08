@@ -1892,3 +1892,69 @@ body.alto-contraste #panel-recurso-dia :is(.dia-formulario,.dia-calendario-fecha
 body.alto-contraste #panel-recurso-dia :is(.dia-calendario-fecha small,.dia-calendario-dia) {
   color:#fff!important;
 }
+
+
+/* Etapa 04 · Buscadores LSP BDA y ARASAAC: tarjetas sin estilos globales. */
+#panel-recurso-dia .dia-selector-fuentes {
+  border:1px solid #c9dfdd;border-radius:12px;
+  padding:clamp(12px,2vw,22px);background:#eef8f6;
+  display:grid;gap:12px;min-width:0;
+}
+#panel-recurso-dia .dia-selector-fuentes h3 {margin:0;color:#123e52;}
+#panel-recurso-dia .dia-selector-busqueda {
+  display:flex;flex-wrap:wrap;align-items:end;gap:12px;
+}
+#panel-recurso-dia .dia-selector-busqueda label {flex:1 1 220px;}
+#panel-recurso-dia .dia-resultados-fuente {
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));
+  gap:12px;max-height:460px;overflow-y:auto;overflow-x:hidden;
+}
+#panel-recurso-dia .dia-fuente-resultado {
+  display:flex;flex-direction:column;overflow:hidden;min-width:0;
+  background:#fff;border:1px solid #bed4d3;border-radius:11px;
+}
+#panel-recurso-dia .dia-fuente-resultado img {
+  width:100%;height:152px;object-fit:contain;background:#f4f8f9;
+}
+#panel-recurso-dia .dia-fuente-detalle {
+  display:flex;flex:1;flex-direction:column;align-items:stretch;
+  gap:8px;padding:11px;
+}
+#panel-recurso-dia .dia-fuente-detalle :is(strong,small,p) {
+  overflow-wrap:anywhere;margin:0;
+}
+#panel-recurso-dia .dia-fuente-detalle small {font-size:.78rem;color:#38596c;}
+#panel-recurso-dia .dia-fuente-detalle p {font-size:.83rem;line-height:1.4;}
+#panel-recurso-dia .dia-fuente-detalle button {margin-top:auto;}
+#panel-recurso-dia .dia-seleccion-fuente {
+  display:flex;flex-wrap:wrap;gap:12px;align-items:stretch;
+}
+#panel-recurso-dia .dia-seleccion-fuente > p {width:100%;margin:0;}
+#panel-recurso-dia .dia-fuente-seleccion {
+  display:flex;flex-direction:column;gap:8px;
+  flex:1 1 170px;max-width:300px;min-width:0;
+  background:#fff;border:2px solid #247568;border-radius:10px;padding:10px;
+}
+#panel-recurso-dia .dia-fuente-seleccion img {
+  width:100%;height:165px;object-fit:contain;
+}
+#panel-recurso-dia .dia-fuente-seleccion :is(strong,p) {overflow-wrap:anywhere;}
+#panel-recurso-dia .dia-imagen-error {
+  display:grid;place-items:center;height:152px;padding:12px;
+  color:#6b2929;background:#fff5f3;text-align:center;
+}
+#panel-recurso-dia #dia-fuentes-estado[data-error="true"] {color:#982828;}
+body.alto-contraste #panel-recurso-dia :is(.dia-selector-fuentes,.dia-fuente-resultado,.dia-fuente-seleccion) {
+  background:#000!important;color:#fff!important;border:2px solid #fff!important;
+}
+body.alto-contraste #panel-recurso-dia :is(.dia-fuente-detalle small,#dia-fuentes-estado) {
+  color:#fff!important;
+}
+@media(max-width:560px) {
+  #panel-recurso-dia .dia-selector-busqueda {display:grid;grid-template-columns:minmax(0,1fr);}
+  #panel-recurso-dia .dia-resultados-fuente {grid-template-columns:repeat(2,minmax(0,1fr));}
+  #panel-recurso-dia .dia-fuente-resultado img {height:115px;}
+  #panel-recurso-dia .dia-fuente-detalle {padding:8px;}
+  #panel-recurso-dia .dia-fuente-detalle button {font-size:.82rem;}
+  #panel-recurso-dia .dia-fuente-seleccion {max-width:none;}
+}

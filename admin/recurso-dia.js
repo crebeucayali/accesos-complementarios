@@ -64,6 +64,7 @@
     $("dia-estado").value = "borrador";
     $("dia-tipo").value = "lsp";
     refreshKind();
+    window.EvaRecursoDiaFuentes?.limpiar();
     message("");
   }
   function edit(row) {
@@ -89,6 +90,7 @@
     $("dia-derechos").checked = row.derechos_verificados === true;
     $("dia-revision").checked = row.revision_pedagogica === true;
     refreshKind();
+    window.EvaRecursoDiaFuentes?.actualizar();
     message("Editando borrador del " + row.fecha + ".");
     $("dia-formulario").scrollIntoView({behavior:"auto",block:"start"});
   }
@@ -249,7 +251,8 @@
     panel?.querySelectorAll("button,input,select,textarea").forEach(control=>{
       control.disabled=!authorized()||(control.dataset.blockedStage==="true");
     });
-    // Los estados aprobados siguen deshabilitados hasta la etapa 04/05.
+    window.EvaRecursoDiaFuentes?.configurar({authorized});
+    // Los estados aprobados siguen deshabilitados hasta la etapa 05.
     panel?.querySelectorAll("#dia-estado option[value=programado],#dia-estado option[value=publicado]")
       .forEach(option=>option.disabled=true);
   }
@@ -259,6 +262,7 @@
     $("dia-registros")?.replaceChildren();
     $("dia-formulario")?.reset();
     set("dia-id","");
+    window.EvaRecursoDiaFuentes?.limpiar();
     message("");
   }
   async function init() {
@@ -269,7 +273,10 @@
   }
   $("dia-mes")?.addEventListener("change",()=>{if(!authorized())return;defaultForm($("dia-mes").value+"-01");load().catch(()=>{});});
   $("dia-recargar")?.addEventListener("click",()=>load().catch(()=>{}));
-  $("dia-tipo")?.addEventListener("change",refreshKind);
+  $("dia-tipo")?.addEventListener("change",()=>{
+    refreshKind();
+    window.EvaRecursoDiaFuentes?.cambiarTipo();
+  });
   $("dia-fecha")?.addEventListener("change",drawCalendar);
   $("dia-nuevo")?.addEventListener("click",()=>{defaultForm(selectedDate()||selectedMonth()+"-01");drawCalendar();});
   $("dia-formulario")?.addEventListener("submit",save);

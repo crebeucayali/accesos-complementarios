@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: https://dteimbhwtzghhsijeeld.supabase.co; font-src 'self'; connect-src 'self' https://dteimbhwtzghhsijeeld.supabase.co; frame-src 'none'; form-action 'self'; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: https://dteimbhwtzghhsijeeld.supabase.co https://crebeucayali.github.io https://static.arasaac.org; font-src 'self'; connect-src 'self' https://dteimbhwtzghhsijeeld.supabase.co https://crebeucayali.github.io https://api.arasaac.org; frame-src 'none'; form-action 'self'; upgrade-insecure-requests">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="description" content="Panel administrativo privado para Capacitaciones, Calendario y Repositorio Accesible del Ecosistema Virtual Accesible del CREBE Señor de los Milagros - Ucayali.">
@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="admin.css?v=45">
+  <link rel="stylesheet" href="admin.css?v=46">
   <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
 <body class="theme-crebe wsite-theme-light panel-admin-page">
@@ -492,7 +492,7 @@
             <div class="titulo-tarjeta"><span class="identificador-admin" aria-hidden="true">DÍA</span>
               <div><p class="micro-etiqueta">Gestión de contenidos</p><h2 id="dia-titulo">Recursos del día</h2></div>
             </div>
-            <p class="nota">Programa un solo recurso por fecha: una seña LSP o un pictograma ARASAAC. Durante esta etapa puedes guardar y editar borradores. La programación definitiva se habilitará tras conectar los catálogos oficiales y verificar derechos en la etapa 04.</p>
+            <p class="nota">Programa un solo recurso por fecha: una seña LSP o un pictograma ARASAAC. Durante esta etapa puedes guardar y editar borradores. La selección se realiza desde BDA o ARASAAC. Puedes guardar borradores; la programación pública permanecerá bloqueada hasta las verificaciones y fases de activación posteriores.</p>
             <div class="dia-programacion-cabecera">
               <label for="dia-mes">Mes de programación <input type="month" id="dia-mes" required></label>
               <button type="button" id="dia-recargar" class="secundario">Actualizar mes</button>
@@ -502,23 +502,34 @@
             <form id="dia-formulario" class="dia-formulario" novalidate>
               <h3 id="dia-editor-titulo">Editar recurso del día</h3>
               <input type="hidden" id="dia-id">
+              <div class="dia-selector-fuentes" aria-labelledby="dia-selector-titulo">
+                <h3 id="dia-selector-titulo">Seleccionar recurso de fuente oficial</h3>
+                <p class="nota">Busca en el diccionario LSP del BDA o en ARASAAC y selecciona la imagen exacta. La elección solo prepara el borrador. No acredita por sí sola autorización de reutilización.</p>
+                <div class="dia-selector-busqueda">
+                  <label for="dia-busqueda">Palabra o expresión <input id="dia-busqueda" type="search" maxlength="100" placeholder="Buscar recurso"></label>
+                  <button type="button" class="secundario" id="dia-buscar">Buscar en catálogo</button>
+                </div>
+                <p id="dia-fuentes-estado" class="nota" role="status" aria-live="polite">Selecciona el tipo de recurso y escribe una palabra.</p>
+                <div id="dia-resultados-fuente" class="dia-resultados-fuente" aria-label="Resultados de recursos oficiales"></div>
+                <div id="dia-seleccion-fuente" class="dia-seleccion-fuente" aria-live="polite"></div>
+              </div>
               <div class="dia-campos">
                 <label for="dia-fecha">Fecha <input type="date" id="dia-fecha" required></label>
                 <label for="dia-tipo">Tipo de recurso
                   <select id="dia-tipo"><option value="lsp">Seña LSP del BDA</option><option value="arasaac">Pictograma ARASAAC</option></select>
                 </label>
                 <label for="dia-estado">Estado
-                  <select id="dia-estado"><option value="borrador">Borrador</option><option value="programado" disabled>Programado (etapa 04)</option><option value="publicado" disabled>Publicado (etapa 05)</option><option value="retirado">Retirado</option></select>
+                  <select id="dia-estado"><option value="borrador">Borrador</option><option value="programado" disabled>Programado (pendiente de habilitación)</option><option value="publicado" disabled>Publicado (etapa 05)</option><option value="retirado">Retirado</option></select>
                 </label>
                 <label for="dia-lsp-id" data-dia-lsp>Identificador LSP
-                  <input id="dia-lsp-id" pattern="LSP-[0-9]{6}" placeholder="LSP-000001" maxlength="10" autocomplete="off">
+                  <input id="dia-lsp-id" pattern="LSP-[0-9]{6}" placeholder="Seleccionar en BDA" maxlength="10" autocomplete="off" readonly>
                 </label>
                 <label for="dia-arasaac-ids" data-dia-arasaac hidden>Identificadores ARASAAC (1 a 3)
-                  <input id="dia-arasaac-ids" placeholder="Ejemplo: 12345, 67890" autocomplete="off">
+                  <input id="dia-arasaac-ids" placeholder="Seleccionar en ARASAAC" autocomplete="off" readonly>
                 </label>
                 <label for="dia-titulo-recurso">Palabra o expresión <input id="dia-titulo-recurso" maxlength="160"></label>
                 <label for="dia-fuente">Enlace de la fuente <input id="dia-fuente" type="url" placeholder="https://..." maxlength="1000"></label>
-                <label for="dia-imagen-lsp" data-dia-lsp>URL de imagen LSP <input id="dia-imagen-lsp" type="url" placeholder="Se integrará desde BDA" maxlength="1000"></label>
+                <label for="dia-imagen-lsp" data-dia-lsp>URL de imagen LSP <input id="dia-imagen-lsp" type="url" placeholder="Imagen de BDA" maxlength="1000" readonly></label>
                 <label for="dia-licencia">Licencia o condición de uso <input id="dia-licencia" maxlength="250"></label>
               </div>
               <label for="dia-descripcion">Descripción pedagógica <textarea id="dia-descripcion" rows="3" maxlength="2000"></textarea></label>
@@ -529,7 +540,7 @@
                 <label><input type="checkbox" id="dia-derechos"> Derechos de reutilización verificados documentalmente</label>
                 <label><input type="checkbox" id="dia-revision"> Revisión pedagógica completada</label>
               </div>
-              <p class="nota">Las casillas registran una declaración administrativa; no sustituyen la autorización jurídica. Mientras la etapa 04 no esté aprobada, solo se pueden guardar borradores o retirar registros.</p>
+              <p class="nota">Las casillas registran una declaración administrativa; no sustituyen la autorización jurídica. La selección de un recurso no constituye autorización. Solo se pueden guardar borradores o retirar registros mientras la publicación siga deshabilitada.</p>
               <div class="acciones-formulario dia-acciones">
                 <button type="submit" id="dia-guardar">Guardar borrador</button>
                 <button type="button" class="secundario" id="dia-nuevo">Nueva ficha</button>
@@ -1163,7 +1174,8 @@
   <script src="directorio.js?v=1" defer></script>
   <script src="destacados.js?v=2" defer></script>
   <script src="ra-materiales-semana.js?v=1" defer></script>
-  <script src="recurso-dia.js?v=1" defer></script>
+  <script src="recurso-dia-fuentes.js?v=1" defer></script>
+  <script src="recurso-dia.js?v=2" defer></script>
   <script src="admin.js?v=56" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>

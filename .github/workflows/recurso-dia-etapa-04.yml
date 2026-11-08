@@ -1,0 +1,35 @@
+name: Recursos del día - etapa 04 fuentes
+on:
+  push:
+    branches: [feature/eva-recurso-dia-etapa-04-fuentes]
+    paths:
+      - 'admin/index.html'
+      - 'admin/admin.css'
+      - 'admin/recurso-dia.js'
+      - 'admin/recurso-dia-fuentes.js'
+      - 'admin/tests/recurso-dia-etapa-04-browser.cjs'
+      - 'admin/tests/recurso-dia-etapa-03-browser.cjs'
+      - '.github/workflows/recurso-dia-etapa-04.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Preparar Playwright
+        run: npm install --no-save --no-package-lock playwright@1.56.1
+      - name: Validar sintaxis
+        run: |
+          node --check admin/recurso-dia-fuentes.js
+          node --check admin/recurso-dia.js
+          node --check admin/tests/recurso-dia-etapa-04-browser.cjs
+      - name: Pruebas de integración de catálogos con datos simulados
+        run: node admin/tests/recurso-dia-etapa-04-browser.cjs
+      - name: Pruebas de regresión de etapa 03
+        run: node admin/tests/recurso-dia-etapa-03-browser.cjs
