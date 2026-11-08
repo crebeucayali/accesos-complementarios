@@ -26,6 +26,10 @@
       year:"numeric", month:"2-digit", day:"2-digit", timeZone:"America/Lima"
     }).format(new Date());
   }
+  function yesterdayPeru() {
+    const [year, month, day] = todayPeru().split("-").map(Number);
+    return new Date(Date.UTC(year, month - 1, day - 1)).toISOString().slice(0, 10);
+  }
   function parseMonth(month) {
     if (!/^[0-9]{4}-(0[1-9]|1[0-2])$/.test(month)) throw new Error("Selecciona un mes válido.");
     const [year, part] = month.split("-").map(Number);
@@ -218,7 +222,8 @@
     if(collision) throw new Error("Ya existe una programación activa para esta fecha.");
     if(estado==="programado") {
       if(tipo!=="arasaac") throw new Error("Las imágenes LSP no pueden programarse hasta verificar su permiso de reutilización.");
-      if(fecha<todayPeru()) throw new Error("No se puede programar una fecha pasada.");
+      if(fecha<yesterdayPeru())
+        throw new Error("Solo se permite programar hoy, fechas futuras o excepcionalmente el día anterior ("+yesterdayPeru()+").");
       if(!text("dia-titulo-recurso")||!text("dia-descripcion")||!text("dia-alt"))
         throw new Error("Completa título, descripción pedagógica y texto alternativo.");
       if(!text("dia-atribucion").includes("Sergio Palao")||!text("dia-atribucion").includes("ARASAAC")
@@ -251,7 +256,13 @@
       const current=rows.find(row=>String(row.id)===id);
       if(id&&(!current||!privateStates.has(current.estado)))
         throw new Error("El registro ya no es un borrador editable. Actualiza el mes.");
-      if(data.estado==="programado" && !window.confirm("¿Confirmar la programación para el "+data.fecha+"? Quedará visible para la consulta pública en esa fecha, cuando se incorpore la tarjeta EVA."))return;
+      if(data.estado==="programado") {
+        const retroactiva=data.fecha===yesterdayPeru();
+        const aviso=retroactiva
+          ? "¿Confirmar excepcionalmente el recurso del día anterior ("+data.fecha+")? Se mostrará en la columna delgada de EVA. Verifica su licencia y revisión pedagógica."
+          : "¿Confirmar la programación del "+data.fecha+"? El recurso se mostrará en EVA en esa fecha.";
+        if(!window.confirm(aviso))return;
+      }
       loading=true;$("dia-guardar").disabled=true;
       const saved=await request(TABLE+(id?"?id=eq."+encodeURIComponent(id):""),{
         method:id?"PATCH":"POST",
