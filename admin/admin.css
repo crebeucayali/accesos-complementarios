@@ -1743,3 +1743,28 @@ body.alto-contraste #seccion-admin .admin-lateral>nav.tabs>.admin-lateral-seccio
 body.alto-contraste #seccion-admin .admin-cuenta-avatar{background:#fff!important;color:#000!important}
 body.alto-contraste #seccion-admin .admin-cuenta-resumen{color:#fff!important}
 body.alto-contraste #seccion-admin .admin-cuenta-opciones #boton-salir{border:2px solid #fff!important;color:#fff!important;background:#000!important}
+
+
+/* Jerarquía visual: sangría de subpestañas por grupo, estilo documento con tabulación. */
+#seccion-admin .admin-lateral{--sangria-subpestana:16px}
+#seccion-admin .admin-lateral-grupo .admin-inicio-boton{
+  width:calc(100% - var(--sangria-subpestana));
+  margin-left:var(--sangria-subpestana);
+  border-left:2px solid rgba(183,211,215,.46);
+  border-radius:0 9px 9px 0;
+  padding-left:14px;
+}
+#seccion-admin .admin-lateral>nav.tabs>button.tab{
+  width:calc(100% - var(--sangria-subpestana));
+  margin-left:var(--sangria-subpestana);
+  border-left:2px solid rgba(183,211,215,.46);
+  border-radius:0 9px 9px 0;
+  padding-left:14px;
+}
+#seccion-admin .admin-lateral-grupo .admin-inicio-boton[aria-current="page"],
+#seccion-admin .admin-lateral>nav.tabs>button.tab.activo{
+  border-left-color:#b6eee1;
+}
+@media(max-width:900px){
+  #seccion-admin .admin-lateral{--sangria-subpestana:14px}
+}
