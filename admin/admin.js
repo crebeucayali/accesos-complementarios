@@ -334,6 +334,8 @@
     $("boton-salir").disabled = true;
     seccionAdmin.hidden = true;
     seccionMfa.hidden = true;
+    const cuenta = $("admin-cuenta-desplegable");
+    if (cuenta) cuenta.open = false;
     try {
       const resultado = await auth.signOut();
       mostrarAccesoCerrado();
@@ -359,6 +361,8 @@
     $("mfa-secreto").textContent = "";
     $("mfa-qr").removeAttribute("src");
     $("usuario-actual").textContent = "";
+    const cuenta = $("admin-cuenta-desplegable");
+    if (cuenta) cuenta.open = false;
     reintentarAcceso.hidden = true;
     estadoTitulo.textContent = "Acceso administrativo cerrado";
   }
@@ -2816,6 +2820,16 @@
   });
 
   $("boton-salir").addEventListener("click", cerrarSesion);
+  const cuentaLateral = $("admin-cuenta-desplegable");
+  document.addEventListener("click", (evento) => {
+    if (cuentaLateral?.open && !cuentaLateral.contains(evento.target)) cuentaLateral.open = false;
+  });
+  document.addEventListener("keydown", (evento) => {
+    if (evento.key === "Escape" && cuentaLateral?.open) {
+      cuentaLateral.open = false;
+      cuentaLateral.querySelector("summary")?.focus();
+    }
+  });
   reintentarAcceso.addEventListener("click", recuperarAcceso);
   auth.subscribe((evento, nuevaSesion, error) => {
     sesion = nuevaSesion;
