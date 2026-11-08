@@ -1768,3 +1768,29 @@ body.alto-contraste #seccion-admin .admin-cuenta-opciones #boton-salir{border:2p
 @media(max-width:900px){
   #seccion-admin .admin-lateral{--sangria-subpestana:14px}
 }
+
+
+/* Iconos SVG por pestaña, conservando la tabulación y nombres accesibles. */
+#seccion-admin .admin-lateral .admin-nav-icono{
+  display:block;
+  flex:0 0 18px;
+  width:18px;
+  height:18px;
+  color:inherit;
+  pointer-events:none;
+}
+#seccion-admin .admin-lateral .admin-inicio-boton{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+#seccion-admin .admin-lateral>nav.tabs>button.tab{
+  display:flex!important;
+  align-items:center;
+  gap:10px;
+}
+#seccion-admin .admin-lateral>nav.tabs>button.tab .admin-nav-texto{
+  flex:1 1 auto;
+  min-width:0;
+  overflow-wrap:anywhere;
+}
