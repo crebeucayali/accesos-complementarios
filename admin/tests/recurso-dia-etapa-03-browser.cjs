@@ -45,7 +45,8 @@ const source="admin/recurso-dia.js";
       assert.equal(await page.locator("#dia-calendario button").count(),31,"31 días");
       await page.locator("#dia-calendario button").nth(9).click();
       assert.equal(await page.locator("#dia-fecha").inputValue(),"2026-12-10");
-      await page.locator("#dia-lsp-id").fill("LSP-000001");
+      // Regresión del guardado de etapa 03: en etapa 04 el ID es readonly porque se selecciona desde BDA.
+      await page.locator("#dia-lsp-id").evaluate(el=>{el.value="LSP-000001";});
       await page.locator("#dia-titulo-recurso").fill("Recurso de prueba");
       await page.locator("#dia-descripcion").fill("Descripción pedagógica");
       await page.locator("#dia-estado").selectOption("borrador");
