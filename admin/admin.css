@@ -1907,15 +1907,18 @@ body.alto-contraste #panel-recurso-dia :is(.dia-calendario-fecha small,.dia-cale
 #panel-recurso-dia .dia-selector-busqueda label {flex:1 1 220px;}
 #panel-recurso-dia .dia-resultados-fuente {
   display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));
-  gap:12px;max-height:460px;overflow-y:auto;overflow-x:hidden;
+  gap:12px;max-height:none;overflow:visible;
 }
 #panel-recurso-dia .dia-fuente-resultado {
   display:flex;flex-direction:column;overflow:hidden;min-width:0;
   background:#fff;border:1px solid #bed4d3;border-radius:11px;
 }
 #panel-recurso-dia .dia-fuente-resultado img {
-  width:100%;height:152px;object-fit:contain;background:#f4f8f9;
+  width:100%;height:112px;object-fit:contain;background:#f4f8f9;
 }
+#panel-recurso-dia .dia-fuente-elegible {cursor:pointer;}
+#panel-recurso-dia .dia-fuente-elegible:focus-visible {outline:3px solid #247568;outline-offset:3px;}
+#panel-recurso-dia .dia-fuente-elegible:hover {border-color:#247568;box-shadow:0 0 0 1px #247568;}
 #panel-recurso-dia .dia-fuente-detalle {
   display:flex;flex:1;flex-direction:column;align-items:stretch;
   gap:8px;padding:11px;
