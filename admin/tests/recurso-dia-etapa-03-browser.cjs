@@ -37,6 +37,7 @@ const source="admin/recurso-dia.js";
           }
         };
       });
+      await page.locator("#panel-recurso-dia").evaluate(el=>el.hidden=false);
       await page.addScriptTag({path:source});
       await page.evaluate(()=>window.EvaRecursoDiaAdmin.configurar(window.__profile));
       await page.evaluate(()=>{document.getElementById("dia-mes").value="2026-12";});
