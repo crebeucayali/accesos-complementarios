@@ -272,20 +272,38 @@
         const match=bank.filter(x=>normalize(x.palabra).includes(needle));
         showLsp(match);
       }else{
-        // ARASAAC searches multiple words with OR by default; quotes request a complete phrase.
-        const requests = term.split(/\\s+/).length > 1 ? ['"'+term+'"',term] : [term];
-        let matches=[];
-        for(const query of requests){
-          const resp=await fetch(API+encodeURIComponent(query),{signal:controller.signal,cache:"no-store"});
+        // ARASAAC puede responder 404 si no hay resultados. Buscar alternativas sin tratarlo como caída del servicio.
+        const alternatives={
+          "vestirse":["vestir","ponerse la ropa"],
+          "banarse":["bañar","baño","ducharse"],
+          "compartir":["prestar"]
+        };
+        const key=normalize(term);
+        const variants=[term,...(alternatives[key]||[])];
+        const requests=[];
+        for(const variant of variants){
+          if(variant.trim().split(/\s+/).length>1)requests.push({query:'"'+variant+'"',term:variant});
+          requests.push({query:variant,term:variant});
+        }
+        const seen=new Set();
+        let matches=[],matchingTerm="";
+        for(const entry of requests){
+          if(seen.has(entry.query))continue;
+          seen.add(entry.query);
+          const resp=await fetch(API+encodeURIComponent(entry.query),{signal:controller.signal,cache:"no-store"});
+          if(resp.status===404)continue;
           if(!resp.ok)throw Error("ARASAAC no disponible ("+resp.status+").");
           const data=await resp.json();
           if(!Array.isArray(data))throw Error("Respuesta inesperada de ARASAAC.");
-          matches=relevantPictos(data,term);
-          if(matches.length)break;
+          matches=relevantPictos(data,entry.term);
+          if(matches.length){matchingTerm=entry.term;break;}
         }
         if(current!==sequence||!canUse())return;
         showPictos(matches);
-        if(!matches.length)setStatus("No se encontraron pictogramas que coincidan con toda la expresión. Prueba con una palabra más específica, por ejemplo: lavar.",true);
+        if(matches.length && normalize(matchingTerm)!==key)
+          setStatus(matches.length+" pictogramas relacionados con «"+matchingTerm+"». Revisa cada imagen antes de seleccionarla.");
+        else if(!matches.length)
+          setStatus("Sin coincidencias en ARASAAC para esta expresión. Prueba otra palabra, por ejemplo «vestir» o «baño».",true);
       }
     }catch(error){
       if(error.name!=="AbortError"&&current===sequence){
