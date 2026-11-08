@@ -1713,3 +1713,8 @@ body.alto-contraste #seccion-admin .admin-lateral button:is(.activo,[aria-curren
 /* Los permisos mantienen prioridad incluso sobre los estilos específicos de la barra lateral. */
 #seccion-admin .admin-lateral>nav.tabs>button.tab[hidden]{display:none!important}
 #seccion-admin .admin-espacio-trabajo>.panel-seccion[hidden]{display:none!important}
+
+
+#seccion-admin .admin-lateral>nav.tabs>.admin-lateral-seccion{display:block;color:#bad2d7;font-size:.68rem;font-weight:800;letter-spacing:.09em;margin:16px 10px 6px;line-height:1.4}
+#seccion-admin .admin-lateral>nav.tabs>.admin-lateral-seccion:first-child{margin-top:2px}
+body.alto-contraste #seccion-admin .admin-lateral>nav.tabs>.admin-lateral-seccion{color:#fff!important}
