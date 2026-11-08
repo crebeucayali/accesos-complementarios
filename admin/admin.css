@@ -202,7 +202,7 @@ a{color:var(--verde-700)}
   width:100%;
   position:relative;
   z-index:2;
-  margin-top:-76px;
+  margin-top:24px;
   padding:0 18px 64px;
 }
 .contenedor{
@@ -612,7 +612,7 @@ body.alto-contraste button{
     font-size:1rem;
   }
   .admin-contenido{
-    margin-top:-68px;
+    margin-top:18px;
     padding:0 12px 48px;
   }
   .estado-panel,
