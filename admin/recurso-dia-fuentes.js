@@ -114,7 +114,7 @@
     card.append(photo(url,"Seña "+item.palabra),elt("strong","",item.palabra),
       elt("p","nota","ID "+item.id+" · Fuente: MINEDU / BDA. Licencia y autorización de reutilización pendientes de revisión."));
     $("dia-seleccion-fuente").replaceChildren(card);
-    setStatus("Seña seleccionada. No marques derechos verificados sin evidencia documental. Solo puede guardarse como borrador.");
+    setStatus("Seña seleccionada. Verifica documentalmente los derechos y revisa la descripción antes de programar; las casillas no se marcan automáticamente.");
   }
   function drawSelection() {
     const box=$("dia-seleccion-fuente");
