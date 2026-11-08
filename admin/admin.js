@@ -71,6 +71,7 @@
     window.EvaIndicadoresAdmin?.limpiar();
     window.EvaDirectorioAdmin?.limpiar();
     window.EvaDestacadosAdmin?.limpiar();
+    window.EvaRAMaterialesSemana?.limpiar();
   }
 
   function aplicarPermisos() {
@@ -96,6 +97,7 @@
     window.EvaIndicadoresAdmin?.configurar(perfil);
     window.EvaDirectorioAdmin?.configurar(perfil);
     window.EvaDestacadosAdmin?.configurar(perfil);
+    window.EvaRAMaterialesSemana?.configurar(perfil);
     window.EvaUsuarios?.configurar(perfil);
     window.EvaPublicacion?.configurar(perfil, {alCambiar: async modulo => {
       if (!permitePanel(modulo,true)) return;
