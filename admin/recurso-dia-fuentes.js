@@ -182,11 +182,16 @@
     const clean = normalize(term).replace(/[^a-z0-9ñ ]/g, " ").replace(/\\s+/g, " ").trim();
     const words = clean.split(" ").filter(w => w.length > 2 && !["los","las","del","con","para","por","una","uno","unos","unas"].includes(w));
     if (!words.length) return [];
-    const stem = word => word.endsWith("arse") || word.endsWith("erse") || word.endsWith("irse")
-      ? word.slice(0,-3) : word.endsWith("ando") || word.endsWith("iendo")
-      ? word.slice(0,-4) : word.endsWith("es") ? word.slice(0,-2) : word.endsWith("s") ? word.slice(0,-1) : word;
-    const root = word => stem(word).slice(0,Math.max(4,Math.min(6,stem(word).length)));
-    const matchesWord = (a,b) => a===b || (root(a).length>=4 && root(a)===root(b));
+    const stem = word => {
+      if(/(arse|erse|irse)$/.test(word))return word.slice(0,-4);
+      if(/(ando|iendo)$/.test(word))return word.slice(0,word.endsWith("ando")?-4:-5);
+      if(/(ar|er|ir)$/.test(word))return word.slice(0,-2);
+      if(word.endsWith("es") && word.length>5)return word.slice(0,-2);
+      if(word.endsWith("s") && word.length>4)return word.slice(0,-1);
+      return word;
+    };
+    const matchesWord = (a,b) => a===b || (stem(a).length>=3 &&
+      (stem(a)===stem(b) || (stem(a).length>=4 && stem(b).length>=4 && stem(a).slice(0,4)===stem(b).slice(0,4))));
     const score = item => {
       const terms = (item.keywords||[]).map(k => normalize(k.keyword||k.word||"")).filter(Boolean);
       const labels = terms.flatMap(t=>t.split(/[^a-z0-9ñ]+/).filter(Boolean));
