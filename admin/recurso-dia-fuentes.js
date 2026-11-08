@@ -5,6 +5,8 @@
   const API = "https://api.arasaac.org/api/pictograms/es/search/";
   const IMAGE = "https://static.arasaac.org/pictograms/";
   const LICENSE = "https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es";
+  const MINEDU_DOCUMENT = "https://repositorio.minedu.gob.pe/handle/20.500.12799/5545";
+  const MINEDU_USAGE = "Acceso abierto para consulta; permiso de reproducción de ilustraciones no confirmado.";
   const BAD_LSP = new Set(["LSP-000092","LSP-000630","LSP-000730","LSP-000954"]);
   const SKIP = new Set(["himno_nacional","padre_nuestro","ave_maria"]);
   const $ = id => document.getElementById(id);
@@ -103,8 +105,8 @@
     field("dia-alt","Ilustración de la seña LSP para "+item.palabra+". Consulta la descripción del movimiento en el BDA.");
     field("dia-fuente",BASE);
     field("dia-atribucion","Ministerio de Educación del Perú. Guía de Lengua de Señas Peruana. Consulta en BDA, CREBE Ucayali.");
-    field("dia-licencia","");
-    field("dia-referencia","");
+    field("dia-licencia",MINEDU_USAGE);
+    field("dia-referencia",MINEDU_DOCUMENT);
     $("dia-derechos").checked=false;
     $("dia-revision").checked=false;
     $("dia-resultados-fuente").replaceChildren();
@@ -139,7 +141,9 @@
     field("dia-imagen-lsp","");
     field("dia-arasaac-ids",selectedPictos.map(x=>x.id).join(", "));
     field("dia-titulo-recurso",selectedPictos.map(x=>x.label).join(" / "));
-    field("dia-descripcion","");
+    field("dia-descripcion",selectedPictos.length === 1
+      ? "Recurso visual para apoyar la comprensión y anticipación de la acción "+selectedPictos[0].label+". Adaptar su uso al contexto y las necesidades del estudiante."
+      : "Conjunto de pictogramas para apoyar la comunicación y comprensión de las acciones seleccionadas. Revisar su pertinencia pedagógica.");
     field("dia-alt",selectedPictos.map(x=>"Pictograma de "+x.label).join("; "));
     field("dia-fuente","https://arasaac.org/");
     field("dia-licencia","CC BY-NC-SA 4.0");
