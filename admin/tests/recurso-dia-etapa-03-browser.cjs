@@ -49,7 +49,7 @@ const source="admin/recurso-dia.js";
       await page.locator("#dia-titulo-recurso").fill("Recurso de prueba");
       await page.locator("#dia-descripcion").fill("Descripción pedagógica");
       await page.locator("#dia-estado").selectOption("borrador");
-      assert.equal(await page.locator("#dia-estado option[value=programado]").isDisabled(),true);
+      assert.equal(await page.locator("#dia-estado option[value=programado]").getAttribute("disabled"),"","La opción de programación continúa bloqueada");
       await page.locator("#dia-guardar").click();
       await page.waitForFunction(()=>document.getElementById("dia-mensaje").textContent.includes("Borrador guardado"));
       let state=await page.evaluate(()=>({records:window.__records,calls:window.__calls}));
