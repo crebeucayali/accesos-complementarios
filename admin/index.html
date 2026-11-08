@@ -320,6 +320,13 @@
               </div>
             </div>
 
+            <div id="ra-semana-administracion" hidden>
+              <nav class="ra-semana-subtabs" aria-label="Gestión de Repositorio Accesible">
+                <button type="button" id="ra-semana-tab-catalogo" data-ra-semanal="false" aria-pressed="true" class="secundario">Catálogo y publicaciones</button>
+                <button type="button" id="ra-semana-tab-semanal" data-ra-semanal="true" aria-pressed="false" class="secundario">Materiales de la semana</button>
+              </nav>
+            </div>
+            <div id="ra-semana-catalogo">
             <div id="publicacion-repositorio">
               <h3>Publicación y archivo</h3>
               <p>Archivar retira el contenido de la página pública y conserva el registro y sus archivos. Publicar un contenido archivado lo vuelve a mostrar.</p>
@@ -395,6 +402,57 @@
               <p class="nota">Al crear un recurso se añadirá automáticamente al final de la categoría seleccionada. La eliminación retira la tarjeta de Supabase y queda registrada en la auditoría administrativa.</p>
             </form>
             </div>
+            </div>
+
+            <section id="ra-semana-contenido" aria-labelledby="ra-semana-titulo" hidden>
+              <h3 id="ra-semana-titulo">Materiales de la semana</h3>
+              <p>Selecciona tres materiales publicados del catálogo RA y prepara una programación de hasta siete días. Esta fase no activa el carrusel en la portada.</p>
+              <p id="ra-semana-mensaje" class="mensaje" role="status" aria-live="polite"></p>
+              <div class="ra-semana-acciones">
+                <button type="button" id="ra-semana-nuevo" class="secundario">Nueva programación</button>
+                <button type="button" id="ra-semana-recargar" class="secundario">Actualizar listado</button>
+              </div>
+              <form id="ra-semana-form">
+                <input type="hidden" id="ra-semana-id">
+                <div class="grid">
+                  <label for="ra-semana-inicio">Inicio de publicación
+                    <input id="ra-semana-inicio" type="date" required>
+                  </label>
+                  <label for="ra-semana-fin">Fin de publicación (máximo siete días)
+                    <input id="ra-semana-fin" type="date" required>
+                  </label>
+                  <label for="ra-semana-estado">Estado
+                    <select id="ra-semana-estado">
+                      <option value="borrador">Borrador</option>
+                      <option value="programado">Programado</option>
+                      <option value="desactivado">Desactivado</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="grid">
+                  <label for="ra-semana-material-1">Primer material
+                    <select id="ra-semana-material-1"></select>
+                  </label>
+                  <label for="ra-semana-material-2">Segundo material
+                    <select id="ra-semana-material-2"></select>
+                  </label>
+                  <label for="ra-semana-material-3">Tercer material
+                    <select id="ra-semana-material-3"></select>
+                  </label>
+                </div>
+                <h4>Vista previa de las tres tarjetas</h4>
+                <div id="ra-semana-preview" class="ra-semana-preview" aria-label="Vista previa de materiales seleccionados"></div>
+                <p class="nota">Los materiales deben incluir fotografía, descripción y texto alternativo. No se duplican archivos ni se modifica el catálogo original.</p>
+                <button id="ra-semana-guardar" type="submit">Guardar programación</button>
+              </form>
+              <h4>Historial de programaciones</h4>
+              <div class="tabla-estadisticas-wrap listado-publicaciones-scroll" role="region" tabindex="0" aria-label="Historial de materiales de la semana">
+                <table class="tabla-estadisticas">
+                  <thead><tr><th scope="col">Periodo</th><th scope="col">Estado</th><th scope="col">Materiales</th><th scope="col">Acción</th></tr></thead>
+                  <tbody id="ra-semana-listado"></tbody>
+                </table>
+              </div>
+            </section>
           </section>
 
 
@@ -1011,6 +1069,7 @@
   <script src="indicadores.js?v=2" defer></script>
   <script src="directorio.js?v=1" defer></script>
   <script src="destacados.js?v=2" defer></script>
+  <script src="ra-materiales-semana.js?v=1" defer></script>
   <script src="admin.js?v=52" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>
