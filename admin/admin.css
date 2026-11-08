@@ -1795,3 +1795,32 @@ body.alto-contraste #seccion-admin .admin-cuenta-opciones #boton-salir{border:2p
   min-width:0;
   overflow-wrap:anywhere;
 }
+
+
+/* Inicio EVA: tarjeta de trabajo a la misma altura que la barra lateral en escritorio. */
+@media(min-width:901px){
+  #seccion-admin .admin-distribucion{
+    align-items:stretch;
+  }
+  #seccion-admin .admin-espacio-trabajo{
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+  }
+  #seccion-admin .admin-espacio-trabajo>#panel-inicio:not([hidden]){
+    flex:1 1 auto;
+    min-height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+}
+@media(max-width:900px){
+  #seccion-admin .admin-espacio-trabajo>#panel-inicio:not([hidden]){
+    width:100%;
+    min-height:clamp(300px,55vh,520px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+}
