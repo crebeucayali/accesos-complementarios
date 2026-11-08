@@ -134,9 +134,12 @@
       });
       el.appendChild(btn);
     }
-    $("dia-resumen").textContent=rows.length+" registro(s) en "+selectedMonth()+". "+
-      rows.filter(x=>x.estado==="borrador").length+" borrador(es), "+
-      rows.filter(x=>x.estado==="programado"||x.estado==="publicado").length+" aprobado(s).";
+    const activeDays=new Set(rows.filter(x=>x.estado==="programado").map(x=>x.fecha));
+    $("dia-resumen").textContent="Mes "+selectedMonth()+": "+
+      activeDays.size+" de "+month.days+" días programados; "+
+      (month.days-activeDays.size)+" sin recurso aprobado. "+
+      rows.filter(x=>x.estado==="borrador").length+" borradores pendientes. "+
+      "Los días sin programación no tendrán recurso automático.";
   }
   function drawRows() {
     const body=$("dia-registros");body.replaceChildren();
