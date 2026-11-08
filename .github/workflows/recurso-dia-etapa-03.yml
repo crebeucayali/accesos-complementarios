@@ -1,0 +1,32 @@
+name: Recursos del día - etapa 03 pruebas aisladas
+on:
+  push:
+    branches: [feature/eva-recurso-dia-etapa-02]
+    paths:
+      - 'admin/index.html'
+      - 'admin/admin.js'
+      - 'admin/admin.css'
+      - 'admin/recurso-dia.js'
+      - 'admin/tests/recurso-dia-etapa-03-browser.cjs'
+      - '.github/workflows/recurso-dia-etapa-03.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  probar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Instalar entorno de pruebas
+        run: npm install --no-save --no-package-lock playwright@1.56.1
+      - name: Validar sintaxis del módulo y la integración
+        run: |
+          node --check admin/recurso-dia.js
+          node --check admin/admin.js
+          node --check admin/tests/recurso-dia-etapa-03-browser.cjs
+      - name: Probar calendario y controles en Chromium
+        run: node admin/tests/recurso-dia-etapa-03-browser.cjs

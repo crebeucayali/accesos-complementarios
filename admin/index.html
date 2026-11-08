@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="admin.css?v=44">
+  <link rel="stylesheet" href="admin.css?v=45">
   <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
 <body class="theme-crebe wsite-theme-light panel-admin-page">
@@ -143,6 +143,7 @@
                 <button type="button" class="tab" data-panel="calendario"><svg class="admin-nav-icono" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/><path d="M8 14h3M8 17h3"/></svg><span class="admin-nav-texto">Calendario</span></button>
                 <button type="button" class="tab" data-panel="repositorio"><svg class="admin-nav-icono" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h5v16H4zM10 4h5v16h-5zM16 8h4v12h-4z"/><path d="M6 8h1M12 8h1M18 12h1"/></svg><span class="admin-nav-texto">Repositorio</span></button>
                 <button type="button" class="tab" data-panel="noticias"><svg class="admin-nav-icono" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h4v4H7zM14 8h4M14 11h4M7 15h11"/></svg><span class="admin-nav-texto">Noticias</span></button>
+                <button type="button" class="tab" data-panel="recurso-dia" hidden><svg class="admin-nav-icono" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/><path d="M8 15h3M14 15h3"/></svg><span class="admin-nav-texto">Recursos del día</span></button>
                 <button type="button" class="tab" data-panel="galeria"><svg class="admin-nav-icono" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m3 17 5-5 4 4 3-3 6 6"/></svg><span class="admin-nav-texto">Galería</span></button>
                 <button type="button" class="tab" data-panel="comunicados" hidden><svg class="admin-nav-icono" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 12-5v12L3 13z"/><path d="M7 14v5h4l-2-5M19 8l2-2M19 16l2 2"/></svg><span class="admin-nav-texto">Comunicados emergentes</span></button>
                 <button type="button" class="tab" data-panel="destacados" hidden><svg class="admin-nav-icono" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 3.1 6.3 7 .9-5.1 5 1.2 7-6.2-3.3-6.2 3.3 1.2-7-5.1-5 7-.9z"/></svg><span class="admin-nav-texto">Destacados</span></button>
@@ -486,6 +487,65 @@
             </section>
           </section>
 
+
+          <section class="tarjeta panel-seccion" id="panel-recurso-dia" hidden aria-labelledby="dia-titulo">
+            <div class="titulo-tarjeta"><span class="identificador-admin" aria-hidden="true">DÍA</span>
+              <div><p class="micro-etiqueta">Gestión de contenidos</p><h2 id="dia-titulo">Recursos del día</h2></div>
+            </div>
+            <p class="nota">Programa un solo recurso por fecha: una seña LSP o un pictograma ARASAAC. Durante esta etapa puedes guardar y editar borradores. La programación definitiva se habilitará tras conectar los catálogos oficiales y verificar derechos en la etapa 04.</p>
+            <div class="dia-programacion-cabecera">
+              <label for="dia-mes">Mes de programación <input type="month" id="dia-mes" required></label>
+              <button type="button" id="dia-recargar" class="secundario">Actualizar mes</button>
+            </div>
+            <p class="nota" id="dia-resumen" role="status" aria-live="polite"></p>
+            <div class="dia-calendario" id="dia-calendario" role="group" aria-label="Seleccionar una fecha del mes"></div>
+            <form id="dia-formulario" class="dia-formulario" novalidate>
+              <h3 id="dia-editor-titulo">Editar recurso del día</h3>
+              <input type="hidden" id="dia-id">
+              <div class="dia-campos">
+                <label for="dia-fecha">Fecha <input type="date" id="dia-fecha" required></label>
+                <label for="dia-tipo">Tipo de recurso
+                  <select id="dia-tipo"><option value="lsp">Seña LSP del BDA</option><option value="arasaac">Pictograma ARASAAC</option></select>
+                </label>
+                <label for="dia-estado">Estado
+                  <select id="dia-estado"><option value="borrador">Borrador</option><option value="programado" disabled>Programado (etapa 04)</option><option value="publicado" disabled>Publicado (etapa 05)</option><option value="retirado">Retirado</option></select>
+                </label>
+                <label for="dia-lsp-id" data-dia-lsp>Identificador LSP
+                  <input id="dia-lsp-id" pattern="LSP-[0-9]{6}" placeholder="LSP-000001" maxlength="10" autocomplete="off">
+                </label>
+                <label for="dia-arasaac-ids" data-dia-arasaac hidden>Identificadores ARASAAC (1 a 3)
+                  <input id="dia-arasaac-ids" placeholder="Ejemplo: 12345, 67890" autocomplete="off">
+                </label>
+                <label for="dia-titulo-recurso">Palabra o expresión <input id="dia-titulo-recurso" maxlength="160"></label>
+                <label for="dia-fuente">Enlace de la fuente <input id="dia-fuente" type="url" placeholder="https://..." maxlength="1000"></label>
+                <label for="dia-imagen-lsp" data-dia-lsp>URL de imagen LSP <input id="dia-imagen-lsp" type="url" placeholder="Se integrará desde BDA" maxlength="1000"></label>
+                <label for="dia-licencia">Licencia o condición de uso <input id="dia-licencia" maxlength="250"></label>
+              </div>
+              <label for="dia-descripcion">Descripción pedagógica <textarea id="dia-descripcion" rows="3" maxlength="2000"></textarea></label>
+              <label for="dia-alt">Texto alternativo <textarea id="dia-alt" rows="2" maxlength="400"></textarea></label>
+              <label for="dia-atribucion">Atribución visible <textarea id="dia-atribucion" rows="2" maxlength="1000"></textarea></label>
+              <label for="dia-referencia">Referencia documental de derechos <textarea id="dia-referencia" rows="2" maxlength="1000" placeholder="Referencia de autorización o licencia verificable"></textarea></label>
+              <div class="dia-verificaciones">
+                <label><input type="checkbox" id="dia-derechos"> Derechos de reutilización verificados documentalmente</label>
+                <label><input type="checkbox" id="dia-revision"> Revisión pedagógica completada</label>
+              </div>
+              <p class="nota">Las casillas registran una declaración administrativa; no sustituyen la autorización jurídica. Mientras la etapa 04 no esté aprobada, solo se pueden guardar borradores o retirar registros.</p>
+              <div class="acciones-formulario dia-acciones">
+                <button type="submit" id="dia-guardar">Guardar borrador</button>
+                <button type="button" class="secundario" id="dia-nuevo">Nueva ficha</button>
+              </div>
+              <p id="dia-mensaje" class="mensaje" role="status" aria-live="polite"></p>
+            </form>
+            <section aria-labelledby="dia-registros-titulo">
+              <h3 id="dia-registros-titulo">Registros del mes</h3>
+              <div class="tabla-estadisticas-wrap listado-publicaciones-scroll" tabindex="0" role="region" aria-label="Registros de recursos diarios">
+                <table class="tabla-estadisticas"><caption>Programaciones y borradores registrados</caption>
+                  <thead><tr><th scope="col">Fecha</th><th scope="col">Tipo</th><th scope="col">Recurso</th><th scope="col">Estado</th><th scope="col">Acción</th></tr></thead>
+                  <tbody id="dia-registros"><tr><td colspan="5">Selecciona un mes para consultar los recursos.</td></tr></tbody>
+                </table>
+              </div>
+            </section>
+          </section>
 
           <section class="tarjeta panel-seccion" id="panel-noticias" hidden>
             <div class="titulo-tarjeta">
@@ -1103,7 +1163,8 @@
   <script src="directorio.js?v=1" defer></script>
   <script src="destacados.js?v=2" defer></script>
   <script src="ra-materiales-semana.js?v=1" defer></script>
-  <script src="admin.js?v=55" defer></script>
+  <script src="recurso-dia.js?v=1" defer></script>
+  <script src="admin.js?v=56" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>
 </html>
