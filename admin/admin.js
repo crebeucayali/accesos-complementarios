@@ -2480,10 +2480,59 @@
     } catch(error) { mensajeComunicados(error.message); }
   });
 
+  // Navegación lateral: reutiliza los mismos botones .tab y sus permisos.
+  const layoutAdmin = document.querySelector("#seccion-admin .admin-distribucion");
+  const botonAbrirMenu = $("admin-menu-abrir");
+  const botonCerrarMenu = $("admin-menu-cerrar");
+  const fondoMenu = $("admin-menu-fondo");
+  const botonInicioAdmin = $("admin-ir-inicio");
+  const nombreVista = $("admin-vista-actual");
+  let menuAbierto = false;
+  function cambiarMenu(abierto, restaurarFoco = false) {
+    menuAbierto = Boolean(abierto) && window.matchMedia("(max-width:900px)").matches;
+    layoutAdmin?.classList.toggle("menu-abierto", menuAbierto);
+    if (fondoMenu) fondoMenu.hidden = !menuAbierto;
+    botonAbrirMenu?.setAttribute("aria-expanded", String(menuAbierto));
+    if (menuAbierto) {
+      botonCerrarMenu?.focus();
+    } else if (restaurarFoco && document.activeElement?.closest("#admin-menu-lateral")) {
+      botonAbrirMenu?.focus();
+    }
+  }
+  function seleccionarInicio() {
+    document.querySelectorAll("#seccion-admin .tab").forEach(tab => {
+      tab.classList.remove("activo");
+      tab.removeAttribute("aria-current");
+    });
+    document.querySelectorAll("#seccion-admin .panel-seccion").forEach(panel => {
+      panel.hidden = panel.id !== "panel-inicio";
+    });
+    botonInicioAdmin?.setAttribute("aria-current", "page");
+    if (nombreVista) nombreVista.textContent = "Inicio";
+    cambiarMenu(false, true);
+  }
+  botonInicioAdmin?.addEventListener("click", seleccionarInicio);
+  botonAbrirMenu?.addEventListener("click", () => cambiarMenu(!menuAbierto));
+  botonCerrarMenu?.addEventListener("click", () => cambiarMenu(false, true));
+  fondoMenu?.addEventListener("click", () => cambiarMenu(false, true));
+  document.addEventListener("keydown", evento => {
+    if (evento.key === "Escape" && menuAbierto) {
+      evento.preventDefault(); cambiarMenu(false, true);
+    }
+  });
+  window.matchMedia("(min-width:901px)").addEventListener?.("change", () => cambiarMenu(false));
+
   document.querySelectorAll(".tab").forEach((boton) => {
     boton.addEventListener("click", () => {
       if (!permitePanel(boton.dataset.panel)) return;
-      document.querySelectorAll(".tab").forEach((x) => x.classList.toggle("activo", x === boton));
+      document.querySelectorAll(".tab").forEach((x) => {
+        x.classList.toggle("activo", x === boton);
+        if (x === boton) x.setAttribute("aria-current", "page");
+        else x.removeAttribute("aria-current");
+      });
+      botonInicioAdmin?.removeAttribute("aria-current");
+      if (nombreVista) nombreVista.textContent = boton.textContent.trim();
+      cambiarMenu(false, true);
       $("panel-inicio").hidden = true;
       $("panel-capacitaciones").hidden = boton.dataset.panel !== "capacitaciones";
       $("panel-calendario").hidden = boton.dataset.panel !== "calendario";
