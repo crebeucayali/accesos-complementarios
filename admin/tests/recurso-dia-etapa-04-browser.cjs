@@ -66,7 +66,8 @@ const pictos=[
    assert.ok((await page.locator("#dia-atribucion").inputValue()).includes("Sergio Palao"));
    assert.equal(await page.locator("#dia-licencia").inputValue(),"CC BY-NC-SA 4.0");
    assert.equal(await page.locator("#dia-derechos").isChecked(),false,"No marcar verificación automáticamente");
-   assert.equal(await page.locator("#dia-estado option[value=programado]").getAttribute("disabled"),"","Publicación bloqueada");
+   assert.equal(await page.locator("#dia-estado option[value=publicado]").getAttribute("disabled"),"","Publicación manual bloqueada");
+   assert.equal(await page.locator("#dia-estado option[value=programado]").isEnabled(),true,"ARASAAC permite programación posterior a validación");
    const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1);
    assert.equal(overflow,false,"Sin desbordamiento horizontal");
    await page.locator("#dia-fecha").fill("2026-12-10");
