@@ -60,7 +60,7 @@
   function refreshKind() {
     const isLsp = $("dia-tipo").value === "lsp";
     const opt = $("dia-estado").querySelector('option[value="programado"]');
-    opt.disabled = isLsp || !authorized();
+    opt.disabled = !authorized();
     if (opt.disabled && $("dia-estado").value === "programado") $("dia-estado").value = "borrador";
     $("dia-guardar").textContent = $("dia-estado").value === "programado" ? "Confirmar programación" : "Guardar borrador";
     document.querySelectorAll("#panel-recurso-dia [data-dia-lsp]").forEach(el => { el.hidden = !isLsp; });
@@ -221,17 +221,26 @@
       && (row.estado==="programado"||row.estado==="publicado"));
     if(collision) throw new Error("Ya existe una programación activa para esta fecha.");
     if(estado==="programado") {
-      if(tipo!=="arasaac") throw new Error("Las imágenes LSP no pueden programarse hasta verificar su permiso de reutilización.");
+      if(tipo==="lsp") {
+        if(!/^https:\/\/crebeucayali\.github\.io\/banco-digital-accesible\/lsp\//.test(safeHttps("dia-fuente")))
+          throw new Error("La fuente LSP debe corresponder al catálogo BDA.");
+        if(!/^https:\/\/crebeucayali\.github\.io\/banco-digital-accesible\/lsp\/imagenes\//.test(safeHttps("dia-imagen-lsp")))
+          throw new Error("La imagen LSP debe proceder de la carpeta oficial del BDA.");
+        if(!text("dia-atribucion").includes("Ministerio de Educación del Perú"))
+          throw new Error("Falta la atribución oficial al MINEDU.");
+        if(!text("dia-licencia")||!text("dia-referencia"))
+          throw new Error("Registra la condición de uso y su referencia documental.");
+      }
       if(fecha<yesterdayPeru())
         throw new Error("Solo se permite programar hoy, fechas futuras o excepcionalmente el día anterior ("+yesterdayPeru()+").");
       if(!text("dia-titulo-recurso")||!text("dia-descripcion")||!text("dia-alt"))
         throw new Error("Completa título, descripción pedagógica y texto alternativo.");
-      if(!text("dia-atribucion").includes("Sergio Palao")||!text("dia-atribucion").includes("ARASAAC")
-         ||!text("dia-atribucion").includes("Gobierno de Aragón"))
+      if(tipo==="arasaac" && (!text("dia-atribucion").includes("Sergio Palao")||!text("dia-atribucion").includes("ARASAAC")
+         ||!text("dia-atribucion").includes("Gobierno de Aragón")))
         throw new Error("Comprueba los créditos obligatorios de ARASAAC.");
-      if(text("dia-licencia")!=="CC BY-NC-SA 4.0"||safeHttps("dia-referencia")!==RIGHTS_URL)
+      if(tipo==="arasaac" && (text("dia-licencia")!=="CC BY-NC-SA 4.0"||safeHttps("dia-referencia")!==RIGHTS_URL))
         throw new Error("La licencia y su referencia deben corresponder a ARASAAC.");
-      if(!/^https:\/\/(?:www\.)?arasaac\.org(?:\/|$)/.test(safeHttps("dia-fuente")))
+      if(tipo==="arasaac" && !/^https:\/\/(?:www\.)?arasaac\.org(?:\/|$)/.test(safeHttps("dia-fuente")))
         throw new Error("La fuente debe corresponder a ARASAAC.");
       if(!$("dia-derechos").checked||!$("dia-revision").checked)
         throw new Error("Confirma documentalmente los derechos y la revisión pedagógica antes de programar.");
@@ -313,7 +322,7 @@
       control.disabled=!authorized()||(control.dataset.blockedStage==="true");
     });
     window.EvaRecursoDiaFuentes?.configurar({authorized});
-    // La consulta por fecha está activa; solo ARASAAC completo se puede programar.
+    // Ambos catálogos pueden programarse tras revisión administrativa; no se verifican derechos automáticamente.
     panel?.querySelector('#dia-estado option[value="publicado"]')?.setAttribute("disabled","");
     refreshKind();
   }
