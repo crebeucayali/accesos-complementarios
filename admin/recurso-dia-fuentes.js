@@ -203,7 +203,23 @@
         selectedPictos.push(item);applyPictos();
         btn.disabled=true;
       });
-      details.append(btn);card.append(details);box.append(card);
+      details.append(btn);card.append(details);
+      card.classList.add("dia-fuente-elegible");
+      card.tabIndex=0;
+      card.setAttribute("role","button");
+      card.setAttribute("aria-label","Seleccionar pictograma "+item.label+", identificador "+item.id);
+      const selectCard=()=>{
+        if(!canUse()||$("dia-tipo").value!=="arasaac")return;
+        if(selectedPictos.some(x=>x.id===item.id))return;
+        if(selectedPictos.length===3){setStatus("Máximo de tres pictogramas por fecha.",true);return;}
+        selectedPictos.push(item);applyPictos();btn.disabled=true;
+      };
+      card.addEventListener("click",event=>{if(event.target.closest("button"))return;selectCard();});
+      card.addEventListener("keydown",event=>{
+        if(event.target!==card||!["Enter"," "].includes(event.key))return;
+        event.preventDefault();selectCard();
+      });
+      box.append(card);
     });
     setStatus(items.length?items.length+" pictogramas disponibles. Selección manual obligatoria.":
       "No se encontraron pictogramas para el término.");
