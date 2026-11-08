@@ -42,6 +42,7 @@
     if (modulo === "indicadores") return perfil.rol === "master" && perfil.aal === "aal2";
     if (modulo === "directorio") return perfil.rol === "master" && perfil.aal === "aal2";
     if (modulo === "destacados") return perfil.rol === "master" && perfil.aal === "aal2";
+    if (modulo === "recurso-dia") return perfil.rol === "master" && perfil.aal === "aal2";
     if (perfil.rol === "master") return perfil.aal === "aal2";
     return ["editor","consulta"].includes(perfil.rol)
       && ["aal1","aal2"].includes(perfil.aal)
@@ -72,6 +73,7 @@
     window.EvaDirectorioAdmin?.limpiar();
     window.EvaDestacadosAdmin?.limpiar();
     window.EvaRAMaterialesSemana?.limpiar();
+    window.EvaRecursoDiaAdmin?.limpiar();
   }
 
   function aplicarPermisos() {
@@ -98,6 +100,7 @@
     window.EvaDirectorioAdmin?.configurar(perfil);
     window.EvaDestacadosAdmin?.configurar(perfil);
     window.EvaRAMaterialesSemana?.configurar(perfil);
+    window.EvaRecursoDiaAdmin?.configurar(perfil);
     window.EvaUsuarios?.configurar(perfil);
     window.EvaPublicacion?.configurar(perfil, {alCambiar: async modulo => {
       if (!permitePanel(modulo,true)) return;
@@ -2549,6 +2552,8 @@
       $("panel-indicadores").hidden = boton.dataset.panel !== "indicadores";
       $("panel-directorio").hidden = boton.dataset.panel !== "directorio";
       $("panel-destacados").hidden = boton.dataset.panel !== "destacados";
+      $("panel-recurso-dia").hidden = boton.dataset.panel !== "recurso-dia";
+      if (boton.dataset.panel === "recurso-dia") window.EvaRecursoDiaAdmin?.cargar().catch(error=>mostrarMensaje(error.message,"error"));
       if (boton.dataset.panel === "destacados") window.EvaDestacadosAdmin?.cargar().catch(error=>mostrarMensaje(error.message,"error"));
       if (boton.dataset.panel === "directorio") window.EvaDirectorioAdmin?.cargar().catch(error=>mostrarMensaje(error.message,"error"));
       if (boton.dataset.panel === "indicadores") window.EvaIndicadoresAdmin?.cargar().catch(error=>mostrarMensaje(error.message,"error"));
