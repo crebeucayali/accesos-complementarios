@@ -6,6 +6,12 @@ AC se integra al EVA como un espacio de apoyo transversal destinado a organizar 
 
 Aunque cada módulo del EVA cumple una función específica, todos responden a una misma orientación general: facilitar el acceso a recursos educativos inclusivos y promover el uso organizado de herramientas digitales al servicio de la educación. En ese sentido, AC no funciona como una página aislada, sino como una parte articulada de una plataforma mayor, donde los accesos complementarios se organizan bajo criterios de claridad, accesibilidad, utilidad, coherencia interna y mejora continua.
 
+## Integración documental con EVA 2.0
+
+Desde el 8 de noviembre de 2026, el ecosistema adopta la denominación documental **EVA 2.0** para sus recientes actualizaciones funcionales. En el módulo AC, esta actualización comprende especialmente el gestor «Recursos del día», el selector de pictogramas ARASAAC y señas LSP del BDA, la programación por fecha, las referencias de fuente y la conexión con las vistas públicas de hoy y ayer. Se conservan los requisitos de atribución, revisión pedagógica y comprobación documental de derechos para contenidos de terceros.
+
+El estado completo, las verificaciones realizadas y los pendientes constan en la [documentación EVA 2.0 del repositorio principal](https://github.com/crebeucayali/crebeucayali.github.io/blob/main/docs/EVA_2_0.md). Esta designación no implica que las programaciones en borrador se hayan publicado.
+
 ## Naturaleza del proyecto
 
 AC es un módulo de carácter personal, educativo, informativo, organizativo, comunicacional y digital. Su desarrollo no corresponde a una creación institucional ni depende de una entidad externa. La planificación, diseño funcional, organización de contenidos, estructura técnica, documentación, criterios de integración, mantenimiento y mejora progresiva forman parte del trabajo personal del Psicólogo Gabriel Berrospi como autor y desarrollador del Ecosistema Virtual Accesible, EVA.
