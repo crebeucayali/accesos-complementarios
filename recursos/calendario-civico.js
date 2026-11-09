@@ -57,9 +57,13 @@
     tabla.append(tbody);const scroll=crear("div","civico-tabla-wrap");scroll.append(tabla);seccion.append(scroll);
     const articulos=crear("div","civico-eventos");
     if(!lista.length)articulos.append(crear("p","civico-vacio","No hay conmemoraciones que coincidan con los filtros en este mes."));
+    const fechasIdentificadas=new Set();
     for(const r of lista){
       const articulo=crear("article","civico-evento");
-      articulo.id="civico-dia-"+r.fecha;
+      if(!fechasIdentificadas.has(r.fecha)){
+        articulo.id="civico-dia-"+r.fecha;
+        fechasIdentificadas.add(r.fecha);
+      }
       const fechaVisible=crear("span","civico-evento-fecha",Number(r.fecha.slice(8,10))+" de "+nombres[numero-1].toLocaleLowerCase("es-PE"));
       const clase={"Inclusión":"inclusion","Educación":"educacion","Cívica":"civica"}[r.categoria]||"";
       const etiqueta=crear("span","civico-etiqueta civico-etiqueta-"+clase,r.categoria);
@@ -92,12 +96,15 @@
   $("civico-limpiar")?.addEventListener("click",()=>{mes.value="todos";categoria.value="todas";busqueda.value="";render();busqueda.focus();});
   async function iniciar(){
     try{
-      const respuesta=await fetch("calendario-civico-2026.json",{cache:"no-store"});
+      const respuesta=await fetch("calendario-civico.json",{cache:"no-store"});
       if(!respuesta.ok)throw new Error("No se pudo obtener el calendario.");
       const datos=await respuesta.json();
-      if(datos.anio!==2026||!Array.isArray(datos.registros))throw new Error("El archivo de fechas no tiene la estructura esperada.");
+      if(!Number.isInteger(datos.anio)||datos.anio<2026||datos.anio>2100||!Array.isArray(datos.registros))throw new Error("El archivo de fechas no tiene la estructura esperada.");
+      anio=datos.anio;
+      const campoAnio=document.getElementById("civico-anio");
+      if(campoAnio)campoAnio.textContent=String(anio);
       const categorias=new Set(["Cívica","Educación","Inclusión"]);
-      registros=datos.registros.filter(r=>r&&/^2026-\d{2}-\d{2}$/.test(r.fecha)
+      registros=datos.registros.filter(r=>r&&new RegExp("^"+anio+"-\\d{2}-\\d{2}$").test(r.fecha)
         &&Number.isFinite(Date.parse(r.fecha+"T00:00:00Z"))
         &&categorias.has(r.categoria)&&typeof r.titulo==="string"
         &&typeof r.descripcion==="string"&&typeof r.fuente_url==="string"
@@ -105,7 +112,7 @@
       registros.sort((a,b)=>a.fecha.localeCompare(b.fecha)||a.titulo.localeCompare(b.titulo,"es"));
       render();
     }catch(error){
-      estado.textContent="No se pudo cargar el calendario cívico de 2026. Recarga la página para reintentar.";
+      estado.textContent="No se pudo cargar el calendario cívico. Recarga la página para reintentar.";
       contenedor.replaceChildren();nav.replaceChildren();
       console.warn("Calendario cívico EVA:",error);
     }
