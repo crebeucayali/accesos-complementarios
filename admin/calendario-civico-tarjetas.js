@@ -113,6 +113,10 @@
   }
   $("cal-civico-seleccion").addEventListener("change",fill);
   $("cal-civico-listado").addEventListener("click",()=>queueMicrotask(fill));
+  for(const [id,event] of [["cal-civico-buscar","input"],["cal-civico-mes","change"],["cal-civico-categoria","change"]]){
+    $(id).addEventListener(event,()=>queueMicrotask(fill));
+  }
+  $("cal-civico-limpiar").addEventListener("click",()=>queueMicrotask(fill));
   $("cal-tab-civico").addEventListener("click",()=>{if(autorizado)load();});
   $("cal-civico-contenido").addEventListener("input",preview);
   $("cal-civico-imagen-alt").addEventListener("input",preview);
