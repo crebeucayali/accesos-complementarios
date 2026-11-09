@@ -1,0 +1,12 @@
+@import url("./calendario.css?v=28");
+.calendarios-dos-tarjetas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin:24px 0}
+.calendarios-tarjeta{display:flex;flex-direction:column;gap:15px;min-width:0;padding:26px;border:2px solid #b3d3d2;border-radius:20px;background:#fff;color:#153a50;text-decoration:none;box-shadow:0 6px 20px rgba(18,52,69,.07)}
+.calendarios-tarjeta:hover{border-color:#0f766e;background:#effaf7}
+.calendarios-tarjeta:focus-visible{outline:3px solid #b45309;outline-offset:4px}
+.calendarios-tarjeta h2{margin:0;color:#103d4e;font-size:clamp(1.3rem,2.5vw,1.8rem)}
+.calendarios-tarjeta p{margin:0;line-height:1.65}
+.calendarios-tarjeta .entrada{font-weight:800;color:#075b57;text-decoration:underline;text-underline-offset:4px}
+.calendarios-explicacion{margin:14px 0;color:#40586b;line-height:1.6}
+@media(max-width:720px){.calendarios-dos-tarjetas{grid-template-columns:1fr}.calendarios-tarjeta{padding:20px}}
+html.eva-alto-contraste .calendarios-tarjeta{background:#000!important;color:#fff!important;border-color:#fff!important}
+html.eva-alto-contraste .calendarios-tarjeta :is(h2,p,.entrada){color:#fff!important}
