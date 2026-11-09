@@ -175,8 +175,61 @@
               </div>
             </aside>
             <div class="admin-espacio-trabajo">
-          <section class="tarjeta panel-seccion panel-inicio-admin" id="panel-inicio" aria-label="Inicio del panel administrativo">
-            <img class="panel-inicio-logo" src="../logo-crebe.webp?v=3" alt="Logo institucional del CREBE Señor de los Milagros - Ucayali">
+          <section class="tarjeta panel-seccion panel-inicio-admin" id="panel-inicio" aria-labelledby="admin-inicio-titulo">
+            <header class="admin-inicio-cabecera">
+              <img class="panel-inicio-logo" src="../logo-crebe.webp?v=3" alt="Logo institucional del CREBE Señor de los Milagros - Ucayali">
+              <div>
+                <p class="admin-inicio-kicker">Ecosistema Virtual Accesible · EVA 2.0</p>
+                <h2 id="admin-inicio-titulo">Panel de control</h2>
+                <p>Accede a los módulos autorizados y consulta la organización del ecosistema.</p>
+              </div>
+            </header>
+            <section class="admin-inicio-bloque" aria-labelledby="admin-inicio-resumen-titulo">
+              <div class="admin-inicio-seccion-titulo">
+                <h3 id="admin-inicio-resumen-titulo">Resumen general</h3>
+                <p>Los indicadores se incorporarán con datos reales en la siguiente etapa.</p>
+              </div>
+              <div class="admin-inicio-indicadores">
+                <article class="admin-inicio-indicador" data-admin-inicio-modulo="estadisticas">
+                  <span>Visitas EVA</span><strong>Sin consultar</strong><small>Estadísticas del ecosistema</small>
+                </article>
+                <article class="admin-inicio-indicador" data-admin-inicio-modulo="capacitaciones">
+                  <span>Capacitaciones</span><strong>Sin consultar</strong><small>Sesiones registradas</small>
+                </article>
+                <article class="admin-inicio-indicador" data-admin-inicio-modulo="calendario">
+                  <span>Calendario</span><strong>Sin consultar</strong><small>Actividades institucionales</small>
+                </article>
+                <article class="admin-inicio-indicador" data-admin-inicio-modulo="noticias">
+                  <span>Publicaciones</span><strong>Sin consultar</strong><small>Noticias y contenidos</small>
+                </article>
+              </div>
+            </section>
+            <section class="admin-inicio-bloque" aria-labelledby="admin-inicio-accesos-titulo">
+              <div class="admin-inicio-seccion-titulo">
+                <h3 id="admin-inicio-accesos-titulo">Accesos rápidos</h3>
+                <p>Se muestran únicamente las secciones habilitadas para tu cuenta.</p>
+              </div>
+              <div class="admin-inicio-accesos">
+                <button type="button" data-admin-inicio-acceso="estadisticas" hidden>Estadísticas</button>
+                <button type="button" data-admin-inicio-acceso="capacitaciones" hidden>Capacitaciones</button>
+                <button type="button" data-admin-inicio-acceso="calendario" hidden>Calendario</button>
+                <button type="button" data-admin-inicio-acceso="repositorio" hidden>Repositorio</button>
+                <button type="button" data-admin-inicio-acceso="noticias" hidden>Noticias</button>
+                <button type="button" data-admin-inicio-acceso="recurso-dia" hidden>Recursos del día</button>
+              </div>
+              <p class="admin-inicio-sin-accesos" id="admin-inicio-sin-accesos" hidden>No tienes módulos habilitados para acceso rápido.</p>
+            </section>
+            <section class="admin-inicio-bloque" aria-labelledby="admin-inicio-seguimiento-titulo">
+              <div class="admin-inicio-seccion-titulo">
+                <h3 id="admin-inicio-seguimiento-titulo">Seguimiento administrativo</h3>
+                <p>Las próximas actividades y publicaciones se incorporarán en la etapa de integración de datos.</p>
+              </div>
+              <div class="admin-inicio-seguimiento">
+                <p>Próximas actividades <span>Sin consultar</span></p>
+                <p>Publicaciones programadas <span>Sin consultar</span></p>
+                <p>Estado de consultas <span>Sin consultar</span></p>
+              </div>
+            </section>
           </section>
 
           <section class="tarjeta panel-seccion" id="panel-capacitaciones" hidden>
