@@ -2110,3 +2110,98 @@ html.eva-alto-contraste #panel-inicio .panel-inicio-logo{background:#fff!importa
 body.alto-contraste #panel-calendario :is(.cal-civico-config,.cal-civico-previa,.cal-civico-item,.cal-civico-aviso){background:#000!important;color:#fff!important;border-color:#fff!important;}
 body.alto-contraste #panel-calendario :is(.cal-civico-item-fecha,.cal-civico-cabecera p){color:#fff!important;}
 body.alto-contraste #panel-calendario .cal-subtabs button[aria-pressed="true"]{background:#000!important;color:#ffff00!important;outline:2px solid #ffff00;}
+
+
+/* EVA 2.0 · Corrección visual exclusiva del calendario cívico (2026-11-09).
+   No altera controles, datos, permisos ni el calendario institucional. */
+#panel-calendario #cal-admin-civico,
+#panel-calendario #cal-admin-civico .cal-civico-columnas,
+#panel-calendario #cal-admin-civico .cal-civico-columnas > div,
+#panel-calendario #cal-admin-civico .cal-civico-listado,
+#panel-calendario #cal-admin-civico .cal-civico-config,
+#panel-calendario #cal-admin-civico .cal-civico-previa {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+#panel-calendario #cal-admin-civico .cal-civico-item {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  gap: 6px;
+  padding: 12px 14px;
+  text-align: left;
+  white-space: normal;
+  overflow: visible;
+  line-height: 1.4;
+  box-sizing: border-box;
+}
+#panel-calendario #cal-admin-civico .cal-civico-item-fecha,
+#panel-calendario #cal-admin-civico .cal-civico-item strong {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+#panel-calendario #cal-admin-civico .cal-civico-item-fecha {
+  font-size: .82rem;
+  line-height: 1.4;
+}
+#panel-calendario #cal-admin-civico .cal-civico-item strong {
+  font-size: 1rem;
+  line-height: 1.45;
+}
+#panel-calendario #cal-admin-civico .cal-civico-filtros label {
+  min-width: 0;
+  max-width: 100%;
+}
+#panel-calendario #cal-admin-civico .cal-civico-filtros :is(input,select),
+#panel-calendario #cal-admin-civico .cal-civico-config select {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+#panel-calendario #cal-admin-civico .cal-civico-previa :is(strong,p),
+#panel-calendario #cal-admin-civico .cal-civico-config :is(h4,p) {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+@media (max-width: 920px) {
+  #panel-calendario #cal-admin-civico .cal-civico-columnas {
+    grid-template-columns: minmax(0,1fr);
+  }
+  #panel-calendario #cal-admin-civico .cal-civico-listado {
+    max-height: none;
+    overflow-y: visible;
+  }
+  #panel-calendario #cal-admin-civico .cal-civico-config {
+    width: 100%;
+  }
+}
+@media (max-width: 680px) {
+  #panel-calendario #cal-admin-civico .cal-civico-filtros {
+    grid-template-columns: minmax(0,1fr);
+  }
+  #panel-calendario #cal-admin-civico .cal-civico-filtros label {
+    width: 100%;
+    grid-column: auto;
+  }
+  #panel-calendario .cal-subtabs {
+    display: grid;
+    grid-template-columns: minmax(0,1fr);
+  }
+  #panel-calendario .cal-subtabs button {
+    width: 100%;
+    min-width: 0;
+    flex: none;
+  }
+}
