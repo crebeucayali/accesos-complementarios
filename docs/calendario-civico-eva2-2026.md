@@ -4,7 +4,7 @@ Actualización: 2026-11-09.
 
 ## Alcance implementado
 - Página pública permanente: `recursos/calendario-civico.html`.
-- Fuente única de fechas y fuentes: `recursos/calendario-civico.json`, actualmente con `anio: 2026` y 59 conmemoraciones seleccionadas.
+- Fuente única de fechas y fuentes: `recursos/calendario-civico.json`, actualmente con `anio: 2026` y 68 conmemoraciones seleccionadas.
 - Aplicación pública: `recursos/calendario-civico.js`.
 - Estilos compartidos y específicos: `recursos/calendarios.css`.
 - Abarca todos los días del año, del 1 de enero al 31 de diciembre; los días sin efemérides seleccionadas se muestran sin marca.
@@ -32,3 +32,8 @@ Actualización: 2026-11-09.
 - Feriados de Perú: https://www.gob.pe/feriados
 - CONADIS: https://www.gob.pe/institucion/conadis/noticias/307444-conmemoracion-del-dia-nacional-de-la-persona-con-discapacidad
 - OMS: https://www.who.int/es/campaigns/world-mental-health-day/2026
+
+## Ampliación selectiva de noviembre de 2026
+Se incorporaron ocho conmemoraciones con fuentes oficiales: Día del Psicólogo Peruano (30 de abril), Día de la Madre (10 de mayo de 2026), Día del Padre (21 de junio de 2026), Día Internacional de la Juventud (12 de agosto), Día de la Educación Física y el Deporte (8 de octubre), Día de la Educación Inclusiva en el Perú (16 de octubre), Día de la Educación Primaria (12 de noviembre) y Día Mundial para Prevenir la Explotación, los Abusos y la Violencia Sexuales contra los Niños y Promover la Sanación (18 de noviembre). Día Internacional de la Mujer (8 de marzo) y Día de la Educación Inicial (25 de mayo) ya existían y no fueron duplicados.
+
+Las fechas familiares son móviles por domingo y deben recalcularse al actualizar el calendario para cada año.
