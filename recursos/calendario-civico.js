@@ -74,7 +74,18 @@
       articulo.append(meta,nombre);
       if(fichaDatos&&typeof fichaDatos.antecedentes==="string"&&typeof fichaDatos.origen==="string"){
         const detalles=crear("details","civico-ficha");
-        const abrir=crear("summary","civico-ficha-abrir","Ver ficha técnica");
+        const abrir=crear("summary","civico-ficha-abrir","Conoce esta fecha");
+        // El cursor abre la información en escritorio; teclado y pantallas táctiles conservan el clic nativo.
+        detalles.addEventListener("pointerenter",(evento)=>{
+          if(evento.pointerType==="mouse"&&window.matchMedia("(hover: hover) and (pointer: fine)").matches) detalles.open=true;
+        });
+        detalles.addEventListener("pointerleave",(evento)=>{
+          if(evento.pointerType==="mouse"&&window.matchMedia("(hover: hover) and (pointer: fine)").matches
+             &&!detalles.contains(document.activeElement)) detalles.open=false;
+        });
+        detalles.addEventListener("focusout",(evento)=>{
+          if(!detalles.contains(evento.relatedTarget)&&!detalles.matches(":hover")) detalles.open=false;
+        });
         const contenido=crear("div","civico-ficha-contenido");
         function campo(etiqueta,valor){
           const bloque=crear("div","civico-ficha-campo");
