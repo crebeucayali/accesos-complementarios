@@ -68,3 +68,19 @@ html.eva-alto-contraste .civico-panel :is(h2,h3,h4,p,span,th,.civico-numero,.civ
 html.eva-alto-contraste .civico-panel :is(input,select,button){background:#000!important;color:#ffff00!important;border:2px solid #fff!important}
 html.eva-alto-contraste .civico-panel :is(a,.civico-fuente){color:#ffff00!important}
 html.eva-alto-contraste .civico-etiqueta{background:#000!important;color:#fff!important;border-color:#fff!important}
+
+
+/* EVA 2.0: fichas informativas de conmemoraciones, visibles al desplegar. */
+.civico-ficha{margin:12px 0 14px;border:1px solid #b8d3cf;border-radius:11px;background:#fff;min-width:0;overflow:hidden}
+.civico-ficha-abrir{display:list-item;cursor:pointer;padding:12px 15px;font-weight:800;color:#075750;line-height:1.45;list-style-position:inside}
+.civico-ficha-abrir:hover{background:#ecf6f2}
+.civico-ficha-abrir:focus-visible{outline:3px solid #ac5800;outline-offset:-3px}
+.civico-ficha[open] .civico-ficha-abrir{border-bottom:1px solid #c9dfdb;background:#eef7f3}
+.civico-ficha-contenido{display:flex;flex-direction:column;gap:15px;padding:15px}
+.civico-ficha-campo h5{font-size:.9rem;color:#124559;margin:0 0 6px;line-height:1.4}
+.civico-ficha-campo p{font-size:.9rem;line-height:1.65;margin:0;color:#334d60;overflow-wrap:anywhere}
+.civico-ficha-contenido .civico-fuente{display:inline-block;align-self:flex-start}
+.civico-evento>.civico-fuente{display:inline-block;margin-top:4px;line-height:1.5}
+@media(max-width:640px){.civico-ficha-abrir{padding:12px}.civico-ficha-contenido{padding:12px}}
+html.eva-alto-contraste .civico-panel :is(.civico-ficha,.civico-ficha[open] .civico-ficha-abrir,.civico-ficha-abrir:hover){background:#000!important;color:#fff!important;border-color:#fff!important}
+html.eva-alto-contraste .civico-panel .civico-ficha-campo h5{color:#ffff00!important}
