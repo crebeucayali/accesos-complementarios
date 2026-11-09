@@ -535,3 +535,17 @@
 /* Control operativo: días con dos o más actividades */
 .calendario-actividades td.celda-multiples-actividades{height:auto;min-height:150px}
 .calendario-actividades td.celda-multiples-actividades .datos-actividad + .datos-actividad{margin-top:8px;padding-top:8px;border-top:1px dashed currentColor}
+
+
+/* EVA 2.0: pestañas del calendario institucional por año. */
+.calendario-anios-nav{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 10px}
+.calendario-anios-nav button{min-height:44px;padding:10px 17px;font:inherit;font-weight:750;border:2px solid #87b9b0;border-radius:12px;background:#fff;color:#15534e;cursor:pointer}
+.calendario-anios-nav button[aria-pressed="true"]{background:#0d6059;color:#fff;border-color:#0d6059}
+.calendario-anios-nav button:hover{border-color:#08534f}
+.calendario-anios-nav button:focus-visible{outline:3px solid #b45309;outline-offset:3px}
+.calendario-anios-estado{margin:8px 0 18px;color:#345d67;line-height:1.5}
+#calendario-anio-2026[hidden],#calendario-anio-dinamico[hidden]{display:none!important}
+.calendario-anio-linea{display:block;line-height:1.5;margin:0 0 3px;overflow-wrap:anywhere}
+html.eva-alto-contraste .calendario-anios-nav button{background:#000!important;color:#ffff00!important;border-color:#fff!important}
+html.eva-alto-contraste .calendario-anios-nav button[aria-pressed="true"]{outline:3px solid #ffff00;outline-offset:2px}
+html.eva-alto-contraste .calendario-anios-estado{color:#fff!important}
