@@ -463,3 +463,12 @@ En EVA Inicio, las superficies claras de “Actualidad EVA” y “Líneas de ac
 5. Confirmar despliegue en GitHub Pages y ausencia de referencias obsoletas en páginas activas no indexadas.
 
 No debe interpretarse esta actualización de código como certificación de conformidad WCAG ni como validación visual completa.
+
+
+### Seguimiento por repositorios tras validación visual (2026-11-09)
+
+Una captura posterior de CAP (segunda jornada) permitió detectar fechas con texto claro sobre fondo claro y paneles de recursos que mantenían blanco en modo alto contraste. Se añadieron reglas CSS específicas en `capacitaciones/estilos.css` para tarjetas, fechas, materiales y estados, con invalidación de caché en sus tres páginas principales.
+
+La revisión estática posterior encontró superficies y distintivos con fondos locales claros en las portadas de BDA, MEA, NI, RA y AC. Se añadieron correcciones condicionadas a `html.eva-alto-contraste` en sus respectivos `estilos.css` y se incrementaron las versiones de caché de sus portadas. En DUA 3.0 se corrigieron superficies propias de `dua-interactivo.css` y se renovó la referencia de su portada.
+
+Las modificaciones son específicas del módulo y no cambian el motor global de accesibilidad `v12`. No se afirma validación visual ni cumplimiento WCAG 2.2 AA sin una comprobación real del navegador, estados interactivos y páginas internas. Páginas con CSS propio, vistas previas embebidas, PDFs y herramientas complejas requieren revisión adicional.
