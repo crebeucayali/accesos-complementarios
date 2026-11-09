@@ -76,6 +76,22 @@
     window.EvaRecursoDiaAdmin?.limpiar();
   }
 
+  function actualizarAccesosInicio() {
+    let visibles = 0;
+    document.querySelectorAll("#panel-inicio [data-admin-inicio-acceso]").forEach(boton => {
+      const modulo = boton.dataset.adminInicioAcceso;
+      const permitido = permitePanel(modulo);
+      boton.hidden = !permitido;
+      boton.disabled = !permitido;
+      if (permitido) visibles++;
+    });
+    document.querySelectorAll("#panel-inicio [data-admin-inicio-modulo]").forEach(tarjeta => {
+      tarjeta.hidden = !permitePanel(tarjeta.dataset.adminInicioModulo);
+    });
+    const aviso = $("admin-inicio-sin-accesos");
+    if (aviso) aviso.hidden = visibles > 0;
+  }
+
   function aplicarPermisos() {
     document.querySelectorAll(".tab").forEach(boton => {
       boton.hidden = !permitePanel(boton.dataset.panel);
@@ -102,6 +118,7 @@
     window.EvaRAMaterialesSemana?.configurar(perfil);
     window.EvaRecursoDiaAdmin?.configurar(perfil);
     window.EvaUsuarios?.configurar(perfil);
+    actualizarAccesosInicio();
     window.EvaPublicacion?.configurar(perfil, {alCambiar: async modulo => {
       if (!permitePanel(modulo,true)) return;
       const cargadores = {capacitaciones:cargarCapacitaciones,calendario:cargarCalendario,repositorio:cargarRepositorio,noticias:cargarNoticiasDestacadas,galeria:cargarGaleriaAdmin};
@@ -2519,6 +2536,15 @@
     cambiarMenu(false, true);
   }
   botonInicioAdmin?.addEventListener("click", seleccionarInicio);
+  document.querySelectorAll("#panel-inicio [data-admin-inicio-acceso]").forEach(acceso => {
+    acceso.addEventListener("click", () => {
+      const modulo = acceso.dataset.adminInicioAcceso;
+      if (!permitePanel(modulo)) return;
+      const destino = Array.from(document.querySelectorAll("#seccion-admin .tab"))
+        .find(tab => tab.dataset.panel === modulo && !tab.hidden && !tab.disabled);
+      destino?.click();
+    });
+  });
   botonAbrirMenu?.addEventListener("click", () => cambiarMenu(!menuAbierto));
   botonCerrarMenu?.addEventListener("click", () => cambiarMenu(false, true));
   fondoMenu?.addEventListener("click", () => cambiarMenu(false, true));
