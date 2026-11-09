@@ -253,6 +253,40 @@ html.eva-alto-contraste textarea{
   border-color:#ffffff !important;
 }
 
+/* Contenedores EVA con fondos propios que no usan section/article/card.
+   Mantenerlos oscuros antes de aplicar el blanco a sus textos interiores. */
+html.eva-alto-contraste :is(
+  .eva-lateral-cabecera,
+  .eva-lateral-bloque,
+  .bloque-lineas,
+  .linea-item,
+  .lista-lineas,
+  .tarjeta-acceso,
+  .eva-lateral-lista,
+  .eva-lateral-accesos
+){
+  background:#000000 !important;
+  color:#ffffff !important;
+  border-color:#ffffff !important;
+}
+html.eva-alto-contraste :is(
+  .eva-lateral-cabecera,
+  .eva-lateral-bloque,
+  .bloque-lineas,
+  .linea-item
+) :is(h1,h2,h3,h4,p,small,strong,span,li){
+  color:#ffffff !important;
+  opacity:1 !important;
+}
+html.eva-alto-contraste :is(
+  .eva-lateral-cabecera,
+  .eva-lateral-bloque,
+  .bloque-lineas,
+  .linea-item
+) a{
+  color:#ffff00 !important;
+}
+
 html.eva-alto-contraste img,
 html.eva-alto-contraste video{outline:2px solid #ffffff;}
 
