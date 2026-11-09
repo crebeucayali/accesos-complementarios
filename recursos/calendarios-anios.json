@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "zona_horaria": "America/Lima",
+  "anios": [
+    2026,
+    2027
+  ],
+  "anio_inicial": 2026,
+  "nota": "El año inicial se determina automáticamente en Perú si está disponible en anios. La lista solo controla pestañas; los eventos publicados siguen en Supabase."
+}
