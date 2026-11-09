@@ -1961,3 +1961,112 @@ body.alto-contraste #panel-recurso-dia :is(.dia-fuente-detalle small,#dia-fuente
   #panel-recurso-dia .dia-fuente-detalle button {font-size:.82rem;}
   #panel-recurso-dia .dia-fuente-seleccion {max-width:none;}
 }
+
+
+/* EVA 2.0: portada administrativa compacta y responsiva.
+   La etapa visual no obtiene datos del servidor ni modifica permisos. */
+#seccion-admin #panel-inicio.panel-inicio-admin:not([hidden]){
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  align-items:stretch;
+  gap:22px;
+  min-height:360px;
+  padding:clamp(18px,3vw,30px);
+  width:100%;
+  min-width:0;
+}
+#panel-inicio .admin-inicio-cabecera{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  padding:0 0 20px;
+  border-bottom:1px solid #cbdde2;
+}
+#panel-inicio .panel-inicio-logo{
+  width:76px;
+  max-width:25%;
+  height:76px;
+  object-fit:contain;
+  flex-shrink:0;
+}
+#panel-inicio .admin-inicio-cabecera>div{min-width:0;}
+#panel-inicio .admin-inicio-kicker{
+  margin:0 0 4px;
+  color:#0f766e;
+  font-size:.78rem;
+  font-weight:850;
+  letter-spacing:.04em;
+}
+#panel-inicio .admin-inicio-cabecera h2{
+  margin:0 0 5px;
+  color:#0b3550;
+  font-size:clamp(1.4rem,2.5vw,2rem);
+  line-height:1.2;
+}
+#panel-inicio .admin-inicio-cabecera p:last-child{margin:0;line-height:1.55;}
+#panel-inicio .admin-inicio-bloque{min-width:0;}
+#panel-inicio .admin-inicio-seccion-titulo{margin-bottom:12px;}
+#panel-inicio .admin-inicio-seccion-titulo h3{margin:0 0 4px;color:#0b3550;font-size:1.05rem;}
+#panel-inicio .admin-inicio-seccion-titulo p{margin:0;color:#486581;font-size:.88rem;line-height:1.55;}
+#panel-inicio .admin-inicio-indicadores{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+#panel-inicio .admin-inicio-indicador{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  padding:16px;
+  min-width:0;
+  background:#f5faf9;
+  border:1px solid #bedbd8;
+  border-radius:14px;
+}
+#panel-inicio .admin-inicio-indicador>span{font-size:.86rem;font-weight:800;color:#17465a;}
+#panel-inicio .admin-inicio-indicador strong{font-size:1.04rem;color:#0b3550;overflow-wrap:anywhere;}
+#panel-inicio .admin-inicio-indicador small{font-size:.79rem;color:#486581;}
+#panel-inicio .admin-inicio-accesos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+#panel-inicio .admin-inicio-accesos button:not([hidden]){
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  text-align:left;
+  padding:12px 14px;
+  min-height:46px;
+  border:1px solid #94bfb9;
+  border-radius:12px;
+  background:#eaf6f2;
+  color:#0b4f4a;
+  font:inherit;
+  font-weight:750;
+  cursor:pointer;
+}
+#panel-inicio .admin-inicio-accesos button:not([hidden])::after{content:"›";font-size:1.2rem;}
+#panel-inicio .admin-inicio-accesos button:hover{background:#d5eee7;}
+#panel-inicio .admin-inicio-accesos button:focus-visible{outline:3px solid #b45309;outline-offset:2px;}
+#panel-inicio .admin-inicio-sin-accesos{font-size:.9rem;}
+#panel-inicio .admin-inicio-seguimiento{border:1px solid #d4e2e6;border-radius:14px;overflow:hidden;}
+#panel-inicio .admin-inicio-seguimiento p{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:13px 15px;margin:0;color:#173e55;font-size:.88rem;
+}
+#panel-inicio .admin-inicio-seguimiento p+p{border-top:1px solid #d4e2e6;}
+#panel-inicio .admin-inicio-seguimiento span{color:#486581;font-size:.82rem;}
+@media(max-width:620px){
+  #seccion-admin #panel-inicio.panel-inicio-admin:not([hidden]){padding:18px;gap:20px;}
+  #panel-inicio .admin-inicio-cabecera{align-items:flex-start;gap:12px;}
+  #panel-inicio .panel-inicio-logo{width:56px;height:56px;}
+  #panel-inicio .admin-inicio-indicadores,
+  #panel-inicio .admin-inicio-accesos{grid-template-columns:1fr;}
+  #panel-inicio .admin-inicio-seguimiento p{flex-wrap:wrap;}
+}
+html.eva-alto-contraste #panel-inicio :is(.admin-inicio-cabecera,.admin-inicio-indicador,.admin-inicio-seguimiento,.admin-inicio-seguimiento p){
+  background:#000!important;color:#fff!important;border-color:#fff!important;
+}
+html.eva-alto-contraste #panel-inicio :is(h2,h3,p,span,strong,small){color:#fff!important;}
+html.eva-alto-contraste #panel-inicio .admin-inicio-accesos button:not([hidden]){
+  background:#000!important;color:#ffff00!important;border:2px solid #fff!important;
+}
+html.eva-alto-contraste #panel-inicio .panel-inicio-logo{background:#fff!important;border-radius:10px;padding:5px;}
