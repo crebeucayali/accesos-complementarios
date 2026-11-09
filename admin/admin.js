@@ -100,6 +100,7 @@
     window.EvaRAMaterialesSemana?.limpiar();
     window.EvaRecursoDiaAdmin?.limpiar();
     window.EvaCalendarioCivicoAdmin?.limpiar();
+    window.EvaCalendarioCivicoTarjetas?.limpiar();
   }
 
   function actualizarAccesosInicio() {
@@ -144,6 +145,7 @@
     window.EvaRAMaterialesSemana?.configurar(perfil);
     window.EvaRecursoDiaAdmin?.configurar(perfil);
     window.EvaCalendarioCivicoAdmin?.configurar(permitePanel("calendario") ? perfil : null);
+    window.EvaCalendarioCivicoTarjetas?.configurar(permitePanel("calendario") ? perfil : null);
     window.EvaUsuarios?.configurar(perfil);
     actualizarAccesosInicio();
     window.EvaPublicacion?.configurar(perfil, {alCambiar: async modulo => {
