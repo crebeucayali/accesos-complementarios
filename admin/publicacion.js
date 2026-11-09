@@ -61,6 +61,8 @@
           datos.push(...pagina); if(pagina.length<250) break;
         }
         listas.set(modulo,datos); pintar(modulo);
+        // Notificar disponibilidad sin exponer filas ni datos privados en el evento.
+        document.dispatchEvent(new CustomEvent("eva:publicaciones-actualizadas",{detail:{modulo}}));
         mensaje(modulo,modulo==="capacitaciones" && filtroCapacitacionesPendiente
           ?"Publicar y archivar están pausados hasta completar el filtro de la página pública de Capacitaciones."
           :datos.length?"":"No hay contenido publicado o archivado disponible.");
@@ -141,5 +143,13 @@
 
   prepararMaterialesComplementariosSimples();
   for(const modulo of Object.keys(tablas)) $("publicacion-recargar-"+modulo)?.addEventListener("click",()=>cargar(modulo).catch(()=>{}));
-  window.EvaPublicacion={configurar,limpiar,cargar,cargarTodos:()=>Promise.all(Object.keys(tablas).filter(permite).map(cargar))};
+  function obtenerResumen(modulo) {
+    if (!permite(modulo) || !listas.has(modulo)) return null;
+    const filas=listas.get(modulo);
+    return Object.freeze({
+      total:filas.length,
+      publicados:filas.filter(fila=>estado(fila)==="publicado" && fila.visible!==false).length
+    });
+  }
+  window.EvaPublicacion={configurar,limpiar,cargar,cargarTodos:()=>Promise.all(Object.keys(tablas).filter(permite).map(cargar)),obtenerResumen};
 })();
