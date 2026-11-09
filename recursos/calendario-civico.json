@@ -221,6 +221,15 @@
       "destacada": false
     },
     {
+      "fecha": "2026-06-27",
+      "titulo": "Día Internacional de la Sordoceguera",
+      "categoria": "Inclusión",
+      "descripcion": "Reconoce la comunicación accesible y los derechos de las personas con sordoceguera.",
+      "fuente": "CONADIS",
+      "fuente_url": "https://www.gob.pe/institucion/conadis/noticias/22021-27-de-junio-diainternacional-de-la-sordoceguera",
+      "destacada": true
+    },
+    {
       "fecha": "2026-07-06",
       "titulo": "Día del Maestro",
       "categoria": "Educación",
@@ -321,21 +330,21 @@
     },
     {
       "fecha": "2026-09-23",
-      "titulo": "Día Internacional de las Lenguas de Señas",
-      "categoria": "Inclusión",
-      "descripcion": "Reconoce las lenguas de señas y los derechos lingüísticos de las personas sordas.",
-      "fuente": "Naciones Unidas",
-      "fuente_url": "https://www.un.org/es/observances/multilingualism",
-      "destacada": true
-    },
-    {
-      "fecha": "2026-09-23",
       "titulo": "Día de la Primavera y la Juventud",
       "categoria": "Cívica",
       "descripcion": "Fecha del calendario escolar para celebrar la juventud y su participación.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
       "destacada": false
+    },
+    {
+      "fecha": "2026-09-23",
+      "titulo": "Día Internacional de las Lenguas de Señas",
+      "categoria": "Inclusión",
+      "descripcion": "Reconoce las lenguas de señas y los derechos lingüísticos de las personas sordas.",
+      "fuente": "Naciones Unidas",
+      "fuente_url": "https://www.un.org/es/observances/multilingualism",
+      "destacada": true
     },
     {
       "fecha": "2026-10-05",
@@ -356,12 +365,12 @@
       "destacada": false
     },
     {
-      "fecha": "2026-10-16",
-      "titulo": "Día Nacional de la Persona con Discapacidad",
+      "fecha": "2026-10-10",
+      "titulo": "Día Mundial de la Salud Mental",
       "categoria": "Inclusión",
-      "descripcion": "Conmemoración peruana dedicada a los derechos y la inclusión de las personas con discapacidad.",
-      "fuente": "CONADIS",
-      "fuente_url": "https://www.gob.pe/institucion/conadis/noticias/307444-conmemoracion-del-dia-nacional-de-la-persona-con-discapacidad",
+      "descripcion": "Promueve el cuidado de la salud mental, la participación y la reducción del estigma.",
+      "fuente": "Organización Mundial de la Salud",
+      "fuente_url": "https://www.who.int/es/campaigns/world-mental-health-day/2026",
       "destacada": true
     },
     {
@@ -372,6 +381,15 @@
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
       "destacada": false
+    },
+    {
+      "fecha": "2026-10-16",
+      "titulo": "Día Nacional de la Persona con Discapacidad",
+      "categoria": "Inclusión",
+      "descripcion": "Conmemoración peruana dedicada a los derechos y la inclusión de las personas con discapacidad.",
+      "fuente": "CONADIS",
+      "fuente_url": "https://www.gob.pe/institucion/conadis/noticias/307444-conmemoracion-del-dia-nacional-de-la-persona-con-discapacidad",
+      "destacada": true
     },
     {
       "fecha": "2026-10-17",
@@ -471,6 +489,15 @@
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/list-days-weeks",
       "destacada": true
+    },
+    {
+      "fecha": "2026-12-05",
+      "titulo": "Día Internacional de los Voluntarios",
+      "categoria": "Cívica",
+      "descripcion": "Reconoce la contribución del voluntariado al bienestar y al desarrollo de las comunidades.",
+      "fuente": "Naciones Unidas",
+      "fuente_url": "https://www.un.org/es/observances/volunteer-day",
+      "destacada": false
     },
     {
       "fecha": "2026-12-08",
