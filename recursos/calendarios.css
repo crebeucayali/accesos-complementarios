@@ -10,3 +10,13 @@
 @media(max-width:720px){.calendarios-dos-tarjetas{grid-template-columns:1fr}.calendarios-tarjeta{padding:20px}}
 html.eva-alto-contraste .calendarios-tarjeta{background:#000!important;color:#fff!important;border-color:#fff!important}
 html.eva-alto-contraste .calendarios-tarjeta :is(h2,p,.entrada){color:#fff!important}
+
+
+/* EVA 2.0: fotografías de las tarjetas de acceso a calendarios. */
+.calendarios-tarjeta{padding:0;gap:0;overflow:hidden;}
+.calendarios-imagen{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;object-position:center;background:#dae7e8;}
+.calendarios-tarjeta-contenido{display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:22px;flex:1;}
+.calendarios-tarjeta-contenido .entrada{margin-top:auto;}
+@media(max-width:720px){.calendarios-tarjeta-contenido{padding:20px;}}
+@media(prefers-reduced-motion:no-preference){.calendarios-imagen{transition:transform .2s ease}.calendarios-tarjeta:hover .calendarios-imagen{transform:scale(1.015)}}
+html.eva-alto-contraste .calendarios-tarjeta{outline-offset:3px;}
