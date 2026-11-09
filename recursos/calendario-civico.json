@@ -11,7 +11,12 @@
       "descripcion": "Inicio del año calendario; feriado nacional en Perú.",
       "fuente": "Estado Peruano",
       "fuente_url": "https://www.gob.pe/feriados",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Inicio del año calendario; feriado nacional en Perú.",
+        "antecedentes": "El inicio del año se rige por el calendario gregoriano y en Perú es un feriado nacional.",
+        "origen": "Feriado reconocido en el calendario peruano; no tiene un año único de instauración reciente."
+      }
     },
     {
       "fecha": "2026-01-04",
@@ -20,7 +25,13 @@
       "descripcion": "Reconoce el braille como medio de comunicación y acceso a la información de personas con discapacidad visual.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/multilingualism",
-      "destacada": true
+      "destacada": true,
+      "ficha": {
+        "motivo": "Reconoce el braille como medio de comunicación y acceso a la información de personas con discapacidad visual.",
+        "antecedentes": "Se recuerda el nacimiento de Louis Braille, creador de un sistema táctil de lectura y escritura.",
+        "origen": "Proclamación de la ONU en 2018; primera observancia en 2019.",
+        "fuente_historia_url": "https://www.un.org/es/observances/braille-day"
+      }
     },
     {
       "fecha": "2026-01-24",
@@ -29,7 +40,13 @@
       "descripcion": "Promueve el derecho a una educación inclusiva, equitativa y de calidad.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/education",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Promueve el derecho a una educación inclusiva, equitativa y de calidad.",
+        "antecedentes": "Se fundamenta en el reconocimiento internacional de la educación como derecho humano y herramienta para la paz.",
+        "origen": "La ONU la proclamó mediante la resolución 73/25 en 2018.",
+        "fuente_historia_url": "https://www.un.org/es/observances/education-day/background"
+      }
     },
     {
       "fecha": "2026-02-11",
@@ -38,7 +55,12 @@
       "descripcion": "Invita a superar barreras y promover la participación de niñas y mujeres en las ciencias.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/list-days-weeks",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Invita a superar barreras y promover la participación de niñas y mujeres en las ciencias.",
+        "antecedentes": "Responde a las brechas históricas de participación de mujeres y niñas en carreras científicas.",
+        "origen": "La Asamblea General de la ONU la estableció en 2015."
+      }
     },
     {
       "fecha": "2026-02-20",
@@ -47,7 +69,12 @@
       "descripcion": "Reflexión sobre igualdad de oportunidades, derechos y eliminación de barreras sociales.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/list-days-weeks",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Reflexión sobre igualdad de oportunidades, derechos y eliminación de barreras sociales.",
+        "antecedentes": "Nació de los debates internacionales sobre equidad, trabajo decente y reducción de desigualdades.",
+        "origen": "Aprobada por Naciones Unidas en 2007; se observa desde 2009."
+      }
     },
     {
       "fecha": "2026-02-21",
@@ -56,7 +83,12 @@
       "descripcion": "Reconoce la diversidad lingüística y la educación respetuosa de las lenguas de origen.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/multilingualism",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Reconoce la diversidad lingüística y la educación respetuosa de las lenguas de origen.",
+        "antecedentes": "Recuerda a quienes defendieron la lengua bengalí en 1952 y la necesidad de proteger las lenguas maternas.",
+        "origen": "La UNESCO la proclamó en 1999; comenzó a celebrarse en 2000."
+      }
     },
     {
       "fecha": "2026-03-08",
@@ -65,7 +97,13 @@
       "descripcion": "Conmemoración de los derechos de las mujeres y la igualdad de oportunidades.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Conmemoración de los derechos de las mujeres y la igualdad de oportunidades.",
+        "antecedentes": "Tiene sus raíces en las movilizaciones de mujeres por igualdad y derechos laborales y políticos a comienzos del siglo XX.",
+        "origen": "La ONU comenzó a observarla en 1975 y la reconoció oficialmente en 1977.",
+        "fuente_historia_url": "https://www.un.org/es/observances/womens-day/background"
+      }
     },
     {
       "fecha": "2026-03-21",
@@ -74,7 +112,13 @@
       "descripcion": "Promueve el respeto, la participación y los derechos de las personas con síndrome de Down.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/list-days-weeks",
-      "destacada": true
+      "destacada": true,
+      "ficha": {
+        "motivo": "Promueve el respeto, la participación y los derechos de las personas con síndrome de Down.",
+        "antecedentes": "El día 21 del mes 3 alude a la trisomía del cromosoma 21 y promueve los derechos de las personas con síndrome de Down.",
+        "origen": "La ONU proclamó la fecha en diciembre de 2011.",
+        "fuente_historia_url": "https://www.un.org/es/observances/down-syndrome-day"
+      }
     },
     {
       "fecha": "2026-03-22",
@@ -83,7 +127,12 @@
       "descripcion": "Propicia el cuidado y uso responsable del agua en la comunidad educativa.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Propicia el cuidado y uso responsable del agua en la comunidad educativa.",
+        "antecedentes": "Surgió después de la Conferencia de Río sobre medio ambiente y desarrollo, que impulsó el cuidado del agua.",
+        "origen": "La ONU la estableció en 1992; se celebra desde 1993."
+      }
     },
     {
       "fecha": "2026-04-01",
@@ -92,7 +141,12 @@
       "descripcion": "Reconoce el papel de la educación en el desarrollo y la ciudadanía.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Reconoce el papel de la educación en el desarrollo y la ciudadanía.",
+        "antecedentes": "El calendario cívico escolar peruano dedica esta jornada a reflexionar sobre el acceso y el valor social de la educación.",
+        "origen": "Figura el 1 de abril en el calendario MINEDU; la fuente consultada no indica el año de instauración."
+      }
     },
     {
       "fecha": "2026-04-02",
@@ -101,7 +155,13 @@
       "descripcion": "Promueve el reconocimiento de derechos y la participación de las personas autistas.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/health",
-      "destacada": true
+      "destacada": true,
+      "ficha": {
+        "motivo": "Promueve el reconocimiento de derechos y la participación de las personas autistas.",
+        "antecedentes": "Su reconocimiento internacional busca visibilizar los derechos y la participación social de las personas autistas.",
+        "origen": "La ONU la aprobó en 2007 y comenzó a observarla en 2008.",
+        "fuente_historia_url": "https://www.un.org/es/observances/autism-day"
+      }
     },
     {
       "fecha": "2026-04-07",
@@ -110,7 +170,12 @@
       "descripcion": "Oportunidad para trabajar hábitos saludables y el acceso equitativo a servicios de salud.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/health",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Oportunidad para trabajar hábitos saludables y el acceso equitativo a servicios de salud.",
+        "antecedentes": "El día coincide con la entrada en vigor de la Constitución de la Organización Mundial de la Salud.",
+        "origen": "Se celebra desde 1950; la Constitución de la OMS entró en vigor el 7 de abril de 1948."
+      }
     },
     {
       "fecha": "2026-04-12",
@@ -119,7 +184,12 @@
       "descripcion": "Conmemoración nacional del segundo domingo de abril dedicada a la niñez y sus derechos.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Conmemoración nacional del segundo domingo de abril dedicada a la niñez y sus derechos.",
+        "antecedentes": "La celebración peruana se dedica a la protección y los derechos de la niñez y cambia de fecha cada año.",
+        "origen": "Se observa el segundo domingo de abril; en 2026 fue el 12 de abril."
+      }
     },
     {
       "fecha": "2026-04-18",
@@ -128,7 +198,12 @@
       "descripcion": "Reconoce oportunidades educativas para jóvenes y adultos en la Educación Básica Alternativa.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Reconoce oportunidades educativas para jóvenes y adultos en la Educación Básica Alternativa.",
+        "antecedentes": "Destaca las oportunidades educativas para personas jóvenes y adultas que requieren trayectorias flexibles.",
+        "origen": "Figura el 18 de abril en el calendario escolar MINEDU; año de creación no especificado."
+      }
     },
     {
       "fecha": "2026-04-22",
@@ -137,7 +212,12 @@
       "descripcion": "Promueve el cuidado del ambiente y la responsabilidad compartida.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Promueve el cuidado del ambiente y la responsabilidad compartida.",
+        "antecedentes": "El movimiento ambientalista impulsó actividades de sensibilización sobre contaminación y conservación.",
+        "origen": "La primera celebración tuvo lugar en 1970 y luego se extendió internacionalmente."
+      }
     },
     {
       "fecha": "2026-04-23",
@@ -146,7 +226,12 @@
       "descripcion": "Promueve la lectura, la creación y el acceso a materiales en formatos accesibles.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/education",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Promueve la lectura, la creación y el acceso a materiales en formatos accesibles.",
+        "antecedentes": "La UNESCO escogió el 23 de abril como fecha simbólica ligada a la historia de la literatura y la lectura.",
+        "origen": "Proclamación de la UNESCO en 1995."
+      }
     },
     {
       "fecha": "2026-04-30",
@@ -155,7 +240,13 @@
       "descripcion": "Reconoce la contribución de las y los profesionales de psicología al bienestar socioemocional, el aprendizaje y la atención educativa.",
       "fuente": "Ministerio de Salud del Perú",
       "fuente_url": "https://www.gob.pe/institucion/hcllh/noticias/1391208-dia-del-psicologo",
-      "destacada": true
+      "destacada": true,
+      "ficha": {
+        "motivo": "Reconoce la contribución de las y los profesionales de psicología al bienestar socioemocional, el aprendizaje y la atención educativa.",
+        "antecedentes": "La celebración peruana se vincula a la creación de la institución profesional que representa a psicólogos.",
+        "origen": "La creación del Colegio de Psicólogos del Perú en 1980 es el antecedente de la fecha.",
+        "fuente_historia_url": "https://www.gob.pe/institucion/hnhu/noticias/490305-dia-del-psicologo-peruano-y-su-rol-en-tiempos-de-pandemia"
+      }
     },
     {
       "fecha": "2026-05-01",
@@ -164,7 +255,12 @@
       "descripcion": "Reconoce los derechos laborales y la contribución de las personas trabajadoras.",
       "fuente": "Estado Peruano",
       "fuente_url": "https://www.gob.pe/feriados",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Reconoce los derechos laborales y la contribución de las personas trabajadoras.",
+        "antecedentes": "Surge de las demandas del movimiento obrero por mejores condiciones y jornadas de trabajo.",
+        "origen": "Sus antecedentes internacionales se relacionan con las luchas laborales de 1886."
+      }
     },
     {
       "fecha": "2026-05-10",
@@ -173,7 +269,12 @@
       "descripcion": "Celebración familiar que reconoce la diversidad de experiencias de maternidad y los vínculos de cuidado y acompañamiento.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Celebración familiar que reconoce la diversidad de experiencias de maternidad y los vínculos de cuidado y acompañamiento.",
+        "antecedentes": "En el Perú se dedica el segundo domingo de mayo al reconocimiento del cuidado materno y los vínculos familiares.",
+        "origen": "En 2026 cayó el 10 de mayo; su día exacto cambia cada año."
+      }
     },
     {
       "fecha": "2026-05-15",
@@ -182,7 +283,13 @@
       "descripcion": "Invita a valorar la diversidad familiar y el apoyo a la educación de niñas, niños y adolescentes.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/list-days-weeks",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Invita a valorar la diversidad familiar y el apoyo a la educación de niñas, niños y adolescentes.",
+        "antecedentes": "La ONU promovió la jornada para analizar necesidades, cuidados y transformaciones de las familias.",
+        "origen": "Reconocida en 1993 y celebrada internacionalmente desde 1994.",
+        "fuente_historia_url": "https://www.un.org/es/observances/international-day-of-families"
+      }
     },
     {
       "fecha": "2026-05-25",
@@ -191,7 +298,13 @@
       "descripcion": "Reconoce la educación de la primera infancia y su importancia para el desarrollo.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Reconoce la educación de la primera infancia y su importancia para el desarrollo.",
+        "antecedentes": "Recuerda el primer jardín de infancia estatal peruano impulsado por Victoria y Emilia Barcia Boniffatti.",
+        "origen": "El jardín comenzó a funcionar el 25 de mayo de 1931.",
+        "fuente_historia_url": "https://observatorio.minedu.gob.pe/investigaciones/articulos/historia-de-la-educacion-inicial/"
+      }
     },
     {
       "fecha": "2026-05-28",
@@ -200,7 +313,12 @@
       "descripcion": "Invita a valorar el juego como oportunidad de aprendizaje, participación y desarrollo.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Invita a valorar el juego como oportunidad de aprendizaje, participación y desarrollo.",
+        "antecedentes": "El calendario escolar del Perú destaca el juego como actividad esencial para la infancia.",
+        "origen": "MINEDU consigna el 28 de mayo; no es el Día Internacional del Juego de la ONU del 11 de junio."
+      }
     },
     {
       "fecha": "2026-06-05",
@@ -209,7 +327,13 @@
       "descripcion": "Motiva acciones educativas en favor del cuidado ambiental.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Motiva acciones educativas en favor del cuidado ambiental.",
+        "antecedentes": "Su origen está ligado a la Conferencia de Estocolmo y al nacimiento de la agenda ambiental internacional.",
+        "origen": "Establecido por la ONU en 1972; primera celebración en 1973.",
+        "fuente_historia_url": "https://www.un.org/es/observances/environment-day"
+      }
     },
     {
       "fecha": "2026-06-07",
@@ -218,7 +342,12 @@
       "descripcion": "Conmemora la Batalla de Arica y los símbolos patrios del Perú.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Conmemora la Batalla de Arica y los símbolos patrios del Perú.",
+        "antecedentes": "Recuerda la resistencia peruana en la Batalla de Arica y la figura histórica de Francisco Bolognesi.",
+        "origen": "La Batalla de Arica se libró el 7 de junio de 1880."
+      }
     },
     {
       "fecha": "2026-06-12",
@@ -227,7 +356,12 @@
       "descripcion": "Sensibiliza sobre la protección de la niñez y el derecho a estudiar.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Sensibiliza sobre la protección de la niñez y el derecho a estudiar.",
+        "antecedentes": "La Organización Internacional del Trabajo impulsó acciones contra el trabajo infantil que vulnera derechos.",
+        "origen": "La OIT lanzó la jornada en 2002."
+      }
     },
     {
       "fecha": "2026-06-21",
@@ -236,7 +370,12 @@
       "descripcion": "Reconoce la participación de los padres y figuras paternas en el cuidado, la crianza y el acompañamiento educativo.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Reconoce la participación de los padres y figuras paternas en el cuidado, la crianza y el acompañamiento educativo.",
+        "antecedentes": "En Perú se dedica el tercer domingo de junio a los padres y otras figuras paternas de cuidado.",
+        "origen": "En 2026 cayó el 21 de junio; la fecha varía anualmente."
+      }
     },
     {
       "fecha": "2026-06-24",
@@ -245,7 +384,12 @@
       "descripcion": "Reconoce la contribución de las comunidades campesinas al país.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Reconoce la contribución de las comunidades campesinas al país.",
+        "antecedentes": "Reconoce el trabajo de las comunidades campesinas y su aporte a la alimentación y la cultura.",
+        "origen": "La denominación Día del Campesino se estableció en Perú en 1969."
+      }
     },
     {
       "fecha": "2026-06-27",
@@ -254,7 +398,12 @@
       "descripcion": "Reconoce la comunicación accesible y los derechos de las personas con sordoceguera.",
       "fuente": "CONADIS",
       "fuente_url": "https://www.gob.pe/institucion/conadis/noticias/22021-27-de-junio-diainternacional-de-la-sordoceguera",
-      "destacada": true
+      "destacada": true,
+      "ficha": {
+        "motivo": "Reconoce la comunicación accesible y los derechos de las personas con sordoceguera.",
+        "antecedentes": "Se relaciona con el nacimiento de Helen Keller, referente de la educación y los derechos de personas sordociegas.",
+        "origen": "Helen Keller nació el 27 de junio de 1880; la fuente no fija un año de instauración universal."
+      }
     },
     {
       "fecha": "2026-07-06",
@@ -263,7 +412,12 @@
       "descripcion": "Reconoce la labor docente y su compromiso con una educación de calidad.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/1307864-cronologia-historica-del-ministerio-de-educacion",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Reconoce la labor docente y su compromiso con una educación de calidad.",
+        "antecedentes": "La fecha recuerda los antecedentes de formación docente establecidos al inicio de la República del Perú.",
+        "origen": "Se vincula con la primera escuela normal creada el 6 de julio de 1822."
+      }
     },
     {
       "fecha": "2026-07-11",
@@ -272,7 +426,13 @@
       "descripcion": "Propone reflexionar sobre los derechos y necesidades de las poblaciones.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/list-days-weeks",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Propone reflexionar sobre los derechos y necesidades de las poblaciones.",
+        "antecedentes": "El interés por el crecimiento demográfico y el Día de los Cinco Mil Millones impulsó esta conmemoración.",
+        "origen": "La ONU la instauró en 1989; primera celebración en 1990.",
+        "fuente_historia_url": "https://www.un.org/es/observances/world-population-day/background"
+      }
     },
     {
       "fecha": "2026-07-28",
@@ -281,7 +441,12 @@
       "descripcion": "Fecha central de Fiestas Patrias y feriado nacional.",
       "fuente": "Estado Peruano",
       "fuente_url": "https://www.gob.pe/feriados",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Fecha central de Fiestas Patrias y feriado nacional.",
+        "antecedentes": "Conmemora el acto público encabezado por José de San Martín en el proceso de independencia.",
+        "origen": "La independencia fue proclamada el 28 de julio de 1821."
+      }
     },
     {
       "fecha": "2026-07-29",
@@ -290,7 +455,12 @@
       "descripcion": "Segundo día del feriado nacional por Fiestas Patrias.",
       "fuente": "Estado Peruano",
       "fuente_url": "https://www.gob.pe/feriados",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Segundo día del feriado nacional por Fiestas Patrias.",
+        "antecedentes": "Es el segundo día de las Fiestas Patrias y se dedica a celebraciones y homenajes nacionales.",
+        "origen": "Forma parte de los feriados patrios; no es una segunda proclamación de independencia."
+      }
     },
     {
       "fecha": "2026-08-06",
@@ -299,7 +469,12 @@
       "descripcion": "Recuerda una batalla importante en la independencia del Perú.",
       "fuente": "Estado Peruano",
       "fuente_url": "https://www.gob.pe/feriados",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Recuerda una batalla importante en la independencia del Perú.",
+        "antecedentes": "Recuerda una victoria del ejército independentista en la campaña que precedió a Ayacucho.",
+        "origen": "La Batalla de Junín ocurrió el 6 de agosto de 1824."
+      }
     },
     {
       "fecha": "2026-08-09",
@@ -308,7 +483,12 @@
       "descripcion": "Reconoce los derechos y las culturas de los pueblos indígenas.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/list-days-weeks",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Reconoce los derechos y las culturas de los pueblos indígenas.",
+        "antecedentes": "Surge del reconocimiento internacional de los derechos, culturas, territorios y lenguas indígenas.",
+        "origen": "La ONU la proclamó en 1994."
+      }
     },
     {
       "fecha": "2026-08-12",
@@ -317,7 +497,12 @@
       "descripcion": "Promueve la participación de las y los jóvenes, su autonomía y las oportunidades de desarrollo e inclusión.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/youth-day",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Promueve la participación de las y los jóvenes, su autonomía y las oportunidades de desarrollo e inclusión.",
+        "antecedentes": "Su origen está en las iniciativas mundiales para reconocer la participación de las juventudes.",
+        "origen": "Proclamada por la ONU en 1999."
+      }
     },
     {
       "fecha": "2026-08-28",
@@ -326,7 +511,12 @@
       "descripcion": "Conmemoración histórica del retorno de Tacna al territorio peruano.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Conmemoración histórica del retorno de Tacna al territorio peruano.",
+        "antecedentes": "La fecha recuerda el retorno de Tacna al territorio peruano mediante acuerdos diplomáticos.",
+        "origen": "La reincorporación ocurrió el 28 de agosto de 1929."
+      }
     },
     {
       "fecha": "2026-08-30",
@@ -335,7 +525,12 @@
       "descripcion": "Conmemoración y feriado nacional en Perú.",
       "fuente": "Estado Peruano",
       "fuente_url": "https://www.gob.pe/feriados",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Conmemoración y feriado nacional en Perú.",
+        "antecedentes": "La festividad recuerda a Isabel Flores de Oliva, conocida como Santa Rosa de Lima.",
+        "origen": "Vivió entre 1586 y 1617 y fue canonizada en 1671; es feriado en Perú."
+      }
     },
     {
       "fecha": "2026-09-08",
@@ -344,7 +539,12 @@
       "descripcion": "Destaca el acceso a la lectura y escritura en condiciones de igualdad.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/education",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Destaca el acceso a la lectura y escritura en condiciones de igualdad.",
+        "antecedentes": "La UNESCO impulsó la fecha para promover la lectura y escritura como derechos y herramientas de participación.",
+        "origen": "Instituida en 1966; primera celebración internacional en 1967."
+      }
     },
     {
       "fecha": "2026-09-16",
@@ -353,7 +553,12 @@
       "descripcion": "Promueve la educación ambiental y la protección de la atmósfera.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Promueve la educación ambiental y la protección de la atmósfera.",
+        "antecedentes": "Recuerda el acuerdo internacional para reducir sustancias responsables del deterioro de la capa de ozono.",
+        "origen": "La ONU la proclamó en 1994 en referencia al Protocolo de Montreal de 1987."
+      }
     },
     {
       "fecha": "2026-09-21",
@@ -362,7 +567,12 @@
       "descripcion": "Invita a construir convivencia respetuosa y resolución pacífica de conflictos.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/list-days-weeks",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Invita a construir convivencia respetuosa y resolución pacífica de conflictos.",
+        "antecedentes": "La ONU creó la conmemoración para impulsar el diálogo, la convivencia y la no violencia.",
+        "origen": "Instituida en 1981; el 21 de septiembre quedó fijado en 2001."
+      }
     },
     {
       "fecha": "2026-09-23",
@@ -371,7 +581,12 @@
       "descripcion": "Fecha del calendario escolar para celebrar la juventud y su participación.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Fecha del calendario escolar para celebrar la juventud y su participación.",
+        "antecedentes": "El calendario peruano reúne en esa fecha actividades educativas de primavera y juventud.",
+        "origen": "MINEDU la consigna el 23 de septiembre; no especifica año de origen."
+      }
     },
     {
       "fecha": "2026-09-23",
@@ -380,7 +595,13 @@
       "descripcion": "Reconoce las lenguas de señas y los derechos lingüísticos de las personas sordas.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/multilingualism",
-      "destacada": true
+      "destacada": true,
+      "ficha": {
+        "motivo": "Reconoce las lenguas de señas y los derechos lingüísticos de las personas sordas.",
+        "antecedentes": "Fue propuesta por la Federación Mundial de Sordos para reconocer los derechos lingüísticos de la comunidad sorda.",
+        "origen": "La ONU la proclamó en 2017, recuerda la fundación de la Federación en 1951.",
+        "fuente_historia_url": "https://www.un.org/es/observances/sign-languages-day"
+      }
     },
     {
       "fecha": "2026-10-05",
@@ -389,7 +610,13 @@
       "descripcion": "Reconoce el papel del profesorado en la transformación educativa.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/education",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Reconoce el papel del profesorado en la transformación educativa.",
+        "antecedentes": "Conmemora la recomendación conjunta de la OIT y la UNESCO sobre derechos y condiciones del profesorado.",
+        "origen": "Celebrada desde 1994; recuerda la Recomendación OIT/UNESCO de 1966.",
+        "fuente_historia_url": "https://www.unesco.org/es/days/teachers"
+      }
     },
     {
       "fecha": "2026-10-08",
@@ -398,7 +625,12 @@
       "descripcion": "Recuerda la acción naval de Angamos; feriado nacional en Perú.",
       "fuente": "Estado Peruano",
       "fuente_url": "https://www.gob.pe/feriados",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Recuerda la acción naval de Angamos; feriado nacional en Perú.",
+        "antecedentes": "Recuerda el combate naval y la trayectoria del almirante Miguel Grau durante la Guerra del Pacífico.",
+        "origen": "El Combate de Angamos ocurrió el 8 de octubre de 1879."
+      }
     },
     {
       "fecha": "2026-10-08",
@@ -407,7 +639,13 @@
       "descripcion": "Reconoce la educación física, el movimiento y el deporte como oportunidades de aprendizaje, participación e inclusión.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Reconoce la educación física, el movimiento y el deporte como oportunidades de aprendizaje, participación e inclusión.",
+        "antecedentes": "Se vincula a los inicios de la formación especializada en educación física en el Perú.",
+        "origen": "La formación institucional recuerda sus antecedentes de 1932, según el IPD.",
+        "fuente_historia_url": "https://www.gob.pe/institucion/ipd/noticias/543450-hoy-se-celebra-el-dia-de-la-educacion-fisica-en-el-peru"
+      }
     },
     {
       "fecha": "2026-10-10",
@@ -416,7 +654,12 @@
       "descripcion": "Promueve el cuidado de la salud mental, la participación y la reducción del estigma.",
       "fuente": "Organización Mundial de la Salud",
       "fuente_url": "https://www.who.int/es/campaigns/world-mental-health-day/2026",
-      "destacada": true
+      "destacada": true,
+      "ficha": {
+        "motivo": "Promueve el cuidado de la salud mental, la participación y la reducción del estigma.",
+        "antecedentes": "Organizaciones de salud mental impulsaron esta jornada para sensibilizar y combatir el estigma.",
+        "origen": "La primera celebración se realizó en 1992."
+      }
     },
     {
       "fecha": "2026-10-16",
@@ -425,7 +668,13 @@
       "descripcion": "Conmemoración establecida mediante Resolución Ministerial N.º 0523-2005-ED; impulsa la eliminación de barreras y la participación educativa de todas las personas.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/normas-legales/164895-0523-2005-ed",
-      "destacada": true
+      "destacada": true,
+      "ficha": {
+        "motivo": "Conmemoración establecida mediante Resolución Ministerial N.º 0523-2005-ED; impulsa la eliminación de barreras y la participación educativa de todas las personas.",
+        "antecedentes": "El MINEDU estableció la fecha para promover el derecho de todas las personas a aprender sin barreras.",
+        "origen": "La Resolución Ministerial N.º 0523-2005-ED declaró la fecha en 2005.",
+        "fuente_historia_url": "https://www.gob.pe/institucion/minedu/normas-legales/164895-0523-2005-ed"
+      }
     },
     {
       "fecha": "2026-10-16",
@@ -434,7 +683,12 @@
       "descripcion": "Propone acciones educativas sobre alimentación y seguridad alimentaria.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Propone acciones educativas sobre alimentación y seguridad alimentaria.",
+        "antecedentes": "Conmemora la fundación de la FAO y busca visibilizar la lucha contra el hambre.",
+        "origen": "Se celebra desde 1981; la FAO fue fundada el 16 de octubre de 1945."
+      }
     },
     {
       "fecha": "2026-10-16",
@@ -443,7 +697,12 @@
       "descripcion": "Conmemoración peruana dedicada a los derechos y la inclusión de las personas con discapacidad.",
       "fuente": "CONADIS",
       "fuente_url": "https://www.gob.pe/institucion/conadis/noticias/307444-conmemoracion-del-dia-nacional-de-la-persona-con-discapacidad",
-      "destacada": true
+      "destacada": true,
+      "ficha": {
+        "motivo": "Conmemoración peruana dedicada a los derechos y la inclusión de las personas con discapacidad.",
+        "antecedentes": "El Perú reconoce la participación y protección de los derechos de las personas con discapacidad.",
+        "origen": "La legislación peruana vincula esta fecha al 16 de octubre de 1980."
+      }
     },
     {
       "fecha": "2026-10-17",
@@ -452,7 +711,12 @@
       "descripcion": "Promueve la reflexión sobre desigualdad, derechos y condiciones de vida dignas.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/list-days-weeks",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Promueve la reflexión sobre desigualdad, derechos y condiciones de vida dignas.",
+        "antecedentes": "La ONU fijó una jornada para promover medidas frente a la exclusión y la pobreza.",
+        "origen": "Reconocida por la ONU en 1992; se observa desde 1993."
+      }
     },
     {
       "fecha": "2026-10-27",
@@ -461,7 +725,12 @@
       "descripcion": "Reconoce la Educación Secundaria en el sistema educativo peruano.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Reconoce la Educación Secundaria en el sistema educativo peruano.",
+        "antecedentes": "El calendario escolar destaca el papel de la secundaria en el desarrollo adolescente y la continuidad de estudios.",
+        "origen": "MINEDU consigna el 27 de octubre; año inicial no indicado en la fuente consultada."
+      }
     },
     {
       "fecha": "2026-10-31",
@@ -470,7 +739,12 @@
       "descripcion": "Celebra la música criolla como expresión del patrimonio cultural peruano.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Celebra la música criolla como expresión del patrimonio cultural peruano.",
+        "antecedentes": "La fecha celebra expresiones musicales criollas y el patrimonio cultural peruano.",
+        "origen": "La celebración se instituyó en Perú en 1944."
+      }
     },
     {
       "fecha": "2026-11-01",
@@ -479,7 +753,12 @@
       "descripcion": "Conmemoración del calendario peruano y feriado nacional.",
       "fuente": "Estado Peruano",
       "fuente_url": "https://www.gob.pe/feriados",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Conmemoración del calendario peruano y feriado nacional.",
+        "antecedentes": "Es una festividad cristiana del calendario litúrgico que honra a los santos.",
+        "origen": "Es una tradición histórica y feriado en Perú; no corresponde a una efeméride moderna."
+      }
     },
     {
       "fecha": "2026-11-04",
@@ -488,7 +767,12 @@
       "descripcion": "Recuerda el levantamiento histórico de Túpac Amaru II.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Recuerda el levantamiento histórico de Túpac Amaru II.",
+        "antecedentes": "Recuerda el levantamiento anticolonial encabezado por José Gabriel Condorcanqui, Túpac Amaru II.",
+        "origen": "La rebelión se inició el 4 de noviembre de 1780."
+      }
     },
     {
       "fecha": "2026-11-10",
@@ -497,7 +781,12 @@
       "descripcion": "Fecha de referencia del calendario cívico escolar para promover el uso de bibliotecas.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Fecha de referencia del calendario cívico escolar para promover el uso de bibliotecas.",
+        "antecedentes": "La semana escolar fomenta el acceso a bibliotecas, lectura e investigación.",
+        "origen": "MINEDU consigna la semana desde el 10 de noviembre; su desarrollo depende de cada institución."
+      }
     },
     {
       "fecha": "2026-11-12",
@@ -506,7 +795,13 @@
       "descripcion": "Fecha declarada por Resolución Ministerial N.º 460-2022-MINEDU para reconocer la importancia de la Educación Primaria en el desarrollo y aprendizaje.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/normas-legales/3650725-460-2022-minedu",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Fecha declarada por Resolución Ministerial N.º 460-2022-MINEDU para reconocer la importancia de la Educación Primaria en el desarrollo y aprendizaje.",
+        "antecedentes": "Reconoce el valor de primaria como etapa de aprendizaje y desarrollo integral.",
+        "origen": "Declarada por Resolución Ministerial N.º 460-2022-MINEDU en 2022.",
+        "fuente_historia_url": "https://www.gob.pe/institucion/minedu/normas-legales/3650725-460-2022-minedu"
+      }
     },
     {
       "fecha": "2026-11-18",
@@ -515,7 +810,13 @@
       "descripcion": "Promueve la prevención de la violencia sexual contra niñas, niños y adolescentes, su protección y el acceso a apoyos respetuosos y oportunos.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/child-sexual-exploitation-prevention-and-healing-day",
-      "destacada": true
+      "destacada": true,
+      "ficha": {
+        "motivo": "Promueve la prevención de la violencia sexual contra niñas, niños y adolescentes, su protección y el acceso a apoyos respetuosos y oportunos.",
+        "antecedentes": "Nació de la necesidad de prevenir abusos, proteger a la niñez y promover atención y sanación.",
+        "origen": "Proclamada por la ONU el 7 de noviembre de 2022 mediante resolución A/RES/77/8.",
+        "fuente_historia_url": "https://www.un.org/es/observances/child-sexual-exploitation-prevention-and-healing-day"
+      }
     },
     {
       "fecha": "2026-11-20",
@@ -524,7 +825,12 @@
       "descripcion": "Conmemora los derechos de niñas, niños y adolescentes.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/list-days-weeks",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Conmemora los derechos de niñas, niños y adolescentes.",
+        "antecedentes": "Se relaciona con los principales instrumentos internacionales de derechos de la niñez.",
+        "origen": "El 20 de noviembre recuerda declaraciones de 1959 y la Convención de 1989."
+      }
     },
     {
       "fecha": "2026-11-25",
@@ -533,7 +839,12 @@
       "descripcion": "El CREBE Señor de los Milagros - Ucayali fue creado el 25 de noviembre de 2015. En 2026 conmemora su 11.º aniversario de creación institucional.",
       "fuente": "CREBE Señor de los Milagros - Ucayali (información institucional)",
       "fuente_url": "https://crebeucayali.github.io/",
-      "destacada": true
+      "destacada": true,
+      "ficha": {
+        "motivo": "El CREBE Señor de los Milagros - Ucayali fue creado el 25 de noviembre de 2015. En 2026 conmemora su 11.º aniversario de creación institucional.",
+        "antecedentes": "Conmemora la creación del CREBE y sus servicios de apoyo y recursos educativos en Ucayali.",
+        "origen": "El CREBE señala su creación el 25 de noviembre de 2015; en 2026 cumple 11 años."
+      }
     },
     {
       "fecha": "2026-11-25",
@@ -542,7 +853,12 @@
       "descripcion": "Promueve una vida libre de violencia y el respeto de los derechos de las mujeres.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/list-days-weeks",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Promueve una vida libre de violencia y el respeto de los derechos de las mujeres.",
+        "antecedentes": "Recuerda a las hermanas Mirabal y el compromiso internacional para eliminar la violencia contra las mujeres.",
+        "origen": "La ONU la proclamó en 1999."
+      }
     },
     {
       "fecha": "2026-11-27",
@@ -551,7 +867,12 @@
       "descripcion": "Recuerda el combate de Tarapacá en la historia peruana.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Recuerda el combate de Tarapacá en la historia peruana.",
+        "antecedentes": "Conmemora una victoria del ejército peruano durante la Guerra del Pacífico.",
+        "origen": "La Batalla de Tarapacá se libró el 27 de noviembre de 1879."
+      }
     },
     {
       "fecha": "2026-12-01",
@@ -560,7 +881,12 @@
       "descripcion": "Favorece la información y la prevención sin estigma ni discriminación.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Favorece la información y la prevención sin estigma ni discriminación.",
+        "antecedentes": "Promueve la prevención del VIH y el respeto a las personas que viven con el virus.",
+        "origen": "La jornada mundial se instauró en 1988."
+      }
     },
     {
       "fecha": "2026-12-03",
@@ -569,7 +895,12 @@
       "descripcion": "Promueve los derechos, la accesibilidad y la participación plena de las personas con discapacidad.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/list-days-weeks",
-      "destacada": true
+      "destacada": true,
+      "ficha": {
+        "motivo": "Promueve los derechos, la accesibilidad y la participación plena de las personas con discapacidad.",
+        "antecedentes": "Reconoce los derechos y aportes de las personas con discapacidad y la necesidad de accesibilidad.",
+        "origen": "La ONU proclamó la fecha en 1992."
+      }
     },
     {
       "fecha": "2026-12-05",
@@ -578,7 +909,13 @@
       "descripcion": "Reconoce la contribución del voluntariado al bienestar y al desarrollo de las comunidades.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/volunteer-day",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Reconoce la contribución del voluntariado al bienestar y al desarrollo de las comunidades.",
+        "antecedentes": "La ONU reconoció la contribución del voluntariado a las comunidades y las causas humanitarias.",
+        "origen": "Establecido por la Asamblea General de la ONU en 1985.",
+        "fuente_historia_url": "https://www.un.org/es/observances/volunteer-day"
+      }
     },
     {
       "fecha": "2026-12-08",
@@ -587,7 +924,12 @@
       "descripcion": "Conmemoración y feriado nacional en Perú.",
       "fuente": "Estado Peruano",
       "fuente_url": "https://www.gob.pe/feriados",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Conmemoración y feriado nacional en Perú.",
+        "antecedentes": "Es una festividad religiosa vinculada con la concepción de María y las tradiciones cristianas.",
+        "origen": "El dogma católico fue proclamado en 1854; la festividad es feriado peruano."
+      }
     },
     {
       "fecha": "2026-12-09",
@@ -596,7 +938,12 @@
       "descripcion": "Recuerda la batalla decisiva para la independencia del Perú; feriado nacional.",
       "fuente": "Estado Peruano",
       "fuente_url": "https://www.gob.pe/feriados",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Recuerda la batalla decisiva para la independencia del Perú; feriado nacional.",
+        "antecedentes": "Recuerda la victoria independentista decisiva de las fuerzas patriotas en Ayacucho.",
+        "origen": "La Batalla de Ayacucho ocurrió el 9 de diciembre de 1824."
+      }
     },
     {
       "fecha": "2026-12-10",
@@ -605,7 +952,12 @@
       "descripcion": "Recuerda la Declaración Universal de los Derechos Humanos y la dignidad de todas las personas.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/list-days-weeks",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Recuerda la Declaración Universal de los Derechos Humanos y la dignidad de todas las personas.",
+        "antecedentes": "Celebra la adopción de la Declaración Universal de los Derechos Humanos y su defensa de la dignidad humana.",
+        "origen": "La Declaración fue adoptada en 1948; la jornada se estableció en 1950."
+      }
     },
     {
       "fecha": "2026-12-25",
@@ -614,7 +966,12 @@
       "descripcion": "Celebración y feriado nacional en Perú.",
       "fuente": "Estado Peruano",
       "fuente_url": "https://www.gob.pe/feriados",
-      "destacada": false
+      "destacada": false,
+      "ficha": {
+        "motivo": "Celebración y feriado nacional en Perú.",
+        "antecedentes": "La Navidad es una celebración cristiana del nacimiento de Jesús y tradición familiar en el Perú.",
+        "origen": "Festividad histórica incluida en los feriados oficiales peruanos."
+      }
     }
   ]
 }
