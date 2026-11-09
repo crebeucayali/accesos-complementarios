@@ -2216,3 +2216,24 @@ body.alto-contraste #panel-calendario .cal-subtabs button[aria-pressed="true"]{b
 #cal-admin-civico #cal-civico-previa-imagen:not([hidden]){display:block;width:100%;max-height:240px;object-fit:cover;border-radius:10px;margin:12px 0}
 #cal-admin-civico #cal-civico-imagen-estado{line-height:1.5;overflow-wrap:anywhere}
 body.alto-contraste #cal-admin-civico #cal-civico-guardar:not([hidden]){background:#000!important;border:2px solid #fff!important;color:#ffff00!important}
+
+
+/* Confirmación visible y accesible del guardado de tarjetas cívicas. */
+#cal-admin-civico .cal-civico-guardado-estado{
+  display:block;width:100%;margin:8px 0 12px;padding:12px 14px;
+  border:1px solid #b7cbd0;border-radius:10px;background:#f2f7f8;
+  color:#24485a;font-size:.9rem;font-weight:650;line-height:1.5;
+  overflow-wrap:anywhere;box-sizing:border-box
+}
+#cal-admin-civico .cal-civico-guardado-estado[data-estado="success"]{
+  border-color:#86bb9a;background:#e9f5ed;color:#185a32
+}
+#cal-admin-civico .cal-civico-guardado-estado[data-estado="error"]{
+  border-color:#d6a397;background:#fff0ed;color:#8a2c1d
+}
+#cal-admin-civico .cal-civico-guardado-estado[data-estado="pending"]{
+  border-color:#cbb67b;background:#fff9e8;color:#684d0c
+}
+body.alto-contraste #cal-admin-civico .cal-civico-guardado-estado{
+  background:#000!important;color:#fff!important;border:2px solid #fff!important
+}
