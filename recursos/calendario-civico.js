@@ -12,7 +12,7 @@
   function filtrar(){
     const query=normalizar(busqueda.value.trim());
     return registros.filter(r=>(categoria.value==="todas"||r.categoria===categoria.value)
-      &&(!query||normalizar([r.titulo,r.descripcion,r.categoria].join(" ")).includes(query)));
+      &&(!query||normalizar([r.titulo,r.descripcion,r.categoria,r.ficha?.antecedentes,r.ficha?.origen].join(" ")).includes(query)));
   }
   function construirMes(numero,registrosVisibles) {
     const seccion=crear("section","civico-mes");
@@ -70,9 +70,36 @@
       const meta=crear("div","civico-evento-meta");meta.append(fechaVisible,etiqueta);
       const nombre=crear("h4","",r.titulo);
       const descripcion=crear("p","",r.descripcion);
-      const fuente=crear("a","civico-fuente","Fuente: "+r.fuente);
+      const fichaDatos=r.ficha&&typeof r.ficha==="object"?r.ficha:null;
+      articulo.append(meta,nombre);
+      if(fichaDatos&&typeof fichaDatos.antecedentes==="string"&&typeof fichaDatos.origen==="string"){
+        const detalles=crear("details","civico-ficha");
+        const abrir=crear("summary","civico-ficha-abrir","Ver ficha técnica");
+        const contenido=crear("div","civico-ficha-contenido");
+        function campo(etiqueta,valor){
+          const bloque=crear("div","civico-ficha-campo");
+          bloque.append(crear("h5","",etiqueta),crear("p","",valor));
+          return bloque;
+        }
+        contenido.append(
+          campo("¿Por qué se conmemora?",typeof fichaDatos.motivo==="string"?fichaDatos.motivo:r.descripcion),
+          campo("Antecedentes e historia",fichaDatos.antecedentes),
+          campo("¿Desde cuándo?",fichaDatos.origen)
+        );
+        if(typeof fichaDatos.fuente_historia_url==="string"&&/^https:\/\//.test(fichaDatos.fuente_historia_url)){
+          const enlaceHistoria=crear("a","civico-fuente","Consultar fuente histórica");
+          enlaceHistoria.href=fichaDatos.fuente_historia_url;
+          enlaceHistoria.target="_blank";enlaceHistoria.rel="noopener noreferrer";
+          contenido.append(enlaceHistoria);
+        }
+        detalles.append(abrir,contenido);
+        articulo.append(detalles);
+      }else{
+        articulo.append(descripcion);
+      }
+      const fuente=crear("a","civico-fuente","Fuente de la conmemoración: "+r.fuente);
       fuente.href=r.fuente_url;fuente.target="_blank";fuente.rel="noopener noreferrer";
-      articulo.append(meta,nombre,descripcion,fuente);articulos.append(articulo);
+      articulo.append(fuente);articulos.append(articulo);
     }
     seccion.append(articulos);return seccion;
   }
