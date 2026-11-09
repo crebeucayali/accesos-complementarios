@@ -2,7 +2,7 @@
 (function(){
   'use strict';
 
-  const VERSION='11';
+  const VERSION='12';
   const BASE='https://crebeucayali.github.io/accesos-complementarios/accesibilidad/';
 
   function corregirTabulacionesNoInteractivas(){
