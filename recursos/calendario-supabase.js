@@ -116,7 +116,7 @@
   }
 
   function aplicarMesesEnCuadricula(porFecha) {
-    document.querySelectorAll(".grid-meses > .mes").forEach((articulo) => {
+    document.querySelectorAll("#calendario-anio-2026 > .mes").forEach((articulo) => {
       const tabla = articulo.querySelector(".calendario-actividades");
       const titulo = articulo.querySelector(".mes-cabecera h3");
       if (!tabla || !titulo) return;
@@ -171,7 +171,7 @@
   }
 
   function aplicarMesesEnTabla(porFecha) {
-    document.querySelectorAll(".grid-meses > .mes").forEach((articulo) => {
+    document.querySelectorAll("#calendario-anio-2026 > .mes").forEach((articulo) => {
       const tabla = articulo.querySelector(".tabla-calendario");
       const titulo = articulo.querySelector(".mes-cabecera h3");
       if (!tabla || !titulo) return;
@@ -222,8 +222,10 @@
       aplicarMesesEnCuadricula(porFecha);
       aplicarMesesEnTabla(porFecha);
       document.documentElement.dataset.calendarioFuente = "supabase";
+      document.dispatchEvent(new CustomEvent("eva:calendario-publico",{detail:{registros}}));
     } catch (error) {
       document.documentElement.dataset.calendarioFuente = "no-disponible";
+      document.dispatchEvent(new CustomEvent("eva:calendario-publico",{detail:{error:true}}));
       console.warn("Calendario: no se pudo verificar el contenido publicado.", error);
     }
   }
