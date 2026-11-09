@@ -37,3 +37,13 @@ Actualización: 2026-11-09.
 Se incorporaron ocho conmemoraciones con fuentes oficiales: Día del Psicólogo Peruano (30 de abril), Día de la Madre (10 de mayo de 2026), Día del Padre (21 de junio de 2026), Día Internacional de la Juventud (12 de agosto), Día de la Educación Física y el Deporte (8 de octubre), Día de la Educación Inclusiva en el Perú (16 de octubre), Día de la Educación Primaria (12 de noviembre) y Día Mundial para Prevenir la Explotación, los Abusos y la Violencia Sexuales contra los Niños y Promover la Sanación (18 de noviembre). Día Internacional de la Mujer (8 de marzo) y Día de la Educación Inicial (25 de mayo) ya existían y no fueron duplicados.
 
 Las fechas familiares son móviles por domingo y deben recalcularse al actualizar el calendario para cada año.
+
+## Fichas informativas por fecha (2026-11-09)
+- Cada uno de los 68 registros de `recursos/calendario-civico.json` dispone de `ficha.motivo`, `ficha.antecedentes` y `ficha.origen`.
+- La página pública incorpora el control accesible `Ver ficha técnica` por cada conmemoración, utilizando el elemento HTML `details`, sin afectar la selección de mes, categoría, búsqueda ni el calendario institucional.
+- Se mantiene visible el enlace de la fuente original; en los registros con respaldo histórico más concreto se añade un enlace complementario `ficha.fuente_historia_url`.
+- Si una fuente no documenta el año exacto de instauración, el texto lo advierte y evita atribuir un año sin soporte.
+- Las fechas móviles se siguen revisando manualmente por cada año.
+- Precisión editorial: el MINEDU consigna el 28 de mayo como Día Internacional del Juego en su calendario escolar, mientras que la ONU establece el Día Internacional del Juego el 11 de junio. La ficha del 28 de mayo explica la diferencia y no presenta ambas fechas como equivalentes.
+- Esta etapa no modifica las tablas de Supabase, la programación del panel administrativo ni la portada principal EVA.
+- Falta validación visual de la publicación real en móvil, escritorio y alto contraste.
