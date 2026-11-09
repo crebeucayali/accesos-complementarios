@@ -10,6 +10,12 @@
   let autorizado=false,editable=false,activado=false,eventos=[],guardados=new Map(),foto=null,previewUrl="",imagenGuardada="",quitada=false,guardando=false,revision=0;
   const key=x=>x.fecha+"|"+x.titulo;
   const label=(id,value)=>{const e=$(id);if(e)e.textContent=value||"";};
+  function estadoGuardado(mensaje,tipo="info"){
+    const nodo=$("cal-civico-guardado-estado");
+    if(!nodo)return;
+    nodo.textContent=mensaje;
+    nodo.dataset.estado=tipo;
+  }
   const validUrl=url=>typeof url==="string"&&/^https:\/\/dteimbhwtzghhsijeeld\.supabase\.co\/storage\/v1\/object\/public\/eva-publico\/calendario\/civico\/[a-z0-9._/-]+\.(webp|jpe?g|png)$/i.test(url);
   const selected=()=>{
     const i=$("cal-civico-seleccion").value;
@@ -40,6 +46,10 @@
     $("cal-civico-prioridad").value=saved?.prioridad===2?"secundaria":"principal";
     $("cal-civico-mostrar").checked=saved?.visible??true;
     label("cal-civico-imagen-estado",imagenGuardada?"Imagen guardada para esta fecha.":"Ninguna imagen asociada.");
+    estadoGuardado(!x?"Selecciona una conmemoración para consultar o preparar su publicación.":
+      saved?(saved.visible?"Programación guardada: publicación activada para "+x.fecha+".":"Programación guardada: publicación desactivada para "+x.fecha+"."):
+      "Todavía no existe una programación guardada para esta conmemoración.",
+      saved?"success":"info");
     preview();
   }
   async function load(){
@@ -85,12 +95,13 @@
   }
   async function save(){
     if(!editable||guardando||!auth)return;
-    const x=selected();if(!x){label("cal-civico-imagen-estado","Selecciona una fecha.");return;}
+    const x=selected();if(!x){estadoGuardado("Selecciona una conmemoración antes de guardar.","error");return;}
     const contenido=$("cal-civico-contenido").value.trim(),alt=$("cal-civico-imagen-alt").value.trim();
-    if(contenido.length<20||contenido.length>1400){label("cal-civico-imagen-estado","El texto debe tener entre 20 y 1400 caracteres.");return;}
-    if((foto||(!quitada&&imagenGuardada))&&(alt.length<8||alt.length>220)){label("cal-civico-imagen-estado","La imagen requiere una descripción de 8 a 220 caracteres.");return;}
+    if(contenido.length<20||contenido.length>1400){estadoGuardado("No se guardó: el texto debe tener entre 20 y 1400 caracteres.","error");return;}
+    if((foto||(!quitada&&imagenGuardada))&&(alt.length<8||alt.length>220)){estadoGuardado("No se guardó: la imagen requiere una descripción accesible de 8 a 220 caracteres.","error");return;}
     guardando=true;$("cal-civico-guardar").disabled=true;
     label("cal-civico-imagen-estado","Verificando sesión y guardando...");
+    estadoGuardado("Guardando programación en Supabase...","pending");
     try{
       await auth.ensureSession();
       const p=await auth.request("rpc/perfil_panel_admin",{method:"POST",body:"{}"});
@@ -107,8 +118,9 @@
       })});
       guardados.set(key(x),{clave:key(x),contenido,imagen_url:imagen,imagen_alt:imagen?alt:null,prioridad,visible});
       fill();
-      label("cal-civico-imagen-estado",visible?"Guardado. Se mostrará en la portada únicamente el día de esta conmemoración.":"Guardado como no visible.");
-    }catch(error){label("cal-civico-imagen-estado","No se guardó: "+(error.message||"Error"));}
+      label("cal-civico-imagen-estado",imagen?"Imagen asociada a la programación.":"Sin imagen asociada.");
+      estadoGuardado(visible?"Programación guardada correctamente. Publicación activada para "+x.fecha+" (hora de Perú).":"Programación guardada correctamente, pero publicación desactivada para "+x.fecha+".","success");
+    }catch(error){const mensaje="No se guardó: "+(error.message||"Error de conexión");label("cal-civico-imagen-estado",mensaje);estadoGuardado(mensaje,"error");}
     finally{guardando=false;$("cal-civico-guardar").disabled=false;}
   }
   $("cal-civico-seleccion").addEventListener("change",fill);
@@ -135,6 +147,7 @@
     revoke();foto=null;imagenGuardada="";quitada=false;
     $("cal-civico-contenido").value="";$("cal-civico-imagen").value="";$("cal-civico-imagen-alt").value="";
     $("cal-civico-guardar").hidden=true;
+    estadoGuardado("Inicia sesión para consultar la programación cívica.","info");
     preview();
   }
   window.EvaCalendarioCivicoTarjetas=Object.freeze({
