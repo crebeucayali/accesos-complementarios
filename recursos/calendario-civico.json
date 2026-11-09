@@ -149,12 +149,30 @@
       "destacada": false
     },
     {
+      "fecha": "2026-04-30",
+      "titulo": "Día del Psicólogo Peruano",
+      "categoria": "Educación",
+      "descripcion": "Reconoce la contribución de las y los profesionales de psicología al bienestar socioemocional, el aprendizaje y la atención educativa.",
+      "fuente": "Ministerio de Salud del Perú",
+      "fuente_url": "https://www.gob.pe/institucion/hcllh/noticias/1391208-dia-del-psicologo",
+      "destacada": true
+    },
+    {
       "fecha": "2026-05-01",
       "titulo": "Día del Trabajo",
       "categoria": "Cívica",
       "descripcion": "Reconoce los derechos laborales y la contribución de las personas trabajadoras.",
       "fuente": "Estado Peruano",
       "fuente_url": "https://www.gob.pe/feriados",
+      "destacada": false
+    },
+    {
+      "fecha": "2026-05-10",
+      "titulo": "Día de la Madre",
+      "categoria": "Cívica",
+      "descripcion": "Celebración familiar que reconoce la diversidad de experiencias de maternidad y los vínculos de cuidado y acompañamiento.",
+      "fuente": "Ministerio de Educación del Perú",
+      "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
       "destacada": false
     },
     {
@@ -207,6 +225,15 @@
       "titulo": "Día Mundial contra el Trabajo Infantil",
       "categoria": "Cívica",
       "descripcion": "Sensibiliza sobre la protección de la niñez y el derecho a estudiar.",
+      "fuente": "Ministerio de Educación del Perú",
+      "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
+      "destacada": false
+    },
+    {
+      "fecha": "2026-06-21",
+      "titulo": "Día del Padre",
+      "categoria": "Cívica",
+      "descripcion": "Reconoce la participación de los padres y figuras paternas en el cuidado, la crianza y el acompañamiento educativo.",
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
       "destacada": false
@@ -281,6 +308,15 @@
       "descripcion": "Reconoce los derechos y las culturas de los pueblos indígenas.",
       "fuente": "Naciones Unidas",
       "fuente_url": "https://www.un.org/es/observances/list-days-weeks",
+      "destacada": false
+    },
+    {
+      "fecha": "2026-08-12",
+      "titulo": "Día Internacional de la Juventud",
+      "categoria": "Educación",
+      "descripcion": "Promueve la participación de las y los jóvenes, su autonomía y las oportunidades de desarrollo e inclusión.",
+      "fuente": "Naciones Unidas",
+      "fuente_url": "https://www.un.org/es/observances/youth-day",
       "destacada": false
     },
     {
@@ -365,12 +401,30 @@
       "destacada": false
     },
     {
+      "fecha": "2026-10-08",
+      "titulo": "Día de la Educación Física y el Deporte",
+      "categoria": "Educación",
+      "descripcion": "Reconoce la educación física, el movimiento y el deporte como oportunidades de aprendizaje, participación e inclusión.",
+      "fuente": "Ministerio de Educación del Perú",
+      "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
+      "destacada": false
+    },
+    {
       "fecha": "2026-10-10",
       "titulo": "Día Mundial de la Salud Mental",
       "categoria": "Inclusión",
       "descripcion": "Promueve el cuidado de la salud mental, la participación y la reducción del estigma.",
       "fuente": "Organización Mundial de la Salud",
       "fuente_url": "https://www.who.int/es/campaigns/world-mental-health-day/2026",
+      "destacada": true
+    },
+    {
+      "fecha": "2026-10-16",
+      "titulo": "Día de la Educación Inclusiva en el Perú",
+      "categoria": "Inclusión",
+      "descripcion": "Conmemoración establecida mediante Resolución Ministerial N.º 0523-2005-ED; impulsa la eliminación de barreras y la participación educativa de todas las personas.",
+      "fuente": "Ministerio de Educación del Perú",
+      "fuente_url": "https://www.gob.pe/institucion/minedu/normas-legales/164895-0523-2005-ed",
       "destacada": true
     },
     {
@@ -444,6 +498,24 @@
       "fuente": "Ministerio de Educación del Perú",
       "fuente_url": "https://www.gob.pe/institucion/minedu/informes-publicaciones/2777923-calendario-civico-escolar",
       "destacada": false
+    },
+    {
+      "fecha": "2026-11-12",
+      "titulo": "Día de la Educación Primaria",
+      "categoria": "Educación",
+      "descripcion": "Fecha declarada por Resolución Ministerial N.º 460-2022-MINEDU para reconocer la importancia de la Educación Primaria en el desarrollo y aprendizaje.",
+      "fuente": "Ministerio de Educación del Perú",
+      "fuente_url": "https://www.gob.pe/institucion/minedu/normas-legales/3650725-460-2022-minedu",
+      "destacada": false
+    },
+    {
+      "fecha": "2026-11-18",
+      "titulo": "Día Mundial para Prevenir la Explotación, los Abusos y la Violencia Sexuales contra los Niños y Promover la Sanación",
+      "categoria": "Educación",
+      "descripcion": "Promueve la prevención de la violencia sexual contra niñas, niños y adolescentes, su protección y el acceso a apoyos respetuosos y oportunos.",
+      "fuente": "Naciones Unidas",
+      "fuente_url": "https://www.un.org/es/observances/child-sexual-exploitation-prevention-and-healing-day",
+      "destacada": true
     },
     {
       "fecha": "2026-11-20",
