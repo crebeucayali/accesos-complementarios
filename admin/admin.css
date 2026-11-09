@@ -2070,3 +2070,8 @@ html.eva-alto-contraste #panel-inicio .admin-inicio-accesos button:not([hidden])
   background:#000!important;color:#ffff00!important;border:2px solid #fff!important;
 }
 html.eva-alto-contraste #panel-inicio .panel-inicio-logo{background:#fff!important;border-radius:10px;padding:5px;}
+
+/* Los indicadores sin permiso permanecen ocultos pese al display:flex. */
+#panel-inicio .admin-inicio-indicador[hidden],
+#panel-inicio .admin-inicio-accesos button[hidden],
+#panel-inicio .admin-inicio-sin-accesos[hidden]{display:none!important;}
