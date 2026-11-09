@@ -40,7 +40,7 @@
     }
     if(!items.length){const aviso=document.createElement("p");aviso.className="nota";aviso.textContent="No se encontraron fechas con esos filtros.";lista.append(aviso);}
     elegir.value=Array.from(elegir.options).some(x=>x.value===prev)?prev:"";
-    estado.textContent=items.length+" de "+registros.length+" conmemoraciones visibles. Consulta de solo lectura.";
+    estado.textContent=items.length+" de "+registros.length+" conmemoraciones visibles. Selecciona una fecha para consultar su contenido y preparar la tarjeta.";
     actualizarPrevia();
   }
   function actualizarPrevia(){
