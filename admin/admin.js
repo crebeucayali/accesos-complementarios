@@ -349,15 +349,19 @@
     const ticketInicio=revisionInicio;
     const usuarioInicio=perfil.user_id;
     const claveInicio=clavePermisos;
+    const modulosCarga=Object.entries(cargadores).filter(([modulo])=>permitePanel(modulo,true));
     const cargas = await Promise.allSettled([
-      ...Object.entries(cargadores).filter(([modulo]) => permitePanel(modulo,true)).map(([,cargar]) => cargar()),
+      ...modulosCarga.map(([,cargar])=>cargar()),
       window.EvaPublicacion?.cargarTodos()
     ]);
     if (!auth.getSession() || revisionInicio!==ticketInicio || perfil?.user_id!==usuarioInicio || clavePermisos!==claveInicio) return;
     aplicarPermisos();
     // La carga de publicaciones ya se realizó; no se consulta de nuevo al abrir Inicio.
     ["capacitaciones","calendario","noticias"].forEach(contarPublicacionesInicio);
-    if (permitePanel("estadisticas") && $("est-total")?.textContent==="") mostrarIndicadorInicio("estadisticas","No disponible");
+    const indiceEstadisticas=modulosCarga.findIndex(([modulo])=>modulo==="estadisticas");
+    if (indiceEstadisticas!==-1 && cargas[indiceEstadisticas]?.status==="rejected") {
+      mostrarIndicadorInicio("estadisticas","No disponible");
+    }
     if (perfil.rol !== "master" && !perfil.modulos.some(modulo => modulosContenido.includes(modulo))) {
       estadoMensaje.textContent = "Tu cuenta está activa y todavía no tiene módulos asignados. Solicita la asignación a la cuenta master.";
     }
