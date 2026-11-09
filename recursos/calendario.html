@@ -7,7 +7,7 @@
   <meta name="description" content="Calendario de actividades del CREBE Señor de los Milagros - Ucayali, organizado de abril a diciembre.">
   <title>Calendario de actividades | CREBE Ucayali</title>
   <link rel="canonical" href="https://crebeucayali.github.io/accesos-complementarios/recursos/calendario.html">
-  <link rel="stylesheet" href="calendario.css?v=28">
+  <link rel="stylesheet" href="calendario.css?v=29">
   <link rel="stylesheet" href="https://crebeucayali.github.io/accesos-complementarios/accesibilidad/accesibilidad.css?v=12">
 <link rel="icon" type="image/webp" href="https://crebeucayali.github.io/materiales-educativos-accesibles/logo-crebe.webp?v=20261105">
 </head>
@@ -35,7 +35,7 @@
         </div>
       </div>
       <p class="etiqueta-superior">Organización institucional</p>
-      <h1>Calendario de actividades</h1>
+      <h1>Calendario institucional</h1>
       <p class="subtitulo">Espacio para organizar y consultar actividades institucionales, capacitaciones, jornadas, campañas, reuniones y acciones vinculadas a la inclusión educativa.</p>
     </div>
   </header>
@@ -44,13 +44,15 @@
     <section class="panel-calendario" aria-labelledby="titulo-calendario">
       <div class="panel-encabezado">
         <div>
-          <p class="seccion-etiqueta">Abril a diciembre</p>
+          <p class="seccion-etiqueta">Programación por año</p>
           <h2 id="titulo-calendario">Programación anual de actividades</h2>
-          <p class="descripcion-panel">La programación inicia en abril y continúa de manera ordenada hasta diciembre. Los meses se muestran de arriba hacia abajo para facilitar su consulta.</p>
+          <p class="descripcion-panel">Selecciona un año para consultar su programación. Al ingresar se muestra el año vigente en Perú, si está configurado. Los calendarios anteriores permanecen disponibles.</p>
         </div>
       </div>
 
-      <div class="grid-meses">
+      <nav id="calendario-anios-nav" class="calendario-anios-nav" aria-label="Seleccionar año del calendario"><button type="button" data-anio="2026" aria-pressed="true">Calendario 2026</button><button type="button" data-anio="2027" aria-pressed="false">Calendario 2027</button></nav>
+      <p id="calendario-anios-estado" class="calendario-anios-estado" role="status" aria-live="polite">Cargando actividades publicadas.</p>
+      <div class="grid-meses" id="calendario-anio-2026">
         <article class="mes">
           <div class="mes-cabecera"><h3>Abril 2026</h3></div>
           <table class="calendario-mes calendario-actividades" aria-label="Calendario de actividades de abril 2026">
@@ -163,6 +165,7 @@
         <article class="mes"><div class="mes-cabecera"><h3>Diciembre</h3></div><table class="tabla-calendario"><thead><tr><th>Fecha</th><th>Actividad</th><th>Estado</th></tr></thead><tbody><tr><td>Por definir</td><td>Actividad institucional por registrar.</td><td><span class="estado">Pendiente</span></td></tr></tbody></table></article>
       </div>
 
+      <div id="calendario-anio-dinamico" class="grid-meses" hidden></div>
       <div class="nota-inferior">La programación puede actualizarse según las actividades institucionales confirmadas, jornadas de capacitación, campañas y coordinaciones del CREBE.</div>
     </section>
   </main>
@@ -173,13 +176,14 @@
         <img class="logo-footer" src="https://crebeucayali.github.io/banco-digital-accesible/logo-crebe.png" alt="Logo del CREBE Señor de los Milagros - Ucayali">
         <div><h2>Accesos Complementarios</h2><p>Espacio de entrada a las páginas generales de CREBE Ucayali.</p></div>
       </div>
-      <div class="footer-bloque"><h2>Enlaces</h2><p><a href="https://crebeucayali.github.io/">Inicio principal</a><br><a href="../index.html">Accesos complementarios</a><br><a href="../paginas/nosotros.html">Nosotros</a><br><a href="calendario.html">Calendario de actividades</a><br><a href="galeria.html">Galería de actividades</a><br><a href="../paginas/contacto.html">Contacto</a></p></div>
+      <div class="footer-bloque"><h2>Enlaces</h2><p><a href="https://crebeucayali.github.io/">Inicio principal</a><br><a href="../index.html">Accesos complementarios</a><br><a href="../paginas/nosotros.html">Nosotros</a><br><a href="calendarios.html">Todos los calendarios</a><br><a href="calendario-civico.html">Calendario cívico</a><br><a href="galeria.html">Galería de actividades</a><br><a href="../paginas/contacto.html">Contacto</a></p></div>
       <div class="footer-bloque"><h2>Contacto CREBE</h2><p>CREBE "Señor de los Milagros" - Ucayali<br>Correo: senordelosmilagroscrebe@gmail.com<br>Horario: lunes a viernes, 8:00 a.m. - 12:00 p.m.<br><a href="https://www.facebook.com/CREBESM" target="_blank" rel="noopener noreferrer">Facebook</a></p></div>
     </div>
     <div class="footer-final"><p>© 2026 Gabriel Berrospi. Desarrollo original. Uso institucional autorizado al CREBE "Señor de los Milagros" - Ucayali.</p></div>
   </footer>
 
-  <script src="calendario-supabase.js?v=6" defer></script>
+  <script src="calendario-anios.js?v=1" defer></script>
+  <script src="calendario-supabase.js?v=7" defer></script>
   <script src="https://crebeucayali.github.io/accesos-complementarios/accesibilidad/accesibilidad.js?v=12" defer></script>
   <script src="https://crebeucayali.github.io/accesos-complementarios/estadisticas/visitas-eva.js?v=2" data-eva-modulo="accesos_complementarios" defer></script>
 </body>
