@@ -146,3 +146,10 @@ footer{margin-top:56px;padding:44px clamp(20px,5vw,72px) 28px;color:#dbe9ee;back
     padding-bottom:6px;
   }
 }
+
+
+/* EVA 2.0: contenidos informativos y distintivos accesibles. */
+html.eva-alto-contraste :is(.bloque-info,.bloque-legal,.bloque-mapa,.tarjeta-guia,.codigo-acceso,.numero-acceso,.franja-destacada,.nota-inferior,.aviso-destacado,.nota-mapa,.etiqueta-estado,.lista-mapa a){
+ background:#000!important;background-image:none!important;color:#fff!important;border-color:#fff!important;
+}
+html.eva-alto-contraste .lista-mapa a{color:#ffff00!important;}
