@@ -34,6 +34,11 @@
     opciones.forEach(opcion=>{
       if(preferencias[opcion.clase]) document.documentElement.classList.add(opcion.clase);
     });
+    // Compatibilidad con hojas de estilo EVA que usan body.alto-contraste.
+    // El estado se deriva siempre de la preferencia canónica, incluido restablecer.
+    if(document.body){
+      document.body.classList.toggle('alto-contraste',document.documentElement.classList.contains('eva-alto-contraste'));
+    }
   }
 
   function implementarFavicon(){
