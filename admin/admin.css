@@ -2205,3 +2205,14 @@ body.alto-contraste #panel-calendario .cal-subtabs button[aria-pressed="true"]{b
     flex: none;
   }
 }
+
+
+/* EVA 2.0 · Editor de tarjetas cívicas y vista previa de imagen. */
+#cal-admin-civico #cal-civico-contenido{width:100%;min-width:0;min-height:136px;resize:vertical;box-sizing:border-box;line-height:1.55}
+#cal-admin-civico #cal-civico-imagen-alt{width:100%;max-width:100%;box-sizing:border-box}
+#cal-admin-civico #cal-civico-imagen{max-width:100%}
+#cal-admin-civico #cal-civico-guardar:not([hidden]){min-height:44px;background:#0c645b;color:#fff;border:1px solid #0c645b;border-radius:11px;padding:10px 16px;font-weight:800;cursor:pointer}
+#cal-admin-civico #cal-civico-guardar:disabled{opacity:.6;cursor:not-allowed}
+#cal-admin-civico #cal-civico-previa-imagen:not([hidden]){display:block;width:100%;max-height:240px;object-fit:cover;border-radius:10px;margin:12px 0}
+#cal-admin-civico #cal-civico-imagen-estado{line-height:1.5;overflow-wrap:anywhere}
+body.alto-contraste #cal-admin-civico #cal-civico-guardar:not([hidden]){background:#000!important;border:2px solid #fff!important;color:#ffff00!important}
