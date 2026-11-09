@@ -438,3 +438,28 @@ DUA 3.0 institucional queda integrado al núcleo transversal de accesibilidad AC
 Se aclaró la existencia de dos repositorios DUA 3.0. La adaptación institucional se encuentra en `crebeucayali/DUA-3.0`, mientras que `neuronova-apps/DUA-3.0` corresponde al proyecto original.
 
 Se integró la versión institucional al núcleo central AC `v=10` en sus tres páginas principales. Con esta corrección, DUA 3.0 deja de ser una excepción pendiente dentro de EVA.
+
+
+## EVA 2.0 — Corrección transversal de alto contraste (2026-11-09)
+
+### Incidencia detectada
+
+En EVA Inicio, las superficies claras de “Actualidad EVA” y “Líneas de acción” mantenían fondos claros mientras el núcleo central forzaba texto blanco. Se identificaron reglas históricas dirigidas a `body.alto-contraste` que no se activaban con la clase canónica `html.eva-alto-contraste`.
+
+### Corrección aplicada
+
+- El núcleo `accesibilidad-core.js` sincroniza la clase de compatibilidad `body.alto-contraste` con la preferencia canónica. Al restablecer preferencias también se retira la clase antigua.
+- El CSS canónico añade cobertura explícita para tarjetas laterales y líneas de acción; conserva el contraste de enlaces.
+- El cargador estable utiliza la versión interna `12`, tanto para CSS como para el núcleo.
+- Se actualizaron referencias canónicas `?v=12` en las páginas HTML identificadas de AC, EVA principal, CAP, BDA, MEA, NI, RA y DUA 3.0 institucional.
+- Se conservaron las extensiones locales justificadas (por ejemplo, recorrido guiado de BDA) y los estilos generales en modo normal.
+
+### Criterios pendientes de verificación visual
+
+1. Comprobar las tarjetas afectadas en EVA Inicio con contraste activado y desactivado.
+2. Verificar en escritorio y móvil cada módulo, incluidas páginas internas y estados de foco.
+3. Revisar los contrastes computados de texto, controles y componentes gráficos según WCAG 2.2 AA.
+4. Comprobar coexistencia con texto grande, fuente legible, escala de grises y restablecimiento.
+5. Confirmar despliegue en GitHub Pages y ausencia de referencias obsoletas en páginas activas no indexadas.
+
+No debe interpretarse esta actualización de código como certificación de conformidad WCAG ni como validación visual completa.
