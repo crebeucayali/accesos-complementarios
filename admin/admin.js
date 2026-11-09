@@ -51,7 +51,32 @@
       && !escritura;
   }
 
+  // Dashboard: presenta agregados de consultas existentes, sin nuevas peticiones.
+  let revisionInicio=0;
+  function mostrarIndicadorInicio(modulo,valor) {
+    if (!permitePanel(modulo)) return;
+    const tarjeta=document.querySelector('#panel-inicio [data-admin-inicio-modulo="'+modulo+'"]');
+    const campo=tarjeta?.querySelector("strong");
+    if (campo) campo.textContent=valor;
+  }
+  function contarPublicacionesInicio(modulo) {
+    if (!permitePanel(modulo)) return;
+    const datos=window.EvaPublicacion?.obtenerResumen(modulo);
+    mostrarIndicadorInicio(modulo,datos ? datos.publicados.toLocaleString("es-PE") : "No disponible");
+  }
+  function reiniciarIndicadoresInicio() {
+    ++revisionInicio;
+    document.querySelectorAll("#panel-inicio [data-admin-inicio-modulo] strong").forEach(campo=>{
+      campo.textContent="Sin consultar";
+    });
+  }
+  document.addEventListener("eva:publicaciones-actualizadas",evento=>{
+    const modulo=evento.detail?.modulo;
+    if (["capacitaciones","calendario","noticias"].includes(modulo)) contarPublicacionesInicio(modulo);
+  });
+
   function limpiarContenidoPrivado() {
+    reiniciarIndicadoresInicio();
     capacitaciones = []; actividades = []; recursosRepositorio = []; noticiasDestacadas = []; galeriaItems = [];
     archivoNoticiaSeleccionado = null; archivoCapFlyerSeleccionado = null;
     archivoCapInfografiaSeleccionado = null; archivoRepositorioSeleccionado = null; archivoCalendarioSeleccionado = null; imagenesGaleriaEditor = [];
@@ -321,12 +346,18 @@
     estadoMensaje.textContent = "";
     $("usuario-actual").textContent = (perfil.nombre || sesion?.user?.email || "Usuario") + " · " + ({editor:"Publicador",consulta:"Consulta",master:"Master"})[perfil.rol];
     const cargadores = {capacitaciones:cargarCapacitaciones,calendario:cargarCalendario,repositorio:cargarRepositorio,noticias:cargarNoticiasDestacadas,galeria:cargarGaleriaAdmin,estadisticas:cargarEstadisticasVisitas};
+    const ticketInicio=revisionInicio;
+    const usuarioInicio=perfil.user_id;
+    const claveInicio=clavePermisos;
     const cargas = await Promise.allSettled([
       ...Object.entries(cargadores).filter(([modulo]) => permitePanel(modulo,true)).map(([,cargar]) => cargar()),
       window.EvaPublicacion?.cargarTodos()
     ]);
-    if (!auth.getSession()) return;
+    if (!auth.getSession() || revisionInicio!==ticketInicio || perfil?.user_id!==usuarioInicio || clavePermisos!==claveInicio) return;
     aplicarPermisos();
+    // La carga de publicaciones ya se realizó; no se consulta de nuevo al abrir Inicio.
+    ["capacitaciones","calendario","noticias"].forEach(contarPublicacionesInicio);
+    if (permitePanel("estadisticas") && $("est-total")?.textContent==="") mostrarIndicadorInicio("estadisticas","No disponible");
     if (perfil.rol !== "master" && !perfil.modulos.some(modulo => modulosContenido.includes(modulo))) {
       estadoMensaje.textContent = "Tu cuenta está activa y todavía no tiene módulos asignados. Solicita la asignación a la cuenta master.";
     }
@@ -2267,6 +2298,11 @@
     });
 
     const resumen = Array.isArray(datos) ? datos[0] : datos;
+    if (permitePanel("estadisticas")) {
+      const total=Number(resumen?.total);
+      mostrarIndicadorInicio("estadisticas",resumen?.total!==null && resumen?.total!==undefined && Number.isFinite(total) && total>=0
+        ? total.toLocaleString("es-PE") : "No disponible");
+    }
     $("est-total").textContent = numeroES(resumen?.total);
     $("est-hoy").textContent = numeroES(resumen?.hoy);
     $("est-7dias").textContent = numeroES(resumen?.ultimos_7_dias);
