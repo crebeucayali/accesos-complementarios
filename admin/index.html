@@ -531,6 +531,16 @@
                 <input id="rep-titulo" type="text" required>
               </label>
 
+              <label id="rep-nivel-contenedor" for="rep-nivel-educativo" hidden>Nivel educativo de materiales elaborados
+                <select id="rep-nivel-educativo">
+                  <option value="">Pendiente de clasificar</option>
+                  <option value="inicial">Inicial</option>
+                  <option value="primaria">Primaria</option>
+                  <option value="inicial_primaria">Inicial y primaria</option>
+                </select>
+                <span class="ayuda-campo">Este campo se aplica únicamente a materiales elaborados. Los recursos anteriores conservan su clasificación pendiente hasta revisarlos.</span>
+              </label>
+
               <label>Descripción
                 <textarea id="rep-descripcion" rows="4" placeholder="Descripción breve del recurso, equipo o material."></textarea>
               </label>
