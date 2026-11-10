@@ -1085,6 +1085,13 @@
     });
   }
 
+  function actualizarNivelEducativoRepositorio(categoria) {
+    const esElaborado = categoria === "materiales_elaborados";
+    $("rep-nivel-contenedor").hidden = !esElaborado;
+    $("rep-nivel-educativo").disabled = !esElaborado;
+    if (!esElaborado) $("rep-nivel-educativo").value = "";
+  }
+
   function llenarRecursoRepositorio(fila, categoriaPreferida = "") {
     const categoria =
       fila?.categoria ||
@@ -1094,6 +1101,8 @@
 
     $("rep-id").value = fila?.id || "";
     $("rep-categoria").value = categoria;
+    actualizarNivelEducativoRepositorio(categoria);
+    $("rep-nivel-educativo").value = categoria === "materiales_elaborados" ? (fila?.nivel_educativo || "") : "";
     $("rep-titulo").value = fila?.titulo || "";
     $("rep-descripcion").value = fila?.descripcion || "";
     $("rep-imagen").value = fila?.imagen_url || "";
@@ -1159,6 +1168,10 @@
   async function guardarRecursoRepositorio() {
     const id = $("rep-id").value.trim();
     const categoria = $("rep-categoria").value;
+    const nivelEducativo = categoria === "materiales_elaborados" ? $("rep-nivel-educativo").value : null;
+    if (nivelEducativo && !["inicial", "primaria", "inicial_primaria"].includes(nivelEducativo)) {
+      throw new Error("Nivel educativo no válido.");
+    }
     const titulo = $("rep-titulo").value.trim();
     const alt = $("rep-alt").value.trim();
 
@@ -1189,6 +1202,7 @@
 
     const payload = {
       categoria,
+      nivel_educativo: nivelEducativo || null,
       orden,
       titulo,
       descripcion: $("rep-descripcion").value.trim(),
@@ -2696,6 +2710,7 @@
     const categoria = evento.target.value;
     const idActual = $("rep-id").value.trim();
     actualizarSelectorRepositorio(categoria, idActual);
+    actualizarNivelEducativoRepositorio(categoria);
   });
 
   $("boton-nuevo-recurso").addEventListener("click", nuevoRecursoRepositorio);
