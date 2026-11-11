@@ -10,7 +10,14 @@
   const ACTIVITY_WRITE_INTERVAL_MS = 60 * 1000;
 
   const script = document.currentScript;
-  const modulo = String(script?.dataset?.evaModulo || "").trim().toLowerCase();
+  const moduloOriginal = String(script?.dataset?.evaModulo || "").trim().toLowerCase();
+  // Clasificación operativa: RA pertenece a BDA y NI (Lecturas inclusivas) a AC.
+  // El backend conserva ambos identificadores históricos para los reintentos pendientes.
+  const MODULOS_EQUIVALENTES = {
+    repositorio_accesible: "bda",
+    noti_inclusivos: "accesos_complementarios"
+  };
+  const modulo = MODULOS_EQUIVALENTES[moduloOriginal] || moduloOriginal;
 
   const MODULOS = new Set([
     "principal",
@@ -36,6 +43,11 @@
       if (!valor || typeof valor !== "object") return null;
       if (!Number.isFinite(Number(valor.lastActivity))) return null;
       if (!valor.modules || typeof valor.modules !== "object") valor.modules = {};
+      // Fusiona marcas de la sesión previa, sin generar visitas ni modificar el historial.
+      // Así RA->BDA y NI->AC comparten una sola marca durante la sesión vigente.
+      for (const [anterior, vigente] of Object.entries(MODULOS_EQUIVALENTES)) {
+        if (valor.modules[anterior]) valor.modules[vigente] = true;
+      }
       return valor;
     } catch {
       return null;
