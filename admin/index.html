@@ -1297,10 +1297,10 @@
               <div class="estadisticas-encabezado">
                 <div>
                   <p class="micro-etiqueta">Banco Digital Accesible (BDA)</p>
-                  <h3 id="bda-est-titulo">Descargas de imágenes LSP</h3>
+                  <h3 id="bda-est-titulo">Descargas LSP e impresiones Braille</h3>
                 </div>
               </div>
-              <p class="nota">Estadística independiente de MEA. Se registra la solicitud de descarga PNG, no la búsqueda ni la ampliación de imágenes.</p>
+              <p class="nota">Estadísticas independientes de MEA. Las imágenes LSP cuentan descargas solicitadas; la constancia simbólica de Braille cuenta impresiones iniciadas, sin confirmar que se haya guardado un PDF. No se registran búsquedas ni nombres de participantes.</p>
               <div class="rec-controles">
                 <label for="bda-est-periodo">Periodo de BDA
                   <select id="bda-est-periodo">
@@ -1314,15 +1314,16 @@
               </div>
               <p id="bda-est-estado" class="nota" role="status" aria-live="polite">Sin consultar.</p>
               <div class="estadisticas-resumen">
-                <article class="estadistica-card"><span>Descargas solicitadas de BDA</span><strong id="bda-est-total">—</strong></article>
+                <article class="estadistica-card"><span>Descargas solicitadas LSP</span><strong id="bda-est-total">—</strong></article>
+                <article class="estadistica-card"><span>Impresiones iniciadas de constancia Braille</span><strong id="bda-est-impresiones">—</strong></article>
               </div>
-              <div class="tabla-estadisticas-wrap" role="region" tabindex="0" aria-label="Descargas BDA por fecha">
+              <div class="tabla-estadisticas-wrap" role="region" tabindex="0" aria-label="Descargas e impresiones BDA por fecha">
                 <table class="tabla-estadisticas">
-                  <thead><tr><th scope="col">Fecha</th><th scope="col">Recurso</th><th scope="col">Solicitudes</th></tr></thead>
+                  <thead><tr><th scope="col">Fecha</th><th scope="col">Recurso</th><th scope="col">Acciones</th></tr></thead>
                   <tbody id="bda-est-detalle"></tbody>
                 </table>
               </div>
-              <p id="bda-est-sin-datos" class="nota" hidden>Sin solicitudes de descarga para este periodo.</p>
+              <p id="bda-est-sin-datos" class="nota" hidden>Sin acciones de descarga o impresión para este periodo.</p>
             </section>
           </section>
 
@@ -1391,7 +1392,7 @@
   <script src="calendario-civico-admin.js?v=3" defer></script>
   <script src="calendario-civico-tarjetas.js?v=3" defer></script>
   <script src="estadisticas-recursos.js?v=1" defer></script>
-  <script src="estadisticas-bda.js?v=1" defer></script>
+  <script src="estadisticas-bda.js?v=2" defer></script>
   <script src="admin.js?v=62" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>
