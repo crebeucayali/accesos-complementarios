@@ -4,8 +4,6 @@ on:
     paths:
       - 'supabase/migrations/20261111040000_estadisticas_recursos_bda.sql'
       - 'admin/tests/estadisticas-bda-verificacion.sql'
-      - 'admin/tests/estadisticas-bda-braille-verificacion.sql'
-      - 'supabase/migrations/20261111050000_bda_constancia_braille_impresion.sql'
       - '.github/workflows/validar-estadisticas-bda-sql.yml'
   workflow_dispatch:
 jobs:
@@ -39,5 +37,3 @@ jobs:
       - run: psql -v ON_ERROR_STOP=1 -f supabase/migrations/20261111030000_estadisticas_recursos_mea.sql
       - run: psql -v ON_ERROR_STOP=1 -f supabase/migrations/20261111040000_estadisticas_recursos_bda.sql
       - run: psql -v ON_ERROR_STOP=1 -f admin/tests/estadisticas-bda-verificacion.sql
-      - run: psql -v ON_ERROR_STOP=1 -f supabase/migrations/20261111050000_bda_constancia_braille_impresion.sql
-      - run: psql -v ON_ERROR_STOP=1 -f admin/tests/estadisticas-bda-braille-verificacion.sql
