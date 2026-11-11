@@ -9,7 +9,7 @@ BEGIN
    RAISE EXCEPTION 'Se perdió el acceso público necesario';
  END IF;
  IF (SELECT count(*) FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace
-     WHERE n.nspname='eva_counter_api' AND p.prosecdef) <> 1 THEN
+     WHERE n.nspname='eva_counter_api' AND p.prosecdef) <> 2 THEN
    RAISE EXCEPTION 'Función interna incorrecta';
  END IF;
 END $$;
