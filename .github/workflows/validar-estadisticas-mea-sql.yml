@@ -1,0 +1,38 @@
+name: Validar SQL de métricas MEA
+on:
+  pull_request:
+    paths:
+      - 'supabase/migrations/20261111030000_estadisticas_recursos_mea.sql'
+      - 'admin/tests/estadisticas-mea-*.sql'
+      - '.github/workflows/validar-estadisticas-mea-sql.yml'
+  workflow_dispatch:
+jobs:
+  sql:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: eva_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: eva_test
+    steps:
+      - uses: actions/checkout@v4
+      - run: psql -v ON_ERROR_STOP=1 -f admin/tests/estadisticas-mea-bootstrap.sql
+      - run: psql -v ON_ERROR_STOP=1 -f supabase/migrations/20261111030000_estadisticas_recursos_mea.sql
+      - run: psql -v ON_ERROR_STOP=1 -f admin/tests/estadisticas-mea-verificacion.sql
