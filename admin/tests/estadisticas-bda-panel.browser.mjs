@@ -5,7 +5,7 @@ const html=await readFile(new URL("../index.html",import.meta.url),"utf8");
 const js=await readFile(new URL("../estadisticas-bda.js",import.meta.url),"utf8");
 const css=await readFile(new URL("../admin.css",import.meta.url),"utf8");
 const admin=await readFile(new URL("../admin.js",import.meta.url),"utf8");
-assert.match(html,/estadisticas-bda\.js\?v=1/);
+assert.match(html,/estadisticas-bda\.js\?v=2/);
 assert.match(admin,/rpc\/admin_estadisticas_recursos_bda/);
 assert.match(admin,/EvaBDAEstadisticasAdmin\?\.limpiar\(\)/);
 assert.match(admin,/EvaBDAEstadisticasAdmin\?\.cargar\(\)/);
@@ -30,6 +30,7 @@ try{
   });
   assert.deepEqual(output.args,[30]);
   assert.equal(output.total,"1");
+  assert.equal(await page.locator("#bda-est-impresiones").textContent(),"0");
   assert.equal(output.filas,1);
   assert.equal(output.mea,"—","BDA no debe incrementar los indicadores MEA");
   const empty=await page.evaluate(async()=>{
@@ -38,6 +39,21 @@ try{
    return {total:document.getElementById("bda-est-total").textContent,empty:document.getElementById("bda-est-sin-datos").hidden};
   });
   assert.deepEqual(empty,{total:"0",empty:false});
+  const both=await page.evaluate(async()=>{
+   window.EvaBDAEstadisticasAdmin.configurar({autorizado:true,rol:"master",aal:"aal2"},{consultar:async()=>[
+    {fecha:"2026-11-10",herramienta:"lsp",formato:"png",accion:"descarga_solicitada",total:1},
+    {fecha:"2026-11-10",herramienta:"braille",formato:"impresion",accion:"impresion_iniciada",total:2}
+   ]});
+   await window.EvaBDAEstadisticasAdmin.cargar();
+   return {lsp:document.getElementById("bda-est-total").textContent,
+     braille:document.getElementById("bda-est-impresiones").textContent,
+     filas:document.querySelectorAll("#bda-est-detalle tr").length,
+     detalle:document.getElementById("bda-est-detalle").textContent};
+  });
+  assert.equal(both.lsp,"1");
+  assert.equal(both.braille,"2");
+  assert.equal(both.filas,2);
+  assert.match(both.detalle,/Braille · impresión iniciada/);
   const blocked=await page.evaluate(async()=>{
    window.EvaBDAEstadisticasAdmin.configurar({autorizado:true,rol:"editor",aal:"aal2"});
    await window.EvaBDAEstadisticasAdmin.cargar();
@@ -58,6 +74,7 @@ try{
    return {before,after:document.getElementById("bda-est-total").textContent};
   });
   assert.deepEqual(stale,{before:"2",after:"—"});
+  assert.equal(await page.locator("#bda-est-impresiones").textContent(),"—");
   await page.evaluate(()=>{document.getElementById("panel-recursos-uso").hidden=false;document.body.classList.add("alto-contraste");});
   const layout=await page.evaluate(()=>({actual:document.documentElement.scrollWidth,viewport:document.documentElement.clientWidth}));
   assert.ok(layout.actual<=layout.viewport+2,"Desbordamiento horizontal: "+JSON.stringify(layout));
