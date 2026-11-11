@@ -81,6 +81,55 @@ try{
       return document.getElementById("rec-total").textContent;
     });
     assert.equal(stale,"—");
+
+    // Dos sesiones master sucesivas: nunca presentar respuesta de la anterior.
+    const changedMaster=await page.evaluate(async()=>{
+      let resolver;
+      const old=new Promise(r=>{resolver=r;});
+      window.EvaRecursosEstadisticasAdmin.configurar({autorizado:true,rol:"master",aal:"aal2"},{consultar:()=>old});
+      const cargaAnterior=window.EvaRecursosEstadisticasAdmin.cargar();
+      window.EvaRecursosEstadisticasAdmin.configurar({autorizado:true,rol:"master",aal:"aal2"},{
+        consultar:async()=>[{fecha:"2026-11-10",herramienta:"rutinas",formato:"pdf",accion:"exportacion_iniciada",total:2}]
+      });
+      await window.EvaRecursosEstadisticasAdmin.cargar();
+      resolver([{fecha:"2026-11-10",herramienta:"pictogramas",formato:"png",accion:"descarga_solicitada",total:99}]);
+      await cargaAnterior;
+      const resultado={
+        total:document.getElementById("rec-total").textContent,
+        filas:document.getElementById("rec-tabla").textContent,
+        habilitado:!document.getElementById("rec-actualizar").disabled
+      };
+      window.EvaRecursosEstadisticasAdmin.configurar(null);
+      resultado.despues= document.getElementById("rec-total").textContent;
+      resultado.sinDatosOculto=document.getElementById("rec-sin-datos").hidden;
+      return resultado;
+    });
+    assert.equal(changedMaster.total,"2","La respuesta de la cuenta anterior no debe reemplazar a la actual");
+    assert.match(changedMaster.filas,/Rutinas visuales/);
+    assert.equal(changedMaster.habilitado,true);
+    assert.equal(changedMaster.despues,"—");
+    assert.equal(changedMaster.sinDatosOculto,true);
+
+    // Verificación de legibilidad a tamaños de dispositivo y alto contraste.
+    await page.evaluate(()=>{
+      document.body.classList.add("alto-contraste");
+      document.getElementById("panel-recursos-uso").hidden=false;
+    });
+    const mobileLayout=await page.evaluate(()=>{
+      const panel=document.getElementById("panel-recursos-uso");
+      const summary=panel.querySelector(".estadisticas-resumen");
+      return {
+        viewport:document.documentElement.clientWidth,
+        pageWidth:document.documentElement.scrollWidth,
+        columns:getComputedStyle(summary).gridTemplateColumns.split(" ").length,
+        inputLabel:document.querySelector('label[for="rec-periodo"]')?.textContent.trim(),
+        statusRole:document.getElementById("rec-estado").getAttribute("role")
+      };
+    });
+    assert.equal(mobileLayout.statusRole,"status");
+    assert.match(mobileLayout.inputLabel,/Periodo de análisis/);
+    if(mobile)assert.equal(mobileLayout.columns,2,"En móvil se requieren 2 columnas de indicadores");
+    assert.ok(mobileLayout.pageWidth<=mobileLayout.viewport+2,"Desbordamiento horizontal con alto contraste");
     await page.close();
     console.log((mobile?"Movil simulado":"Escritorio")+": aprobados 6 escenarios de visualización, protección y borrado.");
   }
