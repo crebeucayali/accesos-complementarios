@@ -37,3 +37,50 @@ BEGIN
  IF NOT rejected THEN RAISE EXCEPTION 'Se permitió consulta sin MFA'; END IF;
 END $$;
 RESET ROLE;
+
+-- Etapa 2: contraste de siete acciones reales del código contra agregados
+-- ÚNICAMENTE en PostgreSQL temporal de GitHub Actions.
+SET ROLE anon;
+SELECT public.registrar_accion_recurso_mea('10000000-0000-4000-8000-000000000003','rutinas','jpg','exportacion_iniciada');
+SELECT public.registrar_accion_recurso_mea('10000000-0000-4000-8000-000000000004','braille','pdf','exportacion_iniciada');
+SELECT public.registrar_accion_recurso_mea('10000000-0000-4000-8000-000000000005','dactilologia_lsp','pdf','exportacion_iniciada');
+SELECT public.registrar_accion_recurso_mea('10000000-0000-4000-8000-000000000006','apoyos_lsp','pdf','exportacion_iniciada');
+SELECT public.registrar_accion_recurso_mea('10000000-0000-4000-8000-000000000007','conciencia_fonologica','html','exportacion_iniciada');
+-- Repetición de una de las siete acciones: debe devolver false y no incrementar.
+SELECT public.registrar_accion_recurso_mea('10000000-0000-4000-8000-000000000007','conciencia_fonologica','html','exportacion_iniciada');
+RESET ROLE;
+
+DO $$
+DECLARE v_total bigint; v_grupos int; v_eventos int; v_err int; v_fecha date;
+BEGIN
+ SELECT coalesce(sum(total),0),count(*) INTO v_total,v_grupos
+ FROM eva_recursos_api.mea_acciones_diarias;
+ SELECT count(*) INTO v_eventos FROM eva_recursos_api.mea_eventos_recientes;
+ IF v_total<>7 OR v_grupos<>7 OR v_eventos<>7 THEN
+ RAISE EXCEPTION 'Error de correspondencia: suma=%, grupos=%, UUID=%',v_total,v_grupos,v_eventos;
+ END IF;
+ SELECT count(*) INTO v_err FROM eva_recursos_api.mea_acciones_diarias
+ WHERE total<>1 OR fecha<>(now() AT TIME ZONE 'America/Lima')::date
+ OR (herramienta,formato,accion) NOT IN (
+ ('pictogramas','png','descarga_solicitada'),
+ ('rutinas','jpg','exportacion_iniciada'),
+ ('rutinas','pdf','exportacion_iniciada'),
+ ('braille','pdf','exportacion_iniciada'),
+ ('dactilologia_lsp','pdf','exportacion_iniciada'),
+ ('apoyos_lsp','pdf','exportacion_iniciada'),
+ ('conciencia_fonologica','html','exportacion_iniciada'));
+ IF v_err<>0 THEN RAISE EXCEPTION 'Inconsistencia de fecha o herramienta: %',v_err; END IF;
+ RAISE NOTICE 'MEA validado en base TEMPORAL: 7 combinaciones, 7 acciones, 7 UUID, 1 solicitud repetida sin duplicado';
+END $$;
+
+SET ROLE anon;
+DO $$
+DECLARE rejected boolean:=false;
+BEGIN
+ BEGIN
+ PERFORM * FROM public.admin_estadisticas_recursos_mea(30);
+ EXCEPTION WHEN OTHERS THEN rejected:=true;
+ END;
+ IF NOT rejected THEN RAISE EXCEPTION 'Consulta administrativa accesible a anon'; END IF;
+END $$;
+RESET ROLE;
