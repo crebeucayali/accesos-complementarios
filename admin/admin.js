@@ -2245,7 +2245,11 @@
     const totalAccesosModulos = Object.keys(NOMBRES_MODULOS)
       .reduce((total, id) => total + Number(mapa.get(id) || 0), 0);
 
-    Object.entries(NOMBRES_MODULOS).forEach(([id, nombre]) => {
+    // RA y NI permanecen en la base histórica del porcentaje; solo se ocultan sus filas.
+    const modulosOcultosEnPanel = new Set(["repositorio_accesible", "noti_inclusivos"]);
+    Object.entries(NOMBRES_MODULOS)
+      .filter(([id]) => !modulosOcultosEnPanel.has(id))
+      .forEach(([id, nombre]) => {
       const visitas = Number(mapa.get(id) || 0);
       const participacion = totalAccesosModulos > 0
         ? (visitas / totalAccesosModulos) * 100
