@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="admin.css?v=52">
+  <link rel="stylesheet" href="admin.css?v=53">
   <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
 <body class="theme-crebe wsite-theme-light panel-admin-page">
@@ -137,6 +137,7 @@
               <nav class="tabs" aria-label="Secciones administrativas">
                 <span class="admin-lateral-seccion">SEGUIMIENTO</span>
                 <button type="button" class="tab" data-panel="estadisticas"><svg class="admin-nav-icono" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-8"/><path d="M22 20v-5"/></svg><span class="admin-nav-texto">Estadísticas</span></button>
+                <button type="button" class="tab" data-panel="recursos-uso"><svg class="admin-nav-icono" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 11l4 4 4-4M4 17v4h16v-4"/></svg><span class="admin-nav-texto">Uso de recursos</span></button>
                 <button type="button" class="tab" data-panel="indicadores" hidden><svg class="admin-nav-icono" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v9h9"/><path d="M20.5 15A9 9 0 1 1 9 3.5"/><path d="M14 3a9 9 0 0 1 7 7h-7z"/></svg><span class="admin-nav-texto">Indicadores</span></button>
                 <span class="admin-lateral-seccion">GESTIÓN DE CONTENIDOS</span>
                 <button type="button" class="tab" data-panel="capacitaciones"><svg class="admin-nav-icono" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m2 9 10-5 10 5-10 5z"/><path d="M6 11v5c3 3 9 3 12 0v-5"/><path d="M22 9v6"/></svg><span class="admin-nav-texto">Capacitaciones</span></button>
@@ -1251,6 +1252,49 @@
             </div>
           </section>
 
+          <section class="tarjeta panel-seccion" id="panel-recursos-uso" aria-labelledby="rec-titulo" hidden>
+            <div class="titulo-tarjeta">
+              <span class="identificador-admin" aria-hidden="true">MEA</span>
+              <div>
+                <p class="micro-etiqueta">Estadísticas de recursos educativos</p>
+                <h2 id="rec-titulo">Uso de recursos educativos</h2>
+              </div>
+            </div>
+            <p class="nota">Se contabilizan exportaciones iniciadas y descargas solicitadas de MEA. Estas cifras no identifican visitantes ni confirman que el archivo terminó guardándose.</p>
+            <div class="rec-controles">
+              <label for="rec-periodo">Periodo de análisis
+                <select id="rec-periodo">
+                  <option value="7">Últimos 7 días</option>
+                  <option value="30" selected>Últimos 30 días</option>
+                  <option value="90">Últimos 90 días</option>
+                  <option value="365">Últimos 365 días</option>
+                </select>
+              </label>
+              <button id="rec-actualizar" class="secundario" type="button">Actualizar recursos</button>
+            </div>
+            <p id="rec-estado" role="status" aria-live="polite" class="nota">Selecciona un periodo para consultar las estadísticas.</p>
+            <div class="estadisticas-resumen" aria-label="Resumen de uso de recursos MEA">
+              <article class="estadistica-card"><span>Acciones registradas</span><strong id="rec-total">—</strong></article>
+              <article class="estadistica-card"><span>Exportaciones iniciadas</span><strong id="rec-exportaciones">—</strong></article>
+              <article class="estadistica-card"><span>Descargas solicitadas</span><strong id="rec-descargas">—</strong></article>
+              <article class="estadistica-card"><span>Herramientas utilizadas</span><strong id="rec-herramientas">—</strong></article>
+            </div>
+            <section class="estadisticas-bloque" aria-labelledby="rec-grafico-titulo">
+              <div class="estadisticas-encabezado"><h3 id="rec-grafico-titulo">Evolución diaria</h3></div>
+              <div id="rec-grafico" class="rec-grafico" role="list" aria-label="Acciones de recursos agrupadas por fecha"></div>
+            </section>
+            <section class="estadisticas-bloque" aria-labelledby="rec-tabla-titulo">
+              <div class="estadisticas-encabezado"><h3 id="rec-tabla-titulo">Distribución por herramienta y formato</h3></div>
+              <div class="tabla-estadisticas-wrap" tabindex="0" role="region" aria-label="Estadísticas detalladas de MEA">
+                <table class="tabla-estadisticas">
+                  <thead><tr><th scope="col">Herramienta</th><th scope="col">Formato</th><th scope="col">Acción</th><th scope="col">Cantidad</th></tr></thead>
+                  <tbody id="rec-tabla"></tbody>
+                </table>
+              </div>
+              <p id="rec-sin-datos" class="nota" hidden>Sin acciones registradas para el periodo seleccionado.</p>
+            </section>
+          </section>
+
           <p id="mensaje-admin" class="mensaje" aria-live="polite"></p>
             </div>
           </div>
@@ -1315,7 +1359,8 @@
   <script src="recurso-dia.js?v=4" defer></script>
   <script src="calendario-civico-admin.js?v=3" defer></script>
   <script src="calendario-civico-tarjetas.js?v=3" defer></script>
-  <script src="admin.js?v=60" defer></script>
+  <script src="estadisticas-recursos.js?v=1" defer></script>
+  <script src="admin.js?v=61" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>
 </html>
