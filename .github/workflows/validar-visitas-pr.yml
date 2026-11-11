@@ -1,0 +1,21 @@
+name: Validar visitas EVA
+on:
+  pull_request:
+    paths:
+      - 'estadisticas/visitas-eva.js'
+      - 'admin/tests/visitas-sesion-resiliente.test.cjs'
+      - '.github/workflows/validar-visitas-pr.yml'
+  workflow_dispatch:
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --check estadisticas/visitas-eva.js
+      - run: node --test admin/tests/visitas-sesion-resiliente.test.cjs
