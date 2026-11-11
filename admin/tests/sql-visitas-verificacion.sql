@@ -27,3 +27,35 @@ BEGIN
    RAISE EXCEPTION 'Agregación alterada: global=%, principal=%, BDA=%',global_count,main_count,bda_count;
  END IF;
 END $$;
+
+-- La función rechaza módulos inexistentes y eventos sin acción. Se ejecuta
+-- la comprobación bajo el rol anónimo autorizado para el endpoint.
+SET ROLE anon;
+DO $$
+DECLARE rechazado boolean := false;
+BEGIN
+ BEGIN
+  PERFORM public.registrar_visita_eva_hito('modulo_no_permitido',true,true);
+ EXCEPTION WHEN OTHERS THEN rechazado := true;
+ END;
+ IF NOT rechazado THEN RAISE EXCEPTION 'Se admitió un módulo inválido'; END IF;
+ rechazado := false;
+ BEGIN
+  PERFORM public.registrar_visita_eva_hito('principal',false,false);
+ EXCEPTION WHEN OTHERS THEN rechazado := true;
+ END;
+ IF NOT rechazado THEN RAISE EXCEPTION 'Se admitió un evento sin acción'; END IF;
+END $$;
+RESET ROLE;
+
+-- Simular el hito sin alterar una base real: este contenedor será destruido.
+UPDATE public.eva_visitas_diarias SET visitas=999 WHERE modulo='__eva__';
+SET ROLE anon;
+SELECT public.registrar_visita_eva_hito('principal',true,false) AS respuesta_hito;
+RESET ROLE;
+DO $$
+DECLARE v_total bigint;
+BEGIN
+ SELECT visitas INTO v_total FROM public.eva_visitas_diarias WHERE modulo='__eva__';
+ IF v_total <> 1000 THEN RAISE EXCEPTION 'Hito incorrecto: %',v_total; END IF;
+END $$;
