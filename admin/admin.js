@@ -96,6 +96,7 @@
     window.EvaPublicacion?.limpiar();
     window.EvaIndicadoresAdmin?.limpiar();
     window.EvaRecursosEstadisticasAdmin?.limpiar();
+    window.EvaBDAEstadisticasAdmin?.limpiar();
     window.EvaDirectorioAdmin?.limpiar();
     window.EvaDestacadosAdmin?.limpiar();
     window.EvaRAMaterialesSemana?.limpiar();
@@ -141,6 +142,12 @@
       });
     });
     window.EvaIndicadoresAdmin?.configurar(perfil);
+    window.EvaBDAEstadisticasAdmin?.configurar(permitePanel("recursos-uso") ? perfil : null, {
+      consultar: p_dias => {
+        if (!permitePanel("recursos-uso")) throw new Error("Se requiere master y MFA AAL2.");
+        return rest("rpc/admin_estadisticas_recursos_bda", { method:"POST", body:JSON.stringify({p_dias}) });
+      }
+    });
     window.EvaRecursosEstadisticasAdmin?.configurar(permitePanel("recursos-uso") ? perfil : null, {
       consultar: p_dias => {
         if (!permitePanel("recursos-uso")) throw new Error("Se requiere acceso master y MFA AAL2.");
@@ -2641,7 +2648,10 @@
       if (boton.dataset.panel === "comunicados") cargarComunicados().catch(error => mostrarMensaje(error.message,"error"));
       $("panel-estadisticas").hidden = boton.dataset.panel !== "estadisticas";
       $("panel-recursos-uso").hidden = boton.dataset.panel !== "recursos-uso";
-      if (boton.dataset.panel === "recursos-uso") window.EvaRecursosEstadisticasAdmin?.cargar();
+      if (boton.dataset.panel === "recursos-uso") {
+        window.EvaRecursosEstadisticasAdmin?.cargar();
+        window.EvaBDAEstadisticasAdmin?.cargar();
+      }
       $("panel-indicadores").hidden = boton.dataset.panel !== "indicadores";
       $("panel-directorio").hidden = boton.dataset.panel !== "directorio";
       $("panel-destacados").hidden = boton.dataset.panel !== "destacados";
