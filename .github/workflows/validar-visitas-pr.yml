@@ -7,6 +7,7 @@ on:
       - 'admin/tests/visitas-integracion.browser.mjs'
       - '.github/workflows/validar-visitas-pr.yml'
       - 'supabase/migrations/20261111014000_aislar_funcion_publica_visitas_eva.sql'
+      - 'supabase/migrations/20261111020000_visitas_idempotentes_v2.sql'
       - 'admin/tests/sql-visitas-*.sql'
   workflow_dispatch:
 jobs:
@@ -56,5 +57,7 @@ jobs:
         run: psql -v ON_ERROR_STOP=1 -f admin/tests/sql-visitas-bootstrap.sql
       - name: Aplicar migración en PostgreSQL temporal
         run: psql -v ON_ERROR_STOP=1 -f supabase/migrations/20261111014000_aislar_funcion_publica_visitas_eva.sql
+      - name: Aplicar migración idempotente en PostgreSQL temporal
+        run: psql -v ON_ERROR_STOP=1 -f supabase/migrations/20261111020000_visitas_idempotentes_v2.sql
       - name: Comprobar rol público, hitos y agregados
         run: psql -v ON_ERROR_STOP=1 -f admin/tests/sql-visitas-verificacion.sql
