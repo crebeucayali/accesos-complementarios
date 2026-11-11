@@ -78,3 +78,38 @@ test("dos pestañas simultáneas con Web Locks comparten una sola sesión", asyn
   const total = [a,b].flatMap(c => c.requests).filter(r => r.url.includes("registrar_visita")).length;
   assert.equal(total, 1);
 });
+
+test("dos módulos de la misma sesión conservan un solo alta global", async () => {
+  const almacen = new Map(), estado = {};
+  const principal = contexto({ almacen, estado, modulo: "principal" });
+  await pausa(); await pausa();
+  const bda = contexto({ almacen, estado, modulo: "bda" });
+  await pausa(); await pausa();
+  const altas = [principal,bda].flatMap(c => c.requests)
+    .filter(r => r.url.includes("registrar_visita_eva_hito"))
+    .map(r => JSON.parse(r.options.body));
+  assert.equal(altas.length, 2);
+  assert.equal(altas.filter(x => x.p_nueva_sesion).length, 1);
+  assert.equal(altas.filter(x => x.p_nuevo_modulo).length, 2);
+});
+
+test("al expirar treinta minutos se inicia una nueva sesión", async () => {
+  const almacen = new Map(), estado = {};
+  let tiempo = 1000000;
+  const primera = contexto({ almacen, estado, now: () => tiempo });
+  await pausa(); await pausa();
+  tiempo += 31 * 60 * 1000;
+  const segunda = contexto({ almacen, estado, now: () => tiempo });
+  await pausa(); await pausa();
+  const llamadas = segunda.requests.filter(r => r.url.includes("registrar_visita_eva_hito"));
+  assert.equal(llamadas.length, 1);
+  assert.equal(JSON.parse(llamadas[0].options.body).p_nueva_sesion, true);
+});
+
+test("sin Web Locks la navegación individual continúa operativa", async () => {
+  const almacen = new Map(), estado = {};
+  const pagina = contexto({ almacen, estado, locks: false });
+  await pausa(); await pausa();
+  assert.equal(pagina.html.dataset.evaVisitas, "registrada");
+  assert.equal(pagina.requests.filter(r => r.url.includes("registrar_visita_eva_hito")).length, 1);
+});
