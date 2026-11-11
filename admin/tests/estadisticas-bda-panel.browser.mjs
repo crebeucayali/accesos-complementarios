@@ -5,7 +5,7 @@ const html=await readFile(new URL("../index.html",import.meta.url),"utf8");
 const js=await readFile(new URL("../estadisticas-bda.js",import.meta.url),"utf8");
 const css=await readFile(new URL("../admin.css",import.meta.url),"utf8");
 const admin=await readFile(new URL("../admin.js",import.meta.url),"utf8");
-assert.match(html,/estadisticas-bda\.js\?v=1/);
+assert.match(html,/estadisticas-bda\.js\?v=2/);
 assert.match(admin,/rpc\/admin_estadisticas_recursos_bda/);
 assert.match(admin,/EvaBDAEstadisticasAdmin\?\.limpiar\(\)/);
 assert.match(admin,/EvaBDAEstadisticasAdmin\?\.cargar\(\)/);
