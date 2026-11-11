@@ -191,3 +191,10 @@ Se confirmó:
 La documentación completa se encuentra en:
 
 [Etapa 4D — Validación integral](validacion-estadisticas-eva-etapa-4d.md)
+
+
+## Registro idempotente v2 (noviembre de 2026)
+
+El RPC público `registrar_visita_eva_hito_v2` usa una clave UUID aleatoria por operación de conteo, no por persona. Ante un error de red, el navegador almacena temporalmente la operación pendiente en `localStorage["eva_visitas_pendiente_v2"]` y la reintenta con la misma clave durante un máximo de 24 horas. Supabase conserva únicamente la UUID de la operación, el resultado técnico del hito y la fecha de recepción en la tabla restringida `eva_counter_api.eva_operaciones_recientes`; no guarda IP, nombres, correo ni información de dispositivo en dicha tabla. Las entradas anteriores a 72 horas se depuran periódicamente durante el registro de eventos nuevos; si no hay eventos nuevos, pueden permanecer hasta la siguiente depuración.
+
+El RPC `registrar_visita_eva_hito` original continúa disponible durante la transición de caché v2 a v3. Los contadores agregados diarios no cambian. El mecanismo disminuye duplicados por reintento de la misma operación, pero no acredita visitantes humanos ni evita llamadas artificiales con UUID nuevas. La versión `v3` del script se referencia en los módulos para renovar el caché de navegación.
