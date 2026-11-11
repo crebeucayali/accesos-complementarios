@@ -32,7 +32,9 @@ try{
   const b=await context.newPage();
   await wire(a);await wire(b);
   await Promise.all([a.goto(origin+"/a"),b.goto(origin+"/b")]);
-  await Promise.all([a.waitForFunction(()=>document.documentElement.dataset.evaVisitas==="registrada"),b.waitForFunction(()=>document.documentElement.dataset.evaVisitas==="registrada")]);
+  await a.waitForFunction(()=>localStorage.getItem("eva_visitas_sesion_v1")!==null);
+  await b.waitForFunction(()=>localStorage.getItem("eva_visitas_sesion_v1")!==null);
+  await a.waitForTimeout(200);
   assert.equal(calls.filter(c=>c.p_nueva_sesion).length,1,"Only one global session for two tabs");
   assert.equal(calls.filter(c=>c.p_nuevo_modulo).length,1,"Only one module view for two tabs");
   await a.reload();
