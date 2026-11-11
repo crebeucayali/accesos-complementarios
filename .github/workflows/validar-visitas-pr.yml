@@ -6,6 +6,8 @@ on:
       - 'admin/tests/visitas-sesion-resiliente.test.cjs'
       - 'admin/tests/visitas-integracion.browser.mjs'
       - '.github/workflows/validar-visitas-pr.yml'
+      - 'supabase/migrations/20261111014000_aislar_funcion_publica_visitas_eva.sql'
+      - 'admin/tests/sql-visitas-*.sql'
   workflow_dispatch:
 jobs:
   validar:
@@ -23,3 +25,36 @@ jobs:
       - run: npm install --no-save --no-package-lock playwright@1.56.1
       - run: npx playwright install --with-deps chromium
       - run: node admin/tests/visitas-integracion.browser.mjs
+
+  postgres:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: eva_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGDATABASE: eva_test
+      PGUSER: postgres
+      PGPASSWORD: postgres
+    steps:
+      - uses: actions/checkout@v4
+      - name: Preparar esquema de prueba
+        run: psql -v ON_ERROR_STOP=1 -f admin/tests/sql-visitas-bootstrap.sql
+      - name: Aplicar migración en PostgreSQL temporal
+        run: psql -v ON_ERROR_STOP=1 -f supabase/migrations/20261111014000_aislar_funcion_publica_visitas_eva.sql
+      - name: Comprobar rol público, hitos y agregados
+        run: psql -v ON_ERROR_STOP=1 -f admin/tests/sql-visitas-verificacion.sql
