@@ -25,6 +25,8 @@
 
   let ultimoGuardadoActividad = 0;
   let registroEnCurso = false;
+  let ultimoErrorRegistro = 0;
+  const REINTENTO_ERROR_MS = 15000;
 
   function leerSesion() {
     try {
@@ -154,7 +156,7 @@
   }
 
   async function registrar(nuevaSesion, nuevoModulo) {
-    if ((!nuevaSesion && !nuevoModulo) || registroEnCurso) return;
+    if ((!nuevaSesion && !nuevoModulo) || registroEnCurso) return false;
 
     registroEnCurso = true;
     try {
@@ -164,13 +166,17 @@
         p_nuevo_modulo: Boolean(nuevoModulo)
       });
       document.documentElement.dataset.evaVisitas = "registrada";
+      ultimoErrorRegistro = 0;
       const hito = Number(resultado?.hito);
       if (nuevaSesion && Number.isSafeInteger(hito) && hito > 0) {
         mostrarReconocimientoHito(hito);
       }
+      return true;
     } catch (error) {
       document.documentElement.dataset.evaVisitas = "error";
       console.warn("Estadísticas EVA:", error);
+      ultimoErrorRegistro = Date.now();
+      return false;
     } finally {
       registroEnCurso = false;
     }
@@ -191,41 +197,61 @@
     }
   }
 
-  function procesarActividad({ forzarRegistro = false } = {}) {
-    const ahora = Date.now();
-    let sesion = leerSesion();
-    const expirada = !sesion || (ahora - Number(sesion.lastActivity || 0) >= SESSION_TIMEOUT_MS);
-    let nuevaSesion = false;
+  // Un único registro en curso por pestaña; navigator.locks sincroniza pestañas
+  // del mismo origen cuando el navegador ofrece Web Locks.
+  let procesandoActividad = false;
+  async function procesarActividad({ forzarRegistro = false } = {}) {
+    if (procesandoActividad) return;
+    procesandoActividad = true;
+    try {
+      const procesar = async () => {
+        const ahora = Date.now();
+        let sesion = leerSesion();
+        const expirada = !sesion || (ahora - Number(sesion.lastActivity || 0) >= SESSION_TIMEOUT_MS);
+        const nuevaSesion = expirada;
+        if (expirada) sesion = crearSesion(ahora);
+        const nuevoModulo = !sesion.modules[modulo];
 
-    if (expirada) {
-      sesion = crearSesion(ahora);
-      nuevaSesion = true;
-    }
+        if (nuevaSesion || nuevoModulo) {
+          // Ante fallos de red, evitar intentos repetidos por cada interacción.
+          if (ahora - ultimoErrorRegistro < REINTENTO_ERROR_MS) return;
+          const confirmado = await registrar(nuevaSesion, nuevoModulo);
+          if (!confirmado) return;
+          // El servidor ha respondido satisfactoriamente. Ahora sí confirmamos
+          // el estado local para evitar perder eventos por fallos HTTP.
+          if (nuevoModulo) sesion.modules[modulo] = true;
+          sesion.lastActivity = Date.now();
+          guardarSesion(sesion);
+          ultimoGuardadoActividad = Date.now();
+          actualizarContadorPublico();
+          return;
+        }
 
-    const nuevoModulo = !sesion.modules[modulo];
-    if (nuevoModulo) sesion.modules[modulo] = true;
+        if (forzarRegistro || ahora - ultimoGuardadoActividad >= ACTIVITY_WRITE_INTERVAL_MS) {
+          sesion.lastActivity = ahora;
+          guardarSesion(sesion);
+          ultimoGuardadoActividad = ahora;
+        }
+      };
 
-    const debeGuardarActividad =
-      nuevaSesion ||
-      nuevoModulo ||
-      forzarRegistro ||
-      (ahora - ultimoGuardadoActividad >= ACTIVITY_WRITE_INTERVAL_MS);
-
-    if (debeGuardarActividad) {
-      sesion.lastActivity = ahora;
-      guardarSesion(sesion);
-      ultimoGuardadoActividad = ahora;
-    }
-
-    if (nuevaSesion || nuevoModulo) {
-      registrar(nuevaSesion, nuevoModulo).then(actualizarContadorPublico);
+      if (navigator.locks && typeof navigator.locks.request === "function") {
+        await navigator.locks.request("eva-visitas-sesion-v1", { mode: "exclusive" }, procesar);
+      } else {
+        // Sin Web Locks se mantiene la protección local de una sola pestaña;
+        // no puede garantizarse exclusión simultánea entre pestañas.
+        await procesar();
+      }
+    } catch (error) {
+      console.warn("Estadísticas EVA (sesión):", error);
+    } finally {
+      procesandoActividad = false;
     }
   }
 
   procesarActividad({ forzarRegistro: true });
   actualizarContadorPublico();
 
-  const actividad = () => procesarActividad();
+  const actividad = () => { void procesarActividad(); };
 
   window.addEventListener("pointerdown", actividad, { passive: true });
   window.addEventListener("keydown", actividad);
@@ -233,6 +259,6 @@
   window.addEventListener("scroll", actividad, { passive: true });
 
   document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") procesarActividad({ forzarRegistro: true });
+    if (document.visibilityState === "visible") void procesarActividad({ forzarRegistro: true });
   });
 })();
