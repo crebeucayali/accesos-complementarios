@@ -2,7 +2,7 @@
   "use strict";
   const $=id=>document.getElementById(id);
   const auth=window.EvaAdminSession;
-  let perfil=null,filas=[],busy=false,initialized=false;
+  let perfil=null,filas=[],busy=false,initialized=false,fondoActual="",fondoLocal="";
   const permitido=()=>perfil?.autorizado===true && perfil.rol==="master" && perfil.aal==="aal2";
   const requireMaster=()=>{if(!permitido()||!auth?.getSession())throw new Error("Esta función requiere una sesión Master con MFA.");};
   const solicitar=async(path,options={})=>{
@@ -13,6 +13,62 @@
     const el=$("indicadores-mensaje");if(!el)return;
     el.textContent=text||"";el.className="mensaje"+(error?" error":text?" exito":"");
   };
+  const baseFondo="https://dteimbhwtzghhsijeeld.supabase.co/storage/v1/object/public/eva-publico/indicadores/";
+  const validarUrlFondo=url=>typeof url==="string" && url.startsWith(baseFondo) && /^https:\/\/dteimbhwtzghhsijeeld\.supabase\.co\/storage\/v1\/object\/public\/eva-publico\/indicadores\/[a-zA-Z0-9_./-]+\.webp$/.test(url);
+  function vistaFondo(url){
+    const img=$("indicadores-fondo-preview"),contenedor=$("indicadores-fondo-vista");
+    if(url){img.src=url;contenedor.hidden=false;}
+    else{img.removeAttribute("src");contenedor.hidden=true;}
+    $("indicadores-fondo-estado").textContent=fondoLocal?"Archivo seleccionado, sin publicar.":fondoActual?"Fotografía de fondo publicada.":"Sin imagen de fondo publicada.";
+    $("indicadores-fondo-quitar").disabled=busy||!fondoActual;
+    $("indicadores-fondo-publicar").disabled=busy;
+  }
+  function validarArchivo(file){
+    if(!file||file.type!=="image/webp"||!/\.webp$/i.test(file.name))throw new Error("Selecciona una imagen WebP válida.");
+    if(file.size<1||file.size>5*1024*1024)throw new Error("El archivo WebP debe pesar como máximo 5 MB.");
+    return file;
+  }
+  async function guardarFondo(url){
+    const result=await solicitar("eva_indicadores_config?id=eq.1",{
+      method:"PATCH",headers:{Prefer:"return=representation"},body:JSON.stringify({fondo_url:url})
+    });
+    if(!Array.isArray(result)||result.length!==1)throw new Error("No se pudo confirmar la publicación del fondo.");
+    fondoActual=url||"";
+  }
+  async function publicarFondo(){
+    await ejecutar(async()=>{
+      const file=validarArchivo($("indicadores-fondo-archivo").files?.[0]);
+      const sesion=auth.getSession();
+      if(!sesion?.access_token)throw new Error("La sesión administrativa expiró. Ingresa nuevamente.");
+      const name="indicadores/fondo-"+Date.now()+"-"+Math.random().toString(36).slice(2,10)+".webp";
+      const url="https://dteimbhwtzghhsijeeld.supabase.co/storage/v1/object/eva-publico/"+name;
+      const res=await fetch(url,{method:"POST",headers:{
+        apikey:"sb_publishable_tHbo1jTeW_dC90hdA5DvyQ_a6LrfKpq",
+        Authorization:"Bearer "+sesion.access_token,
+        "Content-Type":"image/webp",
+        "x-upsert":"false"
+      },body:file,cache:"no-store"});
+      if(!res.ok)throw new Error("No se pudo subir el archivo a Storage ("+res.status+"). Comprueba que el MFA siga activo.");
+      const publica=baseFondo+name.slice("indicadores/".length);
+      await guardarFondo(publica);
+      $("indicadores-fondo-archivo").value="";
+      if(fondoLocal)URL.revokeObjectURL(fondoLocal);
+      fondoLocal="";
+      vistaFondo(fondoActual);
+      aviso("Fondo WebP publicado. Actualiza la portada EVA para visualizarlo.");
+    });
+  }
+  async function quitarFondo(){
+    if(!window.confirm("¿Quitar la imagen de fondo actual de la portada? La fotografía almacenada no se eliminará."))return;
+    await ejecutar(async()=>{
+      await guardarFondo(null);
+      $("indicadores-fondo-archivo").value="";
+      if(fondoLocal)URL.revokeObjectURL(fondoLocal);
+      fondoLocal="";
+      vistaFondo("");
+      aviso("Fondo retirado. La sección vuelve a su apariencia original.");
+    });
+  }
   const actualizarPreview=()=>{
     $("indicador-preview-cifra").textContent=$("indicador-cifra").value.trim()||"150+";
     $("indicador-preview-titulo").textContent=$("indicador-titulo").value.trim()||"Título del indicador";
@@ -86,6 +142,8 @@
       $("indicadores-etiqueta").value=config[0].etiqueta;
       $("indicadores-titulo").value=config[0].titulo;
       $("indicadores-descripcion").value=config[0].descripcion;
+      fondoActual=validarUrlFondo(config[0].fondo_url)?config[0].fondo_url:"";
+      vistaFondo(fondoActual);
     }
     render();
   };
@@ -175,11 +233,23 @@
         await refrescar();limpiarFormulario();aviso(id?"Indicador actualizado.":"Indicador agregado.");
       });
     });
+    $("indicadores-fondo-archivo").addEventListener("change",e=>{
+      try{
+        if(fondoLocal)URL.revokeObjectURL(fondoLocal);
+        fondoLocal="";
+        const file=e.target.files?.[0];
+        if(file){validarArchivo(file);fondoLocal=URL.createObjectURL(file);}
+        vistaFondo(fondoLocal||fondoActual);
+        aviso("");
+      }catch(error){e.target.value="";vistaFondo(fondoActual);aviso(error.message,true);}
+    });
+    $("indicadores-fondo-publicar").addEventListener("click",publicarFondo);
+    $("indicadores-fondo-quitar").addEventListener("click",quitarFondo);
     limpiarFormulario();
   }
   window.EvaIndicadoresAdmin={
     configurar(value){perfil=value;},
-    limpiar(){filas=[];perfil=null;if(initialized){$("indicadores-listado").replaceChildren();$("indicadores-orden-listado").replaceChildren();$("indicadores-config-form").reset();limpiarFormulario();aviso("");}},
+    limpiar(){filas=[];perfil=null;fondoActual="";if(fondoLocal)URL.revokeObjectURL(fondoLocal);fondoLocal="";if(initialized){$("indicadores-fondo-archivo").value="";vistaFondo("");$("indicadores-listado").replaceChildren();$("indicadores-orden-listado").replaceChildren();$("indicadores-config-form").reset();limpiarFormulario();aviso("");}},
     async cargar(){requireMaster();init();await refrescar();aviso("");}
   };
 })();
