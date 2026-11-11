@@ -32,13 +32,16 @@
       if (elemento) elemento.textContent = "—";
     });
     ["rec-tabla", "rec-grafico"].forEach(id => $(id)?.replaceChildren());
+    if ($("rec-sin-datos")) $("rec-sin-datos").hidden = true;
+    if ($("rec-actualizar")) $("rec-actualizar").disabled = false;
     estado("Selecciona un periodo para consultar las estadísticas.");
   }
 
   function configurar(perfil, opciones = {}) {
+    // Cambio de identidad o permisos: anula resultados y peticiones previas.
+    limpiar();
     autorizado = perfil?.autorizado === true && perfil?.rol === "master" && perfil?.aal === "aal2";
     consultar = autorizado && typeof opciones.consultar === "function" ? opciones.consultar : null;
-    if (!consultar) limpiar();
   }
 
   function normalizar(filas) {
@@ -157,7 +160,8 @@
       $("rec-tabla").replaceChildren();
       $("rec-grafico").replaceChildren();
       $("rec-sin-datos").hidden = true;
-      estado("No se pudieron consultar los recursos educativos. " + (error?.message || "Reintenta el acceso."), true);
+      console.warn("No se pudo consultar el uso de recursos MEA:", error);
+      estado("No se pudieron consultar los recursos educativos. Revisa tu sesión o vuelve a intentarlo.", true);
     } finally {
       if (ticket === solicitud) $("rec-actualizar").disabled = false;
     }
