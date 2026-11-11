@@ -1,3 +1,5 @@
+> **Estado histórico, sustituido el 11 de noviembre de 2026.** El seguimiento de impresiones Braille en BDA fue descartado y revertido. Consultar `docs/cierre-retiro-estadisticas-braille-bda-20261111.md` para el alcance vigente: únicamente descargas PNG LSP. Este documento conserva evidencia de una etapa anterior y no autoriza volver a activar esa función.
+
 # BDA, etapa 2: seguimiento de impresión de constancia Braille
 Fecha: 10 de noviembre de 2026 (Perú).
 
