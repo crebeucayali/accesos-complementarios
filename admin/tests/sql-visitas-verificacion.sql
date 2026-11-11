@@ -59,3 +59,18 @@ BEGIN
  SELECT visitas INTO v_total FROM public.eva_visitas_diarias WHERE modulo='__eva__';
  IF v_total <> 1000 THEN RAISE EXCEPTION 'Hito incorrecto: %',v_total; END IF;
 END $$;
+
+SET ROLE anon;
+SELECT public.registrar_visita_eva_hito_v2('b74ab114-cff2-4468-b759-d7c19d1cad01'::uuid,'mea',true,true);
+SELECT public.registrar_visita_eva_hito_v2('b74ab114-cff2-4468-b759-d7c19d1cad01'::uuid,'mea',true,true);
+RESET ROLE;
+DO $$
+DECLARE global_count bigint; mea_count bigint; tokens bigint;
+BEGIN
+ SELECT visitas INTO global_count FROM public.eva_visitas_diarias WHERE modulo='__eva__';
+ SELECT visitas INTO mea_count FROM public.eva_visitas_diarias WHERE modulo='mea';
+ SELECT count(*) INTO tokens FROM eva_counter_api.eva_operaciones_recientes;
+ IF global_count<>1001 OR mea_count<>1 OR tokens<>1 THEN
+ RAISE EXCEPTION 'RPC V2 no idempotente, global=%, MEA=%, tokens=%',global_count,mea_count,tokens;
+ END IF;
+END $$;
