@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="admin.css?v=53">
+  <link rel="stylesheet" href="admin.css?v=54">
   <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
 <body class="theme-crebe wsite-theme-light panel-admin-page">
@@ -974,6 +974,21 @@
                 <article class="indicadores-preview-tarjeta"><strong id="indicador-preview-cifra">150+</strong><h4 id="indicador-preview-titulo">Título del indicador</h4><p id="indicador-preview-descripcion">Descripción del indicador.</p></article>
               </div>
             </section>
+            <section class="indicadores-fondo-admin" aria-labelledby="indicadores-fondo-titulo">
+              <h3 id="indicadores-fondo-titulo">Imagen de fondo de alcance institucional</h3>
+              <p class="nota">Sube una fotografía institucional en formato WebP (máximo 5 MB). La imagen ocupará todo el fondo de la sección y llevará una capa de color para conservar la lectura. Se requiere una cuenta Master con MFA.</p>
+              <label for="indicadores-fondo-archivo">Seleccionar imagen WebP
+                <input type="file" id="indicadores-fondo-archivo" accept="image/webp,.webp">
+              </label>
+              <div class="indicadores-fondo-vista" id="indicadores-fondo-vista" hidden>
+                <img id="indicadores-fondo-preview" alt="Vista previa de la fotografía de fondo institucional">
+              </div>
+              <p class="nota" id="indicadores-fondo-estado" aria-live="polite">No hay una fotografía configurada.</p>
+              <div class="acciones-repositorio">
+                <button type="button" id="indicadores-fondo-publicar">Subir y publicar fondo</button>
+                <button type="button" id="indicadores-fondo-quitar" class="secundario">Quitar fondo publicado</button>
+              </div>
+            </section>
             <details class="indicadores-config" aria-labelledby="indicadores-config-titulo">
               <summary id="indicadores-config-titulo">Editar encabezado de la sección</summary>
               <form id="indicadores-config-form">
@@ -1382,7 +1397,7 @@
   <script src="activacion.js?v=2" defer></script>
   <script src="usuarios.js?v=6" defer></script>
   <script src="publicacion.js?v=4" defer></script>
-  <script src="indicadores.js?v=2" defer></script>
+  <script src="indicadores.js?v=3" defer></script>
   <script src="directorio.js?v=1" defer></script>
   <script src="destacados.js?v=2" defer></script>
   <script src="ra-materiales-semana.js?v=1" defer></script>
