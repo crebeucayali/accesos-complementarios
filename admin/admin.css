@@ -2237,3 +2237,30 @@ body.alto-contraste #cal-admin-civico #cal-civico-guardar:not([hidden]){backgrou
 body.alto-contraste #cal-admin-civico .cal-civico-guardado-estado{
   background:#000!important;color:#fff!important;border:2px solid #fff!important
 }
+
+
+/* Seguimiento agregado de recursos educativos MEA */
+#panel-recursos-uso .rec-controles{
+  display:flex;align-items:end;gap:14px;flex-wrap:wrap;margin:18px 0;
+}
+#panel-recursos-uso .rec-controles label{display:grid;gap:6px;min-width:min(100%,230px);font-weight:700}
+#panel-recursos-uso .rec-controles select{max-width:100%;min-height:44px}
+#panel-recursos-uso #rec-estado[data-error="true"]{color:#9c2424;font-weight:700}
+#panel-recursos-uso .rec-grafico{display:grid;gap:10px;margin-bottom:22px}
+#panel-recursos-uso .rec-grafico-fila{
+  display:grid;grid-template-columns:100px minmax(0,1fr) minmax(44px,max-content);
+  gap:10px;align-items:center;min-width:0;
+}
+#panel-recursos-uso .rec-grafico-fecha{font-size:.84rem;font-variant-numeric:tabular-nums}
+#panel-recursos-uso .rec-grafico-pista{height:18px;border-radius:8px;background:#e1ebe9;overflow:hidden}
+#panel-recursos-uso .rec-grafico-valor{height:100%;display:block;background:#146e81;border-radius:8px;min-width:0}
+#panel-recursos-uso .rec-grafico-fila strong{text-align:right;font-variant-numeric:tabular-nums}
+body.alto-contraste #panel-recursos-uso .rec-grafico-pista{background:#444;border:1px solid currentColor}
+body.alto-contraste #panel-recursos-uso .rec-grafico-valor{background:#fff}
+body.alto-contraste #panel-recursos-uso #rec-estado[data-error="true"]{color:#fff}
+@media(max-width:580px){
+  #panel-recursos-uso .rec-controles{align-items:stretch}
+  #panel-recursos-uso .rec-controles label,#panel-recursos-uso .rec-controles button{width:100%}
+  #panel-recursos-uso .rec-grafico-fila{grid-template-columns:79px minmax(0,1fr) 42px;gap:7px}
+  #panel-recursos-uso .estadisticas-resumen{grid-template-columns:repeat(2,minmax(0,1fr))}
+}

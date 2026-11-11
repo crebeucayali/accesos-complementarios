@@ -39,7 +39,7 @@
 
   function permitePanel(modulo, escritura = false) {
     if (!perfil?.autorizado) return false;
-    if (modulo === "indicadores") return perfil.rol === "master" && perfil.aal === "aal2";
+    if (modulo === "indicadores" || modulo === "recursos-uso") return perfil.rol === "master" && perfil.aal === "aal2";
     if (modulo === "directorio") return perfil.rol === "master" && perfil.aal === "aal2";
     if (modulo === "destacados") return perfil.rol === "master" && perfil.aal === "aal2";
     if (modulo === "recurso-dia") return perfil.rol === "master" && perfil.aal === "aal2";
@@ -95,6 +95,7 @@
     window.EvaUsuarios?.limpiar();
     window.EvaPublicacion?.limpiar();
     window.EvaIndicadoresAdmin?.limpiar();
+    window.EvaRecursosEstadisticasAdmin?.limpiar();
     window.EvaDirectorioAdmin?.limpiar();
     window.EvaDestacadosAdmin?.limpiar();
     window.EvaRAMaterialesSemana?.limpiar();
@@ -140,6 +141,12 @@
       });
     });
     window.EvaIndicadoresAdmin?.configurar(perfil);
+    window.EvaRecursosEstadisticasAdmin?.configurar(permitePanel("recursos-uso") ? perfil : null, {
+      consultar: p_dias => {
+        if (!permitePanel("recursos-uso")) throw new Error("Se requiere acceso master y MFA AAL2.");
+        return rest("rpc/admin_estadisticas_recursos_mea", { method:"POST", body:JSON.stringify({p_dias}) });
+      }
+    });
     window.EvaDirectorioAdmin?.configurar(perfil);
     window.EvaDestacadosAdmin?.configurar(perfil);
     window.EvaRAMaterialesSemana?.configurar(perfil);
@@ -2633,6 +2640,8 @@
       $("panel-comunicados").hidden = boton.dataset.panel !== "comunicados";
       if (boton.dataset.panel === "comunicados") cargarComunicados().catch(error => mostrarMensaje(error.message,"error"));
       $("panel-estadisticas").hidden = boton.dataset.panel !== "estadisticas";
+      $("panel-recursos-uso").hidden = boton.dataset.panel !== "recursos-uso";
+      if (boton.dataset.panel === "recursos-uso") window.EvaRecursosEstadisticasAdmin?.cargar();
       $("panel-indicadores").hidden = boton.dataset.panel !== "indicadores";
       $("panel-directorio").hidden = boton.dataset.panel !== "directorio";
       $("panel-destacados").hidden = boton.dataset.panel !== "destacados";
