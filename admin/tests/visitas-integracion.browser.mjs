@@ -16,7 +16,7 @@ async function wire(page, modulo="principal") {
   await page.route("https://dteimbhwtzghhsijeeld.supabase.co/**", route => {
     const url = new URL(route.request().url());
     const name=url.pathname.split("/").at(-1);
-    if(name==="registrar_visita_eva_hito"){
+    if(name==="registrar_visita_eva_hito_v2"){
       calls.push(JSON.parse(route.request().postData()||"{}"));
       if(fail)return route.fulfill({status:503,contentType:"application/json",headers:{"access-control-allow-origin":"*"},body:'{"error":"simulated"}'});
       return route.fulfill({status:200,contentType:"application/json",headers:{"access-control-allow-origin":"*"},body:'{"hito":null}'});
@@ -53,12 +53,13 @@ try{
   const local=await c.evaluate(()=>localStorage.getItem("eva_visitas_sesion_v1"));
   assert.equal(local,null,"Failed request must not confirm local visit");
   fail=false;
-  await c.evaluate(()=>{window.__evaTestTimeOffset=16001;});
+  const pendingId=await c.evaluate(()=>JSON.parse(localStorage.getItem("eva_visitas_pendiente_v2")).id);
   // Keep the request's retry throttle real-time: revisit via fresh page with
   // a fresh instance, ensuring a retry is possible without production writes.
   await c.reload();
   await c.waitForFunction(()=>document.documentElement.dataset.evaVisitas==="registrada");
   assert.equal(calls.at(-1).p_modulo,"bda");
+  assert.equal(calls.at(-1).p_evento_id,pendingId);
   await context2.close();
 
   console.log("EVA browser integration passed: concurrent tabs, reload and HTTP recovery (mocked Supabase)");
