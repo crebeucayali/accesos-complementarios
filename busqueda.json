@@ -32,11 +32,11 @@
     "etiquetas": "juegos interactivos accesibles adivina seña braille memoria visual pareja secuencia actividades ludicas niveles instrucciones"
   },
   {
-    "titulo": "Noti Inclusivos",
-    "modulo": "NI",
-    "tipo": "Módulo",
-    "descripcion": "Noticias, comunicados, orientaciones y novedades sobre inclusión educativa y atención a la diversidad.",
-    "url": "https://crebeucayali.github.io/noti-inclusivos/",
+    "titulo": "Lecturas Inclusivas",
+    "modulo": "AC",
+    "tipo": "Acceso complementario",
+    "descripcion": "Artículos y lecturas sobre inclusión, accesibilidad y atención a la diversidad.",
+    "url": "https://crebeucayali.github.io/accesos-complementarios/lecturas-inclusivas/",
     "etiquetas": "noticias inclusivas comunicados normativa discapacidad educacion inclusiva minedu cenarebe fuentes oficiales actualidad"
   },
   {
