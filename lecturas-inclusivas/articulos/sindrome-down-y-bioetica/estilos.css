@@ -59,7 +59,7 @@ a:focus { outline: 3px solid #5eead4; outline-offset: 4px; }
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
-  background-image: url("../../patron-shipibo.webp?v=2");
+  background-image: url("../../../patron-shipibo.webp?v=2");
   background-repeat: repeat;
   background-size: cover;
   background-position: center;

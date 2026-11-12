@@ -11,7 +11,7 @@
     ["/capacitaciones", "capacitaciones"],
     ["/banco-digital-accesible", "bda"],
     ["/materiales-educativos-accesibles", "mea"],
-    ["/noti-inclusivos", "noti_inclusivos"],
+    ["/accesos-complementarios/lecturas-inclusivas", "noti_inclusivos"],
     ["/repositorio-accesible", "repositorio_accesible"],
     ["/DUA-3.0", "dua_3"],
     ["/accesos-complementarios", "accesos_complementarios"]
