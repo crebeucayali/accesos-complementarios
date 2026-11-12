@@ -42,3 +42,21 @@
 html.eva-alto-contraste :is(.introduccion,.bloque-lateral,.contenido-principal .columna-lateral){
  background:#000!important;background-image:none!important;color:#fff!important;border-color:#fff!important;
 }
+
+
+/* Botones de navegación institucional: mismo diseño de Jornadas. */
+.cabecera .enlaces-cabecera a {
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  min-height:34px;padding:7px 14px;color:#fff;background:#0b3550;
+  border:1px solid rgba(255,255,255,.85);border-radius:999px;
+  font-size:12px;font-weight:700;line-height:1.25;text-decoration:none;
+  text-shadow:none;white-space:nowrap;box-shadow:0 2px 4px rgba(0,0,0,.16);
+}
+.cabecera .enlaces-cabecera a:hover,.cabecera .enlaces-cabecera a:focus-visible {
+  color:#fff;background:#14516a;border-color:#fff;
+}
+.cabecera .enlaces-cabecera svg {display:block;width:15px;height:15px;flex:none;}
+@media(max-width:700px) {
+  .cabecera .enlaces-cabecera {gap:8px;}
+  .cabecera .enlaces-cabecera a {min-height:36px;padding:8px 12px;font-size:12px;white-space:normal;}
+}
