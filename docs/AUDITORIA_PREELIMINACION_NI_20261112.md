@@ -7,7 +7,7 @@ Ruta definitiva: `https://crebeucayali.github.io/accesos-complementarios/lectura
 
 ## Dictamen
 
-**INDEPENDENCIA FUNCIONAL CONFORME; ELIMINACIÓN DEFINITIVA AÚN BLOQUEADA POR RESPALDO EXTERNO Y AUTORIZACIÓN.**
+**INDEPENDENCIA FUNCIONAL CONFORME; RESPALDO EXTERNO VERIFICADO MEDIANTE REGISTRO DE POWERSHELL; ELIMINACIÓN SUJETA A AUTORIZACIÓN EXPRESA.**
 
 El usuario validó la vista de prueba antes de integrar a producción. Se han publicado la portada, el índice, siete artículos, el alias de `blog/` y sus recursos internos en AC. La aprobación humana de la vista previa no sustituye una segunda revisión visual de los enlaces definitivos.
 
@@ -37,17 +37,17 @@ El usuario validó la vista de prueba antes de integrar a producción. Se han pu
 
 No se interpreta un despliegue satisfactorio como reemplazo de pruebas humanas funcionales en toda la plataforma.
 
-## Rama e historial NI todavía no respaldados fuera del repositorio
+## Rama e historial NI respaldados fuera del repositorio
 
 La API GitHub registra **11 ramas** (incluida `main`) y **10 referencias de solicitudes de extracción**. El commit actual de `main` es:
 
 `16618b4e08baa2dd56ad0d47019a4275d11e4894`
 
-Se requiere copia espejo independiente, no una rama dentro del propio repositorio. Ruta propuesta junto al respaldo verificado de RA:
+Se recibió evidencia de la ejecución completa y satisfactoria de una copia espejo independiente, no una rama dentro del propio repositorio. Ruta de respaldo junto al RA:
 
 `E:\Escritorio\DOCS GABRIEL\CASA\banco_digital_lsp\Backups\NI-respaldo-git.git`
 
-Procedimiento en PowerShell:
+Procedimiento ejecutado por el usuario en PowerShell:
 
 ```powershell
 $Destino = "E:\Escritorio\DOCS GABRIEL\CASA\banco_digital_lsp\Backups"
@@ -58,7 +58,7 @@ git -C "$Destino\NI-respaldo-git.git" show-ref
 git -C "$Destino\NI-respaldo-git.git" rev-parse refs/heads/main
 ```
 
-Comprobar que los objetos no presentan errores, que se conservaron las once ramas y las diez referencias de PR, y que la rama principal devuelve el SHA anterior.
+**Verificación recibida:** clonación de 936/936 objetos y resolución de 605/605 deltas; `git fsck --full` sin errores; 11 ramas, 10 referencias de PR; `main` = `16618b4e08baa2dd56ad0d47019a4275d11e4894`. Posteriormente se contrastaron las 11 ramas y sus SHA con las referencias actuales de GitHub: coinciden. Esta validación se fundamenta en la salida de PowerShell aportada por el usuario y en la consulta directa de GitHub, no en una lectura directa del disco local.
 
 ## Condiciones de autorización
 
@@ -67,8 +67,8 @@ Comprobar que los objetos no presentan errores, que se conservaron las once rama
 - [x] Enlaces, rutas de búsqueda, índice SEO y monitores principales consolidados
 - [x] Rutas HTML de producción revisadas sin URLs canónicas antiguas
 - [x] Despliegues AC/EVA satisfactorios
-- [ ] Copia espejo Git independiente realizada y comprobada
+- [x] Copia espejo Git independiente realizada y comprobada mediante registro de PowerShell y contraste de referencias GitHub
 - [ ] Aprobación explícita del usuario para borrar definitivamente `crebeucayali/noti-inclusivos`, aceptando el 404 de los enlaces históricos sin redirect
 - [ ] Revisión visual final de las URLs definitivas, recomendable antes de borrar el origen
 
-**NO ELIMINAR NI** hasta que se acredite el respaldo y se autorice la eliminación. Los recursos y registros de Supabase permanecen intactos.
+**NI ES TÉCNICAMENTE APTO PARA RETIRO TRAS VALIDAR EL RESPALDO. NO ELIMINAR SIN AUTORIZACIÓN EXPRESA.** Los recursos y registros de Supabase permanecen intactos.
