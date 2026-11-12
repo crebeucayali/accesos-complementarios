@@ -1,0 +1,51 @@
+name: NI hacia AC - publicar vista de validacion
+on:
+  push:
+    branches:
+      - migration/ni-a-ac-20261111
+    paths:
+      - .github/workflows/ni-ac-publicar-preview.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  vista-previa:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout AC main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - name: Checkout copia NI validada
+        uses: actions/checkout@v4
+        with:
+          ref: migration/ni-a-ac-20261111
+          path: source
+          persist-credentials: false
+      - name: Revisar estado de main y generar vista previa
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          git merge --ff-only origin/main
+          python3 source/scripts/ni_ac_publish_preview.py
+          test -f validacion-ni/index.html
+          test -f validacion-ni/articulos/transicion-vida-adulta/index.html
+          test -f validacion-ni/articulos/lanzamiento-eva/lanzamiento-eva.webp
+          test "$(find validacion-ni -type f -name index.html | wc -l)" -eq 10
+          if grep -R -n 'noti-inclusivos/' validacion-ni --include='*.html'; then
+            echo "Encontradas referencias antiguas NI"; exit 1
+          fi
+      - name: Guardar solo ruta experimental en AC main
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_NAME" = "migration/ni-a-ac-20261111"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A validacion-ni/
+          if ! git diff --cached --quiet; then
+            git commit -m "Publicar validacion NI aislada y no indexable en AC"
+            git push origin HEAD:refs/heads/main
+          fi
