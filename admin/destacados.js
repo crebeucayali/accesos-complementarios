@@ -5,7 +5,7 @@
   let perfil=null,recursos=[],ocupado=false,iniciado=false;
   const origenes={
     CAP:"capacitaciones",BDA:"banco-digital-accesible",MEA:"materiales-educativos-accesibles",
-    NI:"noti-inclusivos",RA:"repositorio-accesible","DUA 3.0":"DUA-3.0"
+    NI:"accesos-complementarios/lecturas-inclusivas",RA:"banco-digital-accesible/repositorio-accesible","DUA 3.0":"DUA-3.0"
   };
   const permitido=()=>perfil?.autorizado===true&&perfil.rol==="master"&&perfil.aal==="aal2"&&Boolean(auth?.getSession());
   function exigir(){if(!permitido())throw new Error("La gestión de destacados requiere una sesión Master con MFA.");}
