@@ -75,7 +75,7 @@ test('Compartir por actividad: enlaces, conteo, Web Share, fallback y responsive
   assert.equal(await page.locator('#comp-periodo-acciones').textContent(),'4');
   assert.equal(await page.evaluate(()=>window.queries.length),2);await page.close();
  });
- for(const route of ['/','/capacitaciones/','/repositorio-accesible/','/noti-inclusivos/articulo.html']) await t.test('Regresión '+route,async()=>{
+ for(const route of ['/','/capacitaciones/','/banco-digital-accesible/repositorio-accesible/','/accesos-complementarios/lecturas-inclusivas/articulos/lanzamiento-eva/']) await t.test('Regresión '+route,async()=>{
   const page=await browser.newPage(),events=[];await page.addInitScript(()=>{navigator.share=()=>{throw Error('No cambiar módulos anteriores');};});
   await page.route('**/*',r=>{const url=new URL(r.request().url());if(url.pathname.endsWith('/eva_compartidos_eventos')){events.push(r.request().postDataJSON());return r.fulfill({status:201,headers:{'Access-Control-Allow-Origin':origin},body:''});}if(r.request().method()==='OPTIONS')return r.fulfill({status:204,headers:{'Access-Control-Allow-Origin':origin,'Access-Control-Allow-Headers':'apikey,content-type,prefer'},body:''});if(url.pathname==='/compartir-facebook.js')return r.fulfill({path:helper});return r.fulfill({contentType:'text/html',body:'<a class="compartir-facebook" href="#">Compartir</a><script src="/compartir-facebook.js"></script>'});});
   await page.goto(origin+route);const a=page.locator('a');assert.equal(new URL(await a.getAttribute('href')).searchParams.get('href'),origin+route);
