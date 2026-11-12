@@ -951,12 +951,22 @@
     materiales_elaborados: "Materiales elaborados"
   };
 
+  const RA_BDA_ASSETS = "https://crebeucayali.github.io/banco-digital-accesible/repositorio-accesible/";
+
   function resolverVistaPreviaRepositorio(valor) {
     const texto = String(valor || "").trim();
     if (!texto) return "";
-    if (/^assets\/[a-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(texto)) {
-      return "https://crebeucayali.github.io/repositorio-accesible/" + texto;
+    if (/^assets\/[a-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(texto) && !texto.includes("..")) {
+      return RA_BDA_ASSETS + texto;
     }
+    try {
+      const url = new URL(texto);
+      if (url.protocol === "https:" && url.hostname === "crebeucayali.github.io" &&
+          /^\/repositorio-accesible\/assets\/[a-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(url.pathname) &&
+          !url.search && !url.hash) {
+        return RA_BDA_ASSETS + url.pathname.slice("/repositorio-accesible/".length);
+      }
+    } catch { /* Vista previa temporal: el guardado valida por separado. */ }
     return texto;
   }
 
@@ -1163,12 +1173,12 @@
       const rutaGitHubValida =
         url.protocol === "https:" &&
         url.hostname.toLowerCase() === "crebeucayali.github.io" &&
-        /^\/repositorio-accesible\/assets\/[a-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(url.pathname);
+        /^\/(?:repositorio-accesible|banco-digital-accesible\/repositorio-accesible)\/assets\/[a-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(url.pathname) && !url.search && !url.hash;
 
       if (!rutaGitHubValida) throw new Error();
-      return url.href;
+      return resolverVistaPreviaRepositorio(url.href);
     } catch {
-      throw new Error("La imagen debe pertenecer al Repositorio Accesible o al Storage institucional autorizado.");
+      throw new Error("La imagen debe pertenecer al Repositorio Accesible dentro de BDA o al Storage institucional autorizado.");
     }
   }
 
@@ -1264,7 +1274,7 @@
     if (!fila) throw new Error("No se encontró el recurso seleccionado.");
 
     const aceptar = window.confirm(
-      '¿Eliminar "' + fila.titulo + '" del Repositorio Accesible?\n\nEsta acción retirará la tarjeta de Supabase.'
+      '¿Eliminar "' + fila.titulo + '" del Repositorio Accesible de BDA?\n\nEsta acción retirará la tarjeta de Supabase.'
     );
     if (!aceptar) return;
 
