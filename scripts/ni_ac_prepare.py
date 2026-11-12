@@ -21,7 +21,7 @@ EXPECTED_MEDIA = {
 }
 
 def git_blob_sha(data: bytes) -> str:
-    return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\\0" + data).hexdigest()
+    return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
 
 def verify_images() -> None:
     folder = ROOT / "articulos/lanzamiento-eva"
@@ -32,7 +32,7 @@ def verify_images() -> None:
             raise RuntimeError(f"SHA de imagen no coincide: {name}: {actual}")
 
 def repair_jsonld_csp(html: str) -> str:
-    pattern = r'(<script\\s+type="application/ld\\+json"\\s*>)([\\s\\S]*?)(</script>)'
+    pattern = r'(<script\s+type="application/ld\+json"\s*>)([\s\S]*?)(</script>)'
     scripts = list(re.finditer(pattern, html, re.I))
     if not scripts:
         return html
