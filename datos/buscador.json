@@ -6,7 +6,12 @@
     "categoria": "Participación",
     "tipo": "Servicio complementario",
     "descripcion": "Registro de participación de visitantes, docentes, familias y comunidad educativa.",
-    "etiquetas": ["firma", "visita", "registro", "participacion"],
+    "etiquetas": [
+      "firma",
+      "visita",
+      "registro",
+      "participacion"
+    ],
     "url": "https://crebeucayali.github.io/accesos-complementarios/firma-tu-visita/",
     "fechaActualizacion": "2026-07-23"
   },
@@ -17,7 +22,12 @@
     "categoria": "Actividades",
     "tipo": "Calendario",
     "descripcion": "Consulta de fechas institucionales, capacitaciones y actividades programadas.",
-    "etiquetas": ["calendario", "cronograma", "fechas", "actividades"],
+    "etiquetas": [
+      "calendario",
+      "cronograma",
+      "fechas",
+      "actividades"
+    ],
     "url": "https://crebeucayali.github.io/accesos-complementarios/recursos/calendario.html",
     "fechaActualizacion": "2026-07-23"
   },
@@ -28,7 +38,12 @@
     "categoria": "Evidencias",
     "tipo": "Galería",
     "descripcion": "Fotografías y evidencias visuales de actividades desarrolladas por el CREBE Ucayali.",
-    "etiquetas": ["galeria", "fotos", "evidencias", "actividades"],
+    "etiquetas": [
+      "galeria",
+      "fotos",
+      "evidencias",
+      "actividades"
+    ],
     "url": "https://crebeucayali.github.io/accesos-complementarios/recursos/galeria.html",
     "fechaActualizacion": "2026-07-23"
   },
@@ -39,7 +54,11 @@
     "categoria": "Información institucional",
     "tipo": "Subpágina",
     "descripcion": "Información general e identidad institucional del CREBE Ucayali.",
-    "etiquetas": ["nosotros", "identidad", "crebe"],
+    "etiquetas": [
+      "nosotros",
+      "identidad",
+      "crebe"
+    ],
     "url": "https://crebeucayali.github.io/accesos-complementarios/paginas/nosotros.html",
     "fechaActualizacion": "2026-07-23"
   },
@@ -50,7 +69,12 @@
     "categoria": "Información institucional",
     "tipo": "Subpágina",
     "descripcion": "Acciones de apoyo, orientación y fortalecimiento de la inclusión educativa.",
-    "etiquetas": ["acciones", "apoyo", "orientacion", "inclusion"],
+    "etiquetas": [
+      "acciones",
+      "apoyo",
+      "orientacion",
+      "inclusion"
+    ],
     "url": "https://crebeucayali.github.io/accesos-complementarios/paginas/que-hacemos.html",
     "fechaActualizacion": "2026-07-23"
   },
@@ -61,7 +85,12 @@
     "categoria": "Información institucional",
     "tipo": "Subpágina",
     "descripcion": "Información, capacitación, sensibilización y producción de materiales accesibles.",
-    "etiquetas": ["lineas de accion", "capacitacion", "sensibilizacion", "produccion"],
+    "etiquetas": [
+      "lineas de accion",
+      "capacitacion",
+      "sensibilizacion",
+      "produccion"
+    ],
     "url": "https://crebeucayali.github.io/accesos-complementarios/paginas/lineas-de-accion.html",
     "fechaActualizacion": "2026-07-23"
   },
@@ -72,7 +101,12 @@
     "categoria": "Directorio",
     "tipo": "Directorio",
     "descripcion": "Instituciones, servicios y contactos vinculados a educación, inclusión y discapacidad.",
-    "etiquetas": ["directorio", "instituciones", "servicios", "contactos"],
+    "etiquetas": [
+      "directorio",
+      "instituciones",
+      "servicios",
+      "contactos"
+    ],
     "url": "https://crebeucayali.github.io/accesos-complementarios/directorios/directorio-institucional.html",
     "fechaActualizacion": "2026-07-23"
   },
@@ -83,8 +117,159 @@
     "categoria": "Contacto",
     "tipo": "Subpágina",
     "descripcion": "Canales de comunicación, horario, ubicación y redes sociales del CREBE Ucayali.",
-    "etiquetas": ["contacto", "correo", "horario", "ubicacion"],
+    "etiquetas": [
+      "contacto",
+      "correo",
+      "horario",
+      "ubicacion"
+    ],
     "url": "https://crebeucayali.github.io/accesos-complementarios/paginas/contacto.html",
     "fechaActualizacion": "2026-07-23"
+  },
+  {
+    "id": "ni-lecturas-inclusivas",
+    "titulo": "Lecturas Inclusivas",
+    "modulo": "AC",
+    "categoria": "Lecturas inclusivas",
+    "tipo": "Repositorio de artículos",
+    "descripcion": "Artículos del CREBE sobre inclusión y accesibilidad.",
+    "etiquetas": [
+      "lecturas",
+      "articulos",
+      "inclusion",
+      "noticias"
+    ],
+    "url": "https://crebeucayali.github.io/accesos-complementarios/lecturas-inclusivas/",
+    "fechaActualizacion": "2026-11-12"
+  },
+  {
+    "id": "ni-lectura-cuentos-inclusion-discapacidad",
+    "titulo": "Los cuentos ayudan a acercar a los niños a la inclusión y la discapacidad",
+    "modulo": "AC",
+    "categoria": "Lecturas inclusivas",
+    "tipo": "Artículo",
+    "descripcion": "Lectura inclusiva del CREBE Ucayali.",
+    "etiquetas": [
+      "articulo",
+      "lectura",
+      "inclusion",
+      "cuentos",
+      "inclusion",
+      "discapacidad"
+    ],
+    "url": "https://crebeucayali.github.io/accesos-complementarios/lecturas-inclusivas/articulos/cuentos-inclusion-discapacidad/",
+    "fechaActualizacion": "2026-11-12"
+  },
+  {
+    "id": "ni-lectura-lanzamiento-eva",
+    "titulo": "Lanzamiento de EVA",
+    "modulo": "AC",
+    "categoria": "Lecturas inclusivas",
+    "tipo": "Artículo",
+    "descripcion": "Lectura inclusiva del CREBE Ucayali.",
+    "etiquetas": [
+      "articulo",
+      "lectura",
+      "inclusion",
+      "lanzamiento",
+      "eva"
+    ],
+    "url": "https://crebeucayali.github.io/accesos-complementarios/lecturas-inclusivas/articulos/lanzamiento-eva/",
+    "fechaActualizacion": "2026-11-12"
+  },
+  {
+    "id": "ni-lectura-natacion-inclusiva-sin-barreras",
+    "titulo": "Aprender en el agua sin barreras",
+    "modulo": "AC",
+    "categoria": "Lecturas inclusivas",
+    "tipo": "Artículo",
+    "descripcion": "Lectura inclusiva del CREBE Ucayali.",
+    "etiquetas": [
+      "articulo",
+      "lectura",
+      "inclusion",
+      "natacion",
+      "inclusiva",
+      "sin",
+      "barreras"
+    ],
+    "url": "https://crebeucayali.github.io/accesos-complementarios/lecturas-inclusivas/articulos/natacion-inclusiva-sin-barreras/",
+    "fechaActualizacion": "2026-11-12"
+  },
+  {
+    "id": "ni-lectura-neurodiversidad-del-reconocimiento-a-los-apoyos",
+    "titulo": "Neurodiversidad: del reconocimiento a los apoyos",
+    "modulo": "AC",
+    "categoria": "Lecturas inclusivas",
+    "tipo": "Artículo",
+    "descripcion": "Lectura inclusiva del CREBE Ucayali.",
+    "etiquetas": [
+      "articulo",
+      "lectura",
+      "inclusion",
+      "neurodiversidad",
+      "del",
+      "reconocimiento",
+      "a",
+      "los",
+      "apoyos"
+    ],
+    "url": "https://crebeucayali.github.io/accesos-complementarios/lecturas-inclusivas/articulos/neurodiversidad-del-reconocimiento-a-los-apoyos/",
+    "fechaActualizacion": "2026-11-12"
+  },
+  {
+    "id": "ni-lectura-salud-emergencias-inclusion",
+    "titulo": "Salud, emergencias e inclusión",
+    "modulo": "AC",
+    "categoria": "Lecturas inclusivas",
+    "tipo": "Artículo",
+    "descripcion": "Lectura inclusiva del CREBE Ucayali.",
+    "etiquetas": [
+      "articulo",
+      "lectura",
+      "inclusion",
+      "salud",
+      "emergencias",
+      "inclusion"
+    ],
+    "url": "https://crebeucayali.github.io/accesos-complementarios/lecturas-inclusivas/articulos/salud-emergencias-inclusion/",
+    "fechaActualizacion": "2026-11-12"
+  },
+  {
+    "id": "ni-lectura-sindrome-down-y-bioetica",
+    "titulo": "Síndrome de Down, ciencia y bioética",
+    "modulo": "AC",
+    "categoria": "Lecturas inclusivas",
+    "tipo": "Artículo",
+    "descripcion": "Lectura inclusiva del CREBE Ucayali.",
+    "etiquetas": [
+      "articulo",
+      "lectura",
+      "inclusion",
+      "sindrome",
+      "down",
+      "y",
+      "bioetica"
+    ],
+    "url": "https://crebeucayali.github.io/accesos-complementarios/lecturas-inclusivas/articulos/sindrome-down-y-bioetica/",
+    "fechaActualizacion": "2026-11-12"
+  },
+  {
+    "id": "ni-lectura-transicion-vida-adulta",
+    "titulo": "Transición a la vida adulta",
+    "modulo": "AC",
+    "categoria": "Lecturas inclusivas",
+    "tipo": "Artículo",
+    "descripcion": "Lectura inclusiva del CREBE Ucayali.",
+    "etiquetas": [
+      "articulo",
+      "lectura",
+      "inclusion",
+      "transicion",
+      "vida",
+      "adulta"
+    ],
+    "url": "https://crebeucayali.github.io/accesos-complementarios/lecturas-inclusivas/articulos/transicion-vida-adulta/",
+    "fechaActualizacion": "2026-11-12"
   }
 ]
