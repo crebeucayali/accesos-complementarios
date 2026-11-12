@@ -142,7 +142,7 @@
                 <span class="admin-lateral-seccion">GESTIÓN DE CONTENIDOS</span>
                 <button type="button" class="tab" data-panel="capacitaciones"><svg class="admin-nav-icono" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m2 9 10-5 10 5-10 5z"/><path d="M6 11v5c3 3 9 3 12 0v-5"/><path d="M22 9v6"/></svg><span class="admin-nav-texto">Capacitaciones</span></button>
                 <button type="button" class="tab" data-panel="calendario"><svg class="admin-nav-icono" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/><path d="M8 14h3M8 17h3"/></svg><span class="admin-nav-texto">Calendario</span></button>
-                <button type="button" class="tab" data-panel="repositorio"><svg class="admin-nav-icono" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h5v16H4zM10 4h5v16h-5zM16 8h4v12h-4z"/><path d="M6 8h1M12 8h1M18 12h1"/></svg><span class="admin-nav-texto">Repositorio</span></button>
+                <button type="button" class="tab" data-panel="repositorio"><svg class="admin-nav-icono" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h5v16H4zM10 4h5v16h-5zM16 8h4v12h-4z"/><path d="M6 8h1M12 8h1M18 12h1"/></svg><span class="admin-nav-texto">BDA · Repositorio</span></button>
                 <button type="button" class="tab" data-panel="noticias"><svg class="admin-nav-icono" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h4v4H7zM14 8h4M14 11h4M7 15h11"/></svg><span class="admin-nav-texto">Noticias</span></button>
                 <button type="button" class="tab" data-panel="recurso-dia" hidden><svg class="admin-nav-icono" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18"/><path d="M8 15h3M14 15h3"/></svg><span class="admin-nav-texto">Recursos del día</span></button>
                 <button type="button" class="tab" data-panel="galeria"><svg class="admin-nav-icono" aria-hidden="true" focusable="false" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m3 17 5-5 4 4 3-3 6 6"/></svg><span class="admin-nav-texto">Galería</span></button>
@@ -214,7 +214,7 @@
                 <button type="button" data-admin-inicio-acceso="estadisticas" hidden>Estadísticas</button>
                 <button type="button" data-admin-inicio-acceso="capacitaciones" hidden>Capacitaciones</button>
                 <button type="button" data-admin-inicio-acceso="calendario" hidden>Calendario</button>
-                <button type="button" data-admin-inicio-acceso="repositorio" hidden>Repositorio</button>
+                <button type="button" data-admin-inicio-acceso="repositorio" hidden>BDA · Repositorio</button>
                 <button type="button" data-admin-inicio-acceso="noticias" hidden>Noticias</button>
                 <button type="button" data-admin-inicio-acceso="recurso-dia" hidden>Recursos del día</button>
               </div>
@@ -473,15 +473,15 @@
 
           <section class="tarjeta panel-seccion" id="panel-repositorio" hidden>
             <div class="titulo-tarjeta">
-              <span class="identificador-admin" aria-hidden="true">RA</span>
+              <span class="identificador-admin" aria-hidden="true">BDA</span>
               <div>
                 <p class="micro-etiqueta">Gestión de recursos</p>
-                <h2>Repositorio Accesible</h2>
+                <h2>Repositorio Accesible de BDA</h2>
               </div>
             </div>
 
             <div id="ra-semana-administracion" hidden>
-              <nav class="ra-semana-subtabs" aria-label="Gestión de Repositorio Accesible">
+              <nav class="ra-semana-subtabs" aria-label="Gestión del Repositorio Accesible dentro de BDA">
                 <button type="button" id="ra-semana-tab-catalogo" data-ra-semanal="false" aria-pressed="true" class="secundario">Catálogo y publicaciones</button>
                 <button type="button" id="ra-semana-tab-semanal" data-ra-semanal="true" aria-pressed="false" class="secundario">Materiales de la semana</button>
               </nav>
@@ -492,7 +492,7 @@
               <p>Archivar retira el contenido de la página pública y conserva el registro y sus archivos. Publicar un contenido archivado lo vuelve a mostrar.</p>
               <button id="publicacion-recargar-repositorio" class="secundario" type="button">Actualizar listado</button>
               <p id="publicacion-mensaje-repositorio" class="mensaje" role="status" aria-live="polite"></p>
-              <div class="tabla-estadisticas-wrap listado-publicaciones-scroll" tabindex="0" role="region" aria-label="Listado de publicaciones de Repositorio"><table class="tabla-estadisticas">
+              <div class="tabla-estadisticas-wrap listado-publicaciones-scroll" tabindex="0" role="region" aria-label="Listado de publicaciones del Repositorio Accesible de BDA"><table class="tabla-estadisticas">
                 <caption>Contenido del módulo y estado de publicación</caption>
                 <thead><tr><th scope="col">Contenido</th><th scope="col">Estado</th><th scope="col">Acción</th></tr></thead>
                 <tbody id="publicacion-listado-repositorio"></tbody>
@@ -576,7 +576,7 @@
 
             <section id="ra-semana-contenido" aria-labelledby="ra-semana-titulo" hidden>
               <h3 id="ra-semana-titulo">Materiales de la semana</h3>
-              <p>Selecciona tres materiales publicados del catálogo RA y prepara una programación de hasta siete días. Esta fase no activa el carrusel en la portada.</p>
+              <p>Selecciona tres materiales publicados del Repositorio Accesible de BDA y prepara una programación de hasta siete días. Esta fase no activa el carrusel en la portada.</p>
               <p id="ra-semana-mensaje" class="mensaje" role="status" aria-live="polite"></p>
               <div class="ra-semana-acciones">
                 <button type="button" id="ra-semana-nuevo" class="secundario">Nueva programación</button>
