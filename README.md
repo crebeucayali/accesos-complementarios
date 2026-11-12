@@ -193,3 +193,9 @@ Autor y desarrollador: Psicólogo Gabriel Berrospi
 Tipo de proyecto: Proyecto personal de carácter educativo, inclusivo, organizativo, comunicacional y digital  
 Finalidad general: Organización y acceso a páginas, rutas y recursos complementarios vinculados al funcionamiento transversal del EVA  
 Estado del proyecto: Base funcional consolidada; mantenimiento y mejora evolutiva
+
+## Gestión de Repositorio Accesible en BDA
+
+El panel administrativo EVA, alojado en Accesos Complementarios, muestra la sección "BDA · Repositorio" para gestionar los materiales disponibles, equipos tecnológicos y materiales elaborados. La tabla y los permisos internos conservan el identificador técnico `repositorio` por compatibilidad con las políticas existentes de Supabase.
+
+La ubicación pública es https://crebeucayali.github.io/banco-digital-accesible/repositorio-accesible/. La integración técnica está documentada en `docs/migracion-ra-bda-etapa3-20261111.md`.
