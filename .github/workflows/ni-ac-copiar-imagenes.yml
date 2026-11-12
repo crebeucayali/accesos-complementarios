@@ -37,6 +37,8 @@ jobs:
               (target/name).write_bytes(blob)
               print(name,len(blob),actual)
           PY
+      - name: Adaptar páginas, metadatos, enlaces y CSP en rama aislada
+        run: python3 scripts/ni_ac_prepare.py
       - name: Publicar únicamente en rama aislada
         shell: bash
         run: |
@@ -44,7 +46,7 @@ jobs:
           test "$GITHUB_REF_NAME" = "migration/ni-a-ac-20261111"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add lecturas-inclusivas/articulos/lanzamiento-eva/lanzamiento-eva.webp lecturas-inclusivas/articulos/lanzamiento-eva/lanzamiento-eva-mini.webp
+          git add lecturas-inclusivas/
           if ! git diff --cached --quiet; then
             git commit -m "Conservar imágenes originales NI en la migración aislada AC"
             git push origin HEAD:refs/heads/migration/ni-a-ac-20261111
