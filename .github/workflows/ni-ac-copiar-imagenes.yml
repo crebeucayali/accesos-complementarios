@@ -1,0 +1,51 @@
+name: NI to AC - copy original media (staging only)
+on:
+  push:
+    branches:
+      - migration/ni-a-ac-20261111
+    paths:
+      - .github/workflows/ni-ac-copiar-imagenes.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  copiar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Descargar imágenes originales NI y comparar hashes Git
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, subprocess, urllib.request, pathlib
+          base='https://raw.githubusercontent.com/crebeucayali/noti-inclusivos/main/articulos/lanzamiento-eva/'
+          files={
+            'lanzamiento-eva.webp':'78ddaea7346f143aa89e6155d8d7487cdc5b0229',
+            'lanzamiento-eva-mini.webp':'d9998c1f6eec0b2c127437020d6769a9927478b1'
+          }
+          target=pathlib.Path('lecturas-inclusivas/articulos/lanzamiento-eva')
+          target.mkdir(parents=True,exist_ok=True)
+          for name,sha in files.items():
+              with urllib.request.urlopen(base+name,timeout=40) as response:
+                  blob=response.read()
+              actual=hashlib.sha1(b'blob '+str(len(blob)).encode()+b'\0'+blob).hexdigest()
+              if actual!=sha:
+                  raise SystemExit(f'SHA Git incorrecto para {name}: {actual}')
+              (target/name).write_bytes(blob)
+              print(name,len(blob),actual)
+          PY
+      - name: Publicar únicamente en rama aislada
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_NAME" = "migration/ni-a-ac-20261111"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add lecturas-inclusivas/articulos/lanzamiento-eva/lanzamiento-eva.webp lecturas-inclusivas/articulos/lanzamiento-eva/lanzamiento-eva-mini.webp
+          if ! git diff --cached --quiet; then
+            git commit -m "Conservar imágenes originales NI en la migración aislada AC"
+            git push origin HEAD:refs/heads/migration/ni-a-ac-20261111
+          fi
