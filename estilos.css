@@ -153,3 +153,118 @@ html.eva-alto-contraste :is(.bloque-info,.bloque-legal,.bloque-mapa,.tarjeta-gui
  background:#000!important;background-image:none!important;color:#fff!important;border-color:#fff!important;
 }
 html.eva-alto-contraste .lista-mapa a{color:#ffff00!important;}
+
+/* Pie común EVA: referencia visual BDA; limitado a portadas. */
+footer.eva-pie-unificado {
+  display:block;
+  background:#0b3048;
+  color:#fff;
+  padding:42px 20px 24px;
+  font-family:Inter,Arial,Helvetica,sans-serif;
+}
+footer.eva-pie-unificado .footer-contenido {
+  display:grid;
+  grid-template-columns:1.15fr 1.05fr 1fr;
+  align-items:start;
+  gap:32px;
+  width:100%;
+  max-width:1120px;
+  margin:0 auto;
+}
+footer.eva-pie-unificado .footer-bloque {
+  min-width:0;
+  margin:0;
+  padding:0;
+  border:0;
+  background:transparent;
+}
+footer.eva-pie-unificado .footer-marca {
+  display:flex;
+  flex-direction:row;
+  align-items:flex-start;
+  gap:16px;
+}
+footer.eva-pie-unificado .footer-logo {
+  display:block;
+  width:72px;
+  max-width:72px;
+  height:auto;
+  max-height:72px;
+  flex:0 0 72px;
+  object-fit:contain;
+  border:0;
+  background:transparent;
+}
+footer.eva-pie-unificado .footer-bloque h2 {
+  margin:0 0 12px;
+  color:#fff;
+  font-family:Inter,Arial,Helvetica,sans-serif;
+  font-size:.9375rem;
+  font-weight:750;
+  line-height:1.4;
+}
+footer.eva-pie-unificado .footer-bloque p {
+  margin:0;
+  color:#e1ecf3;
+  font-size:.875rem;
+  font-weight:400;
+  line-height:1.65;
+  text-align:left;
+}
+footer.eva-pie-unificado a {
+  color:#e1ecf3;
+  font-size:inherit;
+  text-decoration:underline;
+  text-underline-offset:2px;
+}
+footer.eva-pie-unificado a:hover {color:#fff;text-decoration-thickness:2px;}
+footer.eva-pie-unificado a:focus-visible {outline:3px solid #f0ad4e;outline-offset:3px;}
+footer.eva-pie-unificado .footer-legal-eva {
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px 22px;
+  width:100%;
+  max-width:1120px;
+  margin:26px auto 0;
+  padding:0 0 26px;
+  border:0;
+  background:transparent;
+}
+footer.eva-pie-unificado .footer-legal-eva a {
+  color:#e1ecf3;
+  font-size:.8125rem;
+}
+footer.eva-pie-unificado .footer-final {
+  width:100%;
+  max-width:1120px;
+  margin:0 auto;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.2);
+}
+footer.eva-pie-unificado .footer-final p {
+  margin:0;
+  color:#d4e2eb;
+  font-size:.8125rem;
+  font-weight:400;
+  line-height:1.6;
+  text-align:left;
+}
+footer.eva-pie-unificado .eva-pie-atribuciones {
+  max-width:1120px;
+  margin:10px auto 0;
+}
+footer.eva-pie-unificado .eva-pie-atribuciones p {
+  color:#d4e2eb;
+  font-size:.8125rem;
+  line-height:1.6;
+}
+@media(max-width:760px) {
+  footer.eva-pie-unificado {padding:34px 18px 24px;}
+  footer.eva-pie-unificado .footer-contenido {grid-template-columns:1fr;gap:26px;}
+  footer.eva-pie-unificado .footer-marca {flex-direction:row;align-items:flex-start;}
+  footer.eva-pie-unificado .footer-legal-eva {margin-top:26px;}
+}
+@media(max-width:380px) {
+  footer.eva-pie-unificado .footer-marca {gap:12px;}
+  footer.eva-pie-unificado .footer-logo {width:58px;max-width:58px;flex-basis:58px;}
+}
