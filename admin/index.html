@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="admin.css?v=54">
+  <link rel="stylesheet" href="admin.css?v=55">
   <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
 <body class="theme-crebe wsite-theme-light panel-admin-page">
@@ -975,19 +975,20 @@
               </div>
             </section>
             <section class="indicadores-fondo-admin" aria-labelledby="indicadores-fondo-titulo">
-              <h3 id="indicadores-fondo-titulo">Imagen de fondo de alcance institucional</h3>
-              <p class="nota">Sube una fotografía institucional en formato WebP (máximo 5 MB). La imagen ocupará todo el fondo de la sección y llevará una capa de color para conservar la lectura. Se requiere una cuenta Master con MFA.</p>
-              <label for="indicadores-fondo-archivo">Seleccionar imagen WebP
-                <input type="file" id="indicadores-fondo-archivo" accept="image/webp,.webp">
+              <h3 id="indicadores-fondo-titulo">Galería de fondos de alcance institucional</h3>
+              <p class="nota">Guarda hasta 5 imágenes WebP. Elige manualmente cuál se mostrará como fondo en EVA; permanecerá publicada hasta que selecciones otra o la retires. No hay cambios automáticos por fecha.</p>
+              <label for="indicadores-fondo-archivo">Agregar fotografías WebP (máximo 5 MB por archivo)
+                <input type="file" id="indicadores-fondo-archivo" accept="image/webp,.webp" multiple>
               </label>
-              <div class="indicadores-fondo-vista" id="indicadores-fondo-vista" hidden>
-                <img id="indicadores-fondo-preview" alt="Vista previa de la fotografía de fondo institucional">
-              </div>
-              <p class="nota" id="indicadores-fondo-estado" aria-live="polite">No hay una fotografía configurada.</p>
+              <p class="nota" id="indicadores-fondo-capacidad" aria-live="polite">Consultando galería...</p>
+              <div class="indicadores-fondos-grid" id="indicadores-fondos-grid" aria-label="Fondos guardados"></div>
+              <p id="indicadores-fondo-estado" class="nota" role="status" aria-live="polite"></p>
               <div class="acciones-repositorio">
-                <button type="button" id="indicadores-fondo-publicar">Subir y publicar fondo</button>
-                <button type="button" id="indicadores-fondo-quitar" class="secundario">Quitar fondo publicado</button>
+                <button type="button" id="indicadores-fondo-publicar">Guardar imágenes seleccionadas</button>
+                <button type="button" id="indicadores-fondo-quitar" class="secundario">Quitar fondo de EVA</button>
+                <button type="button" id="indicadores-fondo-recargar" class="secundario">Actualizar galería</button>
               </div>
+              <p class="nota">Al eliminar una imagen de la galería, se retira de la selección, pero el archivo original permanece almacenado para evitar pérdidas accidentales.</p>
             </section>
             <details class="indicadores-config" aria-labelledby="indicadores-config-titulo">
               <summary id="indicadores-config-titulo">Editar encabezado de la sección</summary>
@@ -1397,7 +1398,7 @@
   <script src="activacion.js?v=2" defer></script>
   <script src="usuarios.js?v=6" defer></script>
   <script src="publicacion.js?v=4" defer></script>
-  <script src="indicadores.js?v=3" defer></script>
+  <script src="indicadores.js?v=4" defer></script>
   <script src="directorio.js?v=1" defer></script>
   <script src="destacados.js?v=2" defer></script>
   <script src="ra-materiales-semana.js?v=1" defer></script>
