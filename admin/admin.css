@@ -2275,3 +2275,16 @@ body.alto-contraste #panel-recursos-uso #rec-estado[data-error="true"]{color:#ff
 .indicadores-fondo-vista img{display:block;width:100%;max-height:300px;aspect-ratio:16/7;object-fit:cover}
 .indicadores-fondo-admin .acciones-repositorio{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
 body.alto-contraste .indicadores-fondo-admin,html.eva-alto-contraste .indicadores-fondo-admin{background:#000!important;color:#fff!important;border:2px solid #fff!important}
+
+/* Galería de cinco fondos WebP: selección manual con tarjetas visibles. */
+.indicadores-fondos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:12px;margin:16px 0}
+.indicadores-fondo-item{display:flex;flex-direction:column;gap:9px;min-width:0;padding:12px;background:#fff;border:1px solid #c7d9df;border-radius:12px}
+.indicadores-fondo-item>strong{color:#143b50;font-size:.93rem}
+.indicadores-fondo-item>img{display:block;width:100%;aspect-ratio:16/7;object-fit:cover;background:#e5edef;border-radius:8px}
+.indicadores-fondo-item>p{margin:0;overflow-wrap:anywhere;font-size:.8rem;color:#435968}
+.indicadores-fondo-insignia{display:block;font-size:.77rem;font-weight:700;color:#175e55}
+.indicadores-fondo-acciones{display:flex;flex-wrap:wrap;gap:7px;margin-top:auto}
+.indicadores-fondo-acciones button{min-height:38px;padding:7px 10px;font-size:.78rem}
+.indicadores-fondo-acciones button:disabled{opacity:.65;cursor:not-allowed}
+body.alto-contraste .indicadores-fondo-item,html.eva-alto-contraste .indicadores-fondo-item{background:#000!important;color:#fff!important;border:2px solid #fff!important}
+body.alto-contraste .indicadores-fondo-item :is(strong,p,span),html.eva-alto-contraste .indicadores-fondo-item :is(strong,p,span){color:#fff!important}
