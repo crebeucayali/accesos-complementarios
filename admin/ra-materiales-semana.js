@@ -28,16 +28,17 @@
   const normalizarImagen = url => {
     const val = String(url || "").trim();
     if (/^assets\/[a-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(val)) {
-      return "https://crebeucayali.github.io/repositorio-accesible/" + val;
+      return "https://crebeucayali.github.io/banco-digital-accesible/repositorio-accesible/" + val;
     }
     try {
       const u = new URL(val);
       if (u.protocol !== "https:") return "";
       const gh = u.hostname === "crebeucayali.github.io"
-        && /^\/repositorio-accesible\/assets\/[a-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(u.pathname);
+        && /^\/(?:repositorio-accesible|banco-digital-accesible\/repositorio-accesible)\/assets\/[a-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(u.pathname) && !u.search && !u.hash;
       const sb = u.hostname === "dteimbhwtzghhsijeeld.supabase.co"
         && /^\/storage\/v1\/object\/public\/eva-publico\/repositorio\/[a-z0-9._/-]+\.(jpg|jpeg|png|webp)$/i.test(u.pathname);
-      return gh || sb ? u.href : "";
+      if (gh) return "https://crebeucayali.github.io/banco-digital-accesible/repositorio-accesible/" + u.pathname.replace(/^\/(?:repositorio-accesible|banco-digital-accesible\/repositorio-accesible)\//, "");
+      return sb ? u.href : "";
     } catch { return ""; }
   };
   async function consultar(path, options = {}) {
