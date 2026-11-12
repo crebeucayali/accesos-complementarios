@@ -1,0 +1,47 @@
+/* EVA: accesos principales de cabecera, compatibles con los cinco modulos. */
+.cabecera .enlaces-cabecera > a.enlace-cabecera.eva-acceso-destacado,
+.hero .crebe-identity-links > a.eva-acceso-destacado {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  min-height:44px;
+  padding:10px 16px;
+  border:1px solid #d7e9ef;
+  border-radius:999px;
+  background:#103b57;
+  color:#fff !important;
+  font-size:.9375rem;
+  font-weight:700;
+  line-height:1.25;
+  text-shadow:none;
+  text-decoration:none;
+  box-shadow:0 4px 12px rgba(0,20,35,.22);
+  transition:background-color .18s ease,box-shadow .18s ease,transform .18s ease;
+}
+.cabecera .enlaces-cabecera > a.enlace-cabecera.eva-acceso-destacado:hover,
+.hero .crebe-identity-links > a.eva-acceso-destacado:hover {
+  background:#19577a;
+  border-color:#fff;
+  color:#fff !important;
+  transform:translateY(-1px);
+  box-shadow:0 6px 15px rgba(0,20,35,.3);
+}
+.cabecera .enlaces-cabecera > a.enlace-cabecera.eva-acceso-destacado:focus-visible,
+.hero .crebe-identity-links > a.eva-acceso-destacado:focus-visible {
+  outline:3px solid #ffd166;
+  outline-offset:3px;
+}
+.cabecera .enlaces-cabecera > a.enlace-cabecera.eva-acceso-destacado .eva-acceso-icono,
+.hero .crebe-identity-links > a.eva-acceso-destacado .eva-acceso-icono {
+  display:block;
+  width:18px;
+  height:18px;
+  flex:none;
+  stroke:currentColor;
+}
+.cabecera .enlaces-cabecera > a.enlace-cabecera.eva-acceso-destacado::after {content:none;}
+@media (prefers-reduced-motion:reduce) {
+ .cabecera .enlaces-cabecera > a.enlace-cabecera.eva-acceso-destacado,
+ .hero .crebe-identity-links > a.eva-acceso-destacado {transition:none;transform:none;}
+}
