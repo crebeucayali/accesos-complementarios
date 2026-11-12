@@ -1,0 +1,19 @@
+name: NI hacia AC - validar copia aislada
+on:
+  push:
+    branches:
+      - migration/ni-a-ac-20261111
+    paths:
+      - .github/workflows/ni-ac-validar.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validacion:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Comprobar sintaxis de scripts de migración
+        run: python3 -m py_compile scripts/ni_ac_prepare.py scripts/ni_ac_validate.py
+      - name: Verificar enlaces, imagenes, 7 articulos y hash CSP
+        run: python3 scripts/ni_ac_validate.py
