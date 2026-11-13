@@ -65,7 +65,7 @@ No se realizaron cambios en Supabase, SQL, RPC, eventos del repositorio público
 
 ## 6. Dictamen final
 
-La etapa 2 queda **cerrada técnicamente e integrada en main**, con validaciones automáticas satisfactorias. Se conserva la arquitectura de conteos y la independencia entre MEA/BDA. **Actualización 13/11/2026:** la presentación visual quedó conforme a partir de una captura posterior remitida por el responsable. Posteriormente, el responsable remitió ambos CSV y se verificaron su estructura, codificación y totales. La apertura visual en Microsoft Excel sigue sin constatarse. Véase `docs/validacion-csv-uso-recursos-etapa2-20261113.md`.
+La etapa 2 queda **cerrada técnicamente e integrada en main**, con validaciones automáticas satisfactorias. Se conserva la arquitectura de conteos y la independencia entre MEA/BDA. **Actualización 13/11/2026:** la presentación visual quedó conforme a partir de una captura posterior remitida por el responsable. Posteriormente, el responsable remitió ambos CSV y se verificaron su estructura, codificación y totales. El responsable confirmó posteriormente que ambos archivos se abren y muestran correctamente en Microsoft Excel. Esta conformidad se basa en su constatación directa, adicional a la verificación técnica de los CSV. Véase `docs/validacion-csv-uso-recursos-etapa2-20261113.md`.
 
 Cualquier incorporación futura de eventos, visitas, consultas de recursos o nuevas categorías estadisticas requerirá una auditoría y autorización independientes.
 
@@ -74,4 +74,10 @@ Cualquier incorporación futura de eventos, visitas, consultas de recursos o nue
 
 La constatación realizada con la captura del 13 de noviembre documentó la distribución separada de MEA y BDA, la coherencia visible de los indicadores y el resumen por herramienta, las escalas de las dos gráficas, el formato de fechas y la presencia de los botones CSV. El resultado fue **conforme en el alcance visual comprobable**.
 
-El responsable aportó los dos CSV generados para el periodo de 30 días y se comprobaron encabezados, codificación UTF-8 con BOM, separador `;`, fechas, filas y totales (MEA 1; BDA 11). Se acredita que ambos archivos fueron generados y recuperados. Sigue pendiente confirmar su apertura y presentación en Microsoft Excel en el dispositivo del responsable; tampoco se equiparan las pruebas automáticas de cambio de periodo y cierre de sesión con una verificación humana. Véase `docs/validacion-csv-uso-recursos-etapa2-20261113.md`.
+El responsable aportó los dos CSV generados para el periodo de 30 días y se comprobaron encabezados, codificación UTF-8 con BOM, separador `;`, fechas, filas y totales (MEA 1; BDA 11). Se acredita que ambos archivos fueron generados y recuperados. El responsable confirmó expresamente que los dos CSV se abren y visualizan correctamente en Microsoft Excel. El cambio de periodo y la inhabilitación de exportación tras cerrar la sesión siguen acreditados por pruebas automatizadas, no por una prueba manual reportada. Véase `docs/validacion-csv-uso-recursos-etapa2-20261113.md`.
+
+## 8. Confirmación final del responsable (13/11/2026)
+
+En respuesta a la comprobación solicitada de los CSV de MEA y BDA, el responsable confirmó: "Sí se visualiza correctamente". En el contexto de la consulta anterior, esta confirmación comprende la apertura de ambos archivos en Microsoft Excel y la presentación correcta de sus columnas y datos.
+
+Con la captura de los módulos, la revisión directa de los dos archivos CSV, las verificaciones automatizadas y esta confirmación humana, **la etapa 2 de Uso de recursos se declara cerrada dentro del alcance implementado y validado**. No se realizaron nuevos cambios en la aplicación ni en Supabase. Las pruebas de otros periodos y cierre de sesión conservan su naturaleza automatizada y no se presentan como comprobaciones humanas independientes.

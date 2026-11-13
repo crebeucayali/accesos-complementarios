@@ -32,6 +32,6 @@
 
 **Conforme:** generación y recuperación de ambos archivos CSV, integridad estructural y de codificación, y coincidencia estadística con la captura disponible.
 
-**Pendiente de constatación humana:** confirmar cómo los muestra Microsoft Excel en el dispositivo real (separador, tildes, encabezados) y comprobar visualmente la apertura. Los archivos fueron analizados mediante un lector CSV, no mediante Excel. Tampoco se ha probado manualmente el cambio de periodos ni el bloqueo después de cerrar la sesión; existen pruebas automatizadas de regresión sobre estos controles.
+**Constatación humana posterior (13/11/2026):** tras la pregunta concreta sobre si los dos CSV se abrían correctamente en Excel, con sus columnas y datos sin alteraciones, el responsable respondió: "Sí se visualiza correctamente". Se registra esta comprobación como una confirmación del responsable, distinta de la revisión automática de los archivos, que no abrió Excel directamente. El cambio de periodo y el bloqueo de exportación tras cerrar sesión continúan cubiertos por pruebas automatizadas; no se declara una verificación manual independiente de esos escenarios.
 
 No se requirieron ni realizaron modificaciones de código, Supabase o estadísticas para esta comprobación.

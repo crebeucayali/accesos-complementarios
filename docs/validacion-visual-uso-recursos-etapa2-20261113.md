@@ -41,6 +41,6 @@ Los valores concretos mostrados en la captura (MEA 1; BDA 11) pueden cambiar al 
 
 ## 4. Dictamen
 
-**Etapa 2: validación visual conforme y pruebas automatizadas previamente aprobadas**. No se recomiendan modificaciones adicionales del diseño por la imagen revisada. **Pendiente únicamente la comprobación humana del funcionamiento de descarga y apertura de CSV en la sesión administrativa real.**
+**Etapa 2: validación visual conforme y pruebas automatizadas previamente aprobadas**. No se recomiendan modificaciones adicionales del diseño por la imagen revisada. **La entrega de ambos CSV y su correcta apertura en Microsoft Excel quedaron confirmadas posteriormente por el responsable.** Véase `docs/validacion-csv-uso-recursos-etapa2-20261113.md`. Las verificaciones de otros periodos y cierre de sesión se mantienen como automatizadas, no como pruebas humanas.
 
 No se modificó lógica, base de datos, permisos, archivos públicos ni estadísticas como parte de esta constatación. No se inicia una nueva etapa ni se propone añadir eventos sin autorización.
