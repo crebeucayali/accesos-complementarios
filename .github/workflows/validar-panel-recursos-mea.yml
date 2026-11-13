@@ -6,6 +6,7 @@ on:
       - 'admin/admin.js'
       - 'admin/admin.css'
       - 'admin/estadisticas-recursos.js'
+      - 'admin/estadisticas-uso-util.js'
       - 'admin/tests/estadisticas-recursos.browser.mjs'
       - '.github/workflows/validar-panel-recursos-mea.yml'
   workflow_dispatch:
@@ -24,4 +25,5 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: node --check admin/admin.js
       - run: node --check admin/estadisticas-recursos.js
+      - run: node --check admin/estadisticas-uso-util.js
       - run: node admin/tests/estadisticas-recursos.browser.mjs

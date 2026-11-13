@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="admin.css?v=58">
+  <link rel="stylesheet" href="admin.css?v=59">
   <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
 <body class="theme-crebe wsite-theme-light panel-admin-page">
@@ -1297,6 +1297,7 @@
                 </select>
               </label>
               <button id="rec-actualizar" class="secundario" type="button">Actualizar datos de MEA</button>
+              <button id="rec-exportar-csv" class="secundario rec-exportar-csv" type="button" disabled>Descargar CSV de MEA</button>
             </div>
             <p id="rec-estado" role="status" aria-live="polite" class="nota">Selecciona un periodo para consultar las estadísticas.</p>
             <div class="estadisticas-resumen" aria-label="Resumen de uso de recursos MEA">
@@ -1305,6 +1306,16 @@
               <article class="estadistica-card"><span>Descargas solicitadas</span><strong id="rec-descargas">—</strong></article>
               <article class="estadistica-card"><span>Herramientas con acciones registradas</span><strong id="rec-herramientas">—</strong></article>
             </div>
+            <section class="estadisticas-bloque rec-analisis" aria-labelledby="rec-herramientas-titulo">
+              <div class="estadisticas-encabezado"><h3 id="rec-herramientas-titulo">Resumen por herramienta de MEA</h3></div>
+              <div class="tabla-estadisticas-wrap" tabindex="0" role="region" aria-label="Resumen por herramienta de MEA">
+                <table class="tabla-estadisticas">
+                  <thead><tr><th scope="col">Herramienta</th><th scope="col">Descargas</th><th scope="col">Exportaciones</th><th scope="col">Total</th></tr></thead>
+                  <tbody id="rec-herramientas-tabla"></tbody>
+                </table>
+              </div>
+              <p id="rec-herramientas-sin-datos" class="nota" hidden>Sin herramientas con acciones en este periodo.</p>
+            </section>
             <section class="estadisticas-bloque" aria-labelledby="rec-grafico-titulo">
               <div class="estadisticas-encabezado"><h3 id="rec-grafico-titulo">Evolución diaria</h3></div>
               <div id="rec-grafico" class="rec-grafico" role="list" aria-label="Acciones de MEA agrupadas por fecha"></div>
@@ -1344,11 +1355,19 @@
                   </select>
                 </label>
                 <button type="button" id="bda-est-actualizar" class="secundario">Actualizar datos de BDA</button>
+                <button type="button" id="bda-est-exportar-csv" class="secundario rec-exportar-csv" disabled>Descargar CSV de BDA</button>
               </div>
               <p id="bda-est-estado" class="nota" role="status" aria-live="polite">Sin consultar.</p>
               <div class="estadisticas-resumen">
                 <article class="estadistica-card"><span>Solicitudes de descarga LSP</span><strong id="bda-est-total">—</strong></article>
               </div>
+              <section class="estadisticas-bloque rec-analisis" aria-labelledby="bda-est-grafico-titulo">
+                <div class="estadisticas-encabezado"><h3 id="bda-est-grafico-titulo">Evolución diaria de BDA</h3></div>
+                <div id="bda-est-grafico" class="rec-grafico" role="list" aria-label="Solicitudes de descarga LSP por fecha"></div>
+                <p id="bda-est-grafico-escala" class="nota rec-grafico-escala" hidden></p>
+                <p id="bda-est-grafico-sin-datos" class="nota rec-grafico-vacio" hidden>Sin solicitudes de BDA en este periodo.</p>
+              </section>
+              <div class="estadisticas-encabezado"><h3 id="bda-est-tabla-titulo">Detalle por fecha de BDA</h3></div>
               <div class="tabla-estadisticas-wrap" role="region" tabindex="0" aria-label="Descargas BDA por fecha">
                 <table class="tabla-estadisticas">
                   <thead><tr><th scope="col">Fecha</th><th scope="col">Tipo de recurso</th><th scope="col">Solicitudes</th></tr></thead>
@@ -1423,8 +1442,9 @@
   <script src="recurso-dia.js?v=4" defer></script>
   <script src="calendario-civico-admin.js?v=3" defer></script>
   <script src="calendario-civico-tarjetas.js?v=3" defer></script>
-  <script src="estadisticas-recursos.js?v=3" defer></script>
-  <script src="estadisticas-bda.js?v=1" defer></script>
+  <script src="estadisticas-uso-util.js?v=1" defer></script>
+  <script src="estadisticas-recursos.js?v=4" defer></script>
+  <script src="estadisticas-bda.js?v=2" defer></script>
   <script src="admin.js?v=64" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
 </body>
