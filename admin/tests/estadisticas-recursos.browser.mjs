@@ -9,6 +9,11 @@ const start=html.indexOf('<section class="tarjeta panel-seccion" id="panel-recur
 const end=html.indexOf('<p id="mensaje-admin"',start);
 assert.ok(start>0 && end>start,"Falta la sección MEA en el HTML real");
 const markup=html.slice(start,end);
+assert.match(markup,/Descargas y exportaciones de recursos/);
+assert.match(markup,/Materiales Educativos Accesibles/);
+assert.match(markup,/Herramientas con acciones registradas/);
+assert.match(markup,/id="rec-grafico-sin-datos"/);
+assert.match(markup,/No mide visitas, búsquedas, visualizaciones/);
 const browser=await chromium.launch({headless:true});
 try{
   for(const mobile of [false,true]){
@@ -28,13 +33,15 @@ try{
       return {
         calls,values:["rec-total","rec-descargas","rec-exportaciones","rec-herramientas"].map(id=>document.getElementById(id).textContent),
         rows:document.querySelectorAll("#rec-tabla tr").length,
-        graph:document.querySelectorAll("#rec-grafico [role=listitem]").length
+        graph:document.querySelectorAll("#rec-grafico [role=listitem]").length,
+        emptyGraphHidden:document.getElementById("rec-grafico-sin-datos").hidden
       };
     });
     assert.deepEqual(first.calls,[30]);
     assert.deepEqual(first.values,["1","1","0","1"]);
     assert.equal(first.rows,1);
     assert.equal(first.graph,1);
+    assert.equal(first.emptyGraphHidden,true);
 
     const change=await page.evaluate(async()=>{
       const input=document.getElementById("rec-periodo"); input.value="90";
@@ -49,18 +56,24 @@ try{
       await window.EvaRecursosEstadisticasAdmin.cargar();
       return {total:document.getElementById("rec-total").textContent,
         status:document.getElementById("rec-estado").textContent,
-        empty:document.getElementById("rec-sin-datos").hidden};
+        empty:document.getElementById("rec-sin-datos").hidden,
+        emptyGraph:document.getElementById("rec-grafico-sin-datos").hidden,
+        graphRows:document.querySelectorAll("#rec-grafico [role=listitem]").length};
     });
     assert.equal(empty.total,"0");
     assert.match(empty.status,/Sin acciones registradas/);
     assert.equal(empty.empty,false);
+    assert.equal(empty.emptyGraph,false,"La gráfica sin acciones debe mostrar una explicación");
+    assert.equal(empty.graphRows,0);
 
     const failed=await page.evaluate(async()=>{
       window.EvaRecursosEstadisticasAdmin.configurar({autorizado:true,rol:"master",aal:"aal2"},{consultar:async()=>{throw new Error("503");}});
       await window.EvaRecursosEstadisticasAdmin.cargar();
-      return {value:document.getElementById("rec-total").textContent,status:document.getElementById("rec-estado").textContent};
+      return {value:document.getElementById("rec-total").textContent,status:document.getElementById("rec-estado").textContent,
+        hiddenGraph:document.getElementById("rec-grafico-sin-datos").hidden};
     });
     assert.equal(failed.value,"—");
+    assert.equal(failed.hiddenGraph,true);
     assert.match(failed.status,/No se pudieron consultar/);
 
     const denied=await page.evaluate(async()=>{
@@ -127,7 +140,7 @@ try{
       };
     });
     assert.equal(mobileLayout.statusRole,"status");
-    assert.match(mobileLayout.inputLabel,/Periodo de análisis/);
+    assert.match(mobileLayout.inputLabel,/Periodo de análisis de MEA/);
     if(mobile)assert.equal(mobileLayout.columns,2,"En móvil se requieren 2 columnas de indicadores");
     assert.ok(mobileLayout.pageWidth<=mobileLayout.viewport+2,"Desbordamiento horizontal con alto contraste");
     await page.close();

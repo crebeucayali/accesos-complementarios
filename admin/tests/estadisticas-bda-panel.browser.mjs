@@ -13,6 +13,10 @@ const start=html.indexOf('<section class="tarjeta panel-seccion" id="panel-recur
 const end=html.indexOf('<p id="mensaje-admin"',start);
 assert.ok(start>0 && end>start);
 const section=html.slice(start,end);
+assert.match(section,/Solicitudes de descarga de imágenes LSP/);
+assert.match(section,/Tipo de recurso/);
+assert.match(section,/Las solicitudes repetidas pueden sumarse/);
+assert.match(section,/Actualizar datos de BDA/);
 const browser=await chromium.launch({headless:true});
 try{
  for(const mobile of [false,true]){

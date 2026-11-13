@@ -32,6 +32,7 @@
       if (elemento) elemento.textContent = "—";
     });
     ["rec-tabla", "rec-grafico"].forEach(id => $(id)?.replaceChildren());
+    if ($("rec-grafico-sin-datos")) $("rec-grafico-sin-datos").hidden = true;
     if ($("rec-sin-datos")) $("rec-sin-datos").hidden = true;
     if ($("rec-actualizar")) $("rec-actualizar").disabled = false;
     estado("Selecciona un periodo para consultar las estadísticas.");
@@ -101,6 +102,7 @@
       acumulado.set(clave, (acumulado.get(clave) || 0) + fila.total);
     }
     const puntos = [...acumulado].sort((a, b) => a[0].localeCompare(b[0]));
+    $("rec-grafico-sin-datos").hidden = puntos.length > 0;
     const maximo = Math.max(0, ...puntos.map(([, total]) => total));
     $("rec-grafico-titulo").textContent = mensual ? "Evolución mensual" : "Evolución diaria";
     for (const [fecha, total] of puntos) {
@@ -159,6 +161,7 @@
       });
       $("rec-tabla").replaceChildren();
       $("rec-grafico").replaceChildren();
+      $("rec-grafico-sin-datos").hidden = true;
       $("rec-sin-datos").hidden = true;
       console.warn("No se pudo consultar el uso de recursos MEA:", error);
       estado("No se pudieron consultar los recursos educativos. Revisa tu sesión o vuelve a intentarlo.", true);

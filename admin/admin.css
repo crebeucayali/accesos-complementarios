@@ -2288,3 +2288,11 @@ body.alto-contraste .indicadores-fondo-admin,html.eva-alto-contraste .indicadore
 .indicadores-fondo-acciones button:disabled{opacity:.65;cursor:not-allowed}
 body.alto-contraste .indicadores-fondo-item,html.eva-alto-contraste .indicadores-fondo-item{background:#000!important;color:#fff!important;border:2px solid #fff!important}
 body.alto-contraste .indicadores-fondo-item :is(strong,p,span),html.eva-alto-contraste .indicadores-fondo-item :is(strong,p,span){color:#fff!important}
+
+/* Claridad de la sección Uso de recursos; otros paneles no afectados. */
+#panel-recursos-uso .rec-subtitulo{margin:24px 0 6px;font-size:1.12rem;line-height:1.35;color:var(--azul-900);}
+#panel-recursos-uso .rec-alcance,#panel-recursos-uso .rec-ayuda{max-width:85ch;}
+#panel-recursos-uso .rec-ayuda{margin:0 0 12px;}
+#panel-recursos-uso .rec-grafico-vacio{margin:0 0 16px;}
+#panel-recursos-uso .estadistica-card span{overflow-wrap:anywhere;}
+body.alto-contraste #panel-recursos-uso .rec-subtitulo{color:#fff!important;}

@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="admin.css?v=55">
+  <link rel="stylesheet" href="admin.css?v=56">
   <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
 <body class="theme-crebe wsite-theme-light panel-admin-page">
@@ -1270,15 +1270,17 @@
 
           <section class="tarjeta panel-seccion" id="panel-recursos-uso" aria-labelledby="rec-titulo" hidden>
             <div class="titulo-tarjeta">
-              <span class="identificador-admin" aria-hidden="true">MEA</span>
+              <span class="identificador-admin" aria-hidden="true">EVA</span>
               <div>
-                <p class="micro-etiqueta">Estadísticas de recursos educativos</p>
-                <h2 id="rec-titulo">Uso de recursos educativos</h2>
+                <p class="micro-etiqueta">Seguimiento de acciones registradas</p>
+                <h2 id="rec-titulo">Descargas y exportaciones de recursos</h2>
               </div>
             </div>
-            <p class="nota">Se contabilizan exportaciones iniciadas y descargas solicitadas de MEA. Estas cifras no identifican visitantes ni confirman que el archivo terminó guardándose.</p>
+            <p class="nota rec-alcance">Esta sección muestra solicitudes de descarga y exportaciones iniciadas de herramientas específicas de MEA y, por separado, solicitudes PNG de imágenes LSP de BDA. No mide visitas, búsquedas, visualizaciones, personas únicas ni archivos guardados correctamente.</p>
+            <h3 id="rec-mea-titulo" class="rec-subtitulo">Materiales Educativos Accesibles (MEA)</h3>
+            <p class="nota rec-ayuda">Una descarga solicitada registra la petición de un archivo. Una exportación iniciada registra el comienzo de la generación del recurso. Cada acción se cuenta por separado, aunque proceda de la misma persona.</p>
             <div class="rec-controles">
-              <label for="rec-periodo">Periodo de análisis
+              <label for="rec-periodo">Periodo de análisis de MEA
                 <select id="rec-periodo">
                   <option value="7">Últimos 7 días</option>
                   <option value="30" selected>Últimos 30 días</option>
@@ -1286,21 +1288,22 @@
                   <option value="365">Últimos 365 días</option>
                 </select>
               </label>
-              <button id="rec-actualizar" class="secundario" type="button">Actualizar recursos</button>
+              <button id="rec-actualizar" class="secundario" type="button">Actualizar datos de MEA</button>
             </div>
             <p id="rec-estado" role="status" aria-live="polite" class="nota">Selecciona un periodo para consultar las estadísticas.</p>
             <div class="estadisticas-resumen" aria-label="Resumen de uso de recursos MEA">
               <article class="estadistica-card"><span>Acciones registradas</span><strong id="rec-total">—</strong></article>
               <article class="estadistica-card"><span>Exportaciones iniciadas</span><strong id="rec-exportaciones">—</strong></article>
               <article class="estadistica-card"><span>Descargas solicitadas</span><strong id="rec-descargas">—</strong></article>
-              <article class="estadistica-card"><span>Herramientas utilizadas</span><strong id="rec-herramientas">—</strong></article>
+              <article class="estadistica-card"><span>Herramientas con acciones registradas</span><strong id="rec-herramientas">—</strong></article>
             </div>
             <section class="estadisticas-bloque" aria-labelledby="rec-grafico-titulo">
               <div class="estadisticas-encabezado"><h3 id="rec-grafico-titulo">Evolución diaria</h3></div>
-              <div id="rec-grafico" class="rec-grafico" role="list" aria-label="Acciones de recursos agrupadas por fecha"></div>
+              <div id="rec-grafico" class="rec-grafico" role="list" aria-label="Acciones de MEA agrupadas por fecha"></div>
+              <p id="rec-grafico-sin-datos" class="nota rec-grafico-vacio" hidden>Sin acciones registradas de MEA en este periodo.</p>
             </section>
             <section class="estadisticas-bloque" aria-labelledby="rec-tabla-titulo">
-              <div class="estadisticas-encabezado"><h3 id="rec-tabla-titulo">Distribución por herramienta y formato</h3></div>
+              <div class="estadisticas-encabezado"><h3 id="rec-tabla-titulo">Detalle por herramienta, formato y acción</h3></div>
               <div class="tabla-estadisticas-wrap" tabindex="0" role="region" aria-label="Estadísticas detalladas de MEA">
                 <table class="tabla-estadisticas">
                   <thead><tr><th scope="col">Herramienta</th><th scope="col">Formato</th><th scope="col">Acción</th><th scope="col">Cantidad</th></tr></thead>
@@ -1313,10 +1316,10 @@
               <div class="estadisticas-encabezado">
                 <div>
                   <p class="micro-etiqueta">Banco Digital Accesible (BDA)</p>
-                  <h3 id="bda-est-titulo">Descargas de imágenes LSP</h3>
+                  <h3 id="bda-est-titulo">Solicitudes de descarga de imágenes LSP</h3>
                 </div>
               </div>
-              <p class="nota">Estadística independiente de MEA. Se registra la solicitud de descarga PNG, no la búsqueda ni la ampliación de imágenes.</p>
+              <p class="nota">BDA presenta cifras independientes de MEA. Se registra la selección de "Descargar imagen original" en el visor LSP (PNG), pero no las búsquedas, ampliaciones, personas únicas ni la confirmación del guardado. Las solicitudes repetidas pueden sumarse.</p>
               <div class="rec-controles">
                 <label for="bda-est-periodo">Periodo de BDA
                   <select id="bda-est-periodo">
@@ -1326,15 +1329,15 @@
                     <option value="365">Últimos 365 días</option>
                   </select>
                 </label>
-                <button type="button" id="bda-est-actualizar" class="secundario">Actualizar BDA</button>
+                <button type="button" id="bda-est-actualizar" class="secundario">Actualizar datos de BDA</button>
               </div>
               <p id="bda-est-estado" class="nota" role="status" aria-live="polite">Sin consultar.</p>
               <div class="estadisticas-resumen">
-                <article class="estadistica-card"><span>Descargas solicitadas de BDA</span><strong id="bda-est-total">—</strong></article>
+                <article class="estadistica-card"><span>Solicitudes de descarga LSP</span><strong id="bda-est-total">—</strong></article>
               </div>
               <div class="tabla-estadisticas-wrap" role="region" tabindex="0" aria-label="Descargas BDA por fecha">
                 <table class="tabla-estadisticas">
-                  <thead><tr><th scope="col">Fecha</th><th scope="col">Recurso</th><th scope="col">Solicitudes</th></tr></thead>
+                  <thead><tr><th scope="col">Fecha</th><th scope="col">Tipo de recurso</th><th scope="col">Solicitudes</th></tr></thead>
                   <tbody id="bda-est-detalle"></tbody>
                 </table>
               </div>
@@ -1406,7 +1409,7 @@
   <script src="recurso-dia.js?v=4" defer></script>
   <script src="calendario-civico-admin.js?v=3" defer></script>
   <script src="calendario-civico-tarjetas.js?v=3" defer></script>
-  <script src="estadisticas-recursos.js?v=1" defer></script>
+  <script src="estadisticas-recursos.js?v=2" defer></script>
   <script src="estadisticas-bda.js?v=1" defer></script>
   <script src="admin.js?v=64" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
