@@ -5,6 +5,8 @@ on:
       - 'admin/index.html'
       - 'admin/admin.js'
       - 'admin/estadisticas-bda.js'
+      - 'admin/estadisticas-uso-util.js'
+      - 'admin/admin.css'
       - 'admin/tests/estadisticas-bda-panel.browser.mjs'
       - '.github/workflows/validar-panel-bda.yml'
   workflow_dispatch:
@@ -22,5 +24,6 @@ jobs:
       - run: npm install --no-save --no-package-lock playwright@1.56.1
       - run: npx playwright install --with-deps chromium
       - run: node --check admin/estadisticas-bda.js
+      - run: node --check admin/estadisticas-uso-util.js
       - run: node --check admin/admin.js
       - run: node admin/tests/estadisticas-bda-panel.browser.mjs

@@ -2430,3 +2430,23 @@ html.eva-alto-contraste #panel-recursos-uso .rec-explicacion summary{
   #panel-recursos-uso #bda-est-bloque .estadisticas-resumen{grid-template-columns:minmax(0,1fr);}
   #panel-recursos-uso .rec-modulo .tabla-estadisticas :is(th,td){padding:9px 8px;}
 }
+
+/* Etapa 2: resumen, gráfica BDA y descargas CSV, solo Uso de recursos. */
+#panel-recursos-uso .rec-analisis{margin:16px 0 22px;min-width:0;}
+#panel-recursos-uso .rec-analisis .tabla-estadisticas-wrap{max-width:100%;}
+#panel-recursos-uso #rec-herramientas-tabla td:not(:first-child),
+#panel-recursos-uso #rec-herramientas-tabla th:not(:first-child){text-align:right;font-variant-numeric:tabular-nums;}
+#panel-recursos-uso #rec-herramientas-tabla th{overflow-wrap:anywhere;}
+#panel-recursos-uso .rec-exportar-csv{white-space:normal;}
+#panel-recursos-uso .rec-exportar-csv:disabled{cursor:not-allowed;opacity:.65;}
+#panel-recursos-uso .rec-modulo-bda .rec-grafico-valor{background:#823b63;}
+#panel-recursos-uso .rec-modulo-bda .rec-grafico-pista{background:#eadde5;}
+#panel-recursos-uso .rec-grafico-escala{max-width:85ch;}
+body.alto-contraste #panel-recursos-uso .rec-modulo-bda .rec-grafico-valor,
+html.eva-alto-contraste #panel-recursos-uso .rec-modulo-bda .rec-grafico-valor{background:#fff!important;}
+body.alto-contraste #panel-recursos-uso .rec-modulo-bda .rec-grafico-pista,
+html.eva-alto-contraste #panel-recursos-uso .rec-modulo-bda .rec-grafico-pista{background:#444!important;border:1px solid #fff;}
+@media(max-width:580px){
+  #panel-recursos-uso .rec-analisis{margin:14px 0 18px;}
+  #panel-recursos-uso #rec-herramientas-tabla :is(th,td){font-size:.81rem;}
+}
