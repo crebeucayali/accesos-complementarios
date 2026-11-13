@@ -31,6 +31,7 @@ try{
   await page.setContent('<!doctype html><html lang="es"><head><meta charset="utf-8"><style>'+css+'</style></head><body>'+section+'</body></html>');
   await page.addScriptTag({content:util});
   await page.addScriptTag({content:js});
+  await page.evaluate(()=>document.getElementById("panel-recursos-uso").hidden=false);
   assert.equal(await page.locator("#bda-est-exportar-csv").isDisabled(),true);
   const output=await page.evaluate(async()=>{
    let args=[];
