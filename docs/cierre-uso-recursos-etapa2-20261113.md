@@ -65,6 +65,13 @@ No se realizaron cambios en Supabase, SQL, RPC, eventos del repositorio público
 
 ## 6. Dictamen final
 
-La etapa 2 queda **cerrada técnicamente e integrada en main**, con validaciones automáticas satisfactorias. Se conserva la arquitectura de conteos y la independencia entre MEA/BDA. **Pendiente:** validación visual en la sesión administrativa real para constatar legibilidad, interpretación de las nuevas gráficas y apertura de los CSV en el equipo del responsable.
+La etapa 2 queda **cerrada técnicamente e integrada en main**, con validaciones automáticas satisfactorias. Se conserva la arquitectura de conteos y la independencia entre MEA/BDA. **Actualización 13/11/2026:** la presentación visual quedó conforme a partir de una captura posterior remitida por el responsable. Se mantiene pendiente solo la prueba humana de descarga y apertura de CSV, descrita en `docs/validacion-visual-uso-recursos-etapa2-20261113.md`.
 
 Cualquier incorporación futura de eventos, visitas, consultas de recursos o nuevas categorías estadisticas requerirá una auditoría y autorización independientes.
+
+
+## 7. Validación visual posterior
+
+La constatación realizada con la captura del 13 de noviembre documentó la distribución separada de MEA y BDA, la coherencia visible de los indicadores y el resumen por herramienta, las escalas de las dos gráficas, el formato de fechas y la presencia de los botones CSV. El resultado fue **conforme en el alcance visual comprobable**.
+
+La comprobación manual de las descargas y su apertura en Excel aún no se ha reportado. Se conserva explícitamente como pendiente, sin considerar suficiente la aprobación automatizada para afirmar que fue realizada en el equipo del responsable. Véase `docs/validacion-visual-uso-recursos-etapa2-20261113.md`.
