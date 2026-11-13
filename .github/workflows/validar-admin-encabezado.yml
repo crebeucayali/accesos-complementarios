@@ -1,0 +1,24 @@
+name: Validar cabecera y portada del panel administrativo
+on:
+  pull_request:
+    paths:
+      - 'admin/index.html'
+      - 'admin/admin.css'
+      - 'admin/tests/encabezado-panel-responsivo.browser.mjs'
+      - '.github/workflows/validar-admin-encabezado.yml'
+  workflow_dispatch:
+jobs:
+  visual:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save --no-package-lock playwright@1.56.1
+      - run: npx playwright install --with-deps chromium
+      - run: node --check admin/tests/encabezado-panel-responsivo.browser.mjs
+      - run: node admin/tests/encabezado-panel-responsivo.browser.mjs
