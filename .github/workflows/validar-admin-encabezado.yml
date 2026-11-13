@@ -4,6 +4,7 @@ on:
     paths:
       - 'admin/index.html'
       - 'admin/admin.css'
+      - 'admin/admin.js'
       - 'admin/tests/encabezado-panel-responsivo.browser.mjs'
       - '.github/workflows/validar-admin-encabezado.yml'
   workflow_dispatch:
@@ -20,5 +21,6 @@ jobs:
           node-version: '22'
       - run: npm install --no-save --no-package-lock playwright@1.56.1
       - run: npx playwright install --with-deps chromium
+      - run: node --check admin/admin.js
       - run: node --check admin/tests/encabezado-panel-responsivo.browser.mjs
       - run: node admin/tests/encabezado-panel-responsivo.browser.mjs

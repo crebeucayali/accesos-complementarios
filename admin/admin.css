@@ -2450,3 +2450,85 @@ html.eva-alto-contraste #panel-recursos-uso .rec-modulo-bda .rec-grafico-pista{b
   #panel-recursos-uso .rec-analisis{margin:14px 0 18px;}
   #panel-recursos-uso #rec-herramientas-tabla :is(th,td){font-size:.81rem;}
 }
+
+/* Ajuste 2026-11-13: evita una base flex vertical de 460px en la identidad CREBE.
+   Solo afecta a la cabecera administrativa cuando la navegación está apilada. */
+@media(max-width:1180px){
+  body.panel-admin-page .cabecera-interior{
+    align-items:stretch;
+  }
+  body.panel-admin-page .cabecera-interior>.marca-crebe{
+    flex:0 0 auto;
+    width:100%;
+    min-height:0;
+    height:auto;
+  }
+  body.panel-admin-page .cabecera-interior>.pestanas-crebe{
+    flex:0 0 auto;
+    width:100%;
+    max-width:100%;
+  }
+}
+
+/* Brave y otros navegadores pueden exponer un viewport CSS de escritorio
+   en un teléfono. Se conserva el menú accesible si el puntero es táctil. */
+@media(min-width:901px) and (max-width:1180px) and (pointer:coarse){
+  #seccion-admin .admin-movil-barra{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin:16px 0;
+  }
+  #seccion-admin .admin-menu-abrir{
+    min-height:44px;
+    white-space:normal;
+    flex:0 1 auto;
+  }
+  #seccion-admin .admin-vista-actual{
+    font-weight:800;
+    font-size:.85rem;
+    color:#143b52;
+    text-align:right;
+  }
+  #seccion-admin .admin-distribucion{
+    display:block;
+    margin-top:0;
+  }
+  #seccion-admin .admin-lateral{
+    position:fixed;
+    z-index:1002;
+    left:0;
+    top:0;
+    bottom:0;
+    width:min(320px,88vw);
+    max-height:none;
+    border-radius:0 18px 18px 0;
+    transform:translateX(-105%);
+    visibility:hidden;
+    transition:transform .18s ease,visibility .18s ease;
+  }
+  #seccion-admin .admin-distribucion.menu-abierto .admin-lateral{
+    transform:translateX(0);
+    visibility:visible;
+  }
+  #seccion-admin .admin-menu-cerrar{
+    display:grid;
+    place-items:center;
+    margin-left:auto;
+    width:42px;
+    min-width:42px;
+    height:42px;
+    border:1px solid #8eb5bc;
+    border-radius:9px;
+    color:#fff;
+    background:transparent;
+    cursor:pointer;
+  }
+  #seccion-admin .admin-menu-fondo:not([hidden]){
+    position:fixed;
+    z-index:1001;
+    inset:0;
+    background:rgba(7,25,36,.58);
+  }
+}

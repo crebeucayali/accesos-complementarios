@@ -2597,9 +2597,11 @@
   const fondoMenu = $("admin-menu-fondo");
   const botonInicioAdmin = $("admin-ir-inicio");
   const nombreVista = $("admin-vista-actual");
+  // Misma condición que CSS: móvil estándar o teléfono táctil con vista de escritorio.
+  const mediaMenuMovil = window.matchMedia("(max-width:900px), (max-width:1180px) and (pointer:coarse)");
   let menuAbierto = false;
   function cambiarMenu(abierto, restaurarFoco = false) {
-    menuAbierto = Boolean(abierto) && window.matchMedia("(max-width:900px)").matches;
+    menuAbierto = Boolean(abierto) && mediaMenuMovil.matches;
     layoutAdmin?.classList.toggle("menu-abierto", menuAbierto);
     if (fondoMenu) fondoMenu.hidden = !menuAbierto;
     botonAbrirMenu?.setAttribute("aria-expanded", String(menuAbierto));
@@ -2639,7 +2641,9 @@
       evento.preventDefault(); cambiarMenu(false, true);
     }
   });
-  window.matchMedia("(min-width:901px)").addEventListener?.("change", () => cambiarMenu(false));
+  mediaMenuMovil.addEventListener?.("change", () => {
+    if (!mediaMenuMovil.matches) cambiarMenu(false);
+  });
 
   document.querySelectorAll(".tab").forEach((boton) => {
     boton.addEventListener("click", () => {
