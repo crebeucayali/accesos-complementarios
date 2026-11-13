@@ -2296,3 +2296,37 @@ body.alto-contraste .indicadores-fondo-item :is(strong,p,span),html.eva-alto-con
 #panel-recursos-uso .rec-grafico-vacio{margin:0 0 16px;}
 #panel-recursos-uso .estadistica-card span{overflow-wrap:anywhere;}
 body.alto-contraste #panel-recursos-uso .rec-subtitulo{color:#fff!important;}
+
+/* Resiliencia tipográfica de cabecera y portada administrativa.
+   No se imponen límites artificiales a la ampliación de texto del usuario. */
+body.panel-admin-page .cabecera-interior {
+  flex-wrap:wrap;
+  gap:14px 18px;
+}
+body.panel-admin-page .marca-crebe {
+  flex:1 1 460px;
+  min-width:0;
+  max-width:100%;
+}
+body.panel-admin-page .marca-texto :is(strong,small) {
+  overflow-wrap:anywhere;
+  hyphens:auto;
+}
+body.panel-admin-page .pestanas-crebe {
+  flex:0 1 auto;
+  max-width:100%;
+  justify-content:flex-start;
+}
+body.panel-admin-page .pestanas-crebe a {
+  white-space:normal;
+  overflow-wrap:anywhere;
+  text-align:center;
+}
+body.panel-admin-page .admin-hero-contenido {
+  min-width:0;
+  max-width:100%;
+}
+body.panel-admin-page .admin-hero :is(h1,p) {
+  overflow-wrap:anywhere;
+  hyphens:auto;
+}
