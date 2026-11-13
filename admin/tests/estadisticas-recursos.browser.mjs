@@ -13,7 +13,10 @@ assert.match(markup,/Descargas y exportaciones de recursos/);
 assert.match(markup,/Materiales Educativos Accesibles/);
 assert.match(markup,/Herramientas con acciones registradas/);
 assert.match(markup,/id="rec-grafico-sin-datos"/);
-assert.match(markup,/No mide visitas, búsquedas, visualizaciones/);
+assert.match(markup,/¿Qué se contabiliza en MEA\?/);
+assert.match(markup,/class="rec-modulo rec-modulo-mea"/);
+assert.match(markup,/id="rec-grafico-escala"/);
+assert.match(markup,/Cada módulo presenta sus propias cifras/);
 const browser=await chromium.launch({headless:true});
 try{
   for(const mobile of [false,true]){
@@ -34,7 +37,10 @@ try{
         calls,values:["rec-total","rec-descargas","rec-exportaciones","rec-herramientas"].map(id=>document.getElementById(id).textContent),
         rows:document.querySelectorAll("#rec-tabla tr").length,
         graph:document.querySelectorAll("#rec-grafico [role=listitem]").length,
-        emptyGraphHidden:document.getElementById("rec-grafico-sin-datos").hidden
+        emptyGraphHidden:document.getElementById("rec-grafico-sin-datos").hidden,
+        scale:document.getElementById("rec-grafico-escala").textContent,
+        scaleHidden:document.getElementById("rec-grafico-escala").hidden,
+        barWidth:document.querySelector("#rec-grafico .rec-grafico-valor")?.style.width
       };
     });
     assert.deepEqual(first.calls,[30]);
@@ -42,6 +48,9 @@ try{
     assert.equal(first.rows,1);
     assert.equal(first.graph,1);
     assert.equal(first.emptyGraphHidden,true);
+    assert.equal(first.scaleHidden,false);
+    assert.match(first.scale,/0 a 5 acciones/);
+    assert.equal(first.barWidth,"20%","Una acción equivale a 1 de 5, no a 100 %");
 
     const change=await page.evaluate(async()=>{
       const input=document.getElementById("rec-periodo"); input.value="90";
@@ -58,22 +67,26 @@ try{
         status:document.getElementById("rec-estado").textContent,
         empty:document.getElementById("rec-sin-datos").hidden,
         emptyGraph:document.getElementById("rec-grafico-sin-datos").hidden,
-        graphRows:document.querySelectorAll("#rec-grafico [role=listitem]").length};
+        graphRows:document.querySelectorAll("#rec-grafico [role=listitem]").length,
+        scaleHidden:document.getElementById("rec-grafico-escala").hidden};
     });
     assert.equal(empty.total,"0");
     assert.match(empty.status,/Sin acciones registradas/);
     assert.equal(empty.empty,false);
     assert.equal(empty.emptyGraph,false,"La gráfica sin acciones debe mostrar una explicación");
     assert.equal(empty.graphRows,0);
+    assert.equal(empty.scaleHidden,true);
 
     const failed=await page.evaluate(async()=>{
       window.EvaRecursosEstadisticasAdmin.configurar({autorizado:true,rol:"master",aal:"aal2"},{consultar:async()=>{throw new Error("503");}});
       await window.EvaRecursosEstadisticasAdmin.cargar();
       return {value:document.getElementById("rec-total").textContent,status:document.getElementById("rec-estado").textContent,
-        hiddenGraph:document.getElementById("rec-grafico-sin-datos").hidden};
+        hiddenGraph:document.getElementById("rec-grafico-sin-datos").hidden,
+        hiddenScale:document.getElementById("rec-grafico-escala").hidden};
     });
     assert.equal(failed.value,"—");
     assert.equal(failed.hiddenGraph,true);
+    assert.equal(failed.hiddenScale,true);
     assert.match(failed.status,/No se pudieron consultar/);
 
     const denied=await page.evaluate(async()=>{

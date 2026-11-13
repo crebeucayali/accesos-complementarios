@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="admin.css?v=57">
+  <link rel="stylesheet" href="admin.css?v=58">
   <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
 <body class="theme-crebe wsite-theme-light panel-admin-page">
@@ -1276,9 +1276,17 @@
                 <h2 id="rec-titulo">Descargas y exportaciones de recursos</h2>
               </div>
             </div>
-            <p class="nota rec-alcance">Esta sección muestra solicitudes de descarga y exportaciones iniciadas de herramientas específicas de MEA y, por separado, solicitudes PNG de imágenes LSP de BDA. No mide visitas, búsquedas, visualizaciones, personas únicas ni archivos guardados correctamente.</p>
-            <h3 id="rec-mea-titulo" class="rec-subtitulo">Materiales Educativos Accesibles (MEA)</h3>
-            <p class="nota rec-ayuda">Una descarga solicitada registra la petición de un archivo. Una exportación iniciada registra el comienzo de la generación del recurso. Cada acción se cuenta por separado, aunque proceda de la misma persona.</p>
+            <p class="nota rec-alcance">Consulta las acciones de descarga y exportación registradas en MEA y BDA. Cada módulo presenta sus propias cifras; no se contabilizan personas únicas ni se verifica el guardado final de los archivos.</p>
+            <section class="rec-modulo rec-modulo-mea" aria-labelledby="rec-mea-titulo">
+              <div class="rec-modulo-cabecera">
+                <p class="micro-etiqueta">Materiales Educativos Accesibles (MEA)</p>
+                <h3 id="rec-mea-titulo" class="rec-subtitulo">Descargas y exportaciones de MEA</h3>
+              </div>
+              <p class="nota rec-resumen">Acciones de descarga y exportación iniciadas en las herramientas MEA incorporadas al seguimiento.</p>
+              <details class="rec-explicacion">
+                <summary>¿Qué se contabiliza en MEA?</summary>
+                <p>Una descarga solicitada es la petición de un archivo. Una exportación iniciada es el comienzo de su generación. Se contabilizan acciones, aunque una misma persona realice varias; no se miden búsquedas, visualizaciones, usuarios únicos ni archivos finalmente guardados.</p>
+              </details>
             <div class="rec-controles">
               <label for="rec-periodo">Periodo de análisis de MEA
                 <select id="rec-periodo">
@@ -1300,6 +1308,7 @@
             <section class="estadisticas-bloque" aria-labelledby="rec-grafico-titulo">
               <div class="estadisticas-encabezado"><h3 id="rec-grafico-titulo">Evolución diaria</h3></div>
               <div id="rec-grafico" class="rec-grafico" role="list" aria-label="Acciones de MEA agrupadas por fecha"></div>
+              <p id="rec-grafico-escala" class="nota rec-grafico-escala" hidden></p>
               <p id="rec-grafico-sin-datos" class="nota rec-grafico-vacio" hidden>Sin acciones registradas de MEA en este periodo.</p>
             </section>
             <section class="estadisticas-bloque" aria-labelledby="rec-tabla-titulo">
@@ -1312,14 +1321,19 @@
               </div>
               <p id="rec-sin-datos" class="nota" hidden>Sin acciones registradas para el periodo seleccionado.</p>
             </section>
-            <section class="estadisticas-bloque" id="bda-est-bloque" aria-labelledby="bda-est-titulo">
+            </section>
+            <section class="estadisticas-bloque rec-modulo rec-modulo-bda" id="bda-est-bloque" aria-labelledby="bda-est-titulo">
               <div class="estadisticas-encabezado">
                 <div>
                   <p class="micro-etiqueta">Banco Digital Accesible (BDA)</p>
                   <h3 id="bda-est-titulo">Solicitudes de descarga de imágenes LSP</h3>
                 </div>
               </div>
-              <p class="nota">BDA presenta cifras independientes de MEA. Se registra la selección de "Descargar imagen original" en el visor LSP (PNG), pero no las búsquedas, ampliaciones, personas únicas ni la confirmación del guardado. Las solicitudes repetidas pueden sumarse.</p>
+              <p class="nota rec-resumen">Solicitudes de descarga PNG de imágenes de Lengua de Señas Peruana, registradas de manera independiente a MEA.</p>
+              <details class="rec-explicacion">
+                <summary>¿Qué se contabiliza en BDA?</summary>
+                <p>Se registra la selección de "Descargar imagen original" en el visor LSP. No se cuentan búsquedas, ampliaciones, personas únicas ni archivos guardados. Si una persona solicita varias imágenes o repite una solicitud, esas acciones pueden sumarse.</p>
+              </details>
               <div class="rec-controles">
                 <label for="bda-est-periodo">Periodo de BDA
                   <select id="bda-est-periodo">
@@ -1409,7 +1423,7 @@
   <script src="recurso-dia.js?v=4" defer></script>
   <script src="calendario-civico-admin.js?v=3" defer></script>
   <script src="calendario-civico-tarjetas.js?v=3" defer></script>
-  <script src="estadisticas-recursos.js?v=2" defer></script>
+  <script src="estadisticas-recursos.js?v=3" defer></script>
   <script src="estadisticas-bda.js?v=1" defer></script>
   <script src="admin.js?v=64" defer></script>
   <script src="../accesibilidad/accesibilidad.js?v=10" defer></script>
