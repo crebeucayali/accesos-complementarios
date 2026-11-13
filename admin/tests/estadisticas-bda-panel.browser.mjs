@@ -15,7 +15,9 @@ assert.ok(start>0 && end>start);
 const section=html.slice(start,end);
 assert.match(section,/Solicitudes de descarga de imágenes LSP/);
 assert.match(section,/Tipo de recurso/);
-assert.match(section,/Las solicitudes repetidas pueden sumarse/);
+assert.match(section,/¿Qué se contabiliza en BDA\?/);
+assert.match(section,/class="estadisticas-bloque rec-modulo rec-modulo-bda"/);
+assert.match(section,/Solicitudes de descarga PNG de imágenes de Lengua de Señas Peruana/);
 assert.match(section,/Actualizar datos de BDA/);
 const browser=await chromium.launch({headless:true});
 try{

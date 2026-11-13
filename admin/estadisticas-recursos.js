@@ -33,6 +33,7 @@
     });
     ["rec-tabla", "rec-grafico"].forEach(id => $(id)?.replaceChildren());
     if ($("rec-grafico-sin-datos")) $("rec-grafico-sin-datos").hidden = true;
+    if ($("rec-grafico-escala")) { $("rec-grafico-escala").hidden = true; $("rec-grafico-escala").textContent = ""; }
     if ($("rec-sin-datos")) $("rec-sin-datos").hidden = true;
     if ($("rec-actualizar")) $("rec-actualizar").disabled = false;
     estado("Selecciona un periodo para consultar las estadísticas.");
@@ -104,6 +105,13 @@
     const puntos = [...acumulado].sort((a, b) => a[0].localeCompare(b[0]));
     $("rec-grafico-sin-datos").hidden = puntos.length > 0;
     const maximo = Math.max(0, ...puntos.map(([, total]) => total));
+    // Escala cuantitativa redondeada: una sola acción nunca ocupa toda la barra.
+    // El ancho no representa un porcentaje de usuarios ni de recursos.
+    const escala = Math.max(5, Math.ceil(maximo / 5) * 5);
+    const leyenda = $("rec-grafico-escala");
+    leyenda.hidden = puntos.length === 0;
+    leyenda.textContent = puntos.length ? "Escala: 0 a " + formatoNumero(escala) +
+      " acciones. Las barras muestran cantidades relativas a esta escala, no porcentajes." : "";
     $("rec-grafico-titulo").textContent = mensual ? "Evolución mensual" : "Evolución diaria";
     for (const [fecha, total] of puntos) {
       const item = document.createElement("div");
@@ -117,7 +125,7 @@
       pista.className = "rec-grafico-pista";
       const barra = document.createElement("span");
       barra.className = "rec-grafico-valor";
-      barra.style.width = (maximo > 0 ? (total / maximo) * 100 : 0) + "%";
+      barra.style.width = (total / escala) * 100 + "%";
       pista.append(barra);
       const numero = document.createElement("strong");
       numero.textContent = formatoNumero(total);
@@ -162,6 +170,8 @@
       $("rec-tabla").replaceChildren();
       $("rec-grafico").replaceChildren();
       $("rec-grafico-sin-datos").hidden = true;
+      $("rec-grafico-escala").hidden = true;
+      $("rec-grafico-escala").textContent = "";
       $("rec-sin-datos").hidden = true;
       console.warn("No se pudo consultar el uso de recursos MEA:", error);
       estado("No se pudieron consultar los recursos educativos. Revisa tu sesión o vuelve a intentarlo.", true);
