@@ -18,9 +18,14 @@
   function exigir(){if(!permitido())throw new Error("La gestión de destacados requiere una sesión Master con MFA.");}
   async function consultar(path,options={}){exigir();return auth.request(path,options);}
   const ordenados=()=>recursos.slice().sort((a,b)=>Number(a.orden)-Number(b.orden)||Number(a.id)-Number(b.id));
-  const mensaje=(texto,error=false)=>{
-    const el=$("destacados-mensaje");el.textContent=texto||"";
-    el.className="mensaje"+(error?" error":texto?" exito":"");
+  const mensaje=(texto,error=false,proceso=false)=>{
+    for(const id of ["destacados-mensaje","destacados-guardar-estado"]){
+      const el=$(id);
+      if(!el)continue;
+      el.textContent=texto||"";
+      el.className="mensaje"+(error?" error":proceso?" destacados-proceso":texto?" exito":"");
+      if(id==="destacados-guardar-estado")el.setAttribute("aria-atomic","true");
+    }
   };
   function boton(texto,accion,disabled=false){
     const el=document.createElement("button");el.type="button";el.className="secundario";
@@ -72,6 +77,7 @@
   }
   async function ejecutar(funcion){
     if(ocupado)return;ocupado=true;render();
+    mensaje("Procesando la solicitud...",false,true);
     const controles=Array.from($("destacados-form").querySelectorAll("input,textarea,select,button"));
     controles.forEach(c=>{c.disabled=true;});
     try{await funcion();}
@@ -150,11 +156,19 @@
       img.hidden=false;
     }else{img.removeAttribute("src");img.hidden=true;}
     $("destacados-quitar-imagen").disabled=ocupado||!(archivoSeleccionado||input);
+    const alt=$("destacados-imagen-alt").value.trim();
+    const faltaAlt=Boolean(archivoSeleccionado||input)&&!quitarImagen&&
+      (alt.length<8||alt.length>220);
+    $("destacados-imagen-alt").setAttribute("aria-invalid",faltaAlt?"true":"false");
     $("destacados-imagen-estado").textContent=archivoSeleccionado
-      ?"Imagen seleccionada: "+archivoSeleccionado.name+". Se subirá al guardar."
-      :quitarImagen?"La imagen se desvinculará al guardar."
+      ?"Imagen seleccionada: "+archivoSeleccionado.name+
+        (faltaAlt?". Completa la descripción accesible (8 a 220 caracteres) antes de guardar."
+          :". Lista para cargar. Pulsa Guardar recurso.")
+      :quitarImagen?"La imagen se desvinculará cuando guardes."
       :input&&!src?"URL no admitida. Usa una imagen institucional."
-      :src?"Imagen asociada al recurso.":"Sin imagen (opcional).";
+      :src?(faltaAlt?"Falta completar la descripción accesible (8 a 220 caracteres)."
+        :"Imagen asociada al recurso.")
+      :"Sin imagen (opcional).";
   }
   async function imagenDecodificable(file){
     await new Promise((resolve,reject)=>{
@@ -184,7 +198,15 @@
         "Content-Type":file.type,"x-upsert":"false"},
       body:file,credentials:"omit",cache:"no-store"
     });
-    if(!res.ok)throw Error("La carga de imagen fue rechazada (HTTP "+res.status+").");
+    if(!res.ok){
+      let detalle="";
+      try{
+        const cuerpo=await res.json();
+        detalle=String(cuerpo?.message||cuerpo?.error||"").slice(0,180);
+      }catch{}
+      throw Error("No se pudo cargar la imagen a Supabase (HTTP "+res.status+")"+
+        (detalle?": "+detalle:". Revisa los permisos y tu sesión MFA."));
+    }
     return {path,url:STORAGE_PUBLICO+path.slice("destacados/".length)};
   }
   async function revertirCargaSinVinculo(subida){
@@ -315,19 +337,36 @@
         if(file)await imagenDecodificable(file);
         let subida=null,guardado=false;
         try{
-          if(file){subida=await subirImagen(file,modulo,session);payload.imagen_url=subida.url;}
+          if(file){
+            mensaje("Subiendo imagen a Supabase. No cierres esta pestaña...",false,true);
+            subida=await subirImagen(file,modulo,session);
+            payload.imagen_url=subida.url;
+          }
+          mensaje(subida?"Imagen recibida. Guardando su asociación con la tarjeta..."
+            :"Guardando los cambios de la tarjeta...",false,true);
           exigir();
           const result=await consultar("eva_recursos_destacados"+(id?"?id=eq."+encodeURIComponent(id):""),{
             method:id?"PATCH":"POST",headers:{Prefer:"return=representation"},body:JSON.stringify(payload)
           });
-          if(!Array.isArray(result)||result.length!==1)throw Error("No se confirmó el guardado del recurso.");
+          if(!Array.isArray(result)||result.length!==1||
+              result[0].imagen_url!==payload.imagen_url||
+              result[0].imagen_alt!==payload.imagen_alt){
+            throw Error("No se pudo confirmar la asociación de la imagen con el recurso.");
+          }
           guardado=true;
+          const nombre=payload.titulo;
           limpiarFormulario();
+          const confirmacion=subida
+            ?"Imagen cargada y asociada correctamente a «"+nombre+"». "+
+              (payload.visible?"La tarjeta está visible en la portada de EVA.":"La tarjeta permanece oculta en la portada.")
+            :imagenQuitada
+              ?"Imagen desvinculada del recurso «"+nombre+"»."
+              :"Recurso «"+nombre+"» guardado correctamente.";
           try{
             await refrescar();
-            mensaje(id?"Recurso actualizado correctamente.":"Recurso registrado correctamente.");
+            mensaje(confirmacion);
           }catch{
-            mensaje("Recurso guardado. No se actualizó el listado; pulsa «Actualizar listado».",true);
+            mensaje(confirmacion+" El listado no se pudo actualizar; pulsa «Actualizar listado».");
           }
         }catch(error){
           if(subida&&!guardado){
