@@ -2559,3 +2559,24 @@ html.eva-alto-contraste #panel-recursos-uso .rec-modulo-bda .rec-grafico-pista{b
   margin:10px 0;object-fit:contain;background:#f4f7f8;border-radius:8px;
 }
 #panel-destacados .destacados-preview-imagen[hidden] {display:none !important;}
+
+/* Confirmación de guardado dentro de Recursos destacados (corrección v62). */
+#panel-destacados #destacados-guardar-estado {
+  margin:2px 0 12px;
+  min-height:1.4rem;
+  line-height:1.55;
+  font-size:.93rem;
+  overflow-wrap:anywhere;
+}
+#panel-destacados #destacados-guardar-estado:empty {display:none}
+#panel-destacados #destacados-guardar-estado.destacados-proceso {
+  color:var(--azul-900);
+  font-weight:650;
+}
+#panel-destacados #destacados-guardar-estado.error {
+  color:#a12222;
+  font-weight:650;
+}
+#panel-destacados #destacados-imagen-alt[aria-invalid="true"] {
+  border-color:#b75959;
+}
