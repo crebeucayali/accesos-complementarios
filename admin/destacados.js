@@ -3,6 +3,13 @@
   const $=id=>document.getElementById(id);
   const auth=window.EvaAdminSession;
   let perfil=null,recursos=[],ocupado=false,iniciado=false;
+  let archivoSeleccionado=null, urlLocal="", quitarImagen=false;
+  const API="https://dteimbhwtzghhsijeeld.supabase.co";
+  const STORAGE_PUBLICO=API+"/storage/v1/object/public/eva-publico/destacados/";
+  const KEY="sb_publishable_tHbo1jTeW_dC90hdA5DvyQ_a6LrfKpq";
+  const EXT=Object.freeze({"image/webp":"webp","image/jpeg":"jpg","image/png":"png"});
+  const SIGLA=Object.freeze({"CAP":"CAP","BDA":"BDA","MEA":"MEA","NI":"NI","RA":"RA","DUA 3.0":"DUA3"});
+  const MAX_BYTES=5*1024*1024;
   const origenes={
     CAP:"capacitaciones",BDA:"banco-digital-accesible",MEA:"materiales-educativos-accesibles",
     NI:"accesos-complementarios/lecturas-inclusivas",RA:"banco-digital-accesible/repositorio-accesible","DUA 3.0":"DUA-3.0"
@@ -65,25 +72,39 @@
   }
   async function ejecutar(funcion){
     if(ocupado)return;ocupado=true;render();
-    try{await funcion();}catch(error){mensaje(error.message||"No se completó la operación.",true);}
-    finally{ocupado=false;render();}
+    const controles=Array.from($("destacados-form").querySelectorAll("input,textarea,select,button"));
+    controles.forEach(c=>{c.disabled=true;});
+    try{await funcion();}
+    catch(error){mensaje(error.message||"No se completó la operación.",true);}
+    finally{
+      ocupado=false;
+      controles.forEach(c=>{c.disabled=false;});
+      actualizarPreview();render();
+    }
   }
   function actualizarPreview(){
     $("destacados-preview-modulo").textContent=$("destacados-modulo").value||"Módulo";
     $("destacados-preview-titulo").textContent=$("destacados-titulo").value.trim()||"Título del recurso";
     $("destacados-preview-descripcion").textContent=$("destacados-descripcion").value.trim()||"Descripción del recurso.";
     $("destacados-preview-modulo").parentElement.style.opacity=$("destacados-visible").checked?"1":".75";
+    mostrarImagenPreview();
   }
   function limpiarFormulario(){
-    $("destacados-form").reset();$("destacados-id").value="";$("destacados-visible").checked=false;actualizarPreview();
+    liberarUrlLocal();quitarImagen=false;
+    $("destacados-form").reset();$("destacados-id").value="";$("destacados-visible").checked=false;
+    actualizarPreview();
   }
   function editar(item){
+    if(ocupado)return;
+    liberarUrlLocal();quitarImagen=false;
+    $("destacados-archivo").value="";
     $("destacados-id").value=String(item.id);
     $("destacados-modulo").value=item.modulo;
     $("destacados-titulo").value=item.titulo;
     $("destacados-descripcion").value=item.descripcion;
     $("destacados-enlace").value=item.enlace_url;
     $("destacados-imagen").value=item.imagen_url||"";
+    $("destacados-imagen-alt").value=item.imagen_alt||"";
     $("destacados-visible").checked=Boolean(item.visible);
     actualizarPreview();
     $("destacados-editor-titulo").scrollIntoView({block:"start",behavior:"smooth"});
@@ -100,11 +121,85 @@
   }
   function imagenOficial(valor){
     if(!valor)return "";
-    let url;try{url=new URL(valor);}catch{throw new Error("La dirección de la imagen no es válida.");}
-    if(url.protocol!=="https:"||url.hostname!=="crebeucayali.github.io"||url.username||url.password){
-      throw new Error("La imagen debe estar alojada en GitHub institucional.");
-    }
-    return url.href;
+    let u;try{u=new URL(valor);}catch{throw Error("La URL de la imagen no es válida.");}
+    if(u.protocol!=="https:"||u.username||u.password||u.port)throw Error("La imagen requiere una dirección HTTPS institucional.");
+    if(u.hostname==="crebeucayali.github.io"&&u.pathname.startsWith("/"))return u.href;
+    const prefix="/storage/v1/object/public/eva-publico/destacados/";
+    if(u.hostname==="dteimbhwtzghhsijeeld.supabase.co"&&
+       u.pathname.startsWith(prefix)&&!u.search&&!u.hash&&
+       /^[A-Za-z0-9_-]+\.(webp|jpe?g|png)$/.test(u.pathname.slice(prefix.length)))return u.href;
+    throw Error("Solo se admiten imágenes de GitHub CREBE o Storage EVA /destacados/.");
+  }
+  function validarArchivo(file){
+    if(!file||!Object.hasOwn(EXT,file.type)||file.size<1||file.size>MAX_BYTES)
+      throw Error("Selecciona WebP, JPG o PNG de hasta 5 MB.");
+    return EXT[file.type];
+  }
+  function liberarUrlLocal(){
+    if(urlLocal)URL.revokeObjectURL(urlLocal);
+    urlLocal="";archivoSeleccionado=null;
+  }
+  function mostrarImagenPreview(){
+    const input=$("destacados-imagen").value.trim();
+    let src=urlLocal;
+    if(!src&&input){try{src=imagenOficial(input);}catch{src="";}}
+    const img=$("destacados-preview-imagen");
+    if(src){
+      if(img.getAttribute("src")!==src)img.src=src;
+      img.alt=$("destacados-imagen-alt").value.trim()||"Vista previa de la imagen";
+      img.hidden=false;
+    }else{img.removeAttribute("src");img.hidden=true;}
+    $("destacados-quitar-imagen").disabled=ocupado||!(archivoSeleccionado||input);
+    $("destacados-imagen-estado").textContent=archivoSeleccionado
+      ?"Imagen seleccionada: "+archivoSeleccionado.name+". Se subirá al guardar."
+      :quitarImagen?"La imagen se desvinculará al guardar."
+      :input&&!src?"URL no admitida. Usa una imagen institucional."
+      :src?"Imagen asociada al recurso.":"Sin imagen (opcional).";
+  }
+  async function imagenDecodificable(file){
+    await new Promise((resolve,reject)=>{
+      const tmp=URL.createObjectURL(file),img=new Image();
+      const fin=()=>{img.onload=null;img.onerror=null;URL.revokeObjectURL(tmp);};
+      img.onload=()=>{const ok=img.naturalWidth>0&&img.naturalHeight>0;fin();ok?resolve():reject(Error("Imagen vacía o dañada."));};
+      img.onerror=()=>{fin();reject(Error("No se pudo abrir la imagen seleccionada."));};
+      img.src=tmp;
+    });
+  }
+  async function comprobarPermisosCarga(){
+    exigir();
+    const session=await auth.ensureSession();
+    if(!session?.access_token)throw Error("Sesión expirada. Ingresa nuevamente.");
+    const response=await consultar("rpc/perfil_panel_admin",{method:"POST",body:"{}"});
+    const data=Array.isArray(response)?response[0]:response;
+    if(!data?.autorizado||data.rol!=="master"||data.aal!=="aal2")
+      throw Error("Solo Master con MFA AAL2 puede cargar imágenes.");
+    return session;
+  }
+  async function subirImagen(file,modulo,session){
+    const ext=validarArchivo(file);
+    if(typeof crypto.randomUUID!=="function")throw Error("No se dispone de identificadores seguros en este navegador.");
+    const path="destacados/"+SIGLA[modulo]+"-"+crypto.randomUUID()+"."+ext;
+    const res=await fetch(API+"/storage/v1/object/eva-publico/"+path,{
+      method:"POST",headers:{apikey:KEY,Authorization:"Bearer "+session.access_token,
+        "Content-Type":file.type,"x-upsert":"false"},
+      body:file,credentials:"omit",cache:"no-store"
+    });
+    if(!res.ok)throw Error("La carga de imagen fue rechazada (HTTP "+res.status+").");
+    return {path,url:STORAGE_PUBLICO+path.slice("destacados/".length)};
+  }
+  async function revertirCargaSinVinculo(subida){
+    try{
+      const usados=await consultar("eva_recursos_destacados?select=id&imagen_url=eq."+
+        encodeURIComponent(subida.url)+"&limit=1");
+      if(!Array.isArray(usados)||usados.length)return false;
+      const s=await auth.ensureSession();
+      if(!s?.access_token||!permitido())return false;
+      const r=await fetch(API+"/storage/v1/object/eva-publico/"+subida.path,{
+        method:"DELETE",headers:{apikey:KEY,Authorization:"Bearer "+s.access_token},
+        credentials:"omit",cache:"no-store"
+      });
+      return r.ok;
+    }catch{return false;}
   }
   async function modificar(item,patch){
     const result=await consultar("eva_recursos_destacados?id=eq."+encodeURIComponent(item.id),{
@@ -149,31 +244,99 @@
   }
   function iniciar(){
     if(iniciado)return;iniciado=true;
-    for(const id of ["destacados-modulo","destacados-titulo","destacados-descripcion","destacados-visible"]){
-      $(id).addEventListener("input",actualizarPreview);$(id).addEventListener("change",actualizarPreview);
+    for(const id of ["destacados-modulo","destacados-titulo","destacados-descripcion","destacados-visible","destacados-imagen-alt"]){
+      $(id).addEventListener("input",actualizarPreview);
+      $(id).addEventListener("change",actualizarPreview);
     }
-    $("destacados-nuevo").addEventListener("click",()=>{limpiarFormulario();$("destacados-modulo").focus();});
-    $("destacados-recargar").addEventListener("click",()=>ejecutar(async()=>{await refrescar();mensaje("Listado actualizado.");}));
+    $("destacados-preview-imagen").addEventListener("error",()=>{
+      $("destacados-preview-imagen").hidden=true;
+      $("destacados-imagen-estado").textContent="No se pudo mostrar la vista previa de esta imagen.";
+    });
+    $("destacados-archivo").addEventListener("change",()=>{
+      liberarUrlLocal();quitarImagen=false;
+      const file=$("destacados-archivo").files?.[0];
+      if(file){
+        try{validarArchivo(file);archivoSeleccionado=file;urlLocal=URL.createObjectURL(file);}
+        catch(error){$("destacados-archivo").value="";mensaje(error.message,true);}
+      }
+      actualizarPreview();
+    });
+    $("destacados-imagen").addEventListener("input",()=>{
+      if(archivoSeleccionado){liberarUrlLocal();$("destacados-archivo").value="";}
+      quitarImagen=false;actualizarPreview();
+    });
+    $("destacados-quitar-imagen").addEventListener("click",()=>{
+      if(ocupado)return;
+      liberarUrlLocal();
+      $("destacados-archivo").value="";
+      $("destacados-imagen").value="";
+      $("destacados-imagen-alt").value="";
+      quitarImagen=true;actualizarPreview();
+    });
+    $("destacados-nuevo").addEventListener("click",()=>{
+      if(ocupado)return;
+      limpiarFormulario();$("destacados-modulo").focus();
+    });
+    $("destacados-recargar").addEventListener("click",()=>ejecutar(async()=>{
+      await refrescar();mensaje("Listado actualizado.");
+    }));
     $("destacados-form").addEventListener("submit",event=>{
       event.preventDefault();
       ejecutar(async()=>{
         const id=$("destacados-id").value.trim(),modulo=$("destacados-modulo").value;
-        if(!Object.hasOwn(origenes,modulo))throw new Error("Selecciona uno de los seis módulos oficiales.");
+        if(!Object.hasOwn(origenes,modulo))throw Error("Selecciona uno de los seis módulos oficiales.");
+        const file=archivoSeleccionado,anterior=id?recursos.find(x=>String(x.id)===id):null;
+        if(id&&!anterior)throw Error("El recurso cambió. Actualiza el listado antes de editar.");
         const payload={
           modulo,
           titulo:$("destacados-titulo").value.trim(),
           descripcion:$("destacados-descripcion").value.trim(),
           enlace_url:urlOficial($("destacados-enlace").value.trim(),modulo),
-          imagen_url:imagenOficial($("destacados-imagen").value.trim()),
+          imagen_url:file?"":imagenOficial($("destacados-imagen").value.trim()),
+          imagen_alt:$("destacados-imagen-alt").value.trim(),
           visible:$("destacados-visible").checked
         };
-        if(!payload.titulo||!payload.descripcion)throw new Error("Completa el título y la descripción.");
+        if(!payload.titulo||!payload.descripcion)throw Error("Completa título y descripción.");
+        if(file)validarArchivo(file);
+        if(!file&&!payload.imagen_url)payload.imagen_alt="";
+        const historica=anterior&&!file&&payload.imagen_url===anterior.imagen_url&&
+          !anterior.imagen_alt&&!payload.imagen_alt&&
+          payload.imagen_url.startsWith("https://crebeucayali.github.io/");
+        if((file||payload.imagen_url)&&!historica&&
+          (payload.imagen_alt.length<8||payload.imagen_alt.length>220))
+          throw Error("La imagen requiere una descripción accesible de 8 a 220 caracteres.");
         if(!id)payload.orden=recursos.length?Math.max(...recursos.map(x=>Number(x.orden)))+1:1;
-        const result=await consultar("eva_recursos_destacados"+(id?"?id=eq."+encodeURIComponent(id):""),{
-          method:id?"PATCH":"POST",headers:{Prefer:"return=representation"},body:JSON.stringify(payload)
-        });
-        if(!Array.isArray(result)||result.length!==1)throw new Error("No se confirmó el guardado.");
-        await refrescar();limpiarFormulario();mensaje(id?"Recurso actualizado.":"Recurso registrado.");
+        const session=await comprobarPermisosCarga();
+        if(id){
+          const remoto=await consultar("eva_recursos_destacados?id=eq."+encodeURIComponent(id)+"&select=id,updated_at");
+          if(!Array.isArray(remoto)||remoto.length!==1||remoto[0].updated_at!==anterior.updated_at)
+            throw Error("Otro administrador modificó el recurso. Actualiza el listado.");
+        }
+        if(file)await imagenDecodificable(file);
+        let subida=null,guardado=false;
+        try{
+          if(file){subida=await subirImagen(file,modulo,session);payload.imagen_url=subida.url;}
+          exigir();
+          const result=await consultar("eva_recursos_destacados"+(id?"?id=eq."+encodeURIComponent(id):""),{
+            method:id?"PATCH":"POST",headers:{Prefer:"return=representation"},body:JSON.stringify(payload)
+          });
+          if(!Array.isArray(result)||result.length!==1)throw Error("No se confirmó el guardado del recurso.");
+          guardado=true;
+          limpiarFormulario();
+          try{
+            await refrescar();
+            mensaje(id?"Recurso actualizado correctamente.":"Recurso registrado correctamente.");
+          }catch{
+            mensaje("Recurso guardado. No se actualizó el listado; pulsa «Actualizar listado».",true);
+          }
+        }catch(error){
+          if(subida&&!guardado){
+            const eliminado=await revertirCargaSinVinculo(subida);
+            if(!eliminado)throw Error((error.message||"Error al guardar")+
+              " El archivo subido se conservó por seguridad; revisa Storage antes de reintentar.");
+          }
+          throw error;
+        }
       });
     });
     limpiarFormulario();
