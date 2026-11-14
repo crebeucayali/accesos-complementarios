@@ -355,11 +355,12 @@
           }
           guardado=true;
           const nombre=payload.titulo;
+          const desvinculada=quitarImagen;
           limpiarFormulario();
           const confirmacion=subida
             ?"Imagen cargada y asociada correctamente a «"+nombre+"». "+
               (payload.visible?"La tarjeta está visible en la portada de EVA.":"La tarjeta permanece oculta en la portada.")
-            :imagenQuitada
+            :desvinculada
               ?"Imagen desvinculada del recurso «"+nombre+"»."
               :"Recurso «"+nombre+"» guardado correctamente.";
           try{
