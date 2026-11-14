@@ -2532,3 +2532,30 @@ html.eva-alto-contraste #panel-recursos-uso .rec-modulo-bda .rec-grafico-pista{b
     background:rgba(7,25,36,.58);
   }
 }
+
+/* EVA Recursos destacados: carga individual y vista previa (etapa 3).
+   Alcance restringido al panel de destacados; otros formularios intactos. */
+#panel-destacados .destacados-imagen-editor {
+  display:grid;gap:11px;padding:14px;
+  border:1px solid var(--borde);border-radius:12px;background:#fff;
+}
+#panel-destacados .destacados-imagen-editor > .nota {
+  margin:0;font-size:.87rem;
+}
+#panel-destacados .destacados-imagen-editor input[type="file"] {
+  width:100%;max-width:100%;min-width:0;
+}
+#panel-destacados .destacados-imagen-url {
+  padding:9px;border:1px solid var(--borde);border-radius:8px;
+}
+#panel-destacados .destacados-imagen-url summary {cursor:pointer;font-weight:650;}
+#panel-destacados .destacados-imagen-url label {margin-top:10px;}
+#panel-destacados #destacados-quitar-imagen {justify-self:start;}
+#panel-destacados #destacados-imagen-estado {
+  margin:0;line-height:1.45;color:var(--texto-suave);overflow-wrap:anywhere;
+}
+#panel-destacados .destacados-preview-imagen {
+  display:block;width:100%;max-width:100%;max-height:210px;aspect-ratio:16/9;
+  margin:10px 0;object-fit:contain;background:#f4f7f8;border-radius:8px;
+}
+#panel-destacados .destacados-preview-imagen[hidden] {display:none !important;}
