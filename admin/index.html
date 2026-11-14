@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="admin.css?v=60">
+  <link rel="stylesheet" href="admin.css?v=61">
   <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
 <body class="theme-crebe wsite-theme-light panel-admin-page">
@@ -1006,7 +1006,7 @@
               <span class="identificador-admin" aria-hidden="true">DES</span>
               <div><p class="micro-etiqueta">Recursos oficiales de EVA</p><h2>Recursos y herramientas destacadas</h2></div>
             </div>
-            <p class="nota">Selecciona recursos ya disponibles en CAP, BDA, MEA, NI, RA y DUA 3.0. Esta primera etapa prepara su gestión; la sección pública de destacados se incorporará por separado.</p>
+            <p class="nota">Selecciona recursos ya disponibles en CAP, BDA, MEA, NI, RA y DUA 3.0. Las tarjetas ya se muestran en Inicio. Puedes asociar una imagen al guardar cada recurso; la interacción con el cursor se habilitará en una etapa posterior.</p>
             <section class="destacados-lista-seccion" aria-labelledby="destacados-lista-titulo">
               <h3 id="destacados-lista-titulo">Recursos registrados y estado</h3>
               <button id="destacados-recargar" type="button" class="secundario">Actualizar listado</button>
@@ -1044,9 +1044,23 @@
                 <label>Enlace directo a la herramienta o recurso oficial de EVA
                   <input id="destacados-enlace" type="url" maxlength="500" placeholder="https://crebeucayali.github.io/..." required>
                 </label>
-                <label>URL de imagen (opcional, alojada en GitHub institucional)
-                  <input id="destacados-imagen" type="url" maxlength="500" placeholder="https://crebeucayali.github.io/...">
-                </label>
+                <div class="destacados-imagen-editor" aria-label="Imagen del recurso destacado">
+                  <label>Imagen del recurso (opcional)
+                    <input id="destacados-archivo" type="file" accept="image/webp,image/jpeg,image/png" aria-describedby="destacados-imagen-ayuda">
+                  </label>
+                  <p id="destacados-imagen-ayuda" class="nota">Selecciona una imagen WebP, JPG o PNG de hasta 5 MB. Se cargará a Supabase al guardar; cada tarjeta conserva su propia imagen.</p>
+                  <label>Descripción accesible de la imagen (8 a 220 caracteres cuando se selecciona una nueva imagen)
+                    <textarea id="destacados-imagen-alt" maxlength="220" rows="2" placeholder="Describe brevemente lo que muestra la imagen"></textarea>
+                  </label>
+                  <details class="destacados-imagen-url">
+                    <summary>Usar una URL de imagen institucional (opción anterior)</summary>
+                    <label>URL de GitHub CREBE o de EVA Storage
+                      <input id="destacados-imagen" type="url" maxlength="500" placeholder="https://crebeucayali.github.io/...">
+                    </label>
+                  </details>
+                  <button id="destacados-quitar-imagen" type="button" class="secundario" disabled>Quitar imagen asociada</button>
+                  <p id="destacados-imagen-estado" role="status" aria-live="polite">Sin imagen (opcional).</p>
+                </div>
                 <label class="destacados-check"><input id="destacados-visible" type="checkbox"> Marcar como visible para la futura sección pública</label>
                 <div class="acciones-repositorio">
                   <button type="submit">Guardar recurso</button>
@@ -1057,6 +1071,7 @@
                 <p class="nota">Vista previa del contenido</p>
                 <article class="destacados-preview-tarjeta">
                   <span id="destacados-preview-modulo">Módulo</span>
+                  <img id="destacados-preview-imagen" class="destacados-preview-imagen" alt="" hidden>
                   <h4 id="destacados-preview-titulo">Título del recurso</h4>
                   <p id="destacados-preview-descripcion">Descripción del recurso.</p>
                 </article>
@@ -1436,7 +1451,7 @@
   <script src="publicacion.js?v=4" defer></script>
   <script src="indicadores.js?v=4" defer></script>
   <script src="directorio.js?v=1" defer></script>
-  <script src="destacados.js?v=2" defer></script>
+  <script src="destacados.js?v=3" defer></script>
   <script src="ra-materiales-semana.js?v=2" defer></script>
   <script src="recurso-dia-fuentes.js?v=1" defer></script>
   <script src="recurso-dia.js?v=4" defer></script>
