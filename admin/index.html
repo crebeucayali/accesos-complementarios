@@ -15,7 +15,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
 
-  <link rel="stylesheet" href="admin.css?v=61">
+  <link rel="stylesheet" href="admin.css?v=62">
   <link rel="stylesheet" href="../accesibilidad/accesibilidad.css?v=10">
 </head>
 <body class="theme-crebe wsite-theme-light panel-admin-page">
@@ -1046,11 +1046,11 @@
                 </label>
                 <div class="destacados-imagen-editor" aria-label="Imagen del recurso destacado">
                   <label>Imagen del recurso (opcional)
-                    <input id="destacados-archivo" type="file" accept="image/webp,image/jpeg,image/png" aria-describedby="destacados-imagen-ayuda">
+                    <input id="destacados-archivo" type="file" accept="image/webp,image/jpeg,image/png" aria-describedby="destacados-imagen-ayuda destacados-imagen-estado">
                   </label>
                   <p id="destacados-imagen-ayuda" class="nota">Selecciona una imagen WebP, JPG o PNG de hasta 5 MB. Se cargará a Supabase al guardar; cada tarjeta conserva su propia imagen.</p>
                   <label>Descripción accesible de la imagen (8 a 220 caracteres cuando se selecciona una nueva imagen)
-                    <textarea id="destacados-imagen-alt" maxlength="220" rows="2" placeholder="Describe brevemente lo que muestra la imagen"></textarea>
+                    <textarea id="destacados-imagen-alt" maxlength="220" rows="2" aria-describedby="destacados-imagen-estado" placeholder="Describe brevemente lo que muestra la imagen"></textarea>
                   </label>
                   <details class="destacados-imagen-url">
                     <summary>Usar una URL de imagen institucional (opción anterior)</summary>
@@ -1061,11 +1061,12 @@
                   <button id="destacados-quitar-imagen" type="button" class="secundario" disabled>Quitar imagen asociada</button>
                   <p id="destacados-imagen-estado" role="status" aria-live="polite">Sin imagen (opcional).</p>
                 </div>
-                <label class="destacados-check"><input id="destacados-visible" type="checkbox"> Marcar como visible para la futura sección pública</label>
+                <label class="destacados-check"><input id="destacados-visible" type="checkbox"> Mostrar esta tarjeta en la portada de EVA</label>
                 <div class="acciones-repositorio">
                   <button type="submit">Guardar recurso</button>
                   <button id="destacados-nuevo" type="button" class="secundario">Nuevo recurso</button>
                 </div>
+                <p id="destacados-guardar-estado" class="mensaje" role="status" aria-live="polite" aria-atomic="true"></p>
               </form>
               <div class="destacados-preview" aria-label="Vista previa del recurso">
                 <p class="nota">Vista previa del contenido</p>
@@ -1451,7 +1452,7 @@
   <script src="publicacion.js?v=4" defer></script>
   <script src="indicadores.js?v=4" defer></script>
   <script src="directorio.js?v=1" defer></script>
-  <script src="destacados.js?v=3" defer></script>
+  <script src="destacados.js?v=4" defer></script>
   <script src="ra-materiales-semana.js?v=2" defer></script>
   <script src="recurso-dia-fuentes.js?v=1" defer></script>
   <script src="recurso-dia.js?v=4" defer></script>
