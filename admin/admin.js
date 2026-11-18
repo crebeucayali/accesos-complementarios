@@ -2383,7 +2383,11 @@
     const total = Object.keys(NOMBRES_MODULOS_COMPARTIDOS)
       .reduce((acumulado, id) => acumulado + Number(mapa.get(id) || 0), 0);
 
-    Object.entries(NOMBRES_MODULOS_COMPARTIDOS).forEach(([id, nombre]) => {
+    // Mantener el denominador histórico; ocultar solamente NI y RA en esta tabla.
+    const modulosOcultosEnCompartidos = new Set(["noti_inclusivos", "repositorio_accesible"]);
+    Object.entries(NOMBRES_MODULOS_COMPARTIDOS)
+      .filter(([id]) => !modulosOcultosEnCompartidos.has(id))
+      .forEach(([id, nombre]) => {
       const acciones = Number(mapa.get(id) || 0);
       const participacion = total > 0 ? (acciones / total) * 100 : 0;
       const tr = document.createElement("tr");
